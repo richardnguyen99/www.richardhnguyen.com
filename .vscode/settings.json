@@ -1,8 +1,10 @@
 {
+    // General settings for VSCode
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": "always"
     },
+    "html.autoClosingTags": true,
     // TailwindCSS IntelliSense
     "editor.quickSuggestions": {
         "strings": "on"
@@ -10,4 +12,34 @@
     "files.associations": {
         "*.css": "tailwindcss"
     },
+    // Language specific
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[html]": {
+        "editor.suggest.insertMode": "replace"
+    },
+    "[css]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[markdown]": {
+        "editor.unicodeHighlight.ambiguousCharacters": false,
+        "editor.unicodeHighlight.invisibleCharacters": false,
+        "diffEditor.ignoreTrimWhitespace": false,
+        "editor.wordWrap": "on",
+        "editor.quickSuggestions": {
+            "comments": "on",
+            "strings": "on",
+            "other": "on"
+        }
+    }
 }

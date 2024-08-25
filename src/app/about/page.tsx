@@ -104,6 +104,6 @@ const About: React.FC = () => {
       </div>
     </main>
   );
-}
+};
 
 export default About;

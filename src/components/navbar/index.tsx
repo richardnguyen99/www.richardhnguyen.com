@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { HamburgerMenuIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
 import { Icons } from "@/components/icons";
@@ -15,6 +15,13 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { useNavbarContext } from "./context";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleContentItem,
+  CollapsibleContentLink,
+  CollapsibleHeading,
+} from "./collapsible";
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
@@ -26,7 +33,7 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-slate-100 focus:bg-slate-100 dark:hover:bg-slate-700 dark:focus:bg-slate-700",
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-neutral-100 focus:bg-slate-100 dark:hover:bg-slate-700 dark:focus:bg-slate-700",
             className,
           )}
           {...props}
@@ -79,7 +86,7 @@ const Navbar: React.FC = () => {
 
         <div
           className={cn(
-            "ease-out-cubic relative z-50 mx-auto h-full min-h-[3.125rem] w-full transform-gpu bg-white backdrop-blur-xl transition duration-300 md:h-[3.125rem]",
+            "ease-out-cubic relative z-50 mx-auto h-full min-h-[3.125rem] w-full transform-gpu bg-white backdrop-blur transition duration-300 md:h-[3.125rem] md:backdrop-blur-xl",
           )}
         >
           <div
@@ -90,19 +97,64 @@ const Navbar: React.FC = () => {
             <Link
               href="/"
               passHref
-              className="flex items-center justify-center"
+              className={cn(
+                "flex items-center justify-center",
+                "h-10 w-10 rounded-full p-2",
+                "hover:bg-slate-100",
+              )}
+              onClick={() => navbarContext.handleIsOpen(false)}
             >
-              <div className="h-5 w-5 bg-black"></div>
+              <div className="h-full w-full bg-black"></div>
             </Link>
+
+            <div
+              className={cn(
+                "ml-auto flex items-center justify-center gap-[0.5rem] md:hidden",
+              )}
+            >
+              <button
+                className={cn(
+                  "group relative block",
+                  "h-10 w-10 rounded-full p-2",
+                  "hover:bg-neutral-100",
+                  "ease-curve-d transition-opacity duration-300",
+                  {
+                    "opacity-0": navbarContext.isOpen,
+                    "opacity-100": !navbarContext.isOpen,
+                  },
+                )}
+                type="button"
+                aria-label="Search"
+              >
+                <MagnifyingGlassIcon className="h-full w-full" />
+              </button>
+
+              <button
+                className={cn(
+                  "group relative block",
+                  "h-10 w-10 rounded-full p-2",
+                  "hover:bg-neutral-100",
+                )}
+                type="button"
+                aria-label="menu"
+                onClick={() =>
+                  navbarContext.handleIsOpen(!navbarContext.isOpen)
+                }
+              >
+                <HamburgerMenuIcon className="h-full w-full" />
+              </button>
+            </div>
 
             <div className="[&>div]:!static [&>div]:h-full">
               <NavigationMenuList
-                className={cn("flex h-full items-center justify-center")}
+                className={cn(
+                  "hidden h-full items-center justify-center md:flex",
+                )}
               >
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
 
-                  <NavigationMenuContent className="left-[calc(0.5_*_(100%-1040px))]">
+                  <NavigationMenuContent className="lg:left-[calc(0.5_*_(100%-1024px))]">
                     <div className="">
                       <ul>
                         <li className="row-span-3">
@@ -145,7 +197,7 @@ const Navbar: React.FC = () => {
 
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>Components</NavigationMenuTrigger>
-                  <NavigationMenuContent className="left-[calc(0.5_*_(100%_-_1040px))]">
+                  <NavigationMenuContent className="lg:left-[calc(0.5_*_(100%_-_1024px))]">
                     <ul>
                       <li className="row-span-3">
                         <NavigationMenuLink asChild>
@@ -190,12 +242,115 @@ const Navbar: React.FC = () => {
             </div>
 
             <button
-              className="group relative hidden h-6 w-6 md:block"
+              className={cn(
+                "group relative hidden md:block",
+                "h-10 w-10 rounded-full p-2",
+                "hover:bg-neutral-100",
+              )}
               type="button"
               aria-label="Search"
             >
               <MagnifyingGlassIcon className="h-full w-full" />
             </button>
+          </div>
+        </div>
+
+        <div
+          className={cn(
+            "ease-curve-d transform-gpu transition-opacity duration-300",
+            "pointer-events-none absolute opacity-0",
+            "md:!pointer-events-none md:!hidden md:!opacity-0",
+            "h-screen w-full",
+            {
+              "pointer-events-auto opacity-100": navbarContext.isOpen,
+            },
+          )}
+          aria-expanded={true}
+        >
+          <div className="relative h-full max-h-[calc(100vh_-_(50px+(16px*2)))] w-full overflow-y-auto">
+            <ul
+              id="mobile-menu"
+              className={cn(
+                "text-small container flex w-full flex-col justify-between pb-[3rem] pt-[3rem]",
+                {
+                  invisible: !navbarContext.isOpen,
+                },
+              )}
+            >
+              <Collapsible>
+                <CollapsibleHeading>Getting started</CollapsibleHeading>
+                <CollapsibleContent>
+                  <CollapsibleContentItem>
+                    <span className="text-black">Our research</span>
+                    <ul className="mb-4 mt-4 flex flex-col gap-4 group-last:mb-0">
+                      <li>
+                        <CollapsibleContentLink href="/docs">
+                          Overview
+                        </CollapsibleContentLink>
+                      </li>
+                      <li>
+                        <CollapsibleContentLink href="/docs">
+                          Overview
+                        </CollapsibleContentLink>
+                      </li>
+                    </ul>
+                  </CollapsibleContentItem>
+
+                  <CollapsibleContentItem>
+                    <span className="text-black">Our research</span>
+                    <ul className="mb-4 mt-4 flex flex-col gap-4 group-last:mb-0">
+                      <li>
+                        <CollapsibleContentLink href="/docs">
+                          Overview
+                        </CollapsibleContentLink>
+                      </li>
+                      <li>
+                        <CollapsibleContentLink href="/docs">
+                          Overview
+                        </CollapsibleContentLink>
+                      </li>
+                    </ul>
+                  </CollapsibleContentItem>
+                </CollapsibleContent>
+              </Collapsible>
+
+              <Collapsible>
+                <CollapsibleHeading>Getting started</CollapsibleHeading>
+                <CollapsibleContent>
+                  <CollapsibleContentItem>
+                    <span className="text-black">Our research</span>
+                    <ul className="mb-4 mt-4 flex flex-col gap-4 group-last:mb-0">
+                      <li>
+                        <CollapsibleContentLink href="/docs">
+                          Overview
+                        </CollapsibleContentLink>
+                      </li>
+                      <li>
+                        <CollapsibleContentLink href="/docs">
+                          Overview
+                        </CollapsibleContentLink>
+                      </li>
+                    </ul>
+                  </CollapsibleContentItem>
+
+                  <CollapsibleContentItem>
+                    <span className="text-black">Our research</span>
+                    <ul className="mb-4 mt-4 flex flex-col gap-4 group-last:mb-0">
+                      <li>
+                        <CollapsibleContentLink href="/docs">
+                          Overview
+                        </CollapsibleContentLink>
+                      </li>
+                      <li>
+                        <CollapsibleContentLink href="/docs">
+                          Overview
+                        </CollapsibleContentLink>
+                      </li>
+                    </ul>
+                  </CollapsibleContentItem>
+                </CollapsibleContent>
+              </Collapsible>
+            </ul>
           </div>
         </div>
       </NavigationMenu>

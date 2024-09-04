@@ -2,10 +2,11 @@ import React from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import "./globals.css";
-import Navbar from "@/components/navbar";
 import GlobalProvider from "./provider";
+import LayoutMain from "./main";
+import Navbar from "@/components/navbar";
 import NavbarOverlay from "@/components/navbar/overlay";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,7 +27,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
           <Navbar />
           <NavbarOverlay />
           <div className="pointer-events-none fixed left-0 top-0 z-[103] h-screen w-screen overflow-auto opacity-0 transition-opacity duration-700" />
-          {children}
+          <LayoutMain>{children}</LayoutMain>
         </GlobalProvider>
       </body>
     </html>

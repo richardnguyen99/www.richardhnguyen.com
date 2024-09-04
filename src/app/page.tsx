@@ -1,32 +1,11 @@
-"use client";
-
 import * as React from "react";
 import Image from "next/image";
 
 import { cn } from "@/lib/utils";
-import { useNavbarContext } from "@/components/navbar/context";
 
 const Home: React.FC = () => {
-  const navbarContext = useNavbarContext();
-
   return (
-    <main
-      id="main"
-      tabIndex={-1}
-      className={cn(
-        "flex flex-col items-center justify-between",
-        "container relative min-h-screen pt-[66px] outline-none",
-        "origin-[50%_0px] transition-[transform,_opacity,_filter]",
-        "ease-out-cubic duration-400",
-        {
-          "duration-700": !navbarContext.isOpen,
-          "duration-300": navbarContext.isOpen,
-          "blur-[10px] saturate-[2]": navbarContext.isOpen,
-          "translate-y-[5rem] scale-[0.96]": navbarContext.isOpen,
-          "overflow-hidden": navbarContext.isOpen,
-        },
-      )}
-    >
+    <>
       <div
         className={cn(
           "z-10 w-full max-w-5xl",
@@ -203,7 +182,7 @@ const Home: React.FC = () => {
           </p>
         </a>
       </div>
-    </main>
+    </>
   );
 };
 

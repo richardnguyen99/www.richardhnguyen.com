@@ -10,6 +10,8 @@ export interface NavbarContextValue {
   components: ComponentProps[];
   isOpen: boolean;
   handleIsOpen: (_newIsOpen: boolean) => void;
+  activeCollapsiblleTab: string;
+  setActiveCollapsibleTab: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export interface NavbarProviderProps {
@@ -24,6 +26,8 @@ const NavbarProvider: React.FC<
   React.PropsWithChildren<NavbarProviderProps>
 > = ({ children, components, ...props }) => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isMobileMenuOpen] = React.useState(false);
+  const [activeCollapsiblleTab, setActiveCollapsibleTab] = React.useState("");
 
   const handleIsOpen = React.useCallback((newIsOpen: boolean) => {
     const body = document.querySelector("body");
@@ -33,14 +37,28 @@ const NavbarProvider: React.FC<
       body?.classList.add("overflow-hidden");
     } else {
       body?.classList.remove("overflow-hidden");
+      setActiveCollapsibleTab("");
     }
 
     setIsOpen(newIsOpen);
   }, []);
 
   const value = React.useMemo(() => {
-    return { components, isOpen, handleIsOpen };
-  }, [isOpen, components, handleIsOpen]);
+    return {
+      components,
+      isOpen,
+      isMobileMenuOpen,
+      activeCollapsiblleTab,
+      setActiveCollapsibleTab,
+      handleIsOpen,
+    };
+  }, [
+    isOpen,
+    components,
+    handleIsOpen,
+    isMobileMenuOpen,
+    activeCollapsiblleTab,
+  ]);
 
   return (
     <NavbarContext.Provider value={value} {...props}>

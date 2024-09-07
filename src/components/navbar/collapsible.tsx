@@ -22,7 +22,7 @@ const CollapsibleContext = React.createContext<CollapsibleContextValue | null>(
   null,
 );
 
-const Collapsible: React.FC<CollapsibleProps> = (props) => {
+const CollapsibleTrigger: React.FC<CollapsibleProps> = (props) => {
   const [open, setOpen] = React.useState(false);
   const id = React.useId();
 
@@ -208,7 +208,7 @@ const CollapsibleContentLink = React.forwardRef<
 CollapsibleContentLink.displayName = "Collapsible.ContentLink";
 
 export {
-  Collapsible,
+  CollapsibleTrigger,
   CollapsibleHeading,
   CollapsibleContent,
   CollapsibleContentItem,

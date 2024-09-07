@@ -1,4 +1,5 @@
 import React from "react";
+import fs from "fs";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
@@ -27,6 +28,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
           <Navbar />
           <NavbarOverlay />
           <div className="pointer-events-none fixed left-0 top-0 z-[103] h-screen w-screen overflow-auto opacity-0 transition-opacity duration-700" />
+
           <LayoutMain>{children}</LayoutMain>
         </GlobalProvider>
       </body>

@@ -1,0 +1,37 @@
+---
+title: 'Understand Build Tool for C: gcc, make, cmake, and autoconfig'
+date: '2024-09-05'
+published: true
+publishedAt: '2024-09-05'
+author: 'Richard H. Nguyen'
+tags:
+  - 'react'
+  - 'nextjs'
+  - 'gatsbyjs'
+  - 'markdown'
+  - 'mdx'
+category: 'programming'
+changeLog:
+  -
+    date: '2024-09-05'
+    changes:
+      - 'Initial post'
+---
+
+For a single-source-file C project, `gcc` is sufficient to compile the code.
+But what if your projects have multiple steps and a huge number of source files?
+How do you check if a dependency is missing? How do you automate the build
+process? That's where build tools such as `make` and `cmake` come into play.
+
+{/* EXCERPT */}
+
+# Introduction
+
+When you first learned C or C++ programming language, you might have needed a
+simple `gcc` command to compile your code. What if you have a bigger project
+that requires multiple source files and libraries? Sure, a `gcc` command would
+do just fine compiling all the source files? But what if your project has
+50+ source files, or simply you want to automate the build process? That's
+where all the build tools come into play. In this post, we will discuss the
+most common build tools for C and C++ projects: `gcc`, `make`, `cmake`, and
+`autoconfig`.

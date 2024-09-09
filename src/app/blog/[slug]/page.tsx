@@ -16,7 +16,7 @@ export const dynamicParams = false;
 
 // NextJS options to enable to generate static paths at build time.
 export async function generateStaticParams() {
-  return await generateMdxSlugs();
+  return generateMdxSlugs();
 }
 
 export default async function BlogPost({ params: { slug } }: BlogPostProps) {

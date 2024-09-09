@@ -14,6 +14,7 @@ export interface ChangeLog {
 
 export interface FrontMatter {
   readonly title: string;
+  readonly slug: string;
   readonly date: Date;
   readonly published: boolean;
   readonly publishedAt: Date;
@@ -140,10 +141,13 @@ export const getMdxFiles = async () => {
 };
 
 export const generateMdxSlugs = async () => {
-  const mdxFiles = await getMdxFiles();
-  const slugs = mdxFiles.map((entry) => entry.name.replace(/\.mdx$/, ""));
+  const mdxContents = await getMdxContents();
 
-  return slugs;
+  return mdxContents.map((content) => ({
+    params: {
+      slug: `/blog/${content.frontMatter.slug}`,
+    },
+  }));
 };
 
 export const getMdxPathFromSlug = async (slug: string) => {
@@ -181,7 +185,10 @@ export const getMdxContentFromPath = async (mdxPath: string) => {
   const frontMatter = formatFrontMatter(data as FrontMatter);
 
   const content = rawContent.replace(rawExcerpt || "", "").trim();
-  const excerpt = rawExcerpt?.replace(EXCERPT_SEPARATOR, "").trim();
+  const excerpt = rawExcerpt
+    ?.replace(EXCERPT_SEPARATOR, "")
+    .replace(`${EXCERPT_SEPARATOR}\n\n`, "")
+    .trim();
 
   return {
     frontMatter,

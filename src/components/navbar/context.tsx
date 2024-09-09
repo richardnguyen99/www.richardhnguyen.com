@@ -28,20 +28,32 @@ const NavbarProvider: React.FC<
   const [isOpen, setIsOpen] = React.useState(false);
   const [isMobileMenuOpen] = React.useState(false);
   const [activeCollapsiblleTab, setActiveCollapsibleTab] = React.useState("");
+  const [timeoutId, setTimeoutId] = React.useState<number | null>(null);
 
-  const handleIsOpen = React.useCallback((newIsOpen: boolean) => {
-    const body = document.querySelector("body");
+  const handleIsOpen = React.useCallback(
+    (newIsOpen: boolean) => {
+      const body = document.querySelector("body");
 
-    // This is a temporary fix to prevent scrolling when the menu is open.
-    if (newIsOpen) {
-      body?.classList.add("overflow-hidden");
-    } else {
-      body?.classList.remove("overflow-hidden");
-      setActiveCollapsibleTab("");
-    }
+      // This is a temporary fix to prevent scrolling when the menu is open.
+      if (newIsOpen) {
+        if (timeoutId) {
+          window.clearTimeout(timeoutId);
+        }
 
-    setIsOpen(newIsOpen);
-  }, []);
+        body?.classList.add("overflow-hidden");
+      } else {
+        // Stop displaying a scrollbar after the menu is closed on fit screen.
+        const timer = window.setTimeout(() => {
+          body?.classList.remove("overflow-hidden");
+        }, 700);
+
+        setTimeoutId(timer);
+      }
+
+      setIsOpen(newIsOpen);
+    },
+    [timeoutId],
+  );
 
   const value = React.useMemo(() => {
     return {

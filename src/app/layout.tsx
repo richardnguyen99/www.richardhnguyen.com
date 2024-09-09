@@ -1,5 +1,4 @@
 import React from "react";
-import fs from "fs";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 

@@ -20,9 +20,11 @@ export async function generateStaticParams() {
 }
 
 export default async function BlogPost({ params: { slug } }: BlogPostProps) {
-  const { frontMatter, body, excerpt } = await getMdxContentFromSlug(slug);
-
-  console.log(frontMatter);
+  const {
+    frontMatter,
+    body,
+    excerpt: _excerpt,
+  } = await getMdxContentFromSlug(slug);
 
   return (
     <div className="prose w-full text-left lg:prose-xl md:max-w-2xl">

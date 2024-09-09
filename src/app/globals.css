@@ -80,6 +80,10 @@
     transition-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
   }
 
+  .ease-curve-c {
+    transition-timing-function: cubic-bezier(0, 0.56, 0.46, 1);
+  }
+
   .ease-curve-d {
     transition-timing-function: cubic-bezier(0.6, 0, 0.4, 1);
   }

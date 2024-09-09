@@ -1,6 +1,7 @@
 import * as path from "node:path";
 import * as fs from "node:fs/promises";
 import matter from "gray-matter";
+import { unstable_cache } from "next/cache";
 
 const EXCERPT_SEPARATOR = "{/* EXCERPT */}";
 
@@ -19,6 +20,7 @@ export interface FrontMatter {
   readonly author: string;
   readonly tags: string[];
   readonly category: string;
+  readonly thumbnail: string;
   readonly changeLog: Array<ChangeLog>;
 }
 
@@ -105,8 +107,12 @@ const validateFrontMatter = (
 };
 
 const formatFrontMatter = (frontMatter: FrontMatter) => {
+  const thumbnail =
+    frontMatter.thumbnail || `/thumbnails/${frontMatter.category}-category.png`;
+
   return {
     ...frontMatter,
+    thumbnail,
     date: new Date(frontMatter.date),
     publishedAt: new Date(frontMatter.publishedAt),
     changeLog: frontMatter.changeLog.map((entry) => ({
@@ -162,6 +168,8 @@ export const getMdxContentFromPath = async (mdxPath: string) => {
     excerpt: true,
   });
 
+  console.log("frontMatter", data);
+
   try {
     validateFrontMatter(data);
   } catch (error) {
@@ -198,6 +206,8 @@ export const getMdxContents = async () => {
 
   return mdxContents;
 };
+
+export const getMdxContentsInCache = unstable_cache(getMdxContents);
 
 export const getMdxContentsWithFilter = async (
   numPosts: number = -1,

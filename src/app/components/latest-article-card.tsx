@@ -18,14 +18,14 @@ const LatestArticleCard: React.FC<Props> = ({
   <div {...rest} className={cn("col-span-12 row-span-1", className)}>
     <Link
       href={`/blog/${frontMatter.slug}`}
-      className="ease-curve-a duration-250 group relative z-0 mr-3 block aspect-[16/9] h-full w-full max-w-[68rem] overflow-hidden rounded-md bg-gray-200 transition md:w-[unset] [&>div]:h-full"
+      className="ease-curve-a duration-250 group relative z-0 block aspect-[16/9] h-full w-full max-w-[68rem] overflow-hidden rounded-md bg-gray-200 transition md:w-[unset] [&>div]:h-full"
       aria-label="View Item"
     >
       <div className="ease-curve-d pointer-events-none absolute left-0 top-0 z-10 h-full w-full overflow-hidden p-3 opacity-100 transition-[opacity,background] duration-300">
         <div className="ease-curve-d pointer-events-none absolute inset-x-0 inset-y-0 z-20 flex h-full w-full flex-col justify-between text-gray-100 opacity-100 transition-opacity duration-300">
           <div className="relative z-50 h-full w-full">
-            <div className="text-4 absolute left-[1rem] top-[1rem] flex w-full flex-wrap items-center gap-2">
-              <div className="truncate">
+            <div className="text-4 absolute left-0 top-[1rem] flex w-full flex-wrap items-center gap-2">
+              <div className="ml-4 truncate">
                 <span className="block text-xs leading-[1.3]">
                   {frontMatter.category}
                 </span>

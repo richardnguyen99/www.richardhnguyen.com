@@ -9,7 +9,7 @@ const Navbar: React.FC = async () => {
       aria-label="Main Navigation"
       className={cn(
         "fixed top-0 z-[100]",
-        "m-auto w-full md:py-0",
+        "m-auto w-full max-w-full md:py-0",
         "ease-curve-d transition-header transform-gpu",
       )}
     >

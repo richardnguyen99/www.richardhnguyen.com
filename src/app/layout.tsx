@@ -7,6 +7,7 @@ import LayoutMain from "./main";
 import Navbar from "@/components/navbar";
 import NavbarOverlay from "@/components/navbar/overlay";
 import "./globals.css";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,16 +22,17 @@ interface RootLayoutProps {
 
 const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className="h-full">
+      <body className={`${inter.className}`}>
         <GlobalProvider>
           <Navbar />
           <NavbarOverlay />
-          <div className="pointer-events-none fixed left-0 top-0 z-[103] h-screen w-screen overflow-auto opacity-0 transition-opacity duration-700" />
+          <div className="pointer-events-none fixed left-0 top-0 z-[103] h-screen w-full max-w-full overflow-auto opacity-0 transition-opacity duration-700" />
 
           <LayoutMain>{children}</LayoutMain>
         </GlobalProvider>
       </body>
+      <Script id="">0</Script>
     </html>
   );
 };

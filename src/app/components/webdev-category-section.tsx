@@ -10,13 +10,16 @@ const WebDevCategorySection: React.FC<Props> = async ({
   className,
   ...rest
 }) => {
-  const frontMatters: FrontMatter[] = (
-    await getMdxContentsWithFilter(-1, "desc")
-  ).map((mdxContent) => mdxContent.frontMatter);
+  const mdxContents = await getMdxContentsWithFilter(-1, "desc");
+
+  const metadatas = mdxContents.map((content) => ({
+    ...content.frontMatter,
+    excerpt: content.excerpt,
+  })) as (FrontMatter & { excerpt: string | null })[];
 
   return (
     <section {...rest} className={cn("mt-28 max-w-full", className)}>
-      <WebDevCategoryCarousel frontMatters={frontMatters} />
+      <WebDevCategoryCarousel metadatas={metadatas} />
     </section>
   );
 };

@@ -14,6 +14,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
+import { useIsFirstRender } from "@uidotdev/usehooks";
 
 type Props = React.PropsWithChildren<
   {
@@ -26,6 +27,7 @@ const WebDevCategoryCarousel: React.FC<Props> = ({
   className,
   ...rest
 }) => {
+  const [isVisible, setIsVisible] = React.useState(false);
   const [carouselApi, setCarouselApi] = React.useState<CarouselApi | null>(
     null,
   );
@@ -48,6 +50,8 @@ const WebDevCategoryCarousel: React.FC<Props> = ({
         setDisableNextState(false);
       }
     });
+
+    setIsVisible(true);
   }, [carouselApi, frontMatters.length]);
 
   return (
@@ -84,7 +88,13 @@ const WebDevCategoryCarousel: React.FC<Props> = ({
         </div>
       </div>
 
-      <div className="mx-auto w-[var(--document-size)] max-w-full">
+      <div
+        className="mx-auto w-[var(--document-size)] max-w-full"
+        style={{
+          visibility: isVisible ? "visible" : "hidden",
+          opacity: isVisible ? 1 : 0,
+        }}
+      >
         <CarouselContent className="ml-[var(--gutter-size)] flex touch-pan-y">
           {frontMatters.map((frontMatter) => (
             <CarouselItem

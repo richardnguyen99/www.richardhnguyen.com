@@ -6,14 +6,14 @@ import CategoryCarousel from "./category-carousel";
 
 type Props = React.PropsWithChildren<{} & React.HTMLAttributes<HTMLDivElement>>;
 
-const WebDevCategorySection: React.FC<Props> = async ({
+const ProgrammingCategorySection: React.FC<Props> = async ({
   className,
   ...rest
 }) => {
   const mdxContents = await getMdxContentsWithFilter(
     10,
     "desc",
-    (mdxContent) => mdxContent.frontMatter.category === "web-development",
+    (mdxContent) => mdxContent.frontMatter.category === "programming",
   );
 
   const metadatas = mdxContents.map((content) => ({
@@ -23,12 +23,9 @@ const WebDevCategorySection: React.FC<Props> = async ({
 
   return (
     <section {...rest} className={cn("mt-28 max-w-full", className)}>
-      <CategoryCarousel
-        sectionHeading="Web Development"
-        metadatas={metadatas}
-      />
+      <CategoryCarousel sectionHeading="Programming" metadatas={metadatas} />
     </section>
   );
 };
 
-export default WebDevCategorySection;
+export default ProgrammingCategorySection;

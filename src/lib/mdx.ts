@@ -172,8 +172,6 @@ export const getMdxContentFromPath = async (mdxPath: string) => {
     excerpt: true,
   });
 
-  console.log("frontMatter", data);
-
   try {
     validateFrontMatter(data);
   } catch (error) {

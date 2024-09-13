@@ -5,31 +5,67 @@ import Link from "next/link";
 import { HamburgerMenuIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
-import { Icons } from "@/components/icons";
+import { FrontMatter } from "@/lib/mdx";
 import {
   NavigationMenu as UINavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
+  NavigationMenuContent as UNavigationMenuContent,
+  NavigationMenuItem as UINavigationMenuItem,
+  NavigationMenuList as UINavigationList,
+  NavigationMenuTrigger as UINavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { useNavbarContext } from "./context";
 import NavigationMobile from "./navigation-mobile";
+import NavigationMenuList from "./navigation-menu-list";
+import NavigationMenuLatestPost from "./navigation-menu-latest-post";
 
-const NavigationMenu: React.FC = () => {
+export type HeaderDataProps = {
+  latestPost: FrontMatter;
+  mostViewedCategories: Array<{
+    url: string;
+    category: string;
+  }>;
+  mostViewedTags: Array<{
+    url: string;
+    tag: string;
+  }>;
+};
+
+const NavigationMenu: React.FC<HeaderDataProps> = ({
+  latestPost,
+  mostViewedCategories,
+  mostViewedTags,
+}) => {
   const navbarContext = useNavbarContext();
+  const [isListReady, setIsListReady] = React.useState(false);
+  const [timeoutId, setTimeoutId] = React.useState<number | null>(null);
 
   const handleValueChange = React.useCallback(
     (value: string) => {
       if (value === "" || value.length === 0) {
+        if (timeoutId) {
+          window.clearTimeout(timeoutId);
+        }
+
         navbarContext.handleIsOpen(false);
+        setIsListReady(false);
       } else {
+        const id = window.setTimeout(() => {
+          setIsListReady(true);
+        }, 300);
+        setTimeoutId(id);
         navbarContext.handleIsOpen(true);
       }
     },
-    [navbarContext],
+    [navbarContext, timeoutId],
   );
+
+  React.useEffect(() => {
+    return () => {
+      if (timeoutId) {
+        window.clearTimeout(timeoutId);
+      }
+    };
+  }, [timeoutId]);
 
   return (
     <UINavigationMenu onValueChange={handleValueChange}>
@@ -107,128 +143,60 @@ const NavigationMenu: React.FC = () => {
           </div>
 
           <div className="[&>div]:!static [&>div]:h-full">
-            <NavigationMenuList
+            <UINavigationList
               className={cn(
                 "hidden h-full items-center justify-center md:flex",
               )}
             >
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Articles</NavigationMenuTrigger>
+              <UINavigationMenuItem>
+                <UINavigationMenuTrigger>Articles</UINavigationMenuTrigger>
 
-                <NavigationMenuContent className="lg:left-[calc(0.5_*_(100%-1024px))]">
-                  <div className="">
-                    <ul>
-                      <li className="row-span-3">
-                        <NavigationMenuLink asChild>
-                          <a
-                            className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                            href="/"
-                          >
-                            <Icons.logo className="h-6 w-6" />
-                            <div className="mb-2 mt-4 text-lg font-medium">
-                              shadcn/ui
-                            </div>
-                            <p className="text-sm leading-tight text-muted-foreground">
-                              Beautifully designed components built with Radix
-                              UI and Tailwind CSS.
-                            </p>
-                          </a>
-                        </NavigationMenuLink>
-                      </li>
-                      <ListItem href="/docs" title="Introduction">
-                        Re-usable components built using Radix UI and Tailwind
-                        CSS.
-                      </ListItem>
-                      <ListItem href="/docs/installation" title="Installation">
-                        How to install dependencies and structure your app.
-                      </ListItem>
-                      <ListItem
-                        href="/docs/primitives/typography"
-                        title="Typography"
-                      >
-                        Styles for headings, paragraphs, lists...etc
-                      </ListItem>
-                    </ul>
+                <UNavigationMenuContent className="lg:left-[calc(0.5_*_(100%-1024px))]">
+                  <div className="data-[]: relative grid w-full grid-cols-[repeat(2,calc(20px+(0.5*(min(100%,68rem)-352px))))_1fr]">
+                    <NavigationMenuList
+                      title="Categories"
+                      initialDelay={0}
+                      items={mostViewedCategories.map((category) => ({
+                        text: category.category,
+                        url: category.url,
+                      }))}
+                      isListReady={isListReady}
+                    />
+
+                    <NavigationMenuList
+                      title="Tags"
+                      initialDelay={mostViewedCategories.length * 50}
+                      items={mostViewedTags.map((tag) => ({
+                        text: tag.tag,
+                        url: tag.url,
+                      }))}
+                      isListReady={isListReady}
+                    />
+
+                    <NavigationMenuLatestPost
+                      isListReady={isListReady}
+                      initialDelay={
+                        (mostViewedCategories.length +
+                          mostViewedTags.length +
+                          1) *
+                        50
+                      }
+                      latestPost={latestPost}
+                    />
                   </div>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
+                </UNavigationMenuContent>
+              </UINavigationMenuItem>
 
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Gists</NavigationMenuTrigger>
-                <NavigationMenuContent className="lg:left-[calc(0.5_*_(100%_-_1024px))]">
-                  <ul>
-                    <li className="row-span-3">
-                      <NavigationMenuLink asChild>
-                        <a
-                          className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                          href="/"
-                        >
-                          <Icons.logo className="h-6 w-6" />
-                          <div className="mb-2 mt-4 text-lg font-medium">
-                            shadcn/ui
-                          </div>
-                          <p className="text-sm leading-tight text-muted-foreground">
-                            Beautifully designed components built with Radix UI
-                            and Tailwind CSS.
-                          </p>
-                        </a>
-                      </NavigationMenuLink>
-                    </li>
-                    <ListItem href="/docs" title="Introduction">
-                      Re-usable components built using Radix UI and Tailwind
-                      CSS.
-                    </ListItem>
-                    <ListItem href="/docs/installation" title="Installation">
-                      How to install dependencies and structure your app.
-                    </ListItem>
-                    <ListItem
-                      href="/docs/primitives/typography"
-                      title="Typography"
-                    >
-                      Styles for headings, paragraphs, lists...etc
-                    </ListItem>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
+              <UINavigationMenuItem>
+                <UINavigationMenuTrigger>Gists</UINavigationMenuTrigger>
+                <UNavigationMenuContent className="lg:left-[calc(0.5_*_(100%_-_1024px))]"></UNavigationMenuContent>
+              </UINavigationMenuItem>
 
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>About</NavigationMenuTrigger>
-                <NavigationMenuContent className="lg:left-[calc(0.5_*_(100%_-_1024px))]">
-                  <ul>
-                    <li className="row-span-3">
-                      <NavigationMenuLink asChild>
-                        <a
-                          className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                          href="/"
-                        >
-                          <Icons.logo className="h-6 w-6" />
-                          <div className="mb-2 mt-4 text-lg font-medium">
-                            shadcn/ui
-                          </div>
-                          <p className="text-sm leading-tight text-muted-foreground">
-                            Beautifully designed components built with Radix UI
-                            and Tailwind CSS.
-                          </p>
-                        </a>
-                      </NavigationMenuLink>
-                    </li>
-                    <ListItem href="/docs" title="Introduction">
-                      Re-usable components built using Radix UI and Tailwind
-                      CSS.
-                    </ListItem>
-                    <ListItem href="/docs/installation" title="Installation">
-                      How to install dependencies and structure your app.
-                    </ListItem>
-                    <ListItem
-                      href="/docs/primitives/typography"
-                      title="Typography"
-                    >
-                      Styles for headings, paragraphs, lists...etc
-                    </ListItem>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-            </NavigationMenuList>
+              <UINavigationMenuItem>
+                <UINavigationMenuTrigger>About</UINavigationMenuTrigger>
+                <UNavigationMenuContent className="lg:left-[calc(0.5_*_(100%_-_1024px))]"></UNavigationMenuContent>
+              </UINavigationMenuItem>
+            </UINavigationList>
           </div>
 
           <button
@@ -249,31 +217,5 @@ const NavigationMenu: React.FC = () => {
     </UINavigationMenu>
   );
 };
-
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-neutral-100 focus:bg-slate-100 dark:hover:bg-slate-700 dark:focus:bg-slate-700",
-            className,
-          )}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-slate-500 dark:text-slate-400">
-            {children}
-          </p>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  );
-});
-ListItem.displayName = "ListItem";
 
 export default NavigationMenu;

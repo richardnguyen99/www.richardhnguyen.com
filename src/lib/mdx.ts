@@ -244,3 +244,67 @@ export const getLatestMdxContentByTag = async (
     return content.frontMatter.tags.includes(tag);
   });
 };
+
+type GetCategoryOptions = {
+  limit?: number;
+  sortOrder?: SortOrder;
+  filter?: (_content: MdxContent) => boolean;
+};
+
+export const getAllCategories = async (options: GetCategoryOptions) => {
+  const { limit = -1, sortOrder = "desc", filter = () => true } = options;
+  const mdxContents = await getMdxContentsWithFilter(limit, sortOrder, filter);
+
+  const categories = mdxContents.reduce((acc, content) => {
+    const category = content.frontMatter.category;
+
+    if (!acc.has(category)) {
+      acc.set(category, `/categories/${category}`);
+    }
+
+    return acc;
+  }, new Map<string, string>());
+
+  return categories;
+};
+
+type GetTagOptions = {
+  limit?: number;
+  sortOrder?: SortOrder;
+  filter?: (_content: MdxContent) => boolean;
+};
+
+export const getAllTags = async (_options: GetTagOptions) => {
+  const mdxContents = await getMdxContentsWithFilter();
+
+  const tags = mdxContents.reduce(
+    (acc, content) => {
+      content.frontMatter.tags.forEach((tag) => {
+        if (!acc.has(tag)) {
+          acc.set(tag, {
+            url: `/tags/${tag}`,
+            count: 1,
+          });
+        } else {
+          const tagData = acc.get(tag)!;
+
+          acc.set(tag, {
+            url: tagData.url,
+            count: tagData.count + 1,
+          });
+        }
+      });
+
+      return acc;
+    },
+    new Map<
+      string,
+      {
+        url: string;
+        count: number;
+      }
+    >(),
+  );
+
+  return tags;
+};

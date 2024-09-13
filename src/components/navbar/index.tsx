@@ -1,9 +1,41 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { getAllCategories, getAllTags, getLatestMdxContent } from "@/lib/mdx";
 import NavbarNavigationMenu from "./navigation-menu";
 
 const Navbar: React.FC = async () => {
+  const mostViewedCategories = Array.from(
+    (await getAllCategories({ limit: 5 })).entries(),
+  ).map(([key, value]) => ({
+    category: key,
+    url: value,
+  }));
+
+  const mostViewedTags = Array.from((await getAllTags({})).entries())
+    .sort((a, b) => {
+      return b[1].count - a[1].count;
+    })
+    .slice(0, 5)
+    .reduce(
+      (acc, [key, value]) => {
+        acc.push({
+          tag: key,
+          url: value.url,
+        });
+
+        return acc;
+      },
+      [] as {
+        tag: string;
+        url: string;
+      }[],
+    );
+
+  const latestPost = (await getLatestMdxContent(1)).map((mdxContent) => {
+    return mdxContent.frontMatter;
+  });
+
   return (
     <header
       aria-label="Main Navigation"
@@ -13,7 +45,11 @@ const Navbar: React.FC = async () => {
         "ease-curve-d transition-header transform-gpu",
       )}
     >
-      <NavbarNavigationMenu />
+      <NavbarNavigationMenu
+        latestPost={latestPost[0]}
+        mostViewedCategories={mostViewedCategories}
+        mostViewedTags={mostViewedTags}
+      />
     </header>
   );
 };

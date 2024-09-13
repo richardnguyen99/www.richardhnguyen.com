@@ -42,7 +42,7 @@ const Navbar: React.FC = async () => {
       className={cn(
         "fixed top-0 z-[100]",
         "m-auto w-full max-w-full md:py-0",
-        "ease-curve-d transition-header transform-gpu",
+        "ease-curve-d transition-header transform-gpu bg-transparent backdrop-blur-lg",
       )}
     >
       <NavbarNavigationMenu

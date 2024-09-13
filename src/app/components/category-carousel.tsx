@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
+import { useMediaQuery } from "@uidotdev/usehooks";
 
 import { type FrontMatter } from "@/lib/mdx";
 import { cn } from "@/lib/utils";
@@ -27,6 +28,7 @@ const CategoryCarousel: React.FC<Props> = ({
   className,
   ...rest
 }) => {
+  const isSmallDevice = useMediaQuery("only screen and (max-width : 576px)");
   const [isVisible, setIsVisible] = React.useState(false);
   const [carouselApi, setCarouselApi] = React.useState<CarouselApi | null>(
     null,
@@ -39,7 +41,9 @@ const CategoryCarousel: React.FC<Props> = ({
   // allows the next button to scroll to the last slide and make it visible.
 
   const [prevCount, setPrevCount] = React.useState(0);
-  const [nextCount, setNextCount] = React.useState(metadatas.length - 2);
+  const [nextCount, setNextCount] = React.useState(
+    metadatas.length - (isSmallDevice ? 1 : 2),
+  );
 
   const handlePrevClick = React.useCallback(() => {
     if (carouselApi) {
@@ -85,7 +89,9 @@ const CategoryCarousel: React.FC<Props> = ({
       className={cn("", className)}
     >
       <div className="container relative flex items-center justify-between p-8">
-        <h2 className="text-2xl font-semibold">{sectionHeading}</h2>
+        <h2 className="text-lg font-normal md:text-2xl md:font-semibold lg:text-3xl lg:font-extrabold">
+          {sectionHeading}
+        </h2>
         <div className="flex items-center gap-4">
           <CarouselPrevious
             disabled={prevCount === 0}

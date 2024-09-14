@@ -12,6 +12,8 @@ const Navbar: React.FC = async () => {
     url: value,
   }));
 
+  console.log(mostViewedCategories);
+
   const mostViewedTags = Array.from((await getAllTags({})).entries())
     .sort((a, b) => {
       return b[1].count - a[1].count;
@@ -42,7 +44,7 @@ const Navbar: React.FC = async () => {
       className={cn(
         "fixed top-0 z-[100]",
         "m-auto w-full max-w-full md:py-0",
-        "ease-curve-d transition-header transform-gpu bg-transparent backdrop-blur-lg",
+        "ease-curve-d transition-header transform-gpu",
       )}
     >
       <NavbarNavigationMenu

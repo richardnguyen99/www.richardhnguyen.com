@@ -24,7 +24,7 @@ const CategoryCard = React.forwardRef<HTMLDivElement, Metadata>(
         className="ease-curve-a group aspect-[3/4] h-[280px] min-w-[202px] flex-[0_0_calc(210px-8xp)] transform-gpu rounded-lg pl-0 pr-4 transition duration-300 md:aspect-[3/4] md:h-[calc((((var(--document-size)_-_2rem_-_(1rem_*_2))_*_4_/_3)_/_3))] md:min-w-0 md:flex-[0_0_calc(var(--document-size)/2-8px)] lg:aspect-[4/3] lg:h-[calc((((var(--document-size)_-_2rem_-_(1rem_*_2))_*_3_/_4)_/_3))] lg:flex-[0_0_calc((1024px/2)-16px)]"
       >
         <Card className="h-full w-full">
-          <Link href={`/blog/${metadata.slug}`}>
+          <Link href={`/blogs/${metadata.slug}`}>
             <CardContent className="relative h-full w-full p-0">
               <div className="absolute bottom-0 left-0 right-0 top-0 z-10">
                 <div className="relative z-50 h-full w-full">

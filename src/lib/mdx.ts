@@ -145,7 +145,7 @@ export const generateMdxSlugs = async () => {
 
   return mdxContents.map((content) => ({
     params: {
-      slug: `/blog/${content.frontMatter.slug}`,
+      slug: `/blogs/${content.frontMatter.slug}`,
     },
   }));
 };
@@ -251,9 +251,10 @@ type GetCategoryOptions = {
   filter?: (_content: MdxContent) => boolean;
 };
 
-export const getAllCategories = async (options: GetCategoryOptions) => {
-  const { limit = -1, sortOrder = "desc", filter = () => true } = options;
-  const mdxContents = await getMdxContentsWithFilter(limit, sortOrder, filter);
+export const getAllCategories = async (_options: GetCategoryOptions) => {
+  const mdxContents = await getMdxContentsWithFilter(-1, "desc", () => true);
+
+  console.log(mdxContents.length);
 
   const categories = mdxContents.reduce((acc, content) => {
     const category = content.frontMatter.category;

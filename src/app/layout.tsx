@@ -1,13 +1,14 @@
 import React from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 
 import GlobalProvider from "./provider";
 import LayoutMain from "./main";
 import Navbar from "@/components/navbar";
 import NavbarOverlay from "@/components/navbar/overlay";
+import Footer from "@/components/footer";
 import "./globals.css";
-import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,6 +31,8 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
           <div className="pointer-events-none fixed left-0 top-0 z-[103] h-screen w-full max-w-full overflow-auto opacity-0 transition-opacity duration-700" />
 
           <LayoutMain>{children}</LayoutMain>
+
+          <Footer />
         </GlobalProvider>
       </body>
       <Script id="">0</Script>

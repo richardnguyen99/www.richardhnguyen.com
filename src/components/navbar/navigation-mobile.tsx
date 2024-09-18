@@ -32,7 +32,7 @@ const NavigationMobile: React.FC = () => {
         <ul
           id="mobile-menu"
           className={cn(
-            "text-small container flex w-full flex-col justify-between pb-[3rem] pt-[3rem]",
+            "text-small mx-[--gutter-size] flex w-[var(--container-size)] flex-col justify-between pb-[3rem] pt-[3rem]",
             {
               invisible: !navbarContext.isOpen,
             },

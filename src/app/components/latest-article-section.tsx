@@ -15,7 +15,7 @@ const LatestArticleSection: React.FC = async () => {
         </h1>
       </div>
 
-      <div className="container">
+      <div className="mx-[var(--gutter-size)] w-[var(--container-size)]">
         <div className="col-span-12 grid grid-cols-12 gap-3 lg:grid-rows-2">
           <LatestArticleCard
             frontMatter={contents[0].frontMatter}

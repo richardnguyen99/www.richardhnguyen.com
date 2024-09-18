@@ -88,7 +88,7 @@ const CategoryCarousel: React.FC<Props> = ({
       {...rest}
       className={cn("", className)}
     >
-      <div className="container relative flex items-center justify-between p-8">
+      <div className="relative flex w-full items-center justify-between p-8 px-8 lg:max-w-[theme(maxWidth.5xl)]">
         <h2 className="text-lg font-normal md:text-2xl md:font-semibold lg:text-3xl lg:font-extrabold">
           {sectionHeading}
         </h2>

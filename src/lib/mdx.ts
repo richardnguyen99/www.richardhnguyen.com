@@ -254,8 +254,6 @@ type GetCategoryOptions = {
 export const getAllCategories = async (_options: GetCategoryOptions) => {
   const mdxContents = await getMdxContentsWithFilter(-1, "desc", () => true);
 
-  console.log(mdxContents.length);
-
   const categories = mdxContents.reduce((acc, content) => {
     const category = content.frontMatter.category;
 

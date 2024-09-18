@@ -90,7 +90,7 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
       >
         <div
           className={cn(
-            "ease-curve-d container relative flex min-h-[3.125rem] items-center justify-between transition duration-300 md:h-full [&>div]:h-full",
+            "ease-curve-d relative mx-[var(--gutter-size)] flex min-h-[3.125rem] w-[var(--container-size)] items-center justify-between transition duration-300 [&>div]:h-full",
           )}
         >
           <Link

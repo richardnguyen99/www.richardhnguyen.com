@@ -12,8 +12,6 @@ const Navbar: React.FC = async () => {
     url: value,
   }));
 
-  console.log(mostViewedCategories);
-
   const mostViewedTags = Array.from((await getAllTags({})).entries())
     .sort((a, b) => {
       return b[1].count - a[1].count;

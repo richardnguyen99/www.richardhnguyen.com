@@ -1,24 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { useWindowSize } from "@uidotdev/usehooks";
 
 import { cn } from "@/lib/utils";
 import { useNavbarContext } from "@/components/navbar/context";
 
 const LayoutMain: React.FC<React.PropsWithChildren> = ({ children }) => {
   const navbarContext = useNavbarContext();
-  const size = useWindowSize();
-
-  React.useEffect(() => {
-    const body = document.querySelector("body");
-
-    body?.style.setProperty("--document-size", `${size.width! - 32}px`);
-    body?.style.setProperty(
-      "--gutter-size",
-      `${Math.max((size.width! - 1040) / 2, 0) + 16}px`,
-    );
-  }, [size.width]);
 
   return (
     <main

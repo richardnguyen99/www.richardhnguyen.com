@@ -200,7 +200,13 @@ export const getMdxContentFromSlug = async (mdxSlug: string) => {
   return await getMdxContentFromPath(mdxPath);
 };
 
-export const getMdxContents = async () => {
+interface GetMdxContentOptions {
+  limit?: number;
+  sortOrder?: "asc" | "desc";
+  filter?: (_content: MdxContent) => boolean;
+}
+
+export const getMdxContents = async (options?: GetMdxContentOptions) => {
   const mdxFiles = await getMdxFiles();
   const mdxContents = await Promise.all(
     mdxFiles.map(async (entry) => {
@@ -208,6 +214,19 @@ export const getMdxContents = async () => {
       return await getMdxContentFromPath(mdxPath);
     }),
   );
+
+  if (options) {
+    const { limit = -1, sortOrder = "desc", filter = (_) => true } = options;
+
+    const sortedMdxContents = mdxContents.filter(filter).sort((a, b) => {
+      const dateA = a.frontMatter.date.getTime();
+      const dateB = b.frontMatter.date.getTime();
+
+      return sortOrder === "desc" ? dateB - dateA : dateA - dateB;
+    });
+
+    return limit > 0 ? sortedMdxContents.slice(0, limit) : sortedMdxContents;
+  }
 
   return mdxContents;
 };

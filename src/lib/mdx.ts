@@ -264,35 +264,42 @@ export const getLatestMdxContentByTag = async (
   });
 };
 
-type GetCategoryOptions = {
-  limit?: number;
-  sortOrder?: SortOrder;
-  filter?: (_content: MdxContent) => boolean;
-};
+export const getAllCategories = async () => {
+  const mdxContents = await getMdxContents();
 
-export const getAllCategories = async (_options: GetCategoryOptions) => {
-  const mdxContents = await getMdxContentsWithFilter(-1, "desc", () => true);
+  const categories = mdxContents.reduce(
+    (acc, content) => {
+      const category = content.frontMatter.category;
 
-  const categories = mdxContents.reduce((acc, content) => {
-    const category = content.frontMatter.category;
+      if (!acc.has(category)) {
+        acc.set(category, {
+          url: `/categories/${category}`,
+          postCount: 1,
+        });
+      } else {
+        const categoryData = acc.get(category)!;
 
-    if (!acc.has(category)) {
-      acc.set(category, `/categories/${category}`);
-    }
+        acc.set(category, {
+          url: categoryData.url,
+          postCount: categoryData.postCount + 1,
+        });
+      }
 
-    return acc;
-  }, new Map<string, string>());
+      return acc;
+    },
+    new Map<
+      string,
+      {
+        url: string;
+        postCount: number;
+      }
+    >(),
+  );
 
   return categories;
 };
 
-type GetTagOptions = {
-  limit?: number;
-  sortOrder?: SortOrder;
-  filter?: (_content: MdxContent) => boolean;
-};
-
-export const getAllTags = async (_options: GetTagOptions) => {
+export const getAllTags = async () => {
   const mdxContents = await getMdxContentsWithFilter();
 
   const tags = mdxContents.reduce(
@@ -301,14 +308,14 @@ export const getAllTags = async (_options: GetTagOptions) => {
         if (!acc.has(tag)) {
           acc.set(tag, {
             url: `/tags/${tag}`,
-            count: 1,
+            postCount: 1,
           });
         } else {
-          const tagData = acc.get(tag)!;
+          const categoryData = acc.get(tag)!;
 
           acc.set(tag, {
-            url: tagData.url,
-            count: tagData.count + 1,
+            url: categoryData.url,
+            postCount: categoryData.postCount + 1,
           });
         }
       });
@@ -319,7 +326,7 @@ export const getAllTags = async (_options: GetTagOptions) => {
       string,
       {
         url: string;
-        count: number;
+        postCount: number;
       }
     >(),
   );

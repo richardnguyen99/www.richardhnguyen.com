@@ -6,15 +6,15 @@ import NavbarNavigationMenu from "./navigation-menu";
 
 const Navbar: React.FC = async () => {
   const mostViewedCategories = Array.from(
-    (await getAllCategories({ limit: 5 })).entries(),
+    (await getAllCategories()).entries(),
   ).map(([key, value]) => ({
     category: key,
-    url: value,
+    url: value.url,
   }));
 
-  const mostViewedTags = Array.from((await getAllTags({})).entries())
+  const mostViewedTags = Array.from((await getAllTags()).entries())
     .sort((a, b) => {
-      return b[1].count - a[1].count;
+      return b[1].postCount - a[1].postCount;
     })
     .slice(0, 5)
     .reduce(

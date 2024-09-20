@@ -3,6 +3,10 @@
 import * as React from "react";
 import Link from "next/link";
 
+import {
+  navigationMenuTriggerStyle,
+  NavigationMenuLink as UINavigationMenuLink,
+} from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 
 type Props = React.PropsWithChildren<
@@ -28,7 +32,7 @@ const NavigationMenuList: React.FC<Props> = ({
     <ul {...rest} className="flex w-full list-none flex-col gap-4">
       <li
         className={cn(
-          "-translate-y-4 transform-gpu opacity-0 transition-[opacity,transform] duration-300 ease-out",
+          "-translate-y-4 transform-gpu text-gray-600 opacity-0 transition-[opacity,transform] duration-300 ease-out",
           {
             "translate-y-0 opacity-100": isListReady,
             "-translate-y-4 opacity-0": !isListReady,
@@ -62,7 +66,11 @@ const NavigationMenuList: React.FC<Props> = ({
               : {}
           }
         >
-          <Link href={item.url}>{item.text}</Link>
+          <Link href={item.url} legacyBehavior passHref>
+            <UINavigationMenuLink className="">
+              {item.text}
+            </UINavigationMenuLink>
+          </Link>
         </li>
       ))}
     </ul>

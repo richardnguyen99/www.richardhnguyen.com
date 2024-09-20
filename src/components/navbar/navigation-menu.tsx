@@ -12,6 +12,7 @@ import {
   NavigationMenuItem as UINavigationMenuItem,
   NavigationMenuList as UINavigationList,
   NavigationMenuTrigger as UINavigationMenuTrigger,
+  NavigationMenuLink as UINavigationMenuLink,
 } from "@/components/ui/navigation-menu";
 import { useNavbarContext } from "./context";
 import NavigationMobile from "./navigation-mobile";
@@ -97,17 +98,16 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
             "ease-curve-d relative mx-[var(--gutter-size)] flex min-h-[3.125rem] w-[var(--container-size)] items-center justify-between transition duration-300 [&>div]:h-full",
           )}
         >
-          <Link
-            href="/"
-            passHref
-            className={cn(
-              "flex items-center justify-center",
-              "h-10 w-10 rounded-full p-2",
-              "hover:bg-slate-100",
-            )}
-            onClick={() => navbarContext.handleIsOpen(false)}
-          >
-            <div className="h-full w-full bg-black"></div>
+          <Link href="/" passHref legacyBehavior>
+            <UINavigationMenuLink
+              className={cn(
+                "flex items-center justify-center",
+                "h-10 w-10 rounded-full p-2",
+                "hover:bg-slate-100",
+              )}
+            >
+              <div className="h-full w-full bg-black"></div>
+            </UINavigationMenuLink>
           </Link>
 
           <div

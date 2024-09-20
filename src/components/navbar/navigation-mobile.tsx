@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import { FrontMatter } from "@/lib/mdx";
+import { NavigationMenuLink as UINavigationMenuLink } from "@/components/ui/navigation-menu";
 import { useNavbarContext } from "./context";
 import {
   CollapsibleTrigger,
@@ -12,6 +13,7 @@ import {
   CollapsibleContentItem,
   CollapsibleHeading,
 } from "./collapsible";
+import NavigationMenuLatestPost from "./navigation-menu-latest-post";
 
 export type NavigationMobileProps = {
   latestPost: FrontMatter;
@@ -26,6 +28,7 @@ export type NavigationMobileProps = {
 };
 
 const NavigationMobile: React.FC<NavigationMobileProps> = ({
+  latestPost,
   mostViewedCategories,
   mostViewedTags,
 }) => {
@@ -59,8 +62,10 @@ const NavigationMobile: React.FC<NavigationMobileProps> = ({
             <CollapsibleContent>
               {mostViewedCategories.map((category, i) => (
                 <CollapsibleContentItem key={i}>
-                  <Link href={category.url} className="text-black">
-                    {category.category}
+                  <Link href={category.url} passHref legacyBehavior>
+                    <UINavigationMenuLink className="text-black">
+                      {category.category}
+                    </UINavigationMenuLink>
                   </Link>
                 </CollapsibleContentItem>
               ))}
@@ -72,14 +77,22 @@ const NavigationMobile: React.FC<NavigationMobileProps> = ({
             <CollapsibleContent>
               {mostViewedTags.map((tag, i) => (
                 <CollapsibleContentItem key={i}>
-                  <Link href={tag.url} className="text-black">
-                    {tag.tag}
+                  <Link href={tag.url} passHref legacyBehavior>
+                    <UINavigationMenuLink className="text-black">
+                      {tag.tag}
+                    </UINavigationMenuLink>
                   </Link>
                 </CollapsibleContentItem>
               ))}
             </CollapsibleContent>
           </CollapsibleTrigger>
         </ul>
+
+        <NavigationMenuLatestPost
+          className="mx-[var(--gutter-size)] w-[var(--container-size)]"
+          isListReady={true}
+          latestPost={latestPost}
+        />
       </div>
     </div>
   );

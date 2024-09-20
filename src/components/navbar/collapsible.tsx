@@ -32,7 +32,7 @@ const CollapsibleTrigger: React.FC<CollapsibleProps> = (props) => {
 
   return (
     <CollapsibleContext.Provider value={{ id, open, toggle }}>
-      <li id={id} className="group last:pb-[5rem]">
+      <li id={id} className="group">
         {props.children}
       </li>
     </CollapsibleContext.Provider>

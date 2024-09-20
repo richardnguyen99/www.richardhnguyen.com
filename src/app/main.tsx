@@ -21,7 +21,7 @@ const LayoutMain: React.FC<React.PropsWithChildren> = ({ children }) => {
           {
             "delay-75 duration-700": !navbarContext.isOpen,
             "duration-300": navbarContext.isOpen,
-            "blur-[50px] saturate-[2]": navbarContext.isOpen,
+            "blur-[20px] saturate-[2]": navbarContext.isOpen,
             "translate-y-[5rem] scale-[0.96]": navbarContext.isOpen,
             "overflow-hidden": navbarContext.isOpen,
           },

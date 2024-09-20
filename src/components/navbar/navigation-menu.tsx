@@ -68,16 +68,17 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
   }, [timeoutId]);
 
   return (
-    <UINavigationMenu onValueChange={handleValueChange}>
+    <UINavigationMenu
+      className="bg-transparent"
+      onValueChange={handleValueChange}
+    >
       <div
         className={cn(
-          "pointer-events-none z-[-1] transform-gpu",
+          "pointer-events-none z-[-1] -translate-y-[100%] transform-gpu opacity-0",
           "ease-out-cubic transition-[opacity,transform] duration-300",
           "absolute left-1/2 top-0 h-[42.5rem] w-[200%]",
-          "-translate-x-[100vw]",
-          "bg-white blur-[200px] saturate-[2]",
+          "-translate-x-[100vw] bg-gradient-to-b from-white from-80% to-white/0",
           {
-            "-translate-y-[100%] opacity-0": !navbarContext.isOpen,
             "-translate-y-1/2 opacity-100": navbarContext.isOpen,
           },
         )}
@@ -85,7 +86,10 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
 
       <div
         className={cn(
-          "ease-out-cubic relative z-50 mx-auto h-full min-h-[3.125rem] w-full transform-gpu bg-white backdrop-blur transition duration-300 md:h-[3.125rem] md:backdrop-blur-xl",
+          "ease-out-cubic relative z-50 mx-auto h-full min-h-[3.125rem] w-full transform-gpu bg-white/80 backdrop-blur transition-colors duration-700 md:h-[3.125rem]",
+          {
+            "bg-white/0": navbarContext.isOpen,
+          },
         )}
       >
         <div
@@ -149,9 +153,11 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
               )}
             >
               <UINavigationMenuItem>
-                <UINavigationMenuTrigger>Articles</UINavigationMenuTrigger>
+                <UINavigationMenuTrigger className="bg-gray-500/0">
+                  Articles
+                </UINavigationMenuTrigger>
 
-                <UNavigationMenuContent className="lg:left-[calc(0.5_*_(100%-1024px))]">
+                <UNavigationMenuContent className="lg:left-[calc(0.5_*_(100%-var(--container-size)))]">
                   <div className="data-[]: relative grid w-full grid-cols-[repeat(2,calc(20px+(0.5*(min(100%,68rem)-352px))))_1fr]">
                     <NavigationMenuList
                       title="Categories"
@@ -188,13 +194,17 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
               </UINavigationMenuItem>
 
               <UINavigationMenuItem>
-                <UINavigationMenuTrigger>Gists</UINavigationMenuTrigger>
-                <UNavigationMenuContent className="lg:left-[calc(0.5_*_(100%_-_1024px))]"></UNavigationMenuContent>
+                <UINavigationMenuTrigger className="bg-gray-500/0">
+                  Gists
+                </UINavigationMenuTrigger>
+                <UNavigationMenuContent className="lg:left-[calc(0.5_*_(100%-var(--container-size)))]"></UNavigationMenuContent>
               </UINavigationMenuItem>
 
               <UINavigationMenuItem>
-                <UINavigationMenuTrigger>About</UINavigationMenuTrigger>
-                <UNavigationMenuContent className="lg:left-[calc(0.5_*_(100%_-_1024px))]"></UNavigationMenuContent>
+                <UINavigationMenuTrigger className="bg-gray-500/0">
+                  About
+                </UINavigationMenuTrigger>
+                <UNavigationMenuContent className="lg:left-[calc(0.5_*_(100%-var(--container-size)))]"></UNavigationMenuContent>
               </UINavigationMenuItem>
             </UINavigationList>
           </div>

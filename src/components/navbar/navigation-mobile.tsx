@@ -1,18 +1,34 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 
 import { cn } from "@/lib/utils";
+import { FrontMatter } from "@/lib/mdx";
 import { useNavbarContext } from "./context";
 import {
   CollapsibleTrigger,
   CollapsibleContent,
   CollapsibleContentItem,
-  CollapsibleContentLink,
   CollapsibleHeading,
 } from "./collapsible";
 
-const NavigationMobile: React.FC = () => {
+export type NavigationMobileProps = {
+  latestPost: FrontMatter;
+  mostViewedCategories: Array<{
+    url: string;
+    category: string;
+  }>;
+  mostViewedTags: Array<{
+    url: string;
+    tag: string;
+  }>;
+};
+
+const NavigationMobile: React.FC<NavigationMobileProps> = ({
+  mostViewedCategories,
+  mostViewedTags,
+}) => {
   const navbarContext = useNavbarContext();
 
   return (
@@ -32,83 +48,35 @@ const NavigationMobile: React.FC = () => {
         <ul
           id="mobile-menu"
           className={cn(
-            "text-small mx-[--gutter-size] flex w-[var(--container-size)] flex-col justify-between pb-[3rem] pt-[3rem]",
+            "text-small mx-[--gutter-size] flex w-[var(--container-size)] flex-col justify-between gap-4 pb-[3rem] pt-[3rem]",
             {
               invisible: !navbarContext.isOpen,
             },
           )}
         >
           <CollapsibleTrigger>
-            <CollapsibleHeading>Getting started</CollapsibleHeading>
+            <CollapsibleHeading>Categories</CollapsibleHeading>
             <CollapsibleContent>
-              <CollapsibleContentItem>
-                <span className="text-black">Our research</span>
-                <ul className="mb-4 mt-4 flex flex-col gap-4 group-last:mb-0">
-                  <li>
-                    <CollapsibleContentLink href="/docs">
-                      Overview
-                    </CollapsibleContentLink>
-                  </li>
-                  <li>
-                    <CollapsibleContentLink href="/docs">
-                      Overview
-                    </CollapsibleContentLink>
-                  </li>
-                </ul>
-              </CollapsibleContentItem>
-
-              <CollapsibleContentItem>
-                <span className="text-black">Our research</span>
-                <ul className="mb-4 mt-4 flex flex-col gap-4 group-last:mb-0">
-                  <li>
-                    <CollapsibleContentLink href="/docs">
-                      Overview
-                    </CollapsibleContentLink>
-                  </li>
-                  <li>
-                    <CollapsibleContentLink href="/docs">
-                      Overview
-                    </CollapsibleContentLink>
-                  </li>
-                </ul>
-              </CollapsibleContentItem>
+              {mostViewedCategories.map((category, i) => (
+                <CollapsibleContentItem key={i}>
+                  <Link href={category.url} className="text-black">
+                    {category.category}
+                  </Link>
+                </CollapsibleContentItem>
+              ))}
             </CollapsibleContent>
           </CollapsibleTrigger>
 
           <CollapsibleTrigger>
-            <CollapsibleHeading>Getting started</CollapsibleHeading>
+            <CollapsibleHeading>Tags</CollapsibleHeading>
             <CollapsibleContent>
-              <CollapsibleContentItem>
-                <span className="text-black">Our research</span>
-                <ul className="mb-4 mt-4 flex flex-col gap-4 group-last:mb-0">
-                  <li>
-                    <CollapsibleContentLink href="/docs">
-                      Overview
-                    </CollapsibleContentLink>
-                  </li>
-                  <li>
-                    <CollapsibleContentLink href="/docs">
-                      Overview
-                    </CollapsibleContentLink>
-                  </li>
-                </ul>
-              </CollapsibleContentItem>
-
-              <CollapsibleContentItem>
-                <span className="text-black">Our research</span>
-                <ul className="mb-4 mt-4 flex flex-col gap-4 group-last:mb-0">
-                  <li>
-                    <CollapsibleContentLink href="/docs">
-                      Overview
-                    </CollapsibleContentLink>
-                  </li>
-                  <li>
-                    <CollapsibleContentLink href="/docs">
-                      Overview
-                    </CollapsibleContentLink>
-                  </li>
-                </ul>
-              </CollapsibleContentItem>
+              {mostViewedTags.map((tag, i) => (
+                <CollapsibleContentItem key={i}>
+                  <Link href={tag.url} className="text-black">
+                    {tag.tag}
+                  </Link>
+                </CollapsibleContentItem>
+              ))}
             </CollapsibleContent>
           </CollapsibleTrigger>
         </ul>

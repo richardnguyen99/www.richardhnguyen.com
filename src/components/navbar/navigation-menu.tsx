@@ -74,12 +74,12 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
     >
       <div
         className={cn(
-          "pointer-events-none z-[-1] -translate-y-[100%] transform-gpu opacity-0",
+          "pointer-events-none z-[-1] transform-gpu opacity-0 lg:-translate-y-[100%]",
           "ease-out-cubic transition-[opacity,transform] duration-300",
-          "absolute left-1/2 top-0 h-[42.5rem] w-[200%]",
-          "-translate-x-[100vw] bg-gradient-to-b from-white from-80% to-white/0",
+          "absolute left-1/2 top-0 h-[calc(100vh-1rem)] w-[200%] lg:h-[42.5rem]",
+          "-translate-x-[100vw] bg-gradient-to-b from-white from-60% to-white/0 lg:from-80%",
           {
-            "-translate-y-1/2 opacity-100": navbarContext.isOpen,
+            "opacity-100 lg:-translate-y-1/2": navbarContext.isOpen,
           },
         )}
       ></div>
@@ -223,7 +223,11 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
         </div>
       </div>
 
-      <NavigationMobile />
+      <NavigationMobile
+        mostViewedCategories={mostViewedCategories}
+        mostViewedTags={mostViewedTags}
+        latestPost={latestPost}
+      />
     </UINavigationMenu>
   );
 };

@@ -51,6 +51,7 @@ const NavbarProvider: React.FC<
       }
 
       setIsOpen(newIsOpen);
+      setActiveCollapsibleTab((prev) => (newIsOpen ? prev : ""));
     },
     [timeoutId],
   );

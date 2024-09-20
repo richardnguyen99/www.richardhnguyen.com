@@ -77,13 +77,15 @@ const CollapsibleHeading = React.forwardRef<
       type="button"
       aria-expanded={open}
       onClick={handleClick}
-      className={cn("flex h-full w-full items-center justify-between py-1")}
+      className={cn(
+        "group flex h-full w-full items-center justify-between py-1",
+      )}
     >
-      <span className="text-2xl text-neutral-700">{children}</span>
+      <span className="text-2xl text-neutral-500">{children}</span>
 
       <ChevronDownIcon
         className={cn(
-          "h-4 w-4",
+          "h-4 w-4 fill-neutral-500 text-neutral-500",
           "ease-curve-d transition-[opacity,transform] duration-200",
           {
             "-translate-y-1 opacity-0":
@@ -123,10 +125,10 @@ const CollapsibleContent = React.forwardRef<
       {...rest}
       ref={ref}
       className={cn(
-        "ease-curve-d flex flex-col gap-4 overflow-hidden border-b opacity-0 transition-all duration-300 group-last:border-none group-last:pb-0",
+        "ease-curve-d flex flex-col gap-4 overflow-hidden border-b opacity-0 transition-all duration-100 group-last:border-none group-last:pb-0",
         "invisible max-h-0 border-transparent opacity-0",
         {
-          "opacity-400 visible max-h-[50rem] border-neutral-100":
+          "visible max-h-[50rem] border-neutral-200 opacity-100":
             navbarContext.isOpen && navbarContext.activeCollapsiblleTab === id,
         },
       )}
@@ -147,6 +149,7 @@ const CollapsibleContentItem = React.forwardRef<
 >((props, ref) => {
   const { children, ...rest } = props;
 
+  const navbarContext = useNavbarContext();
   const collapsibleContext = React.useContext(CollapsibleContext);
 
   if (!collapsibleContext) {
@@ -155,11 +158,25 @@ const CollapsibleContentItem = React.forwardRef<
     );
   }
 
+  if (!navbarContext) {
+    throw new Error(
+      "Collapsible.NavbarContext must be used within a Collapsible component",
+    );
+  }
+
   return (
     <li
       {...rest}
       ref={ref}
-      className="group text-[1.25rem] font-normal leading-[150%] first:mt-4"
+      className={cn(
+        "ease-curve-d group transform-gpu text-[1.25rem] font-normal leading-[150%] opacity-100 transition-all duration-100 first:mt-4 last:mb-4",
+        {
+          "-translate-y-1 opacity-0":
+            navbarContext.activeCollapsiblleTab !== collapsibleContext.id,
+          "translate-y-0 opacity-100":
+            navbarContext.activeCollapsiblleTab === collapsibleContext.id,
+        },
+      )}
     >
       {children}
     </li>

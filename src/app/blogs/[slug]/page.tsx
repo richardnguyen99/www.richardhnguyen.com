@@ -12,7 +12,7 @@ interface BlogPostProps {
 }
 
 // NextJS options to disable dynamic routing at runtime
-// export const dynamicParams = false;
+export const dynamicParams = false;
 
 // NextJS options to enable to generate static paths at build time.
 export const generateStaticParams = async () => {

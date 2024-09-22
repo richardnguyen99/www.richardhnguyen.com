@@ -61,10 +61,10 @@ const NavigationMenuLatestPost: React.FC<Props> = ({
             <Image
               src={latestPost.thumbnail}
               alt={latestPost.title}
-              layout="fill"
               className={cn("object-cover object-center")}
               loading="lazy"
               sizes="(min-width: 1024px) 50vw, 100vw"
+              fill={true}
             />
           </div>
 

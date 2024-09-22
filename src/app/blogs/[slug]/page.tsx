@@ -27,7 +27,7 @@ export default async function BlogPost({ params: { slug } }: BlogPostProps) {
   } = await getMdxContentFromSlug(slug);
 
   return (
-    <div className="prose w-full text-left lg:prose-xl md:max-w-2xl">
+    <div className="w-[var(--container-size)} prose mx-[var(--gutter-size)] text-left lg:prose-xl">
       <MDXRemote source={body} components={mdxComponents} />
     </div>
   );

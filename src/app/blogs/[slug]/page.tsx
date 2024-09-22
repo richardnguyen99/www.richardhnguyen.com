@@ -12,16 +12,16 @@ interface BlogPostProps {
 }
 
 // NextJS options to disable dynamic routing at runtime
-export const dynamicParams = false;
+// export const dynamicParams = false;
 
 // NextJS options to enable to generate static paths at build time.
-export async function generateStaticParams() {
-  return generateMdxSlugs();
-}
+export const generateStaticParams = async () => {
+  return await generateMdxSlugs();
+};
 
 export default async function BlogPost({ params: { slug } }: BlogPostProps) {
   const {
-    frontMatter,
+    frontMatter: _frontMatter,
     body,
     excerpt: _excerpt,
   } = await getMdxContentFromSlug(slug);

@@ -17,7 +17,7 @@ const LatestArticleCard: React.FC<Props> = ({
 }) => (
   <div {...rest} className={cn("col-span-12 row-span-1", className)}>
     <Link
-      href={`/blog/${frontMatter.slug}`}
+      href={`/blogs/${frontMatter.slug}`}
       className="ease-curve-a duration-250 group relative z-0 block aspect-[16/9] h-full w-full max-w-[68rem] overflow-hidden rounded-md bg-gray-200 transition [&>div]:h-full"
       aria-label="View Item"
     >

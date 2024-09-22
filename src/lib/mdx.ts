@@ -144,9 +144,7 @@ export const generateMdxSlugs = async () => {
   const mdxContents = await getMdxContents();
 
   return mdxContents.map((content) => ({
-    params: {
-      slug: `/blogs/${content.frontMatter.slug}`,
-    },
+    slug: `${content.frontMatter.slug}`,
   }));
 };
 

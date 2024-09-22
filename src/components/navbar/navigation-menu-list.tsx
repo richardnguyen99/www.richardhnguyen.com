@@ -3,10 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 
-import {
-  navigationMenuTriggerStyle,
-  NavigationMenuLink as UINavigationMenuLink,
-} from "@/components/ui/navigation-menu";
+import { NavigationMenuLink as UINavigationMenuLink } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 
 type Props = React.PropsWithChildren<
@@ -67,7 +64,7 @@ const NavigationMenuList: React.FC<Props> = ({
           }
         >
           <Link href={item.url} legacyBehavior passHref>
-            <UINavigationMenuLink className="">
+            <UINavigationMenuLink className="ease-curve-d transform-gpu border-b-2 border-transparent transition-[border-color] duration-200 hover:border-gray-800">
               {item.text}
             </UINavigationMenuLink>
           </Link>

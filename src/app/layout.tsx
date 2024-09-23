@@ -9,6 +9,7 @@ import Navbar from "@/components/navbar";
 import NavbarOverlay from "@/components/navbar/overlay";
 import "./globals.css";
 import Footer from "@/components/footer";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,6 +37,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
 
           <Footer />
         </GlobalProvider>
+        <Toaster />
       </body>
       <Script id="">0</Script>
     </html>

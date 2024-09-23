@@ -14,7 +14,7 @@ const SortButton: React.FC<SortButtonProps> = ({ ...rest }) => {
   return (
     <Button
       {...rest}
-      className="ease-curve-d group flex transform-gpu items-center gap-3 rounded-full bg-gray-100/0 text-gray-950 shadow-none duration-200 hover:bg-gray-100"
+      className="ease-curve-d group flex w-1/2 transform-gpu items-center gap-3 rounded-full border border-gray-200 bg-gray-100/0 text-gray-950 shadow-none duration-200 hover:bg-gray-100"
     >
       <span>Sort</span>
       <LineHeightIcon className="h-4 w-4" />

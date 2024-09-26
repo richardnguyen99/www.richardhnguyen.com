@@ -4,9 +4,7 @@ import dynamic from "next/dynamic";
 import { getAllTags, getMdxContents } from "@/lib/mdx";
 import BlogGrid from "./blog-grid";
 
-const FilterButton = dynamic(() => import("./filter-button"), { ssr: false });
-
-const SortButton = dynamic(() => import("./sort-button"), { ssr: false });
+const ButtonGroup = dynamic(() => import("./button-group"), { ssr: false });
 
 interface BlogProps {
   searchParams?: {
@@ -45,16 +43,13 @@ const Blog: React.FC<BlogProps> = async (props) => {
             <h3 className="mt-2 text-pretty text-6xl font-medium tracking-tighter text-gray-950 data-[dark]:text-white sm:text-4xl md:text-2xl">
               Latest Blog
             </h3>
-            <div className="flex items-center gap-4">
-              <FilterButton
-                filterTags={{
-                  tags,
-                  indices: selectedTagIndices,
-                }}
-              />
 
-              <SortButton />
-            </div>
+            <ButtonGroup
+              tags={{
+                values: tags,
+                selectedIndices: selectedTagIndices,
+              }}
+            />
           </div>
         </div>
       </div>

@@ -27,6 +27,8 @@ import {
 } from "@/components/ui/form";
 
 interface FilterButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+  opening: boolean;
+  onOpenChange?: (_open: boolean) => void;
   filterTags: {
     tags: string[];
     indices: number[];
@@ -38,7 +40,12 @@ const FormSchema = z.object({
   items: z.array(z.string()),
 });
 
-const FilterButton: React.FC<FilterButtonProps> = ({ filterTags, ...rest }) => {
+const FilterButton: React.FC<FilterButtonProps> = ({
+  opening,
+  onOpenChange,
+  filterTags,
+  ...rest
+}) => {
   const items = filterTags.tags.map((tag) => ({
     id: tag,
     label: tag
@@ -58,7 +65,6 @@ const FilterButton: React.FC<FilterButtonProps> = ({ filterTags, ...rest }) => {
     (index) => filterTags.tags[index],
   );
 
-  const [open, setOpen] = React.useState(false);
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -69,58 +75,83 @@ const FilterButton: React.FC<FilterButtonProps> = ({ filterTags, ...rest }) => {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    createPageURL(data.items);
+  const createPageURL = React.useCallback(
+    (data: string[]) => {
+      const params = new URLSearchParams(searchParams);
 
-    toast({
-      className: "bg-[#e0fdd4] border-lime-500 text-lime-600",
-      title: "Filter Applied",
-      description: (
-        <code className="line-clamp-1 max-w-[250px] text-green-950">
-          {data.items.length} tag{data.items.length > 1 ? "s" : ""} selected
-        </code>
-      ),
-    });
+      if (data.length) {
+        params.set("tags", data.join(","));
+      } else {
+        params.delete("tags");
+      }
 
-    handleClose();
-  }
+      replace(`${pathname}?${params.toString()}`);
+    },
+    [pathname, replace, searchParams],
+  );
 
-  function handleClose() {
-    setOpen(false);
-  }
+  const handleOpenChange = React.useCallback(
+    (state: boolean) => {
+      if (onOpenChange) onOpenChange(state);
+    },
+    [onOpenChange],
+  );
 
-  function createPageURL(data: string[]) {
-    const params = new URLSearchParams(searchParams);
+  const onSubmit = React.useCallback(
+    (data: z.infer<typeof FormSchema>) => {
+      createPageURL(data.items);
 
-    if (data.length) {
-      params.set("tags", data.join(","));
-    } else {
-      params.delete("tags");
+      toast({
+        className: "bg-[#e0fdd4] border-lime-500 text-lime-600",
+        title: "Filter Applied",
+        description: (
+          <code className="line-clamp-1 max-w-[250px] text-green-950">
+            {data.items.length} tag{data.items.length > 1 ? "s" : ""} selected
+          </code>
+        ),
+      });
+
+      handleOpenChange(false);
+    },
+    [createPageURL, handleOpenChange],
+  );
+
+  const handlePopoverOpenChange = React.useCallback(
+    (open: boolean) => {
+      if (open) {
+        form.reset({
+          items: selectedItems,
+        });
+      }
+
+      handleOpenChange(open);
+    },
+    [form, handleOpenChange, selectedItems],
+  );
+
+  const handleDisabledButton = React.useCallback(() => {
+    if (selectedItems.length !== form.watch("items").length) {
+      return false;
     }
 
-    replace(`${pathname}?${params.toString()}`);
-  }
+    if (selectedItems.every((item) => form.watch("items").includes(item))) {
+      return true;
+    }
 
-  function filtersDisplay() {
+    return false;
+  }, [form, selectedItems]);
+
+  const filtersDisplay = React.useCallback(() => {
     if (selectedItems.length === 0) return "Filter";
 
     if (selectedItems.length === 1) return `${selectedItems[0]}`;
 
     return `${selectedItems[0]} + ${selectedItems.length - 1} more`;
-  }
+  }, [selectedItems]);
 
   return (
-    <Popover
-      open={open}
-      onOpenChange={(open) => {
-        if (open) {
-          form.reset({
-            items: selectedItems,
-          });
-        }
-      }}
-    >
-      <PopoverTrigger onClick={() => setOpen((prev) => !prev)} asChild>
+    <Popover open={opening} onOpenChange={handlePopoverOpenChange}>
+      <PopoverTrigger onClick={() => onOpenChange?.(!opening)} asChild>
         <Button
           {...rest}
           className="ease-curve-d group flex w-1/2 transform-gpu items-center gap-3 rounded-full border border-gray-200 bg-gray-100/0 text-gray-950 shadow-none duration-200 hover:bg-gray-100 md:w-[unset]"
@@ -191,21 +222,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({ filterTags, ...rest }) => {
                 <Button
                   type="submit"
                   className="ease-curve-d inset-0 m-0 flex-1 transform-gpu rounded-none rounded-bl-sm border-0 bg-white text-gray-900 shadow-none transition-colors duration-200 hover:bg-gray-200"
-                  disabled={(() => {
-                    if (selectedItems.length !== form.watch("items").length) {
-                      return false;
-                    }
-
-                    if (
-                      selectedItems.every((item) =>
-                        form.watch("items").includes(item),
-                      )
-                    ) {
-                      return true;
-                    }
-
-                    return false;
-                  })()}
+                  disabled={handleDisabledButton()}
                 >
                   Submit
                 </Button>

@@ -10,9 +10,13 @@ interface ButtonGroupProps {
     values: string[];
     selectedIndices: number[];
   };
+  categories: {
+    values: string[];
+    selectedIndices: number[];
+  };
 }
 
-const ButtonGroup: React.FC<ButtonGroupProps> = ({ tags }) => {
+const ButtonGroup: React.FC<ButtonGroupProps> = ({ tags, categories }) => {
   const [openingTag, setOpeningTag] = React.useState<string>("");
 
   return (
@@ -26,6 +30,10 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({ tags }) => {
         filterTags={{
           tags: tags.values,
           indices: tags.selectedIndices,
+        }}
+        filterCategories={{
+          categories: categories.values,
+          indices: categories.selectedIndices,
         }}
       />
       <SortButton />

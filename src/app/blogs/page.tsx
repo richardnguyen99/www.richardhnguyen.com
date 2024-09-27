@@ -1,7 +1,7 @@
 import * as React from "react";
 import dynamic from "next/dynamic";
 
-import { getAllTags, getMdxContents } from "@/lib/mdx";
+import { getAllCategories, getAllTags, getMdxContents } from "@/lib/mdx";
 import BlogGrid from "./blog-grid";
 
 const ButtonGroup = dynamic(() => import("./button-group"), { ssr: false });
@@ -19,16 +19,38 @@ interface BlogProps {
 const Blog: React.FC<BlogProps> = async (props) => {
   const tags = Array.from((await getAllTags()).entries()).map(([key]) => key);
 
+  const categories = Array.from((await getAllCategories()).entries()).map(
+    ([key]) => key,
+  );
+
   const selectedTags = props.searchParams?.tags?.split(",") || [];
+
+  const selectedCategories = props.searchParams?.categories?.split(",") || [];
 
   const selectedTagIndices = selectedTags.map((tag) => tags.indexOf(tag));
 
+  const selectedCategoryIndices = selectedCategories.map((category) =>
+    categories.indexOf(category),
+  );
+
   const posts = await getMdxContents({
     filter: (post) => {
-      return (
-        !props.searchParams?.tags ||
-        post.frontMatter.tags.some((tag) => selectedTags.includes(tag))
-      );
+      // Filter by categories first
+
+      if (selectedCategories.length > 0) {
+        if (!selectedCategories.includes(post.frontMatter.category)) {
+          return false;
+        }
+      }
+
+      // Filter by tags
+      if (selectedTags.length > 0) {
+        if (!post.frontMatter.tags.some((tag) => selectedTags.includes(tag))) {
+          return false;
+        }
+      }
+
+      return true;
     },
   });
 
@@ -48,6 +70,10 @@ const Blog: React.FC<BlogProps> = async (props) => {
               tags={{
                 values: tags,
                 selectedIndices: selectedTagIndices,
+              }}
+              categories={{
+                values: categories,
+                selectedIndices: selectedCategoryIndices,
               }}
             />
           </div>

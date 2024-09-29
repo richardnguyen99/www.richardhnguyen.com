@@ -201,6 +201,7 @@ export const getMdxContentFromSlug = async (mdxSlug: string) => {
 interface GetMdxContentOptions {
   limit?: number;
   sortOrder?: "asc" | "desc";
+  sortType?: "latest" | "alphabet";
   filter?: (_content: MdxContent) => boolean;
 }
 
@@ -214,9 +215,20 @@ export const getMdxContents = async (options?: GetMdxContentOptions) => {
   );
 
   if (options) {
-    const { limit = -1, sortOrder = "desc", filter = (_) => true } = options;
+    const {
+      limit = -1,
+      sortOrder = "desc",
+      sortType = "latest",
+      filter = (_) => true,
+    } = options;
 
     const sortedMdxContents = mdxContents.filter(filter).sort((a, b) => {
+      if (sortType === "alphabet") {
+        return sortOrder === "desc"
+          ? a.frontMatter.title.localeCompare(b.frontMatter.title)
+          : b.frontMatter.title.localeCompare(a.frontMatter.title);
+      }
+
       const dateA = a.frontMatter.date.getTime();
       const dateB = b.frontMatter.date.getTime();
 

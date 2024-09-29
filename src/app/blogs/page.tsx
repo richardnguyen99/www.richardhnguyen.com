@@ -9,7 +9,7 @@ const ButtonGroup = dynamic(() => import("./button-group"), { ssr: false });
 interface BlogProps {
   searchParams?: {
     sortOrder?: "asc" | "desc";
-    sortType?: "date" | "most-viewed";
+    sortType?: "latest" | "alphabet";
     tags?: string;
     categories?: string;
     page?: number;
@@ -22,6 +22,10 @@ const Blog: React.FC<BlogProps> = async (props) => {
   const categories = Array.from((await getAllCategories()).entries()).map(
     ([key]) => key,
   );
+
+  const selectedSortType = props.searchParams?.sortType;
+
+  const selectedSortOrder = props.searchParams?.sortOrder;
 
   const selectedTags = props.searchParams?.tags?.split(",") || [];
 
@@ -52,6 +56,8 @@ const Blog: React.FC<BlogProps> = async (props) => {
 
       return true;
     },
+    sortOrder: selectedSortOrder,
+    sortType: selectedSortType,
   });
 
   return (
@@ -67,6 +73,8 @@ const Blog: React.FC<BlogProps> = async (props) => {
             </h3>
 
             <ButtonGroup
+              sortOrder={selectedSortOrder}
+              sortType={selectedSortType}
               tags={{
                 values: tags,
                 selectedIndices: selectedTagIndices,

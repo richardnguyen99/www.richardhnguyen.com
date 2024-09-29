@@ -6,6 +6,8 @@ import FilterButton from "./filter-button";
 import SortButton from "./sort-button";
 
 interface ButtonGroupProps {
+  sortOrder?: "asc" | "desc";
+  sortType?: "latest" | "alphabet";
   tags: {
     values: string[];
     selectedIndices: number[];
@@ -16,7 +18,12 @@ interface ButtonGroupProps {
   };
 }
 
-const ButtonGroup: React.FC<ButtonGroupProps> = ({ tags, categories }) => {
+const ButtonGroup: React.FC<ButtonGroupProps> = ({
+  tags,
+  categories,
+  sortOrder,
+  sortType,
+}) => {
   const [openingTag, setOpeningTag] = React.useState<string>("");
 
   return (
@@ -36,7 +43,15 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({ tags, categories }) => {
           indices: categories.selectedIndices,
         }}
       />
-      <SortButton />
+      <SortButton
+        open={openingTag === "sort"}
+        onOpenChange={(open) => {
+          if (open) setOpeningTag("sort");
+          else setOpeningTag("");
+        }}
+        initialSortOrder={sortOrder}
+        initialSortType={sortType}
+      />
     </div>
   );
 };

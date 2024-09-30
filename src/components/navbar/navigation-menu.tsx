@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { HamburgerMenuIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import dynamic from "next/dynamic";
 
 import { cn } from "@/lib/utils";
 import { FrontMatter } from "@/lib/mdx";
@@ -14,16 +14,35 @@ import {
   NavigationMenuTrigger as UINavigationMenuTrigger,
   NavigationMenuLink as UINavigationMenuLink,
 } from "@/components/ui/navigation-menu";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { useNavbarContext } from "./context";
-import ThemeSwitcher from "./theme-switcher";
 import NavigationMobile from "./navigation-mobile";
 import NavigationMenuList from "./navigation-menu-list";
 import NavigationMenuLatestPost from "./navigation-menu-latest-post";
+
+const NavigationSkeletonButton = () => (
+  <div className="h-10 w-10 animate-pulse rounded-full bg-gray-200 p-2"></div>
+);
+
+const NavigationMobileTrigger = dynamic(
+  () => import("./navigation-mobile-trigger"),
+  {
+    ssr: false,
+    loading: NavigationSkeletonButton,
+  },
+);
+
+const NavigationSearchButton = dynamic(
+  () => import("./navigation-search-button"),
+  {
+    ssr: false,
+    loading: NavigationSkeletonButton,
+  },
+);
+
+const ThemeSwitcher = dynamic(() => import("./theme-switcher"), {
+  ssr: false,
+  loading: NavigationSkeletonButton,
+});
 
 export type HeaderDataProps = {
   latestPost: FrontMatter;
@@ -121,35 +140,9 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
               "ml-auto flex items-center justify-center gap-[0.5rem] md:hidden",
             )}
           >
-            <button
-              className={cn(
-                "group relative block",
-                "h-10 w-10 rounded-full p-2",
-                "hover:bg-neutral-100",
-                "ease-curve-d transition-opacity duration-300",
-                {
-                  "opacity-0": navbarContext.isOpen,
-                  "opacity-100": !navbarContext.isOpen,
-                },
-              )}
-              type="button"
-              aria-label="Search"
-            >
-              <MagnifyingGlassIcon className="h-full w-full" />
-            </button>
-
-            <button
-              className={cn(
-                "group relative block",
-                "h-10 w-10 rounded-full p-2",
-                "hover:bg-neutral-100",
-              )}
-              type="button"
-              aria-label="menu"
-              onClick={() => navbarContext.handleIsOpen(!navbarContext.isOpen)}
-            >
-              <HamburgerMenuIcon className="h-full w-full" />
-            </button>
+            <ThemeSwitcher />
+            <NavigationSearchButton />
+            <NavigationMobileTrigger />
           </div>
 
           <div className="[&>div]:!static [&>div]:h-full">
@@ -215,26 +208,8 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
             </UINavigationList>
           </div>
 
-          <div className="flex items-center gap-3">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  className={cn(
-                    "group relative hidden md:block",
-                    "h-10 w-10 rounded-full p-2",
-                    "hover:bg-neutral-100",
-                  )}
-                  type="button"
-                  aria-label="Search"
-                >
-                  <MagnifyingGlassIcon className="h-full w-full" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent className="border border-gray-200 bg-gray-100 text-gray-900">
-                Search
-              </TooltipContent>
-            </Tooltip>
-
+          <div className="hidden items-center gap-3 md:flex">
+            <NavigationSearchButton />
             <ThemeSwitcher />
           </div>
         </div>

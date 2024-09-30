@@ -7,8 +7,8 @@ const LatestArticleSection: React.FC = async () => {
   const contents = await getMdxContentsWithFilter(3, "desc");
 
   return (
-    <section className="w-screen max-w-full">
-      <div className="flex flex-col items-center pb-16">
+    <section className="max-w-full">
+      <div className="mx-[var(--gutter-size)] flex w-[var(--container-size)] flex-col items-center pb-16">
         <span className="font-mono">Richard H. Nguyen</span>
         <h1 className="text-5xl font-semibold leading-[110%] tracking-tight">
           Latest Posts

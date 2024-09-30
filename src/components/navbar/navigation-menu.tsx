@@ -14,7 +14,13 @@ import {
   NavigationMenuTrigger as UINavigationMenuTrigger,
   NavigationMenuLink as UINavigationMenuLink,
 } from "@/components/ui/navigation-menu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useNavbarContext } from "./context";
+import ThemeSwitcher from "./theme-switcher";
 import NavigationMobile from "./navigation-mobile";
 import NavigationMenuList from "./navigation-menu-list";
 import NavigationMenuLatestPost from "./navigation-menu-latest-post";
@@ -209,17 +215,28 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
             </UINavigationList>
           </div>
 
-          <button
-            className={cn(
-              "group relative hidden md:block",
-              "h-10 w-10 rounded-full p-2",
-              "hover:bg-neutral-100",
-            )}
-            type="button"
-            aria-label="Search"
-          >
-            <MagnifyingGlassIcon className="h-full w-full" />
-          </button>
+          <div className="flex items-center gap-3">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  className={cn(
+                    "group relative hidden md:block",
+                    "h-10 w-10 rounded-full p-2",
+                    "hover:bg-neutral-100",
+                  )}
+                  type="button"
+                  aria-label="Search"
+                >
+                  <MagnifyingGlassIcon className="h-full w-full" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent className="border border-gray-200 bg-gray-100 text-gray-900">
+                Search
+              </TooltipContent>
+            </Tooltip>
+
+            <ThemeSwitcher />
+          </div>
         </div>
       </div>
 

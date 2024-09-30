@@ -1,22 +1,13 @@
 import * as React from "react";
 
-type ComponentProps = {
-  title: string;
-  href: string;
-  description: string;
-};
-
 export interface NavbarContextValue {
-  components: ComponentProps[];
   isOpen: boolean;
   handleIsOpen: (_newIsOpen: boolean) => void;
   activeCollapsiblleTab: string;
   setActiveCollapsibleTab: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export interface NavbarProviderProps {
-  components: ComponentProps[];
-}
+export interface NavbarProviderProps {}
 
 const NavbarContext = React.createContext<NavbarContextValue | undefined>(
   undefined,
@@ -24,7 +15,7 @@ const NavbarContext = React.createContext<NavbarContextValue | undefined>(
 
 const NavbarProvider: React.FC<
   React.PropsWithChildren<NavbarProviderProps>
-> = ({ children, components, ...props }) => {
+> = ({ children, ...props }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isMobileMenuOpen] = React.useState(false);
   const [activeCollapsiblleTab, setActiveCollapsibleTab] = React.useState("");
@@ -58,20 +49,13 @@ const NavbarProvider: React.FC<
 
   const value = React.useMemo(() => {
     return {
-      components,
       isOpen,
       isMobileMenuOpen,
       activeCollapsiblleTab,
       setActiveCollapsibleTab,
       handleIsOpen,
     };
-  }, [
-    isOpen,
-    components,
-    handleIsOpen,
-    isMobileMenuOpen,
-    activeCollapsiblleTab,
-  ]);
+  }, [isOpen, handleIsOpen, isMobileMenuOpen, activeCollapsiblleTab]);
 
   return (
     <NavbarContext.Provider value={value} {...props}>

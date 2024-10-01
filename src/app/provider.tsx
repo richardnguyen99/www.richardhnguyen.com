@@ -10,7 +10,7 @@ const GlobalProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <ThemeProvider defaultTheme="dark" enableColorScheme enableSystem>
       <TooltipProvider delayDuration={0}>
-        <NavbarProvider>{children}</NavbarProvider>;
+        <NavbarProvider>{children}</NavbarProvider>
       </TooltipProvider>
     </ThemeProvider>
   );

@@ -32,10 +32,10 @@ const CategorySection: React.FC<CategorySectionProps> = async ({
       <div className="mx-[var(--gutter-size)] w-[var(--container-size)]">
         <div className="">
           <div>
-            <h2 className="font-mono text-xs/5 font-semibold uppercase tracking-widest text-gray-500 data-[dark]:text-gray-400">
+            <h2 className="font-mono text-xs/5 font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400">
               Category
             </h2>
-            <h3 className="mt-2 text-pretty text-4xl font-medium tracking-tighter text-gray-950 data-[dark]:text-white sm:text-6xl">
+            <h3 className="mt-2 text-pretty text-4xl font-medium tracking-tighter text-gray-950 dark:text-white sm:text-6xl">
               {title}
             </h3>
           </div>

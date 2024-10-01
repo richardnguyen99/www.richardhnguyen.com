@@ -8,7 +8,12 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 
 const GlobalProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
-    <ThemeProvider defaultTheme="dark" enableColorScheme enableSystem>
+    <ThemeProvider
+      defaultTheme="dark"
+      enableColorScheme
+      enableSystem
+      attribute="class"
+    >
       <TooltipProvider delayDuration={0}>
         <NavbarProvider>{children}</NavbarProvider>
       </TooltipProvider>

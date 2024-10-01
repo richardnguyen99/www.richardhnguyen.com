@@ -212,7 +212,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({
       <PopoverTrigger onClick={() => onOpenChange?.(!opening)} asChild>
         <Button
           {...rest}
-          className="ease-curve-d group flex w-1/2 transform-gpu items-center gap-3 rounded-full border border-gray-200 bg-gray-100/0 text-gray-950 shadow-none duration-200 hover:bg-gray-100 md:w-[unset]"
+          className="ease-curve-d group flex w-1/2 transform-gpu items-center gap-3 rounded-full border border-neutral-200 bg-neutral-100/0 text-neutral-950 shadow-none duration-200 hover:bg-neutral-100 dark:border-neutral-700 dark:text-white dark:hover:border-neutral-600 dark:hover:bg-neutral-800 md:w-[unset]"
         >
           <span className="line-clamp-1 max-w-full">{filtersDisplay()}</span>
           <div className="relative inline-flex h-5 w-5 items-center justify-center">
@@ -222,7 +222,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({
       </PopoverTrigger>
 
       {/* Popover content */}
-      <PopoverContent className="ml-[var(--gutter-size)] rounded-md p-0 shadow-xl shadow-gray-800/20 md:ml-0">
+      <PopoverContent className="ml-[var(--gutter-size)] rounded-md p-0 shadow-xl shadow-neutral-800/20 md:ml-0">
         {/* UI Form */}
         <Form {...form}>
           {/* Form tag */}
@@ -365,11 +365,11 @@ const FilterButton: React.FC<FilterButtonProps> = ({
                 />
               </TabsContent>
             </Tabs>
-            <div className="before:content relative from-white/0 to-white/100 to-40% before:absolute before:-top-8 before:block before:h-8 before:w-full before:bg-gradient-to-b">
+            <div className="before:content relative from-white/0 to-white/100 to-40% before:absolute before:-top-8 before:block before:h-8 before:w-full before:bg-gradient-to-b dark:from-black/0 dark:to-black/100">
               <div className="flex items-center">
                 <Button
                   type="submit"
-                  className="ease-curve-d inset-0 m-0 flex-1 transform-gpu rounded-none rounded-bl-sm border-0 bg-white text-gray-900 shadow-none transition-colors duration-200 hover:bg-gray-200"
+                  className="ease-curve-d inset-0 m-0 flex-1 transform-gpu rounded-none rounded-bl-sm border-0 bg-white text-neutral-900 shadow-none transition-colors duration-200 hover:bg-neutral-200 dark:border-neutral-700 dark:bg-black dark:text-neutral-100"
                   disabled={handleDisabledButton()}
                 >
                   Submit
@@ -382,7 +382,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({
                       categories: [],
                     })
                   }
-                  className="inset-0 m-0 flex-1 rounded-none rounded-br-sm border-0 bg-white text-gray-900 shadow-none hover:bg-gray-200"
+                  className="ease-curve-d inset-0 m-0 flex-1 transform-gpu rounded-none rounded-bl-sm border-0 bg-white text-neutral-900 shadow-none transition-colors duration-200 hover:bg-neutral-200 dark:border-neutral-700 dark:bg-black dark:text-neutral-100"
                 >
                   Clear
                 </Button>

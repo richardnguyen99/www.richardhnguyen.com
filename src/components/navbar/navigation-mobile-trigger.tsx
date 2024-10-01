@@ -21,7 +21,7 @@ const NavigationMobileTrigger: React.FC = () => {
           className={cn(
             "group relative block",
             "h-10 w-10 rounded-full p-2",
-            "hover:bg-neutral-100",
+            "hover:bg-neutral-100 dark:hover:bg-neutral-700",
           )}
           type="button"
           aria-label="menu"
@@ -32,7 +32,7 @@ const NavigationMobileTrigger: React.FC = () => {
       </TooltipTrigger>
       <TooltipContent
         align="end"
-        className="border border-gray-200 bg-gray-100 text-gray-900"
+        className="border border-neutral-200 bg-neutral-100 text-neutral-900 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
       >
         Open Menu
       </TooltipContent>

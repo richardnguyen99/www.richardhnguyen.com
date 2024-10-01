@@ -20,7 +20,7 @@ import NavigationMenuList from "./navigation-menu-list";
 import NavigationMenuLatestPost from "./navigation-menu-latest-post";
 
 const NavigationSkeletonButton = () => (
-  <div className="h-10 w-10 animate-pulse rounded-full bg-gray-200 p-2"></div>
+  <div className="h-10 w-10 animate-pulse rounded-full bg-neutral-200 p-2 dark:bg-neutral-900"></div>
 );
 
 const NavigationMobileTrigger = dynamic(
@@ -103,7 +103,7 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
           "pointer-events-none z-[-1] transform-gpu opacity-0 lg:-translate-y-[100%]",
           "ease-out-cubic transition-[opacity,transform] duration-300",
           "absolute left-1/2 top-0 h-[calc(100vh-1rem)] w-[200%] lg:h-[42.5rem]",
-          "-translate-x-[100vw] bg-gradient-to-b from-white from-60% to-white/0 lg:from-80%",
+          "-translate-x-[100vw] bg-gradient-to-b from-white from-60% to-white/0 dark:from-black dark:to-black/0 lg:from-80%",
           {
             "opacity-100 lg:-translate-y-1/2": navbarContext.isOpen,
           },
@@ -112,9 +112,9 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
 
       <div
         className={cn(
-          "ease-out-cubic relative z-50 mx-auto h-full min-h-[3.125rem] w-full transform-gpu bg-white/80 backdrop-blur transition-colors duration-700 md:h-[3.125rem]",
+          "ease-out-cubic relative z-50 mx-auto h-full min-h-[3.125rem] w-full transform-gpu bg-white/80 backdrop-blur transition-colors duration-700 dark:bg-black/80 md:h-[3.125rem]",
           {
-            "bg-white/0": navbarContext.isOpen,
+            "bg-white/0 dark:bg-black/0": navbarContext.isOpen,
           },
         )}
       >
@@ -128,10 +128,10 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
               className={cn(
                 "flex items-center justify-center",
                 "h-10 w-10 rounded-full p-2",
-                "hover:bg-slate-100",
+                "hover:bg-neutral-100 dark:hover:bg-neutral-700",
               )}
             >
-              <div className="h-full w-full bg-black"></div>
+              <div className="h-full w-full bg-black dark:bg-white"></div>
             </UINavigationMenuLink>
           </Link>
 
@@ -152,7 +152,7 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
               )}
             >
               <UINavigationMenuItem>
-                <UINavigationMenuTrigger className="bg-gray-500/0">
+                <UINavigationMenuTrigger className="bg-neutral-500/0 hover:bg-neutral-500 dark:bg-neutral-700/0 dark:hover:bg-neutral-700">
                   Articles
                 </UINavigationMenuTrigger>
 
@@ -193,14 +193,14 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
               </UINavigationMenuItem>
 
               <UINavigationMenuItem>
-                <UINavigationMenuTrigger className="bg-gray-500/0">
+                <UINavigationMenuTrigger className="bg-neutral-500/0 hover:bg-neutral-500 dark:bg-neutral-700/0 dark:hover:bg-neutral-700">
                   Gists
                 </UINavigationMenuTrigger>
                 <UNavigationMenuContent className="lg:left-[calc(0.5_*_(100%-var(--container-size)))]"></UNavigationMenuContent>
               </UINavigationMenuItem>
 
               <UINavigationMenuItem>
-                <UINavigationMenuTrigger className="bg-gray-500/0">
+                <UINavigationMenuTrigger className="bg-neutral-500/0 hover:bg-neutral-500 dark:bg-neutral-700/0 dark:hover:bg-neutral-700">
                   About
                 </UINavigationMenuTrigger>
                 <UNavigationMenuContent className="lg:left-[calc(0.5_*_(100%-var(--container-size)))]"></UNavigationMenuContent>

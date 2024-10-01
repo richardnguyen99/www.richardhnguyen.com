@@ -63,7 +63,7 @@ const NavigationMobile: React.FC<NavigationMobileProps> = ({
               {mostViewedCategories.map((category, i) => (
                 <CollapsibleContentItem key={i}>
                   <Link href={category.url} passHref legacyBehavior>
-                    <UINavigationMenuLink className="text-black">
+                    <UINavigationMenuLink>
                       {category.category}
                     </UINavigationMenuLink>
                   </Link>

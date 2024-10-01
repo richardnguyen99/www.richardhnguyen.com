@@ -81,11 +81,13 @@ const CollapsibleHeading = React.forwardRef<
         "group flex h-full w-full items-center justify-between py-1",
       )}
     >
-      <span className="text-2xl text-neutral-500">{children}</span>
+      <span className="text-2xl text-gray-600 dark:text-gray-400">
+        {children}
+      </span>
 
       <ChevronDownIcon
         className={cn(
-          "h-4 w-4 fill-neutral-500 text-neutral-500",
+          "h-4 w-4 fill-gray-500 text-gray-500 dark:fill-gray-400 dark:text-gray-400",
           "ease-curve-d transition-[opacity,transform] duration-200",
           {
             "-translate-y-1 opacity-0":
@@ -128,7 +130,7 @@ const CollapsibleContent = React.forwardRef<
         "ease-curve-d flex flex-col gap-4 overflow-hidden border-b opacity-0 transition-all duration-100 group-last:border-none group-last:pb-0",
         "invisible max-h-0 border-transparent opacity-0",
         {
-          "visible max-h-[50rem] border-neutral-200 opacity-100":
+          "visible max-h-[50rem] border-gray-200 opacity-100 dark:border-gray-700":
             navbarContext.isOpen && navbarContext.activeCollapsiblleTab === id,
         },
       )}
@@ -214,7 +216,10 @@ const CollapsibleContentLink = React.forwardRef<
     <NextLink
       ref={ref}
       href={href}
-      className={cn("transition duration-300 ease-linear")}
+      className={cn(
+        "transform-gpu transition duration-300 ease-linear",
+        "text-black dark:text-white",
+      )}
       onClick={handleClick}
       {...rest}
     >

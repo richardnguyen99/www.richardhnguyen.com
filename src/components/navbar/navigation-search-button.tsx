@@ -21,7 +21,7 @@ const NavigationSearchButton: React.FC = () => {
           className={cn(
             "group relative block",
             "h-10 w-10 rounded-full p-2",
-            "hover:bg-neutral-100",
+            "hover:bg-neutral-100 dark:hover:bg-neutral-700",
             "ease-curve-d transition-opacity duration-300",
             {
               "opacity-0": navbarContext.isOpen,
@@ -34,7 +34,7 @@ const NavigationSearchButton: React.FC = () => {
           <MagnifyingGlassIcon className="h-full w-full" />
         </button>
       </TooltipTrigger>
-      <TooltipContent className="border border-gray-200 bg-gray-100 text-gray-900">
+      <TooltipContent className="border border-neutral-200 bg-neutral-100 text-neutral-900 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white">
         Search
       </TooltipContent>
     </Tooltip>

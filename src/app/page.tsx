@@ -18,7 +18,7 @@ const Home: React.FC = async () => {
         <div className="mx-[var(--gutter-size)] flex w-[var(--container-size)] items-center justify-center">
           <Link
             href="/blogs"
-            className="flex w-full max-w-full items-center justify-center rounded-full bg-black px-6 py-4 text-white lg:max-w-[280px]"
+            className="flex w-full max-w-full items-center justify-center rounded-full bg-black px-6 py-4 text-white dark:bg-white dark:text-black lg:max-w-[280px]"
           >
             More
           </Link>

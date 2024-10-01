@@ -48,7 +48,7 @@ const ThemeSwitcher: React.FC = () => {
             className={cn(
               "group relative block",
               "h-10 w-10 rounded-full p-2",
-              "hover:bg-neutral-100",
+              "hover:bg-neutral-100 dark:hover:bg-neutral-700",
               "ease-curve-d transition-opacity duration-300",
               {
                 "opacity-0": navbarContext.isOpen,
@@ -75,7 +75,7 @@ const ThemeSwitcher: React.FC = () => {
         </TooltipTrigger>
         <TooltipContent
           align={isSmallScreen ? "center" : "end"}
-          className="border border-gray-200 bg-gray-100 text-gray-900"
+          className="border border-neutral-200 bg-neutral-100 text-neutral-900 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
         >
           {displayTooltipContent()}
         </TooltipContent>
@@ -83,21 +83,36 @@ const ThemeSwitcher: React.FC = () => {
 
       <DropdownMenuContent
         align={isSmallScreen ? "center" : "end"}
-        className="z-[100] w-48 border border-gray-200"
+        className="z-[100] w-48 border border-neutral-200 dark:border-neutral-700 dark:bg-neutral-800"
         onCloseAutoFocus={(e) => e.preventDefault()}
       >
         <DropdownMenuLabel>Appearance</DropdownMenuLabel>
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator className="bg-neutral-200 dark:bg-neutral-700" />
 
         <DropdownMenuRadioGroup
           value={theme}
           onValueChange={(value) => setTheme(value)}
         >
-          <DropdownMenuRadioItem value="system">System</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem
+            value="system"
+            className="bg-neutral-200/0 hover:bg-neutral-200/30 dark:bg-neutral-800 dark:hover:bg-neutral-500/30"
+          >
+            System
+          </DropdownMenuRadioItem>
           {mounted && (
             <>
-              <DropdownMenuRadioItem value="light">Light</DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="dark">Dark</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem
+                value="light"
+                className="bg-neutral-200/0 hover:bg-neutral-200/30 dark:bg-neutral-800 dark:hover:bg-neutral-500/30"
+              >
+                Light
+              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem
+                value="dark"
+                className="bg-neutral-200/0 hover:bg-neutral-200/30 dark:bg-neutral-800 dark:hover:bg-neutral-500/30"
+              >
+                Dark
+              </DropdownMenuRadioItem>
             </>
           )}
         </DropdownMenuRadioGroup>

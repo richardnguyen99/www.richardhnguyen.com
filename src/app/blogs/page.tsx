@@ -64,11 +64,11 @@ const Blog: React.FC<BlogProps> = async (props) => {
     <div className="mt-8 w-screen max-w-full sm:mt-12 md:mt-20 lg:mt-28">
       <div className="mx-[var(--gutter-size)] flex justify-between gap-4 sm:w-[var(--container-size)]">
         <div className="flex w-full flex-col">
-          <h2 className="font-mono text-xs/5 font-semibold uppercase tracking-widest text-gray-500 data-[dark]:text-gray-400">
+          <h2 className="font-mono text-xs/5 font-semibold uppercase tracking-widest text-neutral-500 dark:text-neutral-400">
             {posts.length} articles
           </h2>
           <div className="flex w-full flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-0">
-            <h3 className="mt-2 text-pretty text-6xl font-medium tracking-tighter text-gray-950 data-[dark]:text-white sm:text-4xl md:text-2xl">
+            <h3 className="mt-2 text-pretty text-6xl font-medium tracking-tighter text-neutral-950 dark:text-white sm:text-4xl md:text-2xl">
               Latest Blog
             </h3>
 

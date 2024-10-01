@@ -16,6 +16,7 @@ const Footer: React.FC<FooterProps> = ({ children, className, ...rest }) => {
       {...rest}
       className={cn(
         "mt-12 bg-black text-white md:mt-20 lg:mt-28",
+        "border-t border-transparent dark:border-neutral-700",
         "origin-[50%_0px] transition-[transform,_opacity,_filter]",
         "ease-out-cubic overflow-hidden duration-300",
         {

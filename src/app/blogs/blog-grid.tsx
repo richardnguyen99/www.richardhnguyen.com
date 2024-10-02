@@ -21,7 +21,7 @@ const BlogGrid: React.FC<BlogGridProps> = ({ posts }) => {
             className="ease-curve-c col-span-1 opacity-100 transition duration-300"
           >
             <Link
-              className="ease-curve-a group relative z-0 block aspect-[3/4] w-full max-w-full overflow-hidden rounded-lg rounded-s bg-gray-200 transition duration-200 md:w-[unset]"
+              className="ease-curve-a group relative z-0 block aspect-[3/4] w-full max-w-full overflow-hidden rounded-lg rounded-s transition duration-200 md:w-[unset]"
               href={`/blogs/${post.frontMatter.slug}`}
             >
               <div className="absolute bottom-0 left-0 right-0 top-0 z-10">

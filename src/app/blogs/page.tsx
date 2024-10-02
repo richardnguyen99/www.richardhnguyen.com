@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 
 import { getAllCategories, getAllTags, getMdxContents } from "@/lib/mdx";
 import BlogGrid from "./blog-grid";
+import BlogPagination from "./pagination";
 
 const ButtonGroup = dynamic(() => import("./button-group"), { ssr: false });
 
@@ -92,6 +93,8 @@ const Blog: React.FC<BlogProps> = async (props) => {
         <React.Suspense fallback={<div>Loading...</div>}>
           <BlogGrid posts={posts} />
         </React.Suspense>
+
+        <BlogPagination posts={posts} />
       </div>
     </div>
   );

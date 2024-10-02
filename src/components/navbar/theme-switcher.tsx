@@ -75,7 +75,7 @@ const ThemeSwitcher: React.FC = () => {
         </TooltipTrigger>
         <TooltipContent
           align={isSmallScreen ? "center" : "end"}
-          className="border border-neutral-200 bg-neutral-100 text-neutral-900 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
+          className="border border-neutral-200 bg-neutral-100 text-black dark:border-neutral-700 dark:bg-neutral-800 dark:text-white"
         >
           {displayTooltipContent()}
         </TooltipContent>
@@ -83,7 +83,7 @@ const ThemeSwitcher: React.FC = () => {
 
       <DropdownMenuContent
         align={isSmallScreen ? "center" : "end"}
-        className="z-[100] w-48 border border-neutral-200 dark:border-neutral-700 dark:bg-neutral-800"
+        className="z-[100] w-48 border border-neutral-200 dark:border-neutral-700 dark:bg-black"
         onCloseAutoFocus={(e) => e.preventDefault()}
       >
         <DropdownMenuLabel>Appearance</DropdownMenuLabel>
@@ -95,7 +95,7 @@ const ThemeSwitcher: React.FC = () => {
         >
           <DropdownMenuRadioItem
             value="system"
-            className="bg-neutral-200/0 hover:bg-neutral-200/30 dark:bg-neutral-800 dark:hover:bg-neutral-500/30"
+            className="bg-neutral-200/0 hover:bg-neutral-200/30 dark:bg-black dark:hover:bg-neutral-500/30"
           >
             System
           </DropdownMenuRadioItem>
@@ -103,13 +103,13 @@ const ThemeSwitcher: React.FC = () => {
             <>
               <DropdownMenuRadioItem
                 value="light"
-                className="bg-neutral-200/0 hover:bg-neutral-200/30 dark:bg-neutral-800 dark:hover:bg-neutral-500/30"
+                className="bg-neutral-200/0 hover:bg-neutral-200/30 dark:bg-black dark:hover:bg-neutral-500/30"
               >
                 Light
               </DropdownMenuRadioItem>
               <DropdownMenuRadioItem
                 value="dark"
-                className="bg-neutral-200/0 hover:bg-neutral-200/30 dark:bg-neutral-800 dark:hover:bg-neutral-500/30"
+                className="bg-neutral-200/0 hover:bg-neutral-200/30 dark:bg-black dark:hover:bg-neutral-500/30"
               >
                 Dark
               </DropdownMenuRadioItem>

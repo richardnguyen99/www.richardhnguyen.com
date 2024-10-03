@@ -6,16 +6,23 @@ import Image from "next/image";
 import { DotFilledIcon } from "@radix-ui/react-icons";
 
 import { MdxContent } from "@/lib/mdx";
+import { NUM_POST_PER_PAGE } from "./constant";
 
 interface BlogGridProps {
   posts: MdxContent[];
+  currentPage: number;
 }
 
-const BlogGrid: React.FC<BlogGridProps> = ({ posts }) => {
+const BlogGrid: React.FC<BlogGridProps> = ({ posts, currentPage }) => {
+  const pageStart = (currentPage - 1) * NUM_POST_PER_PAGE;
+  const pageEnd = currentPage * NUM_POST_PER_PAGE;
+
+  const postsToShow = posts.slice(pageStart, pageEnd);
+
   return (
     <ul className="my-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      {posts.length > 0 ? (
-        posts.map((post, i) => (
+      {postsToShow.length > 0 ? (
+        postsToShow.map((post, i) => (
           <li
             key={i}
             className="ease-curve-c col-span-1 opacity-100 transition duration-300"

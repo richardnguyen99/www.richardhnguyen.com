@@ -5,7 +5,15 @@ import { getAllCategories, getAllTags, getMdxContents } from "@/lib/mdx";
 import BlogGrid from "./blog-grid";
 import BlogPagination from "./pagination";
 
-const ButtonGroup = dynamic(() => import("./button-group"), { ssr: false });
+const ButtonGroup = dynamic(() => import("./button-group"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center gap-4">
+      <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 dark:bg-neutral-700 md:w-[100px]" />
+      <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 dark:bg-neutral-700 md:w-[100px]" />
+    </div>
+  ),
+});
 
 interface BlogProps {
   searchParams?: {
@@ -37,6 +45,8 @@ const Blog: React.FC<BlogProps> = async (props) => {
   const selectedCategoryIndices = selectedCategories.map((category) =>
     categories.indexOf(category),
   );
+
+  const currentPage = props.searchParams?.page || 1;
 
   const posts = await getMdxContents({
     filter: (post) => {
@@ -91,10 +101,14 @@ const Blog: React.FC<BlogProps> = async (props) => {
 
       <div className="mx-[var(--gutter-size)] w-[var(--container-size)]">
         <React.Suspense fallback={<div>Loading...</div>}>
-          <BlogGrid posts={posts} />
+          <BlogGrid posts={posts} currentPage={currentPage} />
         </React.Suspense>
 
-        <BlogPagination posts={posts} />
+        <BlogPagination
+          posts={Array.from({ length: 1 })
+            .map((_) => [...posts])
+            .flat()}
+        />
       </div>
     </div>
   );

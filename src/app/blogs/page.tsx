@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { getAllCategories, getAllTags, getMdxContents } from "@/lib/mdx";
 import BlogGrid from "./blog-grid";
 import BlogPagination from "./pagination";
+import { Metadata } from "next";
 
 const ButtonGroup = dynamic(() => import("./button-group"), {
   ssr: false,
@@ -24,6 +25,10 @@ interface BlogProps {
     page?: number;
   };
 }
+
+export const metadata: Metadata = {
+  title: "Blogs",
+};
 
 const Blog: React.FC<BlogProps> = async (props) => {
   const tags = Array.from((await getAllTags()).entries()).map(([key]) => key);

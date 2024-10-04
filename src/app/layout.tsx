@@ -1,5 +1,5 @@
 import React from "react";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 
@@ -37,30 +37,35 @@ export const metadata: Metadata = {
         width: 32,
         height: 32,
         alt: "Logo 32x32",
+        type: "image/png",
       },
       {
         url: "https://next.richardhnguyen.com/Logo48.png",
         width: 48,
         height: 48,
         alt: "Logo 48x48",
+        type: "image/png",
       },
       {
         url: "https://next.richardhnguyen.com/Logo64.png",
         width: 64,
         height: 64,
         alt: "Logo 64x64",
+        type: "image/png",
       },
       {
         url: "https://next.richardhnguyen.com/Logo128.png",
         width: 128,
         height: 128,
         alt: "Logo 128x128",
+        type: "image/png",
       },
       {
         url: "https://next.richardhnguyen.com/Logo256.png",
         width: 256,
         height: 256,
         alt: "Logo 256x256",
+        type: "image/png",
       },
     ],
   },
@@ -83,6 +88,20 @@ export const metadata: Metadata = {
     },
   },
 };
+
+export function generateViewport(): Viewport {
+  return {
+    themeColor: [
+      { media: "(prefers-color-scheme: light)", color: "white" },
+      { media: "(prefers-color-scheme: dark)", color: "black" },
+    ],
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+    colorScheme: "dark light",
+  };
+}
 
 interface RootLayoutProps {
   children: React.ReactNode;

@@ -1,11 +1,16 @@
 import * as React from "react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import type { Metadata } from "next";
+import remarkReferenceLinks from "remark-reference-links";
+import remarkSmartyPants from "remark-smartypants";
+import remarkGfm from "remark-gfm";
 
 import { generateMdxSlugs, getMdxContentFromSlug } from "@/lib/mdx";
 import mdxComponents from "./mdx-components";
 import "./mdx.css";
 import Frontmatter from "./frontmatter";
+import BlogBreadcrumb from "./breadcrumb";
+import { Separator } from "@/components/ui/separator";
 
 interface BlogPostProps {
   params: {
@@ -51,9 +56,33 @@ export default async function BlogPost({ params: { slug } }: BlogPostProps) {
   const { frontMatter, body, excerpt } = await getMdxContentFromSlug(slug);
 
   return (
-    <div className="mt-24 w-full text-left [--article-container-size:100%] [--article-gutter-size:var(--gutter-size)] sm:[--article-container-size:calc(theme(maxWidth.2xl)-theme(spacing.6))] sm:[--article-gutter-size:auto]">
+    <div className="w-full text-left [--article-container-size:var(--container-size)] [--article-gutter-size:var(--gutter-size,_100%)] md:[--article-container-size:calc(theme(maxWidth.3xl)-theme(spacing.6))] md:[--article-gutter-size:auto]">
+      <BlogBreadcrumb
+        title={frontMatter.title}
+        href={`https://github.com/richardnguyen99/next.richardhnguyen.com/edit/main/src/posts/${slug}.mdx`}
+      />
       <Frontmatter data={frontMatter} excerpt={excerpt} />
-      <MDXRemote source={body} components={mdxComponents} />
+
+      <Separator className="mx-auto my-12 w-[var(--article-container-size)] bg-neutral-300 px-[var(--article-gutter-size)] dark:bg-neutral-700" />
+
+      <div className="content">
+        <MDXRemote
+          source={body}
+          components={mdxComponents}
+          options={{
+            mdxOptions: {
+              useDynamicImport: true,
+              rehypePlugins: [],
+              remarkPlugins: [
+                remarkGfm,
+                remarkReferenceLinks,
+                remarkSmartyPants,
+              ],
+              format: "mdx",
+            },
+          }}
+        />
+      </div>
     </div>
   );
 }

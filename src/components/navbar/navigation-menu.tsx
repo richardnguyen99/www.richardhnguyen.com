@@ -152,9 +152,7 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
               )}
             >
               <UINavigationMenuItem>
-                <UINavigationMenuTrigger className="bg-neutral-500/0 hover:bg-neutral-500 dark:bg-neutral-700/0 dark:hover:bg-neutral-700">
-                  Articles
-                </UINavigationMenuTrigger>
+                <UINavigationMenuTrigger>Articles</UINavigationMenuTrigger>
 
                 <UNavigationMenuContent className="lg:left-[calc(0.5_*_(100%-var(--container-size)))]">
                   <div className="data-[]: relative grid w-full grid-cols-[repeat(2,calc(20px+(0.5*(min(100%,68rem)-352px))))_1fr]">
@@ -193,16 +191,12 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
               </UINavigationMenuItem>
 
               <UINavigationMenuItem>
-                <UINavigationMenuTrigger className="bg-neutral-500/0 hover:bg-neutral-500 dark:bg-neutral-700/0 dark:hover:bg-neutral-700">
-                  Gists
-                </UINavigationMenuTrigger>
+                <UINavigationMenuTrigger>Gists</UINavigationMenuTrigger>
                 <UNavigationMenuContent className="lg:left-[calc(0.5_*_(100%-var(--container-size)))]"></UNavigationMenuContent>
               </UINavigationMenuItem>
 
               <UINavigationMenuItem>
-                <UINavigationMenuTrigger className="bg-neutral-500/0 hover:bg-neutral-500 dark:bg-neutral-700/0 dark:hover:bg-neutral-700">
-                  About
-                </UINavigationMenuTrigger>
+                <UINavigationMenuTrigger>About</UINavigationMenuTrigger>
                 <UNavigationMenuContent className="lg:left-[calc(0.5_*_(100%-var(--container-size)))]"></UNavigationMenuContent>
               </UINavigationMenuItem>
             </UINavigationList>

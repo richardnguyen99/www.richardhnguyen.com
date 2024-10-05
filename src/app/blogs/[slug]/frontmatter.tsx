@@ -15,15 +15,21 @@ const Frontmatter: React.FC<FrontmatterProps> = ({ data, excerpt = "" }) => {
   return (
     <>
       <div className="frontmatter mx-auto flex w-[var(--article-container-size)] flex-col items-center justify-center gap-8 px-[var(--article-gutter-size)]">
-        <div className="">
+        <div className="text-sm sm:text-base lg:text-lg">
           {data.publishedAt.toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",
             day: "numeric",
           })}
         </div>
-        <div className="text-center text-5xl font-medium">{data.title}</div>
-        {excerpt && excerpt.length > 0 && <div>{mdxContent}</div>}
+        <div className="text-center text-lg font-medium sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl">
+          {data.title}
+        </div>
+        {excerpt && excerpt.length > 0 && (
+          <div className="line-clamp-3 text-sm md:text-base lg:line-clamp-none xl:text-lg">
+            {mdxContent}
+          </div>
+        )}
       </div>
       <div className="mx-[var(--gutter-size)] mt-16 w-[var(--container-size)] [&_img]:rounded-lg">
         <Image

@@ -19,10 +19,8 @@ changeLog:
       - 'Initial post'
 ---
 
-REST has been the most dominiant design patterns for API applications. Then,
-after a booming of mobile applications, GraphQL was introduced to solve the
-over/under fetching problems of REST. And now, gRPC is gaining popularity as
-a highly-efficient protocol for microservices.
+Understand how REST, GraphQL, and gRPC differ from each other and choose which
+one is best for building highly-scalable APIs.
 
 {/* EXCERPT */}
 
@@ -30,9 +28,494 @@ a highly-efficient protocol for microservices.
 
 REST (Representational State Transfer) has been the industrial-standard
 architectural style for building web APIs. In 2023, 86% of APIs are RESTful
-[^1]. Later, GraphQL was introduced as a solution to a more efficient data
-fetching solution for mobile applications.
+[^1]. Later, GraphQL was introduced by the FaceBook team as a solution to a
+more efficient data fetching problem in mobile applications. And now, gRPC has
+gained its notoriety as a highly-efficient protocol for handling internal
+applications in microservice architectures.
+
+# REST
+
+REST is the most common architectural style for building APIs. A common
+misconception is that REST is a framework or a library, but in fact, it is not.
+REST utilizes the HTTP protocol to define a set of constraints that allow
+clients to communicate with servers. However, the definition of the constraints
+are vague and up to the developers.
+
+![Simple REST Illustration](/simple-rest-illustration.png "Simple REST Illustration")
+
+## REST Constraints
+
+REST uses URLs as endpoints to define resources and HTTP methods to perform
+actions on those resources. Here are some of the common HTTP methods:
+
+- `GET`: For fetching or retrieving data from a resource.
+- `POST`: For creating a new entity in a resource.
+- `PUT`: For updating an existing entity in a resource.
+- `DELETE`: For deleting an entity in a resource.
+
+An endpoint can have multiple methods and each method can define the action to
+be performed on the resource. For example, a endpoint `/users/[id]` can have:
+
+- `GET`: Fetch user by the user ID.
+- `PUT`: Update user by the user ID.
+- `DELETE`: Delete user by the user ID.
+
+
+## Communication
+
+As mentioned above, REST is built on top of the HTTP protocol. All the data is
+transfered by plain text and does not have any standard schema. The requirements
+and the structure of the data should be agreed upon by the client and the
+server.
+
+With that said, REST commonly uses structured-data formats like JSON or XML to
+transfer data. JSON is the most popular format due to its simplicity and
+friendliness with many programming languages.
+
+For example, a `GET` request to fetch a user by ID can be defined in the server:
+
+```py
+# Example in Python + Flask
+@app.route('/users/<int:id>', methods=['GET'])
+def get_user(id):
+    user = User.query.get(id)
+    return jsonify(user.to_dict())
+```
+
+Clients can consume this endpoint in other languages like JavaScript:
+
+```js
+fetch('/users/1')
+  .then(response => response.json())
+  .then(data => console.log(data))
+```
+
+Or using tools like [Postman](https://www.postman.com/) (GUI-based) or [curl](https://curl.se/) (terminal-based).
+
+```sh
+curl -X GET http://localhost:5000/users/1
+```
+
+## Pros and Cons
+
+One major advantage of REST is its simplicity. Most programming languages have
+libraries to create and interact with RESTful APIs. Developers can choose how
+they want to implement and structure their API endpoints. REST is also friendly
+to communicating between external services.
+
+However, REST has some drawbacks. One of the most common issues is over-fetching
+data. Over-fetching is when the client receives more data than it needs, which can be a waste of bandwidth. Another issue is under-fetching, where the client needs to make multiple requests to get all the data it needs.
+
+Another major issue with REST is the number of endpoints. As the application grows, the number of endpoints can grow exponentially, making it harder to maintain and understand the API. The number of endpoints can also lead to versioning issues, where the client needs to know which version of the API to use.
+
+With developement perspective, REST also doesn't have a type-checking mechanism
+to validate the types of the data being sent or received. Developers have no
+guarantee that the data being sent or received is correct. Checking and
+validating requires manual work, either writing tests or using external tools
+such as middlewares and validators.
+
+# GraphQL
+
+GraphQL was introduced later by the Facebook team as a solution to solve these
+problems with REST. The main goal of GraphQL is to provide a more efficient way
+to fetch data in mobile applications, where bandwidth and performance are
+critical. Instead of making multiple requests to fetch data, the client can
+specify exactly what data it needs in a single request.
+
+## Query Language
+
+GraphQL is a query language for APIs. It allows clients to specify exactly what
+data they need.
+
+Let's take a look at a simple exaple of fetching authors and their songs in a
+mobile application. The client needs to fetch the data for an author given an
+author ID and all the songs that the author has featured.
+
+With REST, the client needs to make multiple requests to fetch the data:
+
+```py
+# Example in Python + Flask
+@app.route('/authors/<int:id>', methods=['GET'])
+def get_author(id):
+    author = Author.query.get(id)
+    return jsonify(author.to_dict())
+```
+
+```py
+@app.route('/authors/<int:id>/songs', methods=['GET'])
+def get_author_songs(id):
+    songs = Song.query.filter_by(author_id=id).all()
+    return jsonify([song.to_dict() for song in songs])
+```
+
+However, with GraphQL, the client can fetch all the data in a single request
+with the help of GraphQL query language:
+
+```graphql
+query AuthorQuery {
+  author(id: <author_id>) {
+    id
+    name
+    songs {
+      id
+      title
+    }
+  }
+}
+```
+
+![REST vs GraphQL in Client Calls](/rest-vs-graphql-client-call-illustration.png "REST vs GraphQL in Client Calls")
+
+## Communication
+
+Unlike REST, which uses URLs and HTTP methods to define the endpoints and their
+associated actions, GraphQL uses a single endpoint called `/graphql` with HTTP
+method `POST` to handle all the requests.
+
+![Simple GraphQL Illustration](/simple-graphql-illustration.png "Simple GraphQL Illustration")
+
+The communication between the client and the server is done through the GraphQL
+query language. The server will define a schema that describes the entities and
+the relationships between them.
+
+```graphql
+type Author {
+  id: ID!
+  name: String!
+  songs: [Song!]!
+}
+
+type Song {
+  id: ID!
+  title: String!
+  releaseDate: Date!
+}
+
+# Query to fetch an author and their songs
+type Query {
+  author(id: ID!): Author
+  song(id: ID!): Song
+}
+
+# Mutation (side-effect operations) to create a new record
+type Mutation {
+  createAuthor(name: String!): Author
+  createSong(title: String!, releaseDate: Date!): Song
+}
+```
+
+The client can write a query to fetch the exact data it needs:
+
+```graphql
+query AuthorQuery {
+  author(id: <author_id>) {
+    id
+    name
+    songs {
+      id
+      title
+    }
+  }
+}
+
+mutation CreateAuthor {
+  createAuthor(name: "John Doe") {
+    id
+    name
+  }
+}
+```
+
+In the server, the query will be resolved by the server's resolver functions, as
+long as the application is written in a language that supports GraphQL.
+
+```js
+import { GraphQLSchema, GraphQLObjectType, GraphQLString } from 'graphql';
+
+const schema = new GraphQLSchema({
+  query: new GraphQLObjectType({
+    name: "Query",
+    fields: {
+      author: {
+        type: AuthorType,
+        args: {
+          id: { type: GraphQLString }
+        },
+        resolve: (parent, args) => {
+          // Fetch author by ID implementation
+        }
+      },
+      song: {
+        type: SongType,
+        args: {
+          id: { type: GraphQLString }
+        },
+        resolve: (parent, args) => {
+          // Fetch song by ID implementation
+        }
+      }
+    }
+  }),
+});
+```
+
+In order to make query calls to the server, the client can use libraries like
+[Apollo Client](https://www.apollographql.com/docs/react/) or
+[Relay](https://relay.dev/), which provide a set of powerful tools to interact
+and manage the GraphQL queries more efficiently. However, a much more simple
+way to write queries is to utilize the HTTP `POST` method. With this method,
+you can write queries in any programming language that supports HTTP requests.
+
+As mentioned above, GraphQL uses HTTP `POST` method to handle all the requests.
+The reason why `POST` is used instead of other methods is because `POST` methods
+allow the client to send a request with a body, which can contain the query.
+
+With terminal-based tools like `curl`, you can send a GraphQL query to the
+server:
+
+```sh
+curl -X POST http://localhost:5000/graphql \
+  -H "Content-Type: application/json" \
+  -d '{"query": "query AuthorQuery { author(id: 1) { id name songs { id title } } }"}'
+```
+
+You can directly write the query in any programming language that supports HTTP
+requests. For example, in Python:
+
+```py
+import requests
+
+query = """
+query AuthorQuery {
+  author(id: 1) {
+    id
+    name
+    songs {
+      id
+      title
+    }
+  }
+}
+"""
+
+response = requests.post('http://localhost:5000/graphql',
+                          json={'query': query},
+                          headers={'Content-Type': 'application/json'})
+
+print(response.json())
+```
+
+## Pros and Cons
+
+GraphQL has many advantages over REST. One of the main advantages is that the
+client can specify exactly what data it needs in a single request. This can
+reduce the number of requests the client needs to make to fetch the data it
+needs. This can also reduce the amount of data the client needs to fetch, which
+can improve performance.
+
+Another advantage of GraphQL is that it supports complex queries with nesting
+and conditions. This can make it easier for the client to fetch the data it
+needs.
+
+However, GraphQL also has some drawbacks. One of the main drawbacks is that it
+can be more complex to set up and maintain than REST. This is because GraphQL
+requires the server to define a schema that describes the entities and the
+resolvers to support queries and mutations. Alongside with HTTP, backend
+developers also need to get familiar with GraphQL termilogies, and the framework
+they are using.
+
+From a development perspective, GraphQL does not support other programming
+languages very well, except JavaScript. So when using GraphQL, you will likely
+need to use JavaScript to get the most out of it.
+
+# gRPC
+
+gRPC is the latest framework from Google for building APIs. It is designed to be
+a high performance Remote Procedure Call (RPC) framework in a microservices
+architecture.
+
+![Simple gRPC Illustration](/simple-grpc-illustration.png "Simple gRPC Illustration")
+
+## Protocol Buffers
+
+Like GraphQL, gRPC uses a language called [Protocol Buffers](https://developers.google.com/protocol-buffers) to define the schema of the entities and the services. Protocol Buffers is a language-neutral, platform-neutral, extensible mechanism for serializing structured data.
+
+Using protocol buffers, gRPC can generate boilerplate code for the client and the server to communicate. It's a contract-based communication, where the client and the server agree on the schema and the services.
+
+An example of a protocol buffer definition for a simple service:
+
+```proto
+syntax = "proto3";
+
+package helloworld;
+
+// The greeting service definition.
+service Greeter {
+  // Sends a greeting
+  rpc SayHello (HelloRequest) returns (HelloReply) {}
+
+  rpc SayHelloStreamReply (HelloRequest) returns (stream HelloReply) {}
+}
+
+// The request message containing the user's name.
+message HelloRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings
+message HelloReply {
+  string message = 1;
+}
+```
+
+## Communication
+
+Unlike REST and GraphQL, gRPC exclusively uses HTTP/2 for communication. HTTP/2
+is a major revision of the HTTP network protocol used by the World Wide Web. It
+supports binary data transfer, which makes it more efficient than HTTP/1.1,
+which is used in REST and GraphQL.
+
+In order to communicate, both clients and servers need to implement the gRPC
+protocol. The server will define the services and the schema using protocol
+buffers, and the client will generate the client code using the protocol buffer
+definition.
+
+gRPC does not use URLs or HTTP methods to define the endpoints and the actions.
+Instead, it uses the service name and the method name to define the actions.
+These implementation details are abstracted away from the client, and the
+developers can implement the rest based on the generated code. For example,
+
+```js
+// generated code from the protocol buffers definition
+var messages = require('./helloworld_pb');
+var services = require('./helloworld_grpc_pb');
+
+var grpc = require('@grpc/grpc-js');
+
+/**
+ * Implements the SayHello RPC method.
+ */
+function sayHello(call, callback) {
+  var reply = new messages.HelloReply();
+  reply.setMessage('Hello ' + call.request.getName());
+  callback(null, reply);
+}
+```
+
+The client also needs to generate the client code from the protocol buffers.
+
+```js
+// generated code from the protocol buffers definition
+var messages = require('./helloworld_pb');
+var services = require('./helloworld_grpc_pb');
+
+var grpc = require('@grpc/grpc-js');
+
+var client = new services.GreeterClient("localhost:5005",
+                                        grpc.credentials.createInsecure());
+var request = new messages.HelloRequest();
+var user;
+if (argv._.length > 0) {
+  user = argv._[0];
+} else {
+  user = 'world';
+}
+request.setName(user);
+client.sayHello(request, function(err, response) {
+  console.log('Greeting:', response.getMessage());
+});
+```
+
+## Pros and Cons
+
+gRPC has many advantages over REST and GraphQL. One of the main advantages is
+that it is designed to be a high performance RPC framework. It uses HTTP/2 for
+communication, which supports binary data transfer and multiplexing. This can
+make gRPC more efficient than REST and GraphQL, which use HTTP/1.1.
+
+Another advantage of gRPC is that it is designed to be a contract-based
+framework. The client and the server agree on the schema and the services using
+protocol buffers. This can make the applications more robust and easier to
+maintain.
+
+However, gRPC also has some drawbacks. One of its strength is also its weakness.
+Because gRPC uses HTTP/2 for communication, it can be more complex to set up and
+not all services use HTTP/2[^2].
+
+Another drawback of gRPC is that it requires both the client and the server to
+implement the gRPC protocol and use protocol buffers as the main communication.
+This can make it more difficult to integrate gRPC with existing services that do
+not support gRPC. Due to its common share, protocol buffers are likely to stay
+close to application's repositories, making it great for internal services but
+not for external services.
+
+# Summary
+
+Here is a summary of the differences between REST, GraphQL, and gRPC:
+
+| Feature                | REST                                                               | GraphQL                                                              | gRPC |
+| ---------------------- | ------------------------------------------------------------------ | -------------------------------------------------------------------- | --- |
+| Communication protocol | HTTP/1.1 (HTTPS)                                                   | HTTP/1.1 (HTTPS)                                                     | HTTP/2 |
+| Performance            | Slowest due to plain text communication                            | Faster than REST due to query language                               | Fastest due to binary data transfer |
+| Request types          | Uses URLs and HTTP methods                                         | Uses a single endpoint and HTTP POST method                          | Uses service and method names |
+| Response format        | JSON or XML                                                        | JSON                                                                 | Compact, serialized binary data |
+| Fetching problems      | Over-fetching and under-fetching                                   | No or limited over-fetching or under-fetching                        | Not relevant |
+| Ease of Use            | Simple to set up and maintain                                      | Require knowledge of query langue                                    | Steeper learning curve of gRPC tools and protocol buffers |
+| Type checking          | No type checking                                                   | Decent type checking with query language                             | Strong type checking with protocol buffers |
+| Intergration           | Easy to integrate with external services                           | Limited support from external service unless `/graphql` is supported | Not easy to integrate with external services |
+| Ecosystem              | Mature ecosystem with many libraries and tools                     | Growing ecosystem with limited libraries and tools                   | Limited ecosystem with few libraries and tools |
+| Use cases              | General-purpose APIs, communications between two external services | Mobile, client-driven applications                                   | Internal services in microservices architecture |
+| Caching                | Easy to cache with HTTP caching                                    | More difficult, complex. Require custom mechanism                    | Limited support for caching |
+
+# How to combine them together
+
+In practice, REST, GraphQL and gRPC can be combined together to create a robust
+application that is scalable and efficient. Let's lay out the most significant
+strength of these three architectures:
+
+- REST: General-purpose APIs, easy to set up and integrate with external
+  services.
+- GraphQL: Single endpoint with a support of efficient complex, nested queries.
+- gRPC: High performance, low latency communication between internal services.
+
+With these strengths in mind, GraphQL is the best choice for handling
+communication between the clients and the services. Instead of having multiple
+endpoints, the server can have a single endpoint `/graphql` to handle all the
+queries and mutations. This can reduce the number of endpoints and make it
+easier to maintain and understand the API. In other words, GraphQL can be used
+as a gateway to the services.
+
+Then, the services often need to communicate with each other. User service needs
+to communicate with authentication service to determine if the user is logged
+in and has the permission to access the resources. In this case, gRPC can be
+used to handle that communication because both ends know what exactly they need
+to send and receive. This can make the communication more efficient and robust.
+
+Finally, REST can be used to handle the communication between the apps's
+services with the external services. For example, the authentication service
+uses OAuth2 to authenticate the user. The authentication service needs to send a
+request to the external OAuth2 of own choice. REST can be used to handle that
+communication because it is easy to set up and integrate with external services.
+
+Here is a simple illustration of how REST, GraphQL, and gRPC can be combined:
+
+![Combining REST, GraphQL, and gRPC](/rest-graphql-grpc-combination.png "Combining REST, GraphQL, and gRPC")
+
+# Conclusion
+
+REST, GraphQL and gRPC are three different architectural styles for building
+applications. REST is the most common and easiest to set up, so it is
+recommended for general-purpose APIs. If you just start with building APIs, REST
+is always a good choice to start because it is well supported by many tools,
+frameworks and communities. GraphQL is recommended for client-driven applications
+where the client needs to fetch data efficiently. gRPC is a better solution for
+internal services in a microservices architecture where high performance and low
+latency communication is required. Moreover, there is no one-size-fits-all
+solution. Therefore, it is important to understand the strengths and weaknesses
+of each architecture and combine them together to create a robust and efficient
+application.
 
 # References
 
 [^1]: https://www.postman.com/state-of-api/api-technologies/#api-technologies
+[^2]: https://almanac.httparchive.org/en/2021/http#fig-1

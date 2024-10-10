@@ -7,9 +7,9 @@ import GlobalProvider from "./provider";
 import LayoutMain from "./main";
 import Navbar from "@/components/navbar";
 import NavbarOverlay from "@/components/navbar/overlay";
-import "./globals.css";
 import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/toaster";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +19,11 @@ export const metadata: Metadata = {
     default: "Home | Richard H. Nguyen",
   },
   description: "Personal blog of Richard H. Nguyen",
+  metadataBase: new URL(process.env.METADATA_BASE),
+  twitter: {
+    site: "@richardhnguyen",
+    creator: "@richardhnguyen",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",

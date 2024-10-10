@@ -4,13 +4,18 @@ import type { Metadata } from "next";
 import remarkReferenceLinks from "remark-reference-links";
 import remarkSmartyPants from "remark-smartypants";
 import remarkGfm from "remark-gfm";
+import rehypeShikiFromHighlighter, {
+  RehypeShikiCoreOptions,
+} from "@shikijs/rehype/core";
 
 import { generateMdxSlugs, getMdxContentFromSlug } from "@/lib/mdx";
+import { Separator } from "@/components/ui/separator";
+import shikiHighlighter from "@/lib/shiki";
 import mdxComponents from "./mdx-components";
 import "./mdx.css";
 import Frontmatter from "./frontmatter";
 import BlogBreadcrumb from "./breadcrumb";
-import { Separator } from "@/components/ui/separator";
+import { CodeOptionsThemes } from "shiki";
 
 interface BlogPostProps {
   params: {
@@ -72,7 +77,27 @@ export default async function BlogPost({ params: { slug } }: BlogPostProps) {
           options={{
             mdxOptions: {
               useDynamicImport: true,
-              rehypePlugins: [],
+              rehypePlugins: [
+                [
+                  rehypeShikiFromHighlighter,
+                  await shikiHighlighter,
+                  {
+                    themes: {
+                      dark: "github-dark",
+                      light: "github-light",
+                    } as unknown as CodeOptionsThemes,
+                    transformers: [
+                      {
+                        span(node, line, col) {
+                          node.properties["data-token"] = `token:${line}:${
+                            col
+                          }`;
+                        },
+                      },
+                    ] as RehypeShikiCoreOptions["transformers"],
+                  },
+                ],
+              ],
               remarkPlugins: [
                 remarkGfm,
                 remarkReferenceLinks,

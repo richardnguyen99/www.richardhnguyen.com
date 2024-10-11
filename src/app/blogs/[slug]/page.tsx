@@ -4,9 +4,13 @@ import type { Metadata } from "next";
 import remarkReferenceLinks from "remark-reference-links";
 import remarkSmartyPants from "remark-smartypants";
 import remarkGfm from "remark-gfm";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import { fromHtmlIsomorphic } from "hast-util-from-html-isomorphic";
+import rehypeSlug from "rehype-slug";
 import rehypeShikiFromHighlighter, {
   RehypeShikiCoreOptions,
 } from "@shikijs/rehype/core";
+import { CodeOptionsThemes } from "shiki";
 
 import { generateMdxSlugs, getMdxContentFromSlug } from "@/lib/mdx";
 import { Separator } from "@/components/ui/separator";
@@ -15,7 +19,7 @@ import mdxComponents from "./mdx-components";
 import "./mdx.css";
 import Frontmatter from "./frontmatter";
 import BlogBreadcrumb from "./breadcrumb";
-import { CodeOptionsThemes } from "shiki";
+import Tags from "./tags";
 
 interface BlogPostProps {
   params: {
@@ -97,6 +101,20 @@ export default async function BlogPost({ params: { slug } }: BlogPostProps) {
                     ] as RehypeShikiCoreOptions["transformers"],
                   },
                 ],
+                rehypeSlug,
+                [
+                  rehypeAutolinkHeadings,
+                  {
+                    behavior: "append",
+                    content: fromHtmlIsomorphic(
+                      '<span className="icon icon-link">#</span>',
+                      { fragment: true },
+                    ).children,
+                    properties: {
+                      className: "anchor",
+                    },
+                  } as unknown as Parameters<typeof rehypeAutolinkHeadings>[0],
+                ],
               ],
               remarkPlugins: [
                 remarkGfm,
@@ -108,6 +126,7 @@ export default async function BlogPost({ params: { slug } }: BlogPostProps) {
           }}
         />
       </div>
+      <Tags tags={frontMatter.tags} />
     </div>
   );
 }

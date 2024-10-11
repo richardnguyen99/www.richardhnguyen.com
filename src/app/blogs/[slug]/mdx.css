@@ -49,7 +49,9 @@ html.dark .shiki span {
 }
 
 .content li {
-  @apply mb-4 ml-6 pl-4;
+  @apply mb-2 ml-4 pl-2 lg:mb-4 lg:ml-6 lg:pl-4;
+  @apply text-sm sm:text-base;
+  @apply break-words;
 }
 
 .content li p {
@@ -66,6 +68,7 @@ html.dark .shiki span {
 
 .content section.footnotes li p {
   @apply w-full;
+  @apply whitespace-break-spaces break-words;
 }
 
 .content pre {
@@ -78,7 +81,7 @@ html.dark .shiki span {
 }
 
 .content table {
-  @apply mx-auto w-[var(--article-container-size)] px-[var(--article-gutter-size)];
+  @apply mx-[var(--article-gutter-size)] w-[var(--article-container-size)];
   @apply mb-12;
 }
 
@@ -96,6 +99,45 @@ html.dark .shiki span {
   @apply content-[counter(line)] [counter-increment:_line];
   @apply mr-4 inline-block w-4 text-right;
   @apply text-neutral-300 dark:text-neutral-600;
+}
+
+.content h1,
+.content h2,
+.content h3 {
+  @apply scroll-mt-14;
+  @apply scroll-smooth;
+}
+
+.content .anchor {
+  @apply before:content-none after:content-none;
+  @apply ml-2;
+  @apply inline-flex;
+}
+
+.content h1 .anchor {
+  @apply text-lime-500/0 dark:text-lime-400/0;
+  @apply ease-curve-d transition-colors duration-300;
+}
+
+.content h1:hover .anchor {
+  @apply text-lime-500 dark:text-lime-400;
+}
+
+.content h2 .anchor {
+  @apply text-sky-500/0 dark:text-sky-400/0;
+  @apply ease-curve-d transition-colors duration-300;
+}
+
+.content h2:hover .anchor {
+  @apply text-sky-500 dark:text-sky-400;
+}
+.content h3 .anchor {
+  @apply text-amber-500/0 dark:text-amber-400/0;
+  @apply ease-curve-d transition-colors duration-300;
+}
+
+.content h3:hover .anchor {
+  @apply text-amber-500 dark:text-amber-400;
 }
 
 .title {

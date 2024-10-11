@@ -38,11 +38,18 @@ const components: NonNullable<
   a: (props) => {
     const { href, ...rest } = props;
 
+    /* Internal links (on different pages) */
     if (href && href.startsWith("/")) {
       return <Link href={href} className="dark:text-lime-400" {...rest} />;
     }
 
-    return <ExternalLink href={href} {...rest} />;
+    /* Slug links (on the same page) */
+    if (href && href.startsWith("#")) {
+      return <a href={href as string} {...rest} />;
+    }
+
+    /* External links to different sites  */
+    return <ExternalLink title={`Go to ${href}`} href={href} {...rest} />;
   },
 
   img: (props) => {

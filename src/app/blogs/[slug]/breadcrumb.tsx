@@ -36,7 +36,11 @@ const BlogBreadcrumb: React.FC<BlogBreadcrumbProps> = ({
           <BreadcrumbSeparator />
           <BreadcrumbItem>
             <BreadcrumbPage>
-              <ExternalLink title={`Edit on GitHub`} href={href}>
+              <ExternalLink
+                title={`Edit on GitHub`}
+                href={href}
+                className="[&_span]:text-black [&_span]:hover:border-black dark:[&_span]:text-white dark:[&_span]:hover:border-white [&_svg]:text-black dark:[&_svg]:text-white"
+              >
                 {title}
               </ExternalLink>
             </BreadcrumbPage>

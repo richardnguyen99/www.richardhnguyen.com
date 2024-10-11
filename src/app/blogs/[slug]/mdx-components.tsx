@@ -1,4 +1,5 @@
 import * as React from "react";
+import Image from "next/image";
 import { MDXProvider } from "@mdx-js/react";
 
 import { cn } from "@/lib/utils";
@@ -9,8 +10,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Link from "next/link";
+import ExternalLink from "@/components/external-link";
 
-const components: React.ComponentProps<typeof MDXProvider>["components"] = {
+const components: NonNullable<
+  React.ComponentProps<typeof MDXProvider>["components"]
+> = {
   table: ({ className, ...rest }) => (
     <Table {...rest} className={cn(className)} />
   ),
@@ -29,6 +34,36 @@ const components: React.ComponentProps<typeof MDXProvider>["components"] = {
   td: (props) => <TableCell {...props} />,
 
   tr: (props) => <TableRow {...props} />,
+
+  a: (props) => {
+    const { href, ...rest } = props;
+
+    if (href && href.startsWith("/")) {
+      return <Link href={href} className="dark:text-lime-400" {...rest} />;
+    }
+
+    return <ExternalLink href={href} {...rest} />;
+  },
+
+  img: (props) => {
+    const { src, alt = "" } = props;
+
+    if (typeof src === "undefined") {
+      throw new Error("Image src is required");
+    }
+
+    return (
+      <Image
+        src={src}
+        alt={alt}
+        width={1470}
+        height={980}
+        quality={100}
+        className="rounded-lg object-cover object-center"
+        loading="lazy"
+      />
+    );
+  },
 };
 
 export default components;

@@ -16,29 +16,30 @@ html.dark .shiki span {
 }
 
 .content h1 {
-  @apply mx-auto mb-4 w-[var(--article-container-size)] px-[var(--article-gutter-size)];
+  @apply mx-[var(--article-gutter-size)] mb-4 w-[var(--article-container-size)];
   @apply text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl;
   @apply font-bold lg:font-black;
   @apply text-neutral-950 dark:text-neutral-50;
 }
 
 .content h2 {
-  @apply mx-auto mb-6 w-[var(--article-container-size)] px-[var(--article-gutter-size)];
+  @apply mx-[var(--article-gutter-size)] mb-6 w-[var(--article-container-size)];
   @apply text-lg sm:text-lg md:text-xl lg:text-2xl xl:text-3xl;
   @apply font-bold lg:font-black;
   @apply text-neutral-950 dark:text-neutral-50;
 }
 
 .content h3 {
-  @apply mx-auto mb-4 w-[var(--article-container-size)] px-[var(--article-gutter-size)];
+  @apply mx-[var(--article-gutter-size)] mb-4 w-[var(--article-container-size)];
   @apply text-base sm:text-lg;
   @apply font-bold lg:font-black;
   @apply text-neutral-950 dark:text-neutral-50;
 }
 
 .content p {
-  @apply mx-auto w-[var(--article-container-size)] px-[var(--article-gutter-size)];
+  @apply mx-[var(--article-gutter-size)] w-[var(--article-container-size)];
   @apply mb-12;
+  @apply text-sm sm:text-base;
 }
 
 .content ul,
@@ -52,7 +53,7 @@ html.dark .shiki span {
 }
 
 .content li p {
-  @apply mb-0;
+  @apply m-0 p-0;
 }
 
 .content ul li {
@@ -63,12 +64,17 @@ html.dark .shiki span {
   @apply list-decimal;
 }
 
+.content section.footnotes li p {
+  @apply w-full;
+}
+
 .content pre {
-  @apply mx-auto w-[var(--article-container-size)] px-[var(--article-gutter-size)];
-  @apply mb-12;
-  @apply p-4;
+  @apply mx-[var(--article-gutter-size)] w-[var(--article-container-size)];
+  @apply mb-12 p-4;
+  @apply text-sm sm:text-base;
   @apply rounded-lg border border-neutral-300 dark:border-neutral-600;
   @apply [counter-reset:_line];
+  @apply overflow-x-auto;
 }
 
 .content table {
@@ -84,10 +90,6 @@ html.dark .shiki span {
   @apply border border-neutral-300 dark:border-neutral-600;
   @apply dark:bg-neutral-800 dark:text-neutral-200;
   @apply whitespace-nowrap;
-}
-
-.content pre .line {
-  @apply whitespace-pre-wrap;
 }
 
 .content pre .line::before {

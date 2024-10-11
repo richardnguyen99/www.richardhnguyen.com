@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useRemarkSync } from "react-remark";
 
 import type { FrontMatter as FrontmatterType } from "@/lib/mdx";
+import mdxComponents from "./mdx-components";
 
 interface FrontmatterProps {
   data: FrontmatterType;
@@ -10,7 +11,12 @@ interface FrontmatterProps {
 }
 
 const Frontmatter: React.FC<FrontmatterProps> = ({ data, excerpt = "" }) => {
-  const mdxContent = useRemarkSync(excerpt);
+  const mdxContent = useRemarkSync(excerpt, {
+    rehypeReactOptions: {
+      // @ts-ignore
+      components: mdxComponents,
+    },
+  });
 
   return (
     <>

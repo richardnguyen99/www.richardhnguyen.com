@@ -71,6 +71,11 @@ const components: NonNullable<
       />
     );
   },
+
+  pre: (props) => {
+    console.log(props);
+    return <pre {...props} />;
+  },
 };
 
 export default components;

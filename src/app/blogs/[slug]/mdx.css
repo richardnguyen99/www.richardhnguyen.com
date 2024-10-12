@@ -95,7 +95,7 @@ html.dark .shiki span {
   @apply whitespace-nowrap;
 }
 
-.content pre .line::before {
+.content pre:not(pre[data-display-line-numbers="false"]) .line::before {
   @apply content-[counter(line)] [counter-increment:_line];
   @apply mr-4 inline-block w-4 text-right;
   @apply text-neutral-300 dark:text-neutral-600;
@@ -116,7 +116,7 @@ html.dark .shiki span {
 
 .content h1 .anchor {
   @apply text-lime-500/0 dark:text-lime-400/0;
-  @apply ease-curve-d transition-colors duration-300;
+  @apply transition-colors duration-300;
 }
 
 .content h1:hover .anchor {
@@ -125,7 +125,7 @@ html.dark .shiki span {
 
 .content h2 .anchor {
   @apply text-sky-500/0 dark:text-sky-400/0;
-  @apply ease-curve-d transition-colors duration-300;
+  @apply transition-colors duration-300;
 }
 
 .content h2:hover .anchor {
@@ -133,7 +133,7 @@ html.dark .shiki span {
 }
 .content h3 .anchor {
   @apply text-amber-500/0 dark:text-amber-400/0;
-  @apply ease-curve-d transition-colors duration-300;
+  @apply transition-colors duration-300;
 }
 
 .content h3:hover .anchor {

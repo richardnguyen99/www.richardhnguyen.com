@@ -7,10 +7,7 @@ import remarkGfm from "remark-gfm";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { fromHtmlIsomorphic } from "hast-util-from-html-isomorphic";
 import rehypeSlug from "rehype-slug";
-import rehypeShikiFromHighlighter, {
-  RehypeShikiCoreOptions,
-} from "@shikijs/rehype/core";
-import { CodeOptionsThemes } from "shiki";
+import rehypeShikiFromHighlighter from "@shikijs/rehype/core";
 
 import { generateMdxSlugs, getMdxContentFromSlug } from "@/lib/mdx";
 import { Separator } from "@/components/ui/separator";
@@ -20,6 +17,7 @@ import "./mdx.css";
 import Frontmatter from "./frontmatter";
 import BlogBreadcrumb from "./breadcrumb";
 import Tags from "./tags";
+import shikiRehypeOptions from "./shiki-options";
 
 interface BlogPostProps {
   params: {
@@ -85,21 +83,7 @@ export default async function BlogPost({ params: { slug } }: BlogPostProps) {
                 [
                   rehypeShikiFromHighlighter,
                   await shikiHighlighter,
-                  {
-                    themes: {
-                      dark: "github-dark",
-                      light: "github-light",
-                    } as unknown as CodeOptionsThemes,
-                    transformers: [
-                      {
-                        span(node, line, col) {
-                          node.properties["data-token"] = `token:${line}:${
-                            col
-                          }`;
-                        },
-                      },
-                    ] as RehypeShikiCoreOptions["transformers"],
-                  },
+                  shikiRehypeOptions,
                 ],
                 rehypeSlug,
                 [

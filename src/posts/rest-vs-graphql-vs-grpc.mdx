@@ -273,7 +273,7 @@ allow the client to send a request with a body, which can contain the query.
 With terminal-based tools like `curl`, you can send a GraphQL query to the
 server:
 
-```sh
+```sh displayLineNumbers="false"
 curl -X POST http://localhost:5000/graphql \
   -H "Content-Type: application/json" \
   -d '{"query": "query AuthorQuery { author(id: 1) { id name songs { id title } } }"}'
@@ -404,7 +404,7 @@ function sayHello(call, callback) {
 
 The client also needs to generate the client code from the protocol buffers.
 
-```js
+```js title="client"
 // generated code from the protocol buffers definition
 var messages = require('./helloworld_pb');
 var services = require('./helloworld_grpc_pb');

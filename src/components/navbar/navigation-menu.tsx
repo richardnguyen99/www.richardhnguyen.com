@@ -154,7 +154,7 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
               <UINavigationMenuItem>
                 <UINavigationMenuTrigger>Articles</UINavigationMenuTrigger>
 
-                <UNavigationMenuContent className="lg:left-[calc(0.5_*_(100%-var(--container-size)))]">
+                <UNavigationMenuContent className="md:left-[calc(0.5_*_(100%-var(--container-size)))]">
                   <div className="data-[]: relative grid w-full grid-cols-[repeat(2,calc(20px+(0.5*(min(100%,68rem)-352px))))_1fr]">
                     <NavigationMenuList
                       title="Categories"
@@ -192,12 +192,12 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
 
               <UINavigationMenuItem>
                 <UINavigationMenuTrigger>Gists</UINavigationMenuTrigger>
-                <UNavigationMenuContent className="lg:left-[calc(0.5_*_(100%-var(--container-size)))]"></UNavigationMenuContent>
+                <UNavigationMenuContent className="md:left-[calc(0.5_*_(100%-var(--container-size)))]"></UNavigationMenuContent>
               </UINavigationMenuItem>
 
               <UINavigationMenuItem>
                 <UINavigationMenuTrigger>About</UINavigationMenuTrigger>
-                <UNavigationMenuContent className="lg:left-[calc(0.5_*_(100%-var(--container-size)))]"></UNavigationMenuContent>
+                <UNavigationMenuContent className="md:left-[calc(0.5_*_(100%-var(--container-size)))]"></UNavigationMenuContent>
               </UINavigationMenuItem>
             </UINavigationList>
           </div>

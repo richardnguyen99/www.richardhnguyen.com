@@ -5,7 +5,7 @@ interface MetaValue {
   regex: RegExp;
 }
 
-interface MetaMap {
+export interface MetaMap {
   title: string;
   displayLineNumbers: boolean;
   allowCopy: boolean;
@@ -81,24 +81,6 @@ const shikiRehypeOptions: RehypeShikiCoreOptions = {
         if (!optionMeta.allowCopy) {
           optionMeta.allowCopy = true;
         }
-      },
-      pre(hast) {
-        const optionMeta = this.options.meta as MetaMap;
-        this.pre.properties["data-display-line-numbers"] = new Boolean(
-          optionMeta.displayLineNumbers,
-        ).toString();
-
-        this.pre.properties["data-title"] = optionMeta.title;
-        this.pre.properties["data-allow-copy"] = new Boolean(
-          optionMeta.allowCopy,
-        ).toString();
-
-        // Remove old properties
-        delete this.pre.properties.title;
-        delete this.pre.properties.displayLineNumbers;
-        delete this.pre.properties.allowCopy;
-
-        return hast;
       },
       span(node, line, col) {
         node.properties["data-token"] = `token:${line}:${col}`;

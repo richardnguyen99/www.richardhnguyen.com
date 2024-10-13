@@ -23,7 +23,7 @@ const Newsletter: React.FC = () => {
             placeholder="Email"
           />
           <Button
-            className="ease-curve-d relative transform-gpu border border-transparent bg-neutral-900 transition-[transform,box_shadow] duration-300 hover:bg-neutral-800 hover:ring-1 hover:ring-neutral-700 active:bg-neutral-700 active:ring-2 active:ring-neutral-500"
+            className="ease-curve-d relative transform-gpu border border-transparent bg-neutral-900 text-white transition-[transform,box_shadow] duration-300 hover:bg-neutral-800 hover:ring-1 hover:ring-neutral-700 active:bg-neutral-700 active:ring-2 active:ring-neutral-500"
             type="submit"
           >
             Subscribe

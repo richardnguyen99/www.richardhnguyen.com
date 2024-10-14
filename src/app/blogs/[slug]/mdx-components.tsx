@@ -77,7 +77,7 @@ const components: NonNullable<
   pre: (props) => {
     // Merge the props with the meta values. Meta values are passed after Shiki
     // processes the code block.
-    const { displayLineNumbers, allowCopy, title, lang, ...rest } =
+    const { displayLineNumbers, allowCopy, title, lang, rawCode, ...rest } =
       props as React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLPreElement>,
         HTMLPreElement
@@ -90,6 +90,7 @@ const components: NonNullable<
         lang={lang}
         displayLineNumbers={displayLineNumbers}
         allowCopy={allowCopy}
+        rawCode={rawCode}
         {...rest}
       />
     );

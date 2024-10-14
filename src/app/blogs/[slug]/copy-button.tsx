@@ -6,9 +6,16 @@ import { ClipboardIcon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 
-const BlogCodeCopyButton: React.FC = () => {
+interface BlogCodeCopyButtonProps {
+  text: string;
+}
+
+const BlogCodeCopyButton: React.FC<BlogCodeCopyButtonProps> = ({ text }) => {
   return (
     <Button
+      onClick={() => {
+        navigator.clipboard.writeText(text);
+      }}
       className={cn(
         buttonVariants({
           className: "copy-button",

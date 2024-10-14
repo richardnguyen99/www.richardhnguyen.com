@@ -10,6 +10,7 @@ export interface MetaMap {
   displayLineNumbers: boolean;
   allowCopy: boolean;
   lang: string;
+  rawCode: string;
 }
 
 /**
@@ -41,6 +42,7 @@ const shikiRehypeOptions: RehypeShikiCoreOptions = {
       displayLineNumbers: true,
       allowCopy: true,
       lang: "txt",
+      rawCode: "",
     };
 
     for (const value of metaValues) {
@@ -65,6 +67,8 @@ const shikiRehypeOptions: RehypeShikiCoreOptions = {
     {
       preprocess(code, options) {
         const optionMeta = options.meta as MetaMap;
+
+        optionMeta.rawCode = code;
 
         if (!optionMeta.title || optionMeta.title.length <= 0) {
           optionMeta.title = "none";

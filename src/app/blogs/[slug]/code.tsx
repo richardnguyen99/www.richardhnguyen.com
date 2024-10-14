@@ -1,5 +1,4 @@
 import * as React from "react";
-import { ClipboardIcon } from "@radix-ui/react-icons";
 
 import BlogCodeCopyButton from "./copy-button";
 import { type MetaMap } from "./shiki-options";
@@ -18,6 +17,7 @@ const BlogCode: React.FC<BlogCodeProps> = ({
   allowCopy,
   children,
   lang,
+  rawCode,
   ...rest
 }) => {
   return (
@@ -34,7 +34,7 @@ const BlogCode: React.FC<BlogCodeProps> = ({
       <div className="menubar">
         <div className="filename">{title !== "none" ? title : null}</div>
 
-        {allowCopy && <BlogCodeCopyButton />}
+        {allowCopy && <BlogCodeCopyButton text={rawCode} />}
       </div>
       {children}
     </pre>

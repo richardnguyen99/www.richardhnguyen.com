@@ -9,7 +9,7 @@ export interface MetaMap {
   title: string;
   displayLineNumbers: boolean;
   allowCopy: boolean;
-  [key: string]: string | boolean;
+  lang: string;
 }
 
 /**
@@ -40,6 +40,7 @@ const shikiRehypeOptions: RehypeShikiCoreOptions = {
       title: "",
       displayLineNumbers: true,
       allowCopy: true,
+      lang: "txt",
     };
 
     for (const value of metaValues) {
@@ -67,6 +68,10 @@ const shikiRehypeOptions: RehypeShikiCoreOptions = {
 
         if (!optionMeta.title || optionMeta.title.length <= 0) {
           optionMeta.title = "none";
+        }
+
+        if (!optionMeta.lang) {
+          optionMeta.lang = "txt";
         }
 
         if (!optionMeta.displayLineNumbers) {

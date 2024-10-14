@@ -13,6 +13,7 @@ import {
 import Link from "next/link";
 import ExternalLink from "@/components/external-link";
 import { MetaMap } from "./shiki-options";
+import BlogCode from "./code";
 
 const components: NonNullable<
   React.ComponentProps<typeof MDXProvider>["components"]
@@ -76,7 +77,7 @@ const components: NonNullable<
   pre: (props) => {
     // Merge the props with the meta values. Meta values are passed after Shiki
     // processes the code block.
-    const { displayLineNumbers, allowCopy, title, ...rest } =
+    const { displayLineNumbers, allowCopy, title, lang, ...rest } =
       props as React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLPreElement>,
         HTMLPreElement
@@ -84,13 +85,11 @@ const components: NonNullable<
         MetaMap;
 
     return (
-      <pre
-        /* Prepend `data-` prefix to custom properties so that NextJS will
-          pass gracefully. Use `Boolean.toString()` to force write `false`
-          values since CSS uses them. */
-        data-allow-copy={new Boolean(allowCopy).toString()}
-        data-display-line-numbers={new Boolean(displayLineNumbers).toString()}
-        data-title={title}
+      <BlogCode
+        title={title}
+        lang={lang}
+        displayLineNumbers={displayLineNumbers}
+        allowCopy={allowCopy}
         {...rest}
       />
     );

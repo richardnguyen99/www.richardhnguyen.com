@@ -73,11 +73,49 @@ html.dark .shiki span {
 
 .content pre {
   @apply mx-[var(--article-gutter-size)] w-[var(--article-container-size)];
-  @apply mb-12 p-4;
+  @apply mb-12;
   @apply text-sm sm:text-base;
   @apply rounded-lg border border-neutral-300 dark:border-neutral-600;
   @apply [counter-reset:_line];
   @apply overflow-x-auto;
+}
+
+.content pre .menubar {
+  @apply bg-neutral-200/75 dark:bg-neutral-500/15;
+  @apply rounded-t-lg;
+  @apply flex items-center justify-between;
+  @apply border-b dark:border-neutral-600;
+  @apply h-12 px-2;
+}
+
+.content pre .filename {
+  @apply text-neutral-700 dark:text-neutral-300;
+}
+
+.content pre .copy-button {
+  @apply text-neutral-700 dark:text-neutral-300;
+  @apply bg-neutral-200/0 dark:bg-neutral-400/0;
+  @apply p-2;
+  @apply inline-flex items-center justify-center;
+  @apply cursor-pointer;
+  @apply transition-colors duration-300 ease-in-out;
+  @apply rounded-md;
+  @apply shadow-none;
+}
+
+.content pre .copy-button:hover {
+  @apply text-neutral-900 dark:text-neutral-100;
+  @apply bg-neutral-300/50 dark:bg-neutral-400/30;
+}
+
+.content pre .copy-button:active {
+  @apply text-neutral-900 dark:text-neutral-100;
+  @apply bg-neutral-200 dark:bg-neutral-400/50;
+}
+
+.content pre code {
+  @apply block;
+  @apply p-4;
 }
 
 .content table {

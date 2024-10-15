@@ -71,7 +71,7 @@ const CopyButton: React.FC<Props> = ({ content, ...rest }) => {
 
       <TooltipContent
         side="left"
-        className="border border-neutral-200 bg-neutral-100 text-black dark:border-neutral-600 dark:bg-neutral-700 dark:text-white"
+        className="border border-neutral-300 bg-neutral-200 text-black dark:border-neutral-600 dark:bg-neutral-700 dark:text-white"
       >
         {isCopied ? "Copied!" : "Copy"}
       </TooltipContent>

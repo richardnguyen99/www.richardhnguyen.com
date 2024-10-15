@@ -44,8 +44,8 @@ html.dark .shiki span {
 
 .content ul,
 .content ol {
-  @apply mx-auto w-[var(--article-container-size)] px-[var(--article-gutter-size)];
-  @apply mb-12;
+  @apply ml-[calc(var(--article-gutter-size)_+_1.5rem)] mr-[var(--article-gutter-size)] w-[var(--article-container-size)] md:ml-[var(--article-gutter-size)];
+  @apply mb-12 pl-4;
 }
 
 .content li {

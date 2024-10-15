@@ -21,14 +21,6 @@ const BlogCode: React.FC<BlogCodeProps> = ({
   rawCode,
   ...rest
 }) => {
-  const getFileName = React.useCallback(() => {
-    if (!title || title === "none") {
-      return "";
-    }
-
-    return title;
-  }, [title]);
-
   const fileExt = React.useMemo(() => {
     const ext = extMap.get(lang);
 

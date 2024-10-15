@@ -2,6 +2,7 @@ import * as React from "react";
 
 import BlogCodeCopyButton from "./copy-button";
 import { type MetaMap } from "./shiki-options";
+import extMap from "./extmap";
 
 type BlogCodeProps = React.PropsWithChildren<
   React.DetailedHTMLProps<
@@ -20,6 +21,25 @@ const BlogCode: React.FC<BlogCodeProps> = ({
   rawCode,
   ...rest
 }) => {
+  const getFileName = React.useCallback(() => {
+    if (!title || title === "none") {
+      return "";
+    }
+
+    return title;
+  }, [title]);
+
+  const fileExt = React.useMemo(() => {
+    const ext = extMap.get(lang);
+
+    if (!ext) {
+      console.warn(`No extension found for ${lang}. Using default.`);
+      return extMap.get("default")!;
+    }
+
+    return ext;
+  }, [lang]);
+
   return (
     <pre
       /* Prepend `data-` prefix to custom properties so that NextJS will
@@ -32,7 +52,10 @@ const BlogCode: React.FC<BlogCodeProps> = ({
       {...rest}
     >
       <div className="menubar">
-        <div className="filename">{title !== "none" ? title : null}</div>
+        <div className="filename">
+          <div>{fileExt.component}</div>
+          <div>{title !== "none" ? title : fileExt.text}</div>
+        </div>
 
         {allowCopy && <BlogCodeCopyButton text={rawCode} />}
       </div>

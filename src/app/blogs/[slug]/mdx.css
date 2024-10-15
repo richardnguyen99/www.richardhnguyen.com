@@ -89,7 +89,9 @@ html.dark .shiki span {
 }
 
 .content pre .filename {
+  @apply flex items-center gap-1;
   @apply text-neutral-700 dark:text-neutral-300;
+  @apply text-xs md:text-base;
 }
 
 .content pre .copy-button {

@@ -69,13 +69,10 @@ const shikiRehypeOptions: RehypeShikiCoreOptions = {
         const optionMeta = options.meta as MetaMap;
 
         optionMeta.rawCode = code;
+        optionMeta.lang = options.lang;
 
         if (!optionMeta.title || optionMeta.title.length <= 0) {
           optionMeta.title = "none";
-        }
-
-        if (!optionMeta.lang) {
-          optionMeta.lang = "txt";
         }
 
         if (!optionMeta.displayLineNumbers) {

@@ -344,7 +344,7 @@ Using protocol buffers, gRPC can generate boilerplate code for the client and th
 
 An example of a protocol buffer definition for a simple service:
 
-```proto
+```proto title="helloworld.proto"
 syntax = "proto3";
 
 package helloworld;
@@ -385,7 +385,7 @@ Instead, it uses the service name and the method name to define the actions.
 These implementation details are abstracted away from the client, and the
 developers can implement the rest based on the generated code. For example,
 
-```js
+```js title="server.js"
 // generated code from the protocol buffers definition
 var messages = require('./helloworld_pb');
 var services = require('./helloworld_grpc_pb');
@@ -404,7 +404,7 @@ function sayHello(call, callback) {
 
 The client also needs to generate the client code from the protocol buffers.
 
-```js title="client"
+```js title="client.js"
 // generated code from the protocol buffers definition
 var messages = require('./helloworld_pb');
 var services = require('./helloworld_grpc_pb');

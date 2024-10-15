@@ -57,7 +57,7 @@ const BlogCode: React.FC<BlogCodeProps> = ({
           <div>{title !== "none" ? title : fileExt.text}</div>
         </div>
 
-        {allowCopy && <BlogCodeCopyButton text={rawCode} />}
+        {allowCopy && <BlogCodeCopyButton content={rawCode} />}
       </div>
       {children}
     </pre>

@@ -9,7 +9,7 @@ import { MixerHorizontalIcon } from "@radix-ui/react-icons";
 import { useMediaQuery } from "@uidotdev/usehooks";
 
 import { capitalizeKeywords, formatTag } from "@/lib/utils";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "@/lib/toast";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -130,10 +130,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({
     (data: z.infer<typeof FormSchema>) => {
       createPageURL(data);
 
-      toast({
-        className: "bg-[#e0fdd4] border-lime-500 text-lime-600",
-        title: "Filter Applied",
-      });
+      toast("Filter applied successfully");
 
       handleOpenChange(false);
     },

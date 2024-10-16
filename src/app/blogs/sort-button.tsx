@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { cn } from "@/lib/utils";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "@/lib/toast";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
@@ -98,10 +98,7 @@ const SortButton: React.FC<SortButtonProps> = ({
   const onSubmit = React.useCallback(
     (data: z.infer<typeof FormSchema>) => {
       createPageURL(data);
-      toast({
-        className: "bg-[#e0fdd4] border-lime-500 text-lime-600",
-        title: "Sorting options applied",
-      });
+      toast("Sort options updated");
       handleOpenChange(false);
     },
     [createPageURL, handleOpenChange],

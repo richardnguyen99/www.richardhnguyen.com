@@ -1,8 +1,10 @@
 import * as React from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { MDXProvider } from "@mdx-js/react";
 
 import { cn } from "@/lib/utils";
+
 import {
   Table,
   TableBody,
@@ -10,14 +12,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Link from "next/link";
 import ExternalLink from "@/components/external-link";
+import Callout from "@/components/callout";
 import { MetaMap } from "./shiki-options";
 import BlogCode from "./code";
 
 const components: NonNullable<
   React.ComponentProps<typeof MDXProvider>["components"]
 > = {
+  Callout,
+
   table: ({ className, ...rest }) => (
     <Table {...rest} className={cn(className)} />
   ),

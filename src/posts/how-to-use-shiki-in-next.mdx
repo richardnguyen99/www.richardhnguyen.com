@@ -23,3 +23,28 @@ changeLog:
 
 # Introduction
 
+[ShikiJS](https://shiki.style/) is a powerful code syntax highlighter based on
+TextMate Grammar, which is the same engine that powers VSCode. ShikiJS has been
+used in many popular projects such as [NextJS landing page](https://nextjs.org/),
+and [Vercel](https://vercel.com/). In  this post,
+
+# Why ShikiJS?
+
+There are some existing syntax highlighters that are well supported and powerful
+such as [PrismJS](https://prismjs.com/),
+[HighlightJS](https://highlightjs.org/). However, these are designed to run in
+the browser. ShikiJS takes a different approach called **highlighting ahead of
+time**. Instead of shipping raw code content to the browswer then highlighting
+it, ShikiJS will ship the highlighted code content as HTML to the browswer. This
+is a more efficient approach for static site generators and server-rendering
+like NextJS.
+
+<Callout title="something" type="info" >
+
+```js
+console.log('Hello World');
+```
+
+</Callout>
+
+

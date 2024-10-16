@@ -13,6 +13,7 @@ import wasm from "shiki/wasm";
 
 const highlighter = createHighlighterCore({
   themes: [githubDark, githubLight],
+
   langs: [
     javascriptLang,
     cssLang,

@@ -36,6 +36,8 @@ const shikiRehypeOptions: RehypeShikiCoreOptions = {
     dark: "github-dark",
     light: "github-light",
   },
+  cssVariablePrefix: "--shiki-",
+  defaultColor: false,
   parseMetaString(metaString) {
     const map: MetaMap = {
       title: "",

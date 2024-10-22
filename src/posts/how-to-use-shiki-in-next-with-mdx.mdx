@@ -26,7 +26,8 @@ changeLog:
 [ShikiJS](https://shiki.style/) is a powerful code syntax highlighter based on
 TextMate Grammar, which is the same engine that powers VSCode. ShikiJS has been
 used in many popular projects such as [NextJS landing page](https://nextjs.org/),
-and [Vercel](https://vercel.com/). In  this post,
+and [Vercel](https://vercel.com/). In this post, we will dive into how to use
+ShikiJS and integrate it into NextJS and MDX ecosystem.
 
 # Why ShikiJS?
 
@@ -145,7 +146,7 @@ languages you specify.
 Create a `lib` directory in the `/app` directory. Then, create a new file called
 `shiki.ts` with the following content:
 
-```ts title="shiki.ts"
+```ts title="lib/shiki.ts"
 import { createHighlighterCore } from "shiki/core";
 import { createOnigurumaEngine } from "shiki/engine-oniguruma.mjs";
 import githubDark from "shiki/themes/github-dark.mjs";
@@ -212,7 +213,7 @@ import { highlight } from "sugar-high"; // [!code --]
 import rehypeShikiFromHighlighter, { // [!code ++]
   type RehypeShikiCoreOptions, // [!code ++]
 } from "@shikijs/rehype/core"; // [!code ++]
-
+­  // [!code ++]
 import shikiHighlighter from "../lib/shiki"; // [!code ++]
 
 // Other components ...
@@ -271,7 +272,7 @@ What we did here:
   `rehypePlugins` array in the `CustomMDX` component. See [rehype with
   fine-grained bundle](https://shiki.style/packages/rehype#fine-grained-bundle)
   for more information.
-- Update `CustomMDX` function to be an `async` function and use `await` for
+- Update `CustomMDX` component to be an `async` component and use `await` for
   `shikiHighlighter`.
 
 Let's create a simple code block in the `index.mdx` file to test the syntax
@@ -413,7 +414,7 @@ However, Shiki Rehype Plugin will parse the code string and modify the `pre` and
 don't need to handle the parsing process.
 
 
-```tsx
+```tsx title="app/components/mdx.tsx"
 export async function CustomMDX(props) {
   return (
     <MDXRemote
@@ -835,32 +836,8 @@ const CustomPre: React.FC<BlogCodeProps> = ({
 
 Copy button is a common feature in writing code blocks. It allows users to copy
 the raw code content to the clipboard. A simple and secure way to implement this
-feature is to use the `navigator.clipboard` API.
-
-```tsx title="app/components/copy-button.tsx"
-import React from 'react';
-
-interface Props {
-  content: string;
-}
-
-const CopyButton: React.FC<Props> = ({ content }) => {
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(content);
-      console.log('Copied to clipboard:', content);
-    } catch (error) {
-      console.error('Unable to copy to clipboard:', error);
-    }
-  };
-
-  return (
-    <button onClick={handleCopy}>Copy to Clipboard</button>
-  );
-};
-
-export default CopyButton;
-```
+feature is to use the `navigator.clipboard` API as we did in the `CopyButton`
+component.
 
 However, this API only works with strings. Since Shiki returns the highlighted
 HTML content, we cannot use `children` props directly. But thanks to transformer
@@ -1018,6 +995,8 @@ as [rehype-pretty-code](https://rehype-pretty.pages.dev/). These packages use
 Shiki under the hood to save you from the complexity of configuration while
 still provide you better, more fine-grained control over how to customize the
 code blocks.
+
+You can follow the complete repository of this post on [GitHub](https://github.com/richardnguyen99/shiki-mdx-next-app).
 
 # References
 

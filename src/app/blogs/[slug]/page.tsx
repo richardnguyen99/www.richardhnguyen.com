@@ -82,7 +82,7 @@ export default async function BlogPost({ params: { slug } }: BlogPostProps) {
               rehypePlugins: [
                 [
                   rehypeShikiFromHighlighter,
-                  await shikiHighlighter,
+                  shikiHighlighter,
                   shikiRehypeOptions,
                 ],
                 rehypeSlug,

@@ -3,7 +3,6 @@ import * as React from "react";
 import ReactTSIcon from "@/components/icons/reactts";
 import JsIcon from "@/components/icons/js";
 import TextIcon from "@/components/icons/text";
-import DefaultIcon from "@/components/icons/default";
 import PythonIcon from "@/components/icons/python";
 import ShellIcon from "@/components/icons/shell";
 import GraphQLIcon from "@/components/icons/graphql";
@@ -13,6 +12,7 @@ import MarkdownIcon from "@/components/icons/markdown";
 import MdxIcon from "@/components/icons/mdx";
 import CSSIcon from "@/components/icons/css";
 import HTMLIcon from "@/components/icons/html";
+import { TerminalIcon } from "@primer/octicons-react";
 
 interface ExtensionObject {
   text: string;
@@ -116,8 +116,8 @@ const iterable: ExtensionRecord[] = [
   [
     "default",
     {
-      text: "Default",
-      component: <DefaultIcon />,
+      text: "terminal",
+      component: <TerminalIcon />,
     },
   ],
 ];

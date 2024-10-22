@@ -14,7 +14,7 @@ import htmlLang from "shiki/langs/html.mjs";
 
 import wasm from "shiki/wasm";
 
-const highlighter = createHighlighterCore({
+const highlighter = await createHighlighterCore({
   themes: [githubDark, githubLight],
 
   langs: [

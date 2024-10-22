@@ -37,8 +37,6 @@ const metaValues: MetaValue[] = [
   },
 ];
 
-const codeDiffPattern = /^\/\/ \[!code (\+\+|\-\-)\]$/;
-
 const shikiRehypeOptions: RehypeShikiCoreOptions = {
   themes: {
     dark: "github-dark",

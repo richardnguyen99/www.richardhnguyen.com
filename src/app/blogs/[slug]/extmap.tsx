@@ -8,6 +8,11 @@ import PythonIcon from "@/components/icons/python";
 import ShellIcon from "@/components/icons/shell";
 import GraphQLIcon from "@/components/icons/graphql";
 import ProtobufIcon from "@/components/icons/protobuf";
+import TsIcon from "@/components/icons/ts";
+import MarkdownIcon from "@/components/icons/markdown";
+import MdxIcon from "@/components/icons/mdx";
+import CSSIcon from "@/components/icons/css";
+import HTMLIcon from "@/components/icons/html";
 
 interface ExtensionObject {
   text: string;
@@ -36,6 +41,41 @@ const iterable: ExtensionRecord[] = [
     {
       text: "JavaScript",
       component: <JsIcon />,
+    },
+  ],
+  [
+    "ts",
+    {
+      text: "TypeScript",
+      component: <TsIcon />,
+    },
+  ],
+  [
+    "md",
+    {
+      text: "Markdown",
+      component: <MarkdownIcon />,
+    },
+  ],
+  [
+    "css",
+    {
+      text: "CSS",
+      component: <CSSIcon />,
+    },
+  ],
+  [
+    "html",
+    {
+      text: "HTML",
+      component: <HTMLIcon />,
+    },
+  ],
+  [
+    "mdx",
+    {
+      text: "MDX",
+      component: <MdxIcon />,
     },
   ],
   [

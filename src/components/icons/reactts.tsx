@@ -1,7 +1,13 @@
 import * as React from "react";
 
 const ReactTSIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" {...props}>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 32 32"
+    width="16"
+    height="16"
+    {...props}
+  >
     <title>reactts</title>
     <circle cx="16" cy="15.974" r="2.5" style={{ fill: "#007acc" }} />
     <path

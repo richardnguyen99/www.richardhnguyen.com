@@ -28,6 +28,33 @@ html.light .shiki span {
   font-weight: var(--shiki-light-font-weight) !important;
   text-decoration: var(--shiki-light-text-decoration) !important;
 }
+.shiki span.line.diff,
+.shiki span.line.highlighted {
+  @apply relative inline-block;
+  @apply -mx-4 px-4;
+  @apply border-l-2;
+}
+
+.shiki span.line {
+}
+
+html.dark .shiki span.line.diff,
+html.dark .shiki span.line.highlighted {
+  @apply border-sky-500 !bg-sky-700/20;
+}
+
+html.dark .shiki span.line.diff.add {
+  @apply border-green-500 !bg-green-900/30;
+}
+
+html.dark .shiki span.line.diff.remove {
+  @apply border-red-500 !bg-red-900/30;
+}
+
+html.dark .shiki span.line.diff > span,
+html.dark .shiki span.line.highlighted > span {
+  @apply !bg-transparent;
+}
 
 .content {
   /* For general text, unless specified otherwise */
@@ -58,7 +85,7 @@ html.light .shiki span {
 .content p {
   @apply mx-[var(--article-gutter-size)] w-[var(--article-container-size)];
   @apply mb-12;
-  @apply text-sm sm:text-base;
+  @apply text-sm leading-6 sm:text-base sm:leading-8;
 }
 
 .content strong {
@@ -73,13 +100,14 @@ html.light .shiki span {
 }
 
 .content li {
-  @apply mb-2 ml-4 pl-2 lg:mb-4 lg:ml-6 lg:pl-4;
-  @apply text-sm sm:text-base;
+  @apply mb-3 ml-4 pl-2 lg:mb-5 lg:ml-7 lg:pl-4;
+  @apply text-sm leading-6 sm:text-base sm:leading-8;
   @apply break-words;
 }
 
 .content li p {
   @apply m-0 p-0;
+  @apply leading-6;
 }
 
 .content ul li {
@@ -93,6 +121,7 @@ html.light .shiki span {
 .content section.footnotes li p {
   @apply w-full;
   @apply whitespace-break-spaces break-words;
+  @apply leading-6;
 }
 
 .content pre {
@@ -101,7 +130,7 @@ html.light .shiki span {
   @apply text-sm sm:text-base;
   @apply rounded-lg border border-neutral-300 dark:border-neutral-600;
   @apply [counter-reset:_line];
-  @apply overflow-x-auto;
+  @apply relative overflow-x-hidden;
 }
 
 .content pre .menubar {
@@ -140,8 +169,10 @@ html.light .shiki span {
 }
 
 .content pre code {
-  @apply block;
-  @apply p-4;
+  @apply grid whitespace-pre break-normal p-4 text-left;
+  @apply text-sm sm:text-base;
+  @apply overflow-x-auto;
+  @apply break-words;
 }
 
 .content table {
@@ -157,12 +188,39 @@ html.light .shiki span {
   @apply border border-neutral-300 dark:border-neutral-600;
   @apply dark:bg-neutral-800 dark:text-neutral-200;
   @apply whitespace-nowrap;
+  @apply not-italic;
+}
+
+.content code:is(a code) {
+  @apply border-lime-500 dark:border-lime-700;
+  @apply bg-lime-400/10 dark:bg-lime-700/20;
+  @apply text-lime-500 dark:text-lime-500;
+  @apply px-1.5 py-1;
+  @apply hover:[&>span]:border-lime-500;
+}
+
+.content code:is(a code) span {
+  @apply border-b border-transparent;
 }
 
 .content pre:not(pre[data-display-line-numbers="false"]) .line::before {
   @apply content-[counter(line)] [counter-increment:_line];
-  @apply mr-4 inline-block w-4 text-right;
+  @apply mr-6 inline-block w-4 text-right;
   @apply text-neutral-300 dark:text-neutral-600;
+}
+
+.content pre .line.diff::after {
+  @apply absolute left-8 top-0;
+  @apply mr-4 inline-block w-4 text-right;
+  @apply text-neutral-300 dark:text-neutral-200;
+}
+
+.content pre .line.diff.add::after {
+  @apply content-["+"];
+}
+
+.content pre .line.diff.remove::after {
+  @apply content-["-"];
 }
 
 .content h1,

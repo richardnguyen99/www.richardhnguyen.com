@@ -22,7 +22,7 @@ const BlogCode: React.FC<BlogCodeProps> = ({
   ...rest
 }) => {
   const fileExt = React.useMemo(() => {
-    const ext = extMap.get(lang);
+    const ext = extMap.get(lang || "default");
 
     if (!ext) {
       console.warn(`No extension found for ${lang}. Using default.`);
@@ -51,7 +51,7 @@ const BlogCode: React.FC<BlogCodeProps> = ({
 
         {allowCopy && <BlogCodeCopyButton content={rawCode} />}
       </div>
-      {children}
+      <div className="w-full overflow-x-auto">{children}</div>
     </pre>
   );
 };

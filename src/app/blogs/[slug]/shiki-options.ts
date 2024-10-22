@@ -1,3 +1,9 @@
+import {
+  transformerNotationDiff,
+  transformerMetaHighlight,
+  transformerRemoveNotationEscape,
+  transformerNotationHighlight,
+} from "@shikijs/transformers";
 import { type RehypeShikiCoreOptions } from "@shikijs/rehype/core";
 
 interface MetaValue {
@@ -7,9 +13,9 @@ interface MetaValue {
 
 export interface MetaMap {
   title: string;
-  displayLineNumbers: boolean;
-  allowCopy: boolean;
-  lang: string;
+  displayLineNumbers: boolean | undefined;
+  allowCopy: boolean | undefined;
+  lang: string | undefined;
   rawCode: string;
 }
 
@@ -31,6 +37,8 @@ const metaValues: MetaValue[] = [
   },
 ];
 
+const codeDiffPattern = /^\/\/ \[!code (\+\+|\-\-)\]$/;
+
 const shikiRehypeOptions: RehypeShikiCoreOptions = {
   themes: {
     dark: "github-dark",
@@ -41,8 +49,8 @@ const shikiRehypeOptions: RehypeShikiCoreOptions = {
   parseMetaString(metaString) {
     const map: MetaMap = {
       title: "",
-      displayLineNumbers: true,
-      allowCopy: true,
+      displayLineNumbers: undefined,
+      allowCopy: undefined,
       lang: "txt",
       rawCode: "",
     };
@@ -66,18 +74,25 @@ const shikiRehypeOptions: RehypeShikiCoreOptions = {
     return map;
   },
   transformers: [
+    transformerNotationDiff(),
+    transformerMetaHighlight(),
+    transformerNotationHighlight(),
+    transformerRemoveNotationEscape(),
     {
       preprocess(code, options) {
         const optionMeta = options.meta as MetaMap;
 
-        optionMeta.rawCode = code;
+        optionMeta.rawCode = code.replace(
+          /(\/\/ \[!code (\+\+|\-\-|highlight)\]|\u00AD)/g,
+          "",
+        );
         optionMeta.lang = options.lang;
 
         if (!optionMeta.title || optionMeta.title.length <= 0) {
           optionMeta.title = "none";
         }
 
-        if (!optionMeta.displayLineNumbers) {
+        if (typeof optionMeta.displayLineNumbers === "undefined") {
           // Disable line numbers for shell scripts
           if (this.options.lang === "sh") {
             optionMeta.displayLineNumbers = false;
@@ -86,10 +101,11 @@ const shikiRehypeOptions: RehypeShikiCoreOptions = {
           }
         }
 
-        if (!optionMeta.allowCopy) {
+        if (typeof optionMeta.allowCopy === "undefined") {
           optionMeta.allowCopy = true;
         }
       },
+
       span(node, line, col) {
         node.properties["data-token"] = `token:${line}:${col}`;
       },

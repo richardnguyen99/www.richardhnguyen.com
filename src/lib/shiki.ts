@@ -8,6 +8,9 @@ import graphqlLang from "shiki/langs/graphql.mjs";
 import pythonLang from "shiki/langs/python.mjs";
 import shellLang from "shiki/langs/shellscript.mjs";
 import protobufLang from "shiki/langs/protobuf.mjs";
+import markdownLang from "shiki/langs/markdown.mjs";
+import mdxLang from "shiki/langs/mdx.mjs";
+import htmlLang from "shiki/langs/html.mjs";
 
 import wasm from "shiki/wasm";
 
@@ -21,6 +24,9 @@ const highlighter = createHighlighterCore({
     pythonLang,
     shellLang,
     protobufLang,
+    markdownLang,
+    mdxLang,
+    htmlLang,
   ],
   engine: createOnigurumaEngine(wasm),
 });

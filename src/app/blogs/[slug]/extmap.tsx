@@ -13,6 +13,8 @@ import MdxIcon from "@/components/icons/mdx";
 import CSSIcon from "@/components/icons/css";
 import HTMLIcon from "@/components/icons/html";
 import { TerminalIcon } from "@primer/octicons-react";
+import ReactJSIcon from "@/components/icons/reactjs";
+import ScssIcon from "@/components/icons/scss";
 
 interface ExtensionObject {
   text: string;
@@ -27,6 +29,13 @@ const iterable: ExtensionRecord[] = [
     {
       text: "React TypeScript",
       component: <ReactTSIcon />,
+    },
+  ],
+  [
+    "jsx",
+    {
+      text: "React JavaScript",
+      component: <ReactJSIcon />,
     },
   ],
   [
@@ -62,6 +71,13 @@ const iterable: ExtensionRecord[] = [
     {
       text: "CSS",
       component: <CSSIcon />,
+    },
+  ],
+  [
+    "scss",
+    {
+      text: "SCSS",
+      component: <ScssIcon />,
     },
   ],
   [

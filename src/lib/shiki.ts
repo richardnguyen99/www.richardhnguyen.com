@@ -1,34 +1,24 @@
-import { createHighlighterCore } from "shiki/core";
-import { createOnigurumaEngine } from "shiki/engine-oniguruma.mjs";
-import githubDark from "shiki/themes/github-dark.mjs";
-import githubLight from "shiki/themes/github-light.mjs";
-import javascriptLang from "shiki/langs/javascript.mjs";
-import cssLang from "shiki/langs/css.mjs";
-import graphqlLang from "shiki/langs/graphql.mjs";
-import pythonLang from "shiki/langs/python.mjs";
-import shellLang from "shiki/langs/shellscript.mjs";
-import protobufLang from "shiki/langs/protobuf.mjs";
-import markdownLang from "shiki/langs/markdown.mjs";
-import mdxLang from "shiki/langs/mdx.mjs";
-import htmlLang from "shiki/langs/html.mjs";
+import { createHighlighter } from "shiki";
 
-import wasm from "shiki/wasm";
-
-const highlighter = await createHighlighterCore({
-  themes: [githubDark, githubLight],
-
+const highlighter = await createHighlighter({
+  themes: ["github-dark", "github-light"],
   langs: [
-    javascriptLang,
-    cssLang,
-    graphqlLang,
-    pythonLang,
-    shellLang,
-    protobufLang,
-    markdownLang,
-    mdxLang,
-    htmlLang,
+    "ansi",
+    "txt",
+    "css",
+    "tsx",
+    "jsx",
+    "ts",
+    "js",
+    "graphql",
+    "python",
+    "shell",
+    "protobuf",
+    "markdown",
+    "mdx",
+    "html",
+    "scss",
   ],
-  engine: createOnigurumaEngine(wasm),
 });
 
 export default highlighter;

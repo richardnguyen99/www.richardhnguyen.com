@@ -28,31 +28,46 @@ html.light .shiki span {
   font-weight: var(--shiki-light-font-weight) !important;
   text-decoration: var(--shiki-light-text-decoration) !important;
 }
-.shiki span.line.diff,
-.shiki span.line.highlighted {
+
+.content pre code[data-theme*=" "],
+.content pre code[data-theme*=" "] span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  .content pre code[data-theme*=" "],
+  .content pre code[data-theme*=" "] span {
+    color: var(--shiki-dark);
+    background-color: var(--shiki-dark-bg);
+  }
+}
+
+.shiki span[data-line*=""].diff,
+.shiki span[data-line*=""].highlighted {
   @apply relative inline-block;
   @apply -mx-4 px-4;
   @apply border-l-2;
 }
 
-.shiki span.line {
+.shiki span[data-line*=""] {
 }
 
-html.dark .shiki span.line.diff,
-html.dark .shiki span.line.highlighted {
+html.dark .shiki span[data-line*=""].diff,
+html.dark .shiki span[data-line*=""].highlighted {
   @apply border-sky-500 !bg-sky-700/20;
 }
 
-html.dark .shiki span.line.diff.add {
+html.dark .shiki span[data-line*=""].diff.add {
   @apply border-green-500 !bg-green-900/30;
 }
 
-html.dark .shiki span.line.diff.remove {
+html.dark .shiki span[data-line*=""].diff.remove {
   @apply border-red-500 !bg-red-900/30;
 }
 
-html.dark .shiki span.line.diff > span,
-html.dark .shiki span.line.highlighted > span {
+html.dark .shiki span[data-line*=""].diff > span,
+html.dark .shiki span[data-line*=""].highlighted > span {
   @apply !bg-transparent;
 }
 
@@ -175,6 +190,10 @@ html.dark .shiki span.line.highlighted > span {
   @apply break-words;
 }
 
+.content pre code:not(pre[class*="shiki"] code) {
+  @apply leading-[18px];
+}
+
 .content table {
   @apply mx-[var(--article-gutter-size)] w-[var(--article-container-size)];
   @apply mb-12;
@@ -203,23 +222,33 @@ html.dark .shiki span.line.highlighted > span {
   @apply border-b border-transparent;
 }
 
-.content pre:not(pre[data-display-line-numbers="false"]) .line::before {
+.content
+  pre:not(pre[data-display-line-numbers="false"])
+  span[data-line*=""]::before {
   @apply content-[counter(line)] [counter-increment:_line];
   @apply mr-6 inline-block w-4 text-right;
   @apply text-neutral-300 dark:text-neutral-600;
 }
 
-.content pre .line.diff::after {
+.content
+  pre:is(pre[data-display-line-numbers="false"])
+  [data-line*=""]::before {
+  @apply content-[""];
+  @apply inline-block;
+  @apply text-neutral-300 dark:text-neutral-600;
+}
+
+.content pre [data-line*=""].diff::after {
   @apply absolute left-8 top-0;
   @apply mr-4 inline-block w-4 text-right;
   @apply text-neutral-300 dark:text-neutral-200;
 }
 
-.content pre .line.diff.add::after {
+.content pre [data-line*=""].diff.add::after {
   @apply content-["+"];
 }
 
-.content pre .line.diff.remove::after {
+.content pre [data-line*=""].diff.remove::after {
   @apply content-["-"];
 }
 

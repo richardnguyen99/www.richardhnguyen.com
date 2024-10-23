@@ -78,6 +78,27 @@ const components: NonNullable<
     );
   },
 
+  figure: (props) => {
+    const { children } = props;
+
+    const firstChild = React.Children.toArray(children)[0];
+    const secondChild = React.Children.toArray(children)[1];
+
+    // get props of the first child
+    if (React.isValidElement(firstChild) && React.isValidElement(secondChild)) {
+      const cloneFirstChild = React.cloneElement(firstChild, {}, null);
+
+      return (
+        <figure {...props}>
+          {cloneFirstChild}
+          {secondChild}
+        </figure>
+      );
+    }
+
+    return <figure {...props}>{children}</figure>;
+  },
+
   pre: (props) => {
     // Merge the props with the meta values. Meta values are passed after Shiki
     // processes the code block.
@@ -87,6 +108,8 @@ const components: NonNullable<
         HTMLPreElement
       > &
         MetaMap;
+
+    console.log("props", props);
 
     return (
       <BlogCode

@@ -73,9 +73,7 @@ const shikiRehypeOptions: RehypeShikiCoreOptions = {
   },
   transformers: [
     transformerNotationDiff(),
-    transformerMetaHighlight(),
     transformerNotationHighlight(),
-    transformerRemoveNotationEscape(),
     {
       preprocess(code, options) {
         const optionMeta = options.meta as MetaMap;

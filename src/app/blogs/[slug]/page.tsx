@@ -8,6 +8,10 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { fromHtmlIsomorphic } from "hast-util-from-html-isomorphic";
 import rehypeSlug from "rehype-slug";
 import rehypeShikiFromHighlighter from "@shikijs/rehype/core";
+import rehypeParse from "rehype-parse";
+import rehypeRemark from "rehype-remark";
+import rehypePrettyCode from "rehype-pretty-code";
+import { getSingletonHighlighter } from "shiki";
 
 import { generateMdxSlugs, getMdxContentFromSlug } from "@/lib/mdx";
 import { Separator } from "@/components/ui/separator";
@@ -81,9 +85,20 @@ export default async function BlogPost({ params: { slug } }: BlogPostProps) {
               useDynamicImport: true,
               rehypePlugins: [
                 [
-                  rehypeShikiFromHighlighter,
-                  shikiHighlighter,
-                  shikiRehypeOptions,
+                  rehypePrettyCode,
+                  {
+                    defaultLang: "txt",
+                    theme: {
+                      dark: "github-dark-high-contrast",
+                      light: "github-light",
+                    },
+                    transformers: shikiRehypeOptions.transformers,
+                    getHighlighter: (options) => {
+                      return getSingletonHighlighter({
+                        ...options,
+                      });
+                    },
+                  } as Parameters<typeof rehypePrettyCode>[0],
                 ],
                 rehypeSlug,
                 [

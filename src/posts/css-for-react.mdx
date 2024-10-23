@@ -1,9 +1,9 @@
 ---
 title: 'CSS for React'
 slug: 'css-for-react'
-date: '2024-09-30'
+date: '2024-10-21'
 published: true
-publishedAt: '2024-09-30'
+publishedAt: '2024-10-21'
 author: 'Richard H. Nguyen'
 tags:
   - 'css'
@@ -12,19 +12,159 @@ category: 'web-development'
 thumbnail: '/thumbnails/css-for-react.png'
 changeLog:
   -
-    date: '2024-09-30'
+    date: '2024-10-21'
     changes:
       - 'Initial post'
 ---
 
-React has been proven to be a powerful library for building web applications. It
-provides a minimum but essential set of features to build a modern web without
-restricting developers to follow a specific pattern. This leads to a wide range
-of tools and patterns that developers can choose from. Writing in CSS is not
-excluded. From inline styles to CSS-in-JS, developers can choose the best way to
-style their components. In this post, we will discuss the most common ways to
-style React components.
+Back in the old days, we can just link up a CSS file in the `<head>` tag of our
+HTML document and we call it a day. But with the rise of React applications,
+this is getting harder and harder. More mordern CSS techniques are invented to
+solve problems of CSS with React. But what are they?
 
 {/* EXCERPT */}
 
 # Introduction
+
+CSS is a stylesheet language that is used to style the HTML elements and make
+them look better, more appealing. CSS seems to be easy to configure and use. You
+can just write some CSS code, or might use a third-party library like Bootstrap
+and link up their CDN in your HTML files. But now, with the rise of React and
+single-page applications, things are getting more complicated. Due to the nature
+of bundling and optimization[^1], it is reccomended to keep your CSS during the
+React compiling process.
+
+# CSS styling
+
+## Use vanilla CSS
+
+The most simple way to style your React components is to write your CSS rules.
+But instead of linking up in the `<head>` tag, you import your CSS file in your
+React root component. This allows the CSS to be optimized and bundled better in
+production build[^2].
+
+```css title="Button.css" displayLineNumbers="false"
+.Button {
+  padding: 20px;
+}
+```
+
+```jsx title="Button.jsx" displayLineNumbers="false"
+import React, { Component } from 'react';
+import './Button.css'; // Tell webpack that Button.js uses these styles
+
+const Button = () => {
+  return <button className="Button">Click me</button>;
+};
+```
+
+## Use CSS modules
+
+CSS modules is a way to scope your CSS to a specific component. Instead of
+having a massive CSS file that styles all the components, CSS modules allows you
+to have a CSS file for each component. Another benefit of CSS modules is that it
+prevents CSS class name conflicts[^3], even if you use the same class name in a
+component.
+
+```ansi
+[0;36m  vite v5.0.0[0;32m dev server running at:[0m
+
+  > Local: [0;36mhttp://localhost:[0;36;1m3000[0;36m/[0m
+  > Network: [0;2muse `--host` to expose[0m
+
+  [0;36mready in 125ms.[0m
+
+[0;2m8:38:02 PM[0m [0;36;1m[vite][0m [0;32mhmr update [0;2m/src/App.jsx
+```
+
+```css title="Button.module.css" displayLineNumbers="false"
+.error {
+  color: red;
+}
+```
+
+```css title="app.css" displayLineNumbers="false"
+.error {
+  background-color: red;
+}
+```
+
+```tsx title="Button.tsx" displayLineNumbers="false"
+import React from 'react';
+import styles from './Button.module.css'; // Import css modules stylesheet as styles
+import './app.css'; // Import regular stylesheet
+
+const Button = () => {
+  return <button className={styles.error}>Click me</button>;
+};
+```
+
+The result of the above code is that the button will have a red text color from
+the `.error` class in `Button.module.css`.
+
+```html displayLineNumbers="false" allowCopy="false"
+<!-- This button has red text, not the red background -->
+<button class="Button_error_xazx5">Error Button</button>
+```
+
+## Use SCSS
+
+SCSS is a superset of CSS that allows you to write CSS with more features like
+mixins and variables. For example, if you want to create a gutter system for
+margins and paddings, you can use SCSS to loop through the values and create
+classes for them.
+
+```scss title="gutter.scss" displayLineNumbers="false"
+// Define the breakpoints map
+$breakpoints: (
+  "xs": 0px,
+  "sm": 576px,
+  "md": 768px,
+  "lg": 992px,
+  "xl": 1200px,
+  "xxl": 1400px
+);
+
+// Mixin to generate margin rules for each breakpoint
+@mixin generate-margin-rules {
+  @each $breakpoint, $min-width in $breakpoints {
+    // Define media query for each breakpoint
+    @media (min-width: #{$min-width}) {
+      @for $i from 1 through 64 {
+        .m-#{$i}-#{$breakpoint} {
+          margin: #{($i * 0.25)}rem;
+        }
+        .mt-#{$i}-#{$breakpoint} {
+          margin-top: #{($i * 0.25)}rem;
+        }
+        .mr-#{$i}-#{$breakpoint} {
+          margin-right: #{($i * 0.25)}rem;
+        }
+        .mb-#{$i}-#{$breakpoint} {
+          margin-bottom: #{($i * 0.25)}rem;
+        }
+        .ml-#{$i}-#{$breakpoint} {
+          margin-left: #{($i * 0.25)}rem;
+        }
+        .mx-#{$i}-#{$breakpoint} {
+          margin-left: #{($i * 0.25)}rem;
+          margin-right: #{($i * 0.25)}rem;
+        }
+        .my-#{$i}-#{$breakpoint} {
+          margin-top: #{($i * 0.25)}rem;
+          margin-bottom: #{($i * 0.25)}rem;
+        }
+      }
+    }
+  }
+}
+```
+
+
+
+
+# References
+
+[^1]: [Why you shouldn't use inline styling in production React apps](https://blog.logrocket.com/why-you-shouldnt-use-inline-styling-in-production-react-apps/)
+[^2]: [React Official Documentation - Adding a Stylesheet](https://create-react-app.dev/docs/adding-a-stylesheet/)
+[^3]: [React Official Documentation - CSS Modules](https://create-react-app.dev/docs/adding-a-css-modules-stylesheet/)

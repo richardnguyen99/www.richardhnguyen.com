@@ -83,27 +83,27 @@ for creating a blog website using App Router and MDX. You can use this template
 to visualize how it works. First, create a new NextJS project with the following
 command:
 
-```sh
-npx create-next-app --example https://github.com/vercel/examples/tree/main/solutions/blog shiki-mdx-next-app
+```ansi
+[0;34mnpx[0;0m create-next-app --example [0;33mhttps://github.com/vercel/examples/tree/main/solutions/blog[0;0m shiki-mdx-next-app
 
 ...
 
-Success! Created shiki-mdx-next-app at shiki-mdx-next-app
+[0;32mSuccess![0;0m Created shiki-mdx-next-app at shiki-mdx-next-app
 Inside that directory, you can run several commands:
 
-  npm run dev
+  [0;34mnpm run dev[0;0m
     Starts the development server.
 
-  npm run build
+  [0;34mnpm run build[0;0m
     Builds the app for production.
 
-  npm start
+  [0;34mnpm start[0;0m
     Runs the built app in production mode.
 
 We suggest that you begin by typing:
 
-  cd shiki-mdx-next-app
-  npm run dev
+  [0;34mcd[0;0m shiki-mdx-next-app
+  [0;34mnpm run dev[0;0m
 ```
 
 *You can replace `shiki-mdx-next-app` with your project name.*
@@ -127,8 +127,8 @@ Rehype Plugin for Shiki
 
 Let's install these packages:
 
-```sh
-npm install -D shiki @shikijs/rehype @shikijs/transformers
+```ansi
+[0;34mnpm[0;0m install -D shiki @shikijs/rehype @shikijs/transformers
 ```
 
 You did not mistake. Shiki dependencies are suggested to be installed as dev
@@ -146,7 +146,7 @@ languages you specify.
 Create a `lib` directory in the `/app` directory. Then, create a new file called
 `shiki.ts` with the following content:
 
-```ts title="lib/shiki.ts"
+```ts title="lib/shiki.ts" showLineNumbers
 import { createHighlighterCore } from "shiki/core";
 import { createOnigurumaEngine } from "shiki/engine-oniguruma.mjs";
 import githubDark from "shiki/themes/github-dark.mjs";
@@ -207,7 +207,7 @@ used by `next-mdx-remote` to parse the code string in the MDX file and return th
 
 Go to the `app/components/mdx.tsx` file and modify it as follow:
 
-```tsx title="app/components/mdx.tsx"
+```tsx title="app/components/mdx.tsx" showLineNumbers
 // Other imports ...
 import { highlight } from "sugar-high"; // [!code --]
 import rehypeShikiFromHighlighter, { // [!code ++]
@@ -278,7 +278,7 @@ What we did here:
 Let's create a simple code block in the `index.mdx` file to test the syntax
 highlighting:
 
-~~~mdx title="how-to-use-shiki-in-next-with-mdx.mdx"
+~~~mdx title="how-to-use-shiki-in-next-with-mdx.mdx" showLineNumbers
 {/* Other content */}
 ```ansi
 npx create-next-app --example https://github.com/vercel/examples/tree/main/solutions/blog shiki-mdx-next-app
@@ -319,7 +319,7 @@ In NextJS projects, you can use either class or media query to switch between
 light and dark themes. Here is an example of how to add a dark theme with class
 in the `app/globals.css` file:
 
-```css title="app/globals.css"
+```css title="app/globals.css" showLineNumbers
 /* For dark mode using query */
 @media (prefers-color-scheme: dark) {
   .shiki,
@@ -355,7 +355,7 @@ need to intercept the component rendering via `components` prop in the
 Traditionally, `next-mdx-remote` does not parse the code block in the MDX files.
 It passes the raw code string to the native `pre` and `code` HTML elements.
 
-```tsx
+```tsx title="app/components/mdx.tsx" showLineNumbers
 let components = {
   // other components
   pre: (props) => {
@@ -414,7 +414,7 @@ However, Shiki Rehype Plugin will parse the code string and modify the `pre` and
 don't need to handle the parsing process.
 
 
-```tsx title="app/components/mdx.tsx"
+```tsx title="app/components/mdx.tsx" showLineNumbers
 export async function CustomMDX(props) {
   return (
     <MDXRemote
@@ -481,7 +481,7 @@ spreading operator `{...props}`.
 
 For example:
 
-```tsx title="app/components/mdx.tsx"
+```tsx title="app/components/mdx.tsx" showLineNumbers
 let components = {
   pre: (props) => {
     console.log(props);
@@ -491,7 +491,7 @@ let components = {
 };
 ```
 
-```tsx title="app/components/custom-pre.tsx"
+```tsx title="app/components/custom-pre.tsx" showLineNumbers
 import * as React from "react";
 
 import CopyButton from "./copy-button";
@@ -531,7 +531,7 @@ const CustomPre: React.FC<BlogCodeProps> = ({
 export default CustomPre;
 ```
 
-```tsx title="app/components/copy-button.tsx"
+```tsx title="app/components/copy-button.tsx" showLineNumbers
 "use client";
 import * as React from "react";
 
@@ -598,7 +598,7 @@ using quotes allows you to use spaces in the value.
 Using the above code block with metadata, you can access the raw metadata string
 during Shiki transformer hooks[^2]. For example:
 
-```tsx
+```tsx title="app/components/mdx.tsx" showLineNumbers
 export async function CustomMDX(props) {
   return (
     <MDXRemote
@@ -647,7 +647,7 @@ we can easily access the metadata values in other transformer hooks. Luckily,
 Shiki provides a helper function called `parseMetaString`. This function will
 take the raw metadata string and allows us to parse it into a key-value object.
 
-```tsx title="app/components/mdx.tsx"
+```tsx title="app/components/mdx.tsx" showLineNumbers
 interface MetaValue { // [!code ++]
   name: string; // [!code ++]
   regex: RegExp; // [!code ++]
@@ -741,7 +741,7 @@ export async function CustomMDX(props) {
 The `parseMetaString` function will append the metadata object to the `options`
 object in the transformer hook cycle. You can access the metadata object by using `options.meta` in the transformer hooks such as `preprocess`.
 
-```
+```js
 {
   title: '',
   displayLineNumbers: false,
@@ -753,7 +753,7 @@ object in the transformer hook cycle. You can access the metadata object by usin
 
 Then you can pass the metadata object into your `CustomPre` component:
 
-```tsx title="app/components/custom-pre.tsx"
+```tsx title="app/components/custom-pre.tsx" showLineNumbers
 const CustomPre: React.FC<BlogCodeProps> = ({
   title,
   children,
@@ -796,7 +796,7 @@ transformers: [
 
 Now the `lang` metadata will be set to `javascript`:
 
-```
+```ansi
 {
   title: '',
   displayLineNumbers: false,
@@ -812,7 +812,7 @@ as adding a language icon, or displaying the language name in the code block.
 For example, we can add the default title to the `lang` metadata if the `title`
 is missing:
 
-```tsx title="app/components/custom-pre.tsx"
+```tsx title="app/components/custom-pre.tsx" showLineNumbers
 const CustomPre: React.FC<BlogCodeProps> = ({
   title,
   children,
@@ -859,7 +859,7 @@ transformers: [
 Now, you can use the `rawCode` metadata to pass the raw code content to the
 `CopyButton` component.
 
-```tsx title="app/components/custom-pre.tsx"
+```tsx title="app/components/custom-pre.tsx" showLineNumbers
 const CustomPre: React.FC<BlogCodeProps> = ({
   title,
   children,
@@ -903,7 +903,7 @@ HTML content and add the line numbers manually. Or you can follow the best
 practice that Shiki transformer hooks follow, which is to add a CSS class to the
 HTML content. For simplicty, we are going to use the latter approach.
 
-```tsx title="app/components/mdx.tsx"
+```tsx title="app/components/mdx.tsx" showLineNumbers
 export async function CustomMDX(props) {
   return (
     <MDXRemote
@@ -962,7 +962,7 @@ The HTML output will look like this:
 Now, it's up to you on how you want to style using this CSS class. An example of
 that is to use `counter` and `content` CSS properties to add line numbers.
 
-```css title="app/globals.css" displayLineNumbers="false"
+```css title="app/globals.css"
 .prose pre {
   @apply bg-neutral-50 dark:bg-neutral-900 rounded-lg overflow-x-auto border border-neutral-200 dark:border-neutral-900 py-2 px-3 text-sm;
   @apply [counter-reset:_line];

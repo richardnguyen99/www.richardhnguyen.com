@@ -132,7 +132,7 @@ const iterable: ExtensionRecord[] = [
   [
     "default",
     {
-      text: "terminal",
+      text: "Terminal",
       component: <TerminalIcon />,
     },
   ],

@@ -92,8 +92,8 @@ fetch('/users/1')
 
 Or using tools like [Postman](https://www.postman.com/) (GUI-based) or [curl](https://curl.se/) (terminal-based).
 
-```sh
-curl -X GET http://localhost:5000/users/1
+```ansi
+[0;34mcurl[0;0m -X GET [4;33mhttp://localhost:5000/users/1[0;0m
 ```
 
 ## Pros and Cons
@@ -273,10 +273,10 @@ allow the client to send a request with a body, which can contain the query.
 With terminal-based tools like `curl`, you can send a GraphQL query to the
 server:
 
-```sh displayLineNumbers="false"
-curl -X POST http://localhost:5000/graphql \
-  -H "Content-Type: application/json" \
-  -d '{"query": "query AuthorQuery { author(id: 1) { id name songs { id title } } }"}'
+```ansi
+[0;34mcurl[0m -X POST [4;33mhttp://localhost:5000/graphql[0m \
+  -H [0;33m"Content-Type: application/json"[0m \
+  -d [0;33m'{"query": "query AuthorQuery { author(id: 1) { id name songs { id title } } }"}'[0m
 ```
 
 You can directly write the query in any programming language that supports HTTP
@@ -344,7 +344,7 @@ Using protocol buffers, gRPC can generate boilerplate code for the client and th
 
 An example of a protocol buffer definition for a simple service:
 
-```proto title="helloworld.proto"
+```proto title="helloworld.proto" showLineNumbers
 syntax = "proto3";
 
 package helloworld;

@@ -109,8 +109,6 @@ const components: NonNullable<
       > &
         MetaMap;
 
-    console.log("props", props);
-
     return (
       <BlogCode
         title={title}

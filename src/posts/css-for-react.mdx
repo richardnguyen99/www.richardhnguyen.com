@@ -67,14 +67,10 @@ prevents CSS class name conflicts[^3], even if you use the same class name in a
 component.
 
 ```ansi
-[0;36m  vite v5.0.0[0;32m dev server running at:[0m
-
-  > Local: [0;36mhttp://localhost:[0;36;1m3000[0;36m/[0m
-  > Network: [0;2muse `--host` to expose[0m
-
-  [0;36mready in 125ms.[0m
-
-[0;2m8:38:02 PM[0m [0;36;1m[vite][0m [0;32mhmr update [0;2m/src/App.jsx
+. src/
+└── Button/
+    ├── Button.module.css
+    └── Button.tsx
 ```
 
 ```css title="Button.module.css" displayLineNumbers="false"
@@ -114,7 +110,7 @@ mixins and variables. For example, if you want to create a gutter system for
 margins and paddings, you can use SCSS to loop through the values and create
 classes for them.
 
-```scss title="gutter.scss" displayLineNumbers="false"
+```scss title="gutter.scss" showLineNumbers
 // Define the breakpoints map
 $breakpoints: (
   "xs": 0px,

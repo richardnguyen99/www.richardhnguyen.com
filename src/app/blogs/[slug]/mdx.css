@@ -1,74 +1,15 @@
-/* For shiki syntax highlighting
-   @see https://shiki.style/guide/dual-themes#query-based-dark-mode
-*/
-html.dark .shiki,
-html.dark .shiki span {
-  color: var(--shiki-dark) !important;
-  background-color: color-mix(
-    in srgb,
-    var(--shiki-dark-bg),
-    transparent var(--shiki-opacity, 0%)
-  ) !important;
-  /* Optional, if you also want font styles */
-  font-style: var(--shiki-dark-font-style) !important;
-  font-weight: var(--shiki-dark-font-weight) !important;
-  text-decoration: var(--shiki-dark-text-decoration) !important;
-}
-
-html.light .shiki,
-html.light .shiki span {
-  color: var(--shiki-light) !important;
-  background-color: color-mix(
-    in srgb,
-    var(--shiki-light-bg),
-    transparent var(--shiki-opacity, 0%)
-  ) !important;
-  /* Optional, if you also want font styles */
-  font-style: var(--shiki-light-font-style) !important;
-  font-weight: var(--shiki-light-font-weight) !important;
-  text-decoration: var(--shiki-light-text-decoration) !important;
-}
-
 .content pre code[data-theme*=" "],
 .content pre code[data-theme*=" "] span {
   color: var(--shiki-light);
   background-color: var(--shiki-light-bg);
+  text-decoration: var(--shiki-light-text-decoration, unset);
 }
 
-@media (prefers-color-scheme: dark) {
-  .content pre code[data-theme*=" "],
-  .content pre code[data-theme*=" "] span {
-    color: var(--shiki-dark);
-    background-color: var(--shiki-dark-bg);
-  }
-}
-
-.shiki span[data-line*=""].diff,
-.shiki span[data-line*=""].highlighted {
-  @apply relative inline-block;
-  @apply -mx-4 px-4;
-  @apply border-l-2;
-}
-
-.shiki span[data-line*=""] {
-}
-
-html.dark .shiki span[data-line*=""].diff,
-html.dark .shiki span[data-line*=""].highlighted {
-  @apply border-sky-500 !bg-sky-700/20;
-}
-
-html.dark .shiki span[data-line*=""].diff.add {
-  @apply border-green-500 !bg-green-900/30;
-}
-
-html.dark .shiki span[data-line*=""].diff.remove {
-  @apply border-red-500 !bg-red-900/30;
-}
-
-html.dark .shiki span[data-line*=""].diff > span,
-html.dark .shiki span[data-line*=""].highlighted > span {
-  @apply !bg-transparent;
+html.dark .content pre code[data-theme*=" "],
+html.dark .content pre code[data-theme*=" "] span {
+  color: var(--shiki-dark);
+  background-color: var(--shiki-dark-bg);
+  text-decoration: var(--shiki-dark-text-decoration, unset);
 }
 
 .content {
@@ -190,8 +131,26 @@ html.dark .shiki span[data-line*=""].highlighted > span {
   @apply break-words;
 }
 
-.content pre code:not(pre[class*="shiki"] code) {
-  @apply leading-[18px];
+.content pre code[data-line-numbers] {
+  @apply [counter-reset:_line];
+}
+
+.content pre code[data-line-numbers] > [data-line]::before {
+  @apply content-[counter(line)] [counter-increment:_line];
+  @apply mr-6 inline-block w-4 text-right;
+  @apply text-neutral-300 dark:text-neutral-400;
+}
+
+.content pre code[data-line-numbers-max-digits="2"] > [data-line]::before {
+  @apply w-5;
+}
+
+.content pre code[data-line-numbers-max-digits="3"] > [data-line]::before {
+  @apply w-6;
+}
+
+.content pre code[data-line-numbers-max-digits="4"] > [data-line]::before {
+  @apply w-7;
 }
 
 .content table {
@@ -220,36 +179,6 @@ html.dark .shiki span[data-line*=""].highlighted > span {
 
 .content code:is(a code) span {
   @apply border-b border-transparent;
-}
-
-.content
-  pre:not(pre[data-display-line-numbers="false"])
-  span[data-line*=""]::before {
-  @apply content-[counter(line)] [counter-increment:_line];
-  @apply mr-6 inline-block w-4 text-right;
-  @apply text-neutral-300 dark:text-neutral-600;
-}
-
-.content
-  pre:is(pre[data-display-line-numbers="false"])
-  [data-line*=""]::before {
-  @apply content-[""];
-  @apply inline-block;
-  @apply text-neutral-300 dark:text-neutral-600;
-}
-
-.content pre [data-line*=""].diff::after {
-  @apply absolute left-8 top-0;
-  @apply mr-4 inline-block w-4 text-right;
-  @apply text-neutral-300 dark:text-neutral-200;
-}
-
-.content pre [data-line*=""].diff.add::after {
-  @apply content-["+"];
-}
-
-.content pre [data-line*=""].diff.remove::after {
-  @apply content-["-"];
 }
 
 .content h1,

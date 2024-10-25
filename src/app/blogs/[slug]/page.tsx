@@ -92,6 +92,8 @@ export default async function BlogPost({ params: { slug } }: BlogPostProps) {
                       dark: "github-dark-high-contrast",
                       light: "github-light",
                     },
+                    filterMetaString: (string) =>
+                      string.replace(/disableCopyButton="[^"]*"/, ""),
                     transformers: shikiRehypeOptions.transformers,
                     getHighlighter: (options) => {
                       return getSingletonHighlighter({

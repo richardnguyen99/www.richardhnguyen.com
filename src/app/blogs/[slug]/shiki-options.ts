@@ -14,69 +14,27 @@ interface MetaValue {
 export interface MetaMap {
   title: string;
   displayLineNumbers: boolean | undefined;
-  allowCopy: boolean | undefined;
+  disableCopyButton: boolean | undefined;
   lang: string | undefined;
   rawCode: string;
 }
-
-/**
- * Custom meta string values
- */
-const metaValues: MetaValue[] = [
-  {
-    name: "title",
-    regex: /title="(?<value>[^"]*)"/,
-  },
-  {
-    name: "displayLineNumbers",
-    regex: /displayLineNumbers="(?<value>true|false)"/,
-  },
-  {
-    name: "allowCopy",
-    regex: /allowCopy="(?<value>true|false)"/,
-  },
-];
 
 const shikiRehypeOptions: RehypeShikiCoreOptions = {
   themes: {
     dark: "github-dark",
     light: "github-light",
   },
-  cssVariablePrefix: "--shiki-",
-  defaultColor: false,
-  parseMetaString(metaString) {
-    const map: MetaMap = {
-      title: "",
-      displayLineNumbers: undefined,
-      allowCopy: undefined,
-      lang: "txt",
-      rawCode: "",
-    };
 
-    for (const value of metaValues) {
-      const result = value.regex.exec(metaString);
-
-      if (result && value.name === "title") {
-        map.title = result?.groups?.value || "";
-      }
-
-      if (result && value.name === "displayLineNumbers") {
-        map.displayLineNumbers = result.groups?.value === "true";
-      }
-
-      if (result && value.name === "allowCopy") {
-        map.allowCopy = result.groups?.value === "true";
-      }
-    }
-
-    return map;
-  },
   transformers: [
     transformerNotationDiff(),
     transformerNotationHighlight(),
     {
       preprocess(code, options) {
         const optionMeta = options.meta as MetaMap;
+        console.log("preprocess", options.meta?.__raw);
+
+        optionMeta.disableCopyButton =
+          options.meta?.__raw?.includes("disableCopyButton");
 
         optionMeta.rawCode = code.replace(
           /(\/\/ \[!code (\+\+|\-\-|highlight)\]|\u00AD)/g,
@@ -95,10 +53,6 @@ const shikiRehypeOptions: RehypeShikiCoreOptions = {
           } else {
             optionMeta.displayLineNumbers = true;
           }
-        }
-
-        if (typeof optionMeta.allowCopy === "undefined") {
-          optionMeta.allowCopy = true;
         }
       },
 

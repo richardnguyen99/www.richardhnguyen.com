@@ -9,13 +9,12 @@ type BlogCodeProps = React.PropsWithChildren<
     React.HTMLAttributes<HTMLPreElement>,
     HTMLPreElement
   > &
-    MetaMap
+    Omit<MetaMap, "displayLineNumbers">
 >;
 
 const BlogCode: React.FC<BlogCodeProps> = ({
   title,
-  displayLineNumbers,
-  allowCopy,
+  disableCopyButton,
   children,
   lang,
   rawCode,
@@ -25,7 +24,6 @@ const BlogCode: React.FC<BlogCodeProps> = ({
     const ext = extMap.get(lang || "default");
 
     if (!ext) {
-      console.warn(`No extension found for ${lang}. Using default.`);
       return extMap.get("default")!;
     }
 
@@ -33,23 +31,14 @@ const BlogCode: React.FC<BlogCodeProps> = ({
   }, [lang]);
 
   return (
-    <pre
-      /* Prepend `data-` prefix to custom properties so that NextJS will
-          pass gracefully. Use `Boolean.toString()` to force write `false`
-          values since CSS uses them. */
-      data-allow-copy={new Boolean(allowCopy).toString()}
-      data-display-line-numbers={new Boolean(displayLineNumbers).toString()}
-      data-title={title}
-      data-lang={lang}
-      {...rest}
-    >
+    <pre {...rest}>
       <div className="menubar">
         <div className="filename">
           <div>{fileExt.component}</div>
           <div>{title !== "none" ? title : fileExt.text}</div>
         </div>
 
-        {allowCopy && <BlogCodeCopyButton content={rawCode} />}
+        {!disableCopyButton && <BlogCodeCopyButton content={rawCode} />}
       </div>
       <div className="w-full overflow-x-auto">{children}</div>
     </pre>

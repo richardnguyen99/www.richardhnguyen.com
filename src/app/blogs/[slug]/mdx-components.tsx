@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/table";
 import ExternalLink from "@/components/external-link";
 import Callout from "@/components/callout";
-import { MetaMap } from "./shiki-options";
 import BlogCode from "./code";
 
 const components: NonNullable<
@@ -78,44 +77,70 @@ const components: NonNullable<
     );
   },
 
-  figure: (props) => {
-    const { children } = props;
+  figure: (
+    props: React.HTMLAttributes<HTMLElement> & {
+      "data-rehype-pretty-code-figure"?: string;
+    },
+  ) => {
+    const { children, ...rest } = props;
 
     const firstChild = React.Children.toArray(children)[0];
     const secondChild = React.Children.toArray(children)[1];
 
     // get props of the first child
-    if (React.isValidElement(firstChild) && React.isValidElement(secondChild)) {
+    if (
+      typeof props["data-rehype-pretty-code-figure"] !== "undefined" &&
+      React.isValidElement(firstChild) &&
+      React.isValidElement<HTMLPreElement>(secondChild)
+    ) {
+      console.log("figure", props);
       const cloneFirstChild = React.cloneElement(firstChild, {}, null);
 
+      console.log(firstChild.props.children);
+
+      const cloneSecondChild = React.cloneElement<HTMLPreElement>(secondChild, {
+        ...secondChild.props,
+        title: firstChild.props.children,
+      });
+
       return (
-        <figure {...props}>
+        <figure {...rest}>
           {cloneFirstChild}
-          {secondChild}
+          {cloneSecondChild}
         </figure>
       );
     }
 
-    return <figure {...props}>{children}</figure>;
+    return <figure {...props} />;
   },
 
   pre: (props) => {
-    // Merge the props with the meta values. Meta values are passed after Shiki
-    // processes the code block.
-    const { displayLineNumbers, allowCopy, title, lang, rawCode, ...rest } =
-      props as React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLPreElement>,
-        HTMLPreElement
-      > &
-        MetaMap;
+    const {
+      title,
+      lang,
+      displaylinenumbers: _,
+      rawcode,
+      allowcopy,
+      ...rest
+    } = props as React.DetailedHTMLProps<
+      React.HTMLAttributes<HTMLPreElement>,
+      HTMLPreElement
+    > & {
+      title: string;
+      lang: string;
+      displaylinenumbers: boolean;
+      rawcode: string;
+      allowcopy: boolean;
+    };
+
+    console.log("pre", props);
 
     return (
       <BlogCode
         title={title}
         lang={lang}
-        displayLineNumbers={displayLineNumbers}
-        allowCopy={allowCopy}
-        rawCode={rawCode}
+        disableCopyButton={!allowcopy}
+        rawCode={rawcode}
         {...rest}
       />
     );

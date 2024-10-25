@@ -36,6 +36,10 @@ React compiling process.
 
 # CSS styling
 
+Writing your own CSS has been a good way to style your React components. It's
+also a good way if  you want to control and customize your design system. There
+are many ways to achieve this.
+
 ## Use vanilla CSS
 
 The most simple way to style your React components is to write your CSS rules.
@@ -43,13 +47,13 @@ But instead of linking up in the `<head>` tag, you import your CSS file in your
 React root component. This allows the CSS to be optimized and bundled better in
 production build[^2].
 
-```css title="Button.css" displayLineNumbers="false"
+```css title="Button.css"
 .Button {
   padding: 20px;
 }
 ```
 
-```jsx title="Button.jsx" displayLineNumbers="false"
+```jsx title="Button.jsx"
 import React, { Component } from 'react';
 import './Button.css'; // Tell webpack that Button.js uses these styles
 
@@ -73,19 +77,19 @@ component.
     └── Button.tsx
 ```
 
-```css title="Button.module.css" displayLineNumbers="false"
+```css title="Button.module.css"
 .error {
   color: red;
 }
 ```
 
-```css title="app.css" displayLineNumbers="false"
+```css title="app.css"
 .error {
   background-color: red;
 }
 ```
 
-```tsx title="Button.tsx" displayLineNumbers="false"
+```tsx title="Button.tsx"
 import React from 'react';
 import styles from './Button.module.css'; // Import css modules stylesheet as styles
 import './app.css'; // Import regular stylesheet
@@ -98,7 +102,7 @@ const Button = () => {
 The result of the above code is that the button will have a red text color from
 the `.error` class in `Button.module.css`.
 
-```html displayLineNumbers="false" allowCopy="false"
+```html
 <!-- This button has red text, not the red background -->
 <button class="Button_error_xazx5">Error Button</button>
 ```
@@ -110,7 +114,7 @@ mixins and variables. For example, if you want to create a gutter system for
 margins and paddings, you can use SCSS to loop through the values and create
 classes for them.
 
-```scss title="gutter.scss" showLineNumbers
+```scss title="gutter.scss" showLineNumbers disableCopyButton
 // Define the breakpoints map
 $breakpoints: (
   "xs": 0px,

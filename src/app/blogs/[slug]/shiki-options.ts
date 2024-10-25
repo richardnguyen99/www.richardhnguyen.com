@@ -1,15 +1,8 @@
 import {
   transformerNotationDiff,
-  transformerMetaHighlight,
-  transformerRemoveNotationEscape,
   transformerNotationHighlight,
 } from "@shikijs/transformers";
 import { type RehypeShikiCoreOptions } from "@shikijs/rehype/core";
-
-interface MetaValue {
-  name: string;
-  regex: RegExp;
-}
 
 export interface MetaMap {
   title: string;
@@ -31,8 +24,6 @@ const shikiRehypeOptions: RehypeShikiCoreOptions = {
     {
       preprocess(code, options) {
         const optionMeta = options.meta as MetaMap;
-        console.log("preprocess", options.meta?.__raw);
-
         optionMeta.disableCopyButton =
           options.meta?.__raw?.includes("disableCopyButton");
 

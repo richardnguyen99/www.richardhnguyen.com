@@ -47,13 +47,13 @@ But instead of linking up in the `<head>` tag, you import your CSS file in your
 React root component. This allows the CSS to be optimized and bundled better in
 production build[^2].
 
-```css title="Button.css"
+```css title="Button.css" showLineNumbers
 .Button {
   padding: 20px;
 }
 ```
 
-```jsx title="Button.jsx"
+```jsx title="Button.jsx" showLineNumbers
 import React, { Component } from 'react';
 import './Button.css'; // Tell webpack that Button.js uses these styles
 
@@ -77,19 +77,19 @@ component.
     └── Button.tsx
 ```
 
-```css title="Button.module.css"
+```css title="Button.module.css" showLineNumbers
 .error {
   color: red;
 }
 ```
 
-```css title="app.css"
+```css title="app.css" showLineNumbers
 .error {
   background-color: red;
 }
 ```
 
-```tsx title="Button.tsx"
+```tsx title="Button.tsx" showLineNumbers
 import React from 'react';
 import styles from './Button.module.css'; // Import css modules stylesheet as styles
 import './app.css'; // Import regular stylesheet
@@ -114,7 +114,7 @@ mixins and variables. For example, if you want to create a gutter system for
 margins and paddings, you can use SCSS to loop through the values and create
 classes for them.
 
-```scss title="gutter.scss" showLineNumbers disableCopyButton
+```scss title="gutter.scss" showLineNumbers
 // Define the breakpoints map
 $breakpoints: (
   "xs": 0px,

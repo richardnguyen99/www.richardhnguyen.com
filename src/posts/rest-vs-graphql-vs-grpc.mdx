@@ -151,7 +151,7 @@ def get_author_songs(id):
 However, with GraphQL, the client can fetch all the data in a single request
 with the help of GraphQL query language:
 
-```graphql
+```graphql showLineNumbers
 query AuthorQuery {
   author(id: <author_id>) {
     id
@@ -178,7 +178,7 @@ The communication between the client and the server is done through the GraphQL
 query language. The server will define a schema that describes the entities and
 the relationships between them.
 
-```graphql
+```graphql showLineNumbers
 type Author {
   id: ID!
   name: String!
@@ -206,7 +206,7 @@ type Mutation {
 
 The client can write a query to fetch the exact data it needs:
 
-```graphql
+```graphql showLineNumbers
 query AuthorQuery {
   author(id: <author_id>) {
     id
@@ -229,7 +229,7 @@ mutation CreateAuthor {
 In the server, the query will be resolved by the server's resolver functions, as
 long as the application is written in a language that supports GraphQL.
 
-```js
+```js showLineNumbers
 import { GraphQLSchema, GraphQLObjectType, GraphQLString } from 'graphql';
 
 const schema = new GraphQLSchema({
@@ -282,7 +282,7 @@ server:
 You can directly write the query in any programming language that supports HTTP
 requests. For example, in Python:
 
-```py
+```py showLineNumbers
 import requests
 
 query = """
@@ -385,7 +385,7 @@ Instead, it uses the service name and the method name to define the actions.
 These implementation details are abstracted away from the client, and the
 developers can implement the rest based on the generated code. For example,
 
-```js title="server.js"
+```js title="server.js" showLineNumbers
 // generated code from the protocol buffers definition
 var messages = require('./helloworld_pb');
 var services = require('./helloworld_grpc_pb');
@@ -404,7 +404,7 @@ function sayHello(call, callback) {
 
 The client also needs to generate the client code from the protocol buffers.
 
-```js title="client.js"
+```js title="client.js" showLineNumbers
 // generated code from the protocol buffers definition
 var messages = require('./helloworld_pb');
 var services = require('./helloworld_grpc_pb');

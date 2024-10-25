@@ -93,10 +93,7 @@ const components: NonNullable<
       React.isValidElement(firstChild) &&
       React.isValidElement<HTMLPreElement>(secondChild)
     ) {
-      console.log("figure", props);
       const cloneFirstChild = React.cloneElement(firstChild, {}, null);
-
-      console.log(firstChild.props.children);
 
       const cloneSecondChild = React.cloneElement<HTMLPreElement>(secondChild, {
         ...secondChild.props,
@@ -118,9 +115,9 @@ const components: NonNullable<
     const {
       title,
       lang,
-      displaylinenumbers: _,
       rawcode,
-      allowcopy,
+      disablecopybutton,
+      displaylinenumbers: _,
       ...rest
     } = props as React.DetailedHTMLProps<
       React.HTMLAttributes<HTMLPreElement>,
@@ -128,18 +125,16 @@ const components: NonNullable<
     > & {
       title: string;
       lang: string;
-      displaylinenumbers: boolean;
       rawcode: string;
-      allowcopy: boolean;
+      disablecopybutton?: string;
+      displaylinenumbers?: boolean;
     };
-
-    console.log("pre", props);
 
     return (
       <BlogCode
         title={title}
         lang={lang}
-        disableCopyButton={!allowcopy}
+        disableCopyButton={typeof disablecopybutton === "string"}
         rawCode={rawcode}
         {...rest}
       />

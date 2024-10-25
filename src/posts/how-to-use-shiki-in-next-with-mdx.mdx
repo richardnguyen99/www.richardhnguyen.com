@@ -45,7 +45,7 @@ like NextJS.
 I'm using ShikiJS for this project, which is written in NextJS and MDX. You can
 inspect the source code of this page to see how it works.
 
-```js
+```js disableCopyButton
 console.log('Hello World');
 ```
 
@@ -83,7 +83,7 @@ for creating a blog website using App Router and MDX. You can use this template
 to visualize how it works. First, create a new NextJS project with the following
 command:
 
-```ansi
+```ansi disableCopyButton
 [0;34mnpx[0;0m create-next-app --example [0;33mhttps://github.com/vercel/examples/tree/main/solutions/blog[0;0m shiki-mdx-next-app
 
 ...
@@ -194,7 +194,7 @@ export default highlighter;
 The way Shiki works is to parse the code string directly and return the HTML
 content. For example:
 
-```js displayLineNumbers="false" allowCopy="false"
+```js disableCopyButton
 await highlighter.codeToHtml('console.log("Hello World")', {
   lang: 'javascript',
   theme: 'github-dark',
@@ -377,7 +377,7 @@ export async function CustomMDX(props) {
 
 For example, this simple code block:
 
-~~~js displayLineNumbers="false" allowCopy="false"
+~~~js disableCopyButton
 await highlighter.codeToHtml('console.log("Hello World")', {
   lang: 'javascript',
   theme: 'github-dark',
@@ -386,7 +386,7 @@ await highlighter.codeToHtml('console.log("Hello World")', {
 
 will produce the following output:
 
-```js
+```ansi disableCopyButton
 {
   children: {
     '$$typeof': Symbol(react.element),
@@ -444,7 +444,7 @@ export async function CustomMDX(props) {
 
 With the same code block, the terminal output looks slightly different:
 
-```js
+```ansi
 {
   className: 'shiki shiki-themes github-light github-dark',
   style: {
@@ -635,7 +635,7 @@ export async function CustomMDX(props) {
 
 The output will look like this:
 
-```
+```ansi disableCopyButton
 preprocess await highlighter.codeToHtml('console.log("Hello World")', {
   lang: 'javascript',
   theme: 'github-dark',
@@ -741,7 +741,7 @@ export async function CustomMDX(props) {
 The `parseMetaString` function will append the metadata object to the `options`
 object in the transformer hook cycle. You can access the metadata object by using `options.meta` in the transformer hooks such as `preprocess`.
 
-```js
+```ansi
 {
   title: '',
   displayLineNumbers: false,

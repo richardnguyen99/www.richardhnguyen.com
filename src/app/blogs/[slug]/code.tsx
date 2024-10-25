@@ -31,7 +31,7 @@ const BlogCode: React.FC<BlogCodeProps> = ({
   }, [lang]);
 
   return (
-    <pre {...rest}>
+    <pre data-disable-copy-button={disableCopyButton} {...rest}>
       <div className="menubar">
         <div className="filename">
           <div>{fileExt.component}</div>

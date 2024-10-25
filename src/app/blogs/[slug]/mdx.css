@@ -1,14 +1,18 @@
-.content pre code[data-theme*=" "],
+.content pre code[data-theme*=" "] {
+  background-color: var(--shiki-light-bg);
+}
+
 .content pre code[data-theme*=" "] span {
   color: var(--shiki-light);
-  background-color: var(--shiki-light-bg);
   text-decoration: var(--shiki-light-text-decoration, unset);
 }
 
-html.dark .content pre code[data-theme*=" "],
+html.dark .content pre code[data-theme*=" "] {
+  background-color: var(--shiki-dark-bg);
+}
+
 html.dark .content pre code[data-theme*=" "] span {
   color: var(--shiki-dark);
-  background-color: var(--shiki-dark-bg);
   text-decoration: var(--shiki-dark-text-decoration, unset);
 }
 
@@ -125,7 +129,7 @@ html.dark .content pre code[data-theme*=" "] span {
 }
 
 .content pre code {
-  @apply grid whitespace-pre break-normal p-4 text-left;
+  @apply relative grid whitespace-pre break-normal p-4 text-left;
   @apply text-sm sm:text-base;
   @apply overflow-x-auto;
   @apply break-words;
@@ -137,8 +141,8 @@ html.dark .content pre code[data-theme*=" "] span {
 
 .content pre code[data-line-numbers] > [data-line]::before {
   @apply content-[counter(line)] [counter-increment:_line];
-  @apply mr-6 inline-block w-4 text-right;
-  @apply text-neutral-300 dark:text-neutral-400;
+  @apply mr-8 inline-block w-4 text-right;
+  @apply text-neutral-400 dark:text-neutral-500;
 }
 
 .content pre code[data-line-numbers-max-digits="2"] > [data-line]::before {
@@ -151,6 +155,56 @@ html.dark .content pre code[data-theme*=" "] span {
 
 .content pre code[data-line-numbers-max-digits="4"] > [data-line]::before {
   @apply w-7;
+}
+
+.content [data-line].diff {
+  @apply -mx-4 px-4;
+  @apply relative;
+}
+
+.content [data-line].diff {
+  @apply bg-slate-400/20 dark:!bg-slate-500/30;
+  @apply border-l-2 border-slate-700 dark:border-slate-200;
+}
+
+.content [data-line].diff::after {
+  @apply absolute left-0 top-0;
+}
+
+.content pre code[data-line-numbers-max-digits="2"] > [data-line].diff::after {
+  @apply left-[2.5rem];
+}
+
+.content pre code[data-line-numbers-max-digits="3"] > [data-line].diff::before {
+  @apply left-[2.75];
+}
+
+.content pre code[data-line-numbers-max-digits="4"] > [data-line].diff::before {
+  @apply left-[3rem];
+}
+
+.content [data-line].diff::after {
+  @apply content-[''];
+  @apply mr-6 inline-block w-4 text-right;
+  @apply text-black dark:text-white;
+}
+
+.content [data-line].diff.add::after {
+  @apply content-['+'];
+}
+
+.content [data-line].diff.remove::after {
+  @apply content-['-'];
+}
+
+.content [data-line].diff.add {
+  @apply !bg-green-500/20 dark:!bg-green-600/20;
+  @apply !border-green-500 dark:border-green-400;
+}
+
+.content [data-line].diff.remove {
+  @apply !bg-red-500/20 dark:!bg-red-700/20;
+  @apply !border-red-500 dark:border-red-400;
 }
 
 .content table {

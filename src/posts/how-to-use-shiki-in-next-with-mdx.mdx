@@ -970,7 +970,7 @@ that is to use `counter` and `content` CSS properties to add line numbers.
 
 .prose pre .line.has-line-number:before {
   @apply content-[counter(_line)] [counter-increment:_line] text-neutral-400 dark:text-neutral-600;
-  @apply mr-2 w-4 inline-block text-right; // [!code ++]
+  @apply mr-2 w-4 inline-block text-right;
 }
 ```
 

@@ -160,6 +160,425 @@ $breakpoints: (
 }
 ```
 
+To use SCSS in your React project, you need to install `sass` package:
+
+```shell
+npm install sass
+# or
+yarn add sass
+```
+
+Then you can replace your `src/App.css` with `src/App.scss` and import it in
+your React component:
+
+```scss title="App.scss" showLineNumbers
+@import 'gutter.scss';
+
+.App {
+  // Other style rules
+}
+```
+
+```jsx title="App.jsx" showLineNumbers
+import React from 'react';
+import './App.scss';
+
+const App = () => {
+  return <div className="App">Hello World</div>;
+};
+```
+
+React has an official guide on how to use SCSS in your React projects
+[here](https://create-react-app.dev/docs/adding-a-sass-stylesheet/).
+
+# CSS frameworks
+
+Major CSS frameworks provide pre-built components and styles that you can use.
+They provide functionalities for common used components like buttons, forms,
+modals, etc.
+
+## Bootstrap
+
+Bootstrap has been a popular CSS framework since the 2011. It provides Bootstrap
+components and utilities that you can use to style your applicatins. However,
+Bootstrap is not React-specific so you need to install React adapters such as
+[react-bootstrap](https://react-bootstrap.netlify.app/) or [reactstrap](
+https://reactstrap.github.io/?path=/story/home-installation--page).
+
+```jsx showLineNumbers
+import React from 'react';
+import { Button } from 'reactstrap';
+
+export default (props) => {
+  return <Button color="danger">Danger!</Button>;
+};
+```
+
+## Material UI
+
+MUI is a popular React component library maintained by teams at Google. Unlike
+Bootstrap, MUI is React-specific and provides React native components that you
+can use in your React applications. MUI also provides providers and hooks that
+you can use to customize the theme and styles of your components.
+
+```tsx showLineNumbers
+import * as React from 'react';
+import Card from '@mui/material/Card';
+import ListItem from '@mui/material/ListItem';
+
+export default function SpecificRefType() {
+  const cardRef = React.useRef<HTMLDivElement>(null);
+  const listItemRef = React.useRef<HTMLLIElement>(null);
+
+  return (
+    <div>
+      <Card ref={cardRef}></Card>
+      <ListItem ref={listItemRef}></ListItem>
+    </div>
+  );
+}
+```
+
+## Chakra UI
+
+Chakra UI is another powerful React component library that provides a set of
+functional and accessible components that you can use in your React applications. Since Chakra UI v3, you can install individual components instead
+of installing the whole library like MUI or Bootstrap.
+
+For example, to install the `Button` component, you can run:
+
+```sh
+npm i @chakra-ui/react @emotion/react
+npx @chakra-ui/cli snippet add
+chakra snippet add button
+```
+
+```tsx showLineNumbers
+import { HStack } from "@chakra-ui/react"
+import { Button } from "@/components/ui/button"
+
+const Demo = () => {
+  return (
+    <HStack wrap="wrap" gap="6">
+      <Button size="xs">Button (xs)</Button>
+      <Button size="sm">Button (sm)</Button>
+      <Button size="md">Button (md)</Button>
+      <Button size="lg">Button (lg)</Button>
+      <Button size="xl">Button (xl)</Button>
+    </HStack>
+  )
+}
+```
+
+# CSS-in-JS
+
+CSS-in-JS is a technique for writing CSS inside your JavaScript/TypeScript code,
+instead of being defined in a separate CSS file.
+
+## Inline CSS-in-JS
+
+Inline CSS-in-JS is the most basic form of CSS-in-JS. You can use the `style`
+attribute in your JSX to style your components.
+
+```jsx showLineNumbers
+import React from "react";
+
+const styles = {
+  color: "red",
+  backgroundColor: "blue",
+};
+
+const App = () => {
+  return <div style={styles}>Hello World</div>;
+};
+```
+
+## Styled-components
+
+[styled-components](https://styled-components.com/) is a popular CSS-in-JS library that allows you to write rich CSS styles with features like theming, props-based styling, responsive and more in your React components, which are not
+possible with inline CSS-in-JS.
+
+```jsx showLineNumbers
+const StyledButton = styled.button<{ $primary?: boolean; }>`
+  /* Adapt the colors based on primary prop */
+  background: ${props => props.$primary ? "#BF4F74" : "white"};
+  color: ${props => props.$primary ? "white" : "#BF4F74"};
+
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid #BF4F74;
+  border-radius: 3px;
+`;
+
+const App = () => {
+  return (
+    <div>
+      <StyledButton>Normal Button</StyledButton>
+      <StyledButton $primary>Primary Button</StyledButton>
+    </div>
+  );
+};
+```
+
+The problem with `styled-components` is that it adds a lot of overhead to your
+applications during runtime. Many CSS-in-JS libraries like `styled-components`
+or `emotion` requires converting the styles written in these components to plain
+CSS and inserting them into the document at runtime. This can cause performance
+issues in your applications.
+
+## Zero-runtime CSS-in-JS
+
+To solve the performance issues of traditional CSS-in-JS libraries, many new
+libraries like [linaria](https://github.com/callstack/linaria) are created to
+generate CSS at build time, hence there is no runtime overhead. They also solve
+the problem of dynamic styles with `props` by using CSS custom properties like
+CSS variables.
+
+```tsx showLineNumbers
+import { styled } from "@linaria/react";
+import { families, sizes } from "./fonts";
+
+// Write your styles in `styled` tag
+const Title = styled.h1`
+  font-family: ${families.serif};
+`;
+
+const Container = styled.div`
+  font-size: ${sizes.medium}px;
+  color: ${props => props.color};
+  border: 1px solid red;
+
+  &:hover {
+    border-color: blue;
+  }
+
+  ${Title} {
+    margin-bottom: 24px;
+  }
+`;
+
+const App = () => (
+  <Container color="#333">
+  <Title>Hello world</Title>
+</Container>;
+);
+```
+
+# TailwindCSS
+
+[TailwindCSS](https://tailwindcss.com) belongs to a different category than the
+previous ones. First, it is a utility-first class CSS framework, which means it
+provides a set of utility classes that you can include in your React
+components. Unlike writing CSS rules in the traditional way, you can just write
+classes in your elements like this:
+
+```jsx showLineNumbers
+<figure class="md:flex bg-slate-100 rounded-xl p-8 md:p-0 dark:bg-slate-800">
+  <img class="w-24 h-24 md:w-48 md:h-auto md:rounded-none rounded-full mx-auto" src="/sarah-dayan.jpg" alt="" width="384" height="512">
+  <div class="pt-6 md:p-8 text-center md:text-left space-y-4">
+    <blockquote>
+      <p class="text-lg font-medium">
+        “Tailwind CSS is the only framework that I've seen scale
+        on large teams. It’s easy to customize, adapts to any design,
+        and the build size is tiny.”
+      </p>
+    </blockquote>
+    <figcaption class="font-medium">
+      <div class="text-sky-500 dark:text-sky-400">
+        Sarah Dayan
+      </div>
+      <div class="text-slate-700 dark:text-slate-500">
+        Staff Engineer, Algolia
+      </div>
+    </figcaption>
+  </div>
+</figure>
+```
+
+It feels like writing inline CSS, but unlike inline CSS styles, TailwindCSS
+supports media queries, pseudo-classes, and more.
+
+You can also set your arbitary values in your Tailwind classes:
+
+```jsx disableCopyButton
+<div class="top-[117px]">
+  <!-- ... -->
+</div>
+```
+
+Or you can write your own CSS classes with TailwindCSS:
+
+```css
+.select2-dropdown {
+  @apply rounded-b-lg shadow-md;
+}
+.select2-search {
+  @apply border border-gray-300 rounded;
+}
+.select2-results__group {
+  @apply text-lg font-bold text-gray-900;
+}
+```
+
+The way TailwindCSS works is that it will scan your HTML and JavaScript
+components for classnames, generate a CSS file with all the utility classes with
+optimization and write a static CSS files with zero runtime.
+
+
+# Headless components
+
+Headless components are recenly introduced in the React community as an opposite
+way to UI libraries. Instead of focusing on building a beautiful UI, headless
+components tend to focus the functionality and the logic of the components and
+let you write your own styles.
+
+## Radix UI
+
+[Radix UI](https://radix-ui.com/) is a collection of headless UI components that
+allows you to install what you need, instead of installing the whole UI library
+like MUI and having many components that you never touch.
+
+The way Radix UI works is that it creates a component that lives inside your
+projects, usually in the `components` folder or the folder of your choice.
+
+For example, to install a dropdown component, you can run:
+
+```sh
+npm install @radix-ui/react-dropdown-menu
+```
+
+Then you can simply use that component in your project:
+
+```tsx showLineNumbers
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+
+export default () => (
+	<DropdownMenu.Root>
+		<DropdownMenu.Trigger />
+
+		<DropdownMenu.Portal>
+			<DropdownMenu.Content>
+				<DropdownMenu.Label />
+				<DropdownMenu.Item />
+
+				<DropdownMenu.Group>
+					<DropdownMenu.Item />
+				</DropdownMenu.Group>
+
+				<DropdownMenu.CheckboxItem>
+					<DropdownMenu.ItemIndicator />
+				</DropdownMenu.CheckboxItem>
+
+				<DropdownMenu.RadioGroup>
+					<DropdownMenu.RadioItem>
+						<DropdownMenu.ItemIndicator />
+					</DropdownMenu.RadioItem>
+				</DropdownMenu.RadioGroup>
+
+				<DropdownMenu.Sub>
+					<DropdownMenu.SubTrigger />
+					<DropdownMenu.Portal>
+						<DropdownMenu.SubContent />
+					</DropdownMenu.Portal>
+				</DropdownMenu.Sub>
+
+				<DropdownMenu.Separator />
+				<DropdownMenu.Arrow />
+			</DropdownMenu.Content>
+		</DropdownMenu.Portal>
+	</DropdownMenu.Root>
+);
+```
+
+Radix UI provides a set of powerful components that implements the behaviors in
+according components very well. They make you less worry about the actual logics
+and behaviors. You can just focus on the styles and the design of the components.
+
+![Headless components](/pedro-slides-on-dropdown.png)
+
+<small>A slide from Pedro Duarte’s talk at Next.js conf in 2021. Pedro is one of the creators of Radix UI, and here he describes how much time it took them to implement a fully accessible dropdown menu that works well in all browsers and supports all screen readers.</small>
+
+## ShadCN
+
+[ShadCN](https://ui.shadcn.com/) is another headless UI library that works very
+similar to Radix UI. In fact, ShadCN is built on top of Radix UI and includes
+TailwindCSS classes to complete the components.
+
+As Radix UI, you can install individual components as you need:
+
+```sh
+npx shadcn@latest add accordion
+```
+
+Then you can use the component in your project:
+
+```tsx showLineNumbers
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+
+<Accordion type="single" collapsible>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Is it accessible?</AccordionTrigger>
+    <AccordionContent>
+      Yes. It adheres to the WAI-ARIA design pattern.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+ShadCN also provides much more complex UI components that utilize powerful
+engines of other libraries. For example, the [drawer component](https://ui.shadcn.com/docs/components/drawer)
+is built on top of another package called [vaul](https://github.com/emilkowalski/vaul)
+and includes the TailwindCSS classes as styles.
+
+## Headless UI
+
+[Headless UI](https://headlessui.dev/) is another headless UI library. Unlike
+Radix UI and ShadCN, Headless UI is a set of completely unstyled,
+fully-integrated with TailwindCSS. The nice thing about Headless UI is that it
+focuses on the accessibility and the most commonly-used components like
+modals, popovers, and dropdowns. Or like many people, they use Headless UI with
+TailwindCSS to create their own unified design system, instead of having raw
+classname strings in the reusable components.
+
+To use Headless UI, you can install the package:
+
+```sh
+npm install @headlessui/react
+```
+
+```tsx showLineNumbers
+import { Button } from '@headlessui/react'
+
+function Example() {
+  return (
+    <Button className="rounded bg-sky-600 py-2 px-4 text-sm text-white data-[hover]:bg-sky-500 data-[active]:bg-sky-700">
+      Save changes
+    </Button>
+  )
+}
+```
+
+# Conclusion
+
+Choosing the right CSS techniques for your site is a hard question. If you are
+new, it's best to try them all to see which one fits your needs. Maybe you want
+to learn CSS, then writing your own CSS is a good choice. Maybe you want to have
+your applications out in the market as soon as possible, then using a UI library
+like MUI sounds better.
+
+Personally, I prefer using TailwindCSS for styling and ShadCN components for
+behaviors. The only reason is that I don't want to break down my components into
+smaller parts and think about naming them. I also want to look at individual
+components and have grasp of what they look like, instead of finding their CSS
+styles somewhere. But that's just me. You can choose your own way.
+
+
 # References
 
 [^1]: [Why you shouldn't use inline styling in production React apps](https://blog.logrocket.com/why-you-shouldnt-use-inline-styling-in-production-react-apps/)

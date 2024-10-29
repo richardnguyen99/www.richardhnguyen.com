@@ -283,7 +283,7 @@ export const getAllCategories = async () => {
 
       if (!acc.has(category)) {
         acc.set(category, {
-          url: `/categories/${category}`,
+          url: `/blogs?categories=${category}`,
           postCount: 1,
         });
       } else {
@@ -317,7 +317,7 @@ export const getAllTags = async () => {
       content.frontMatter.tags.forEach((tag) => {
         if (!acc.has(tag)) {
           acc.set(tag, {
-            url: `/tags/${tag}`,
+            url: `/blogs?categories=${tag}`,
             postCount: 1,
           });
         } else {

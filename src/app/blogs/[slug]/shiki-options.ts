@@ -9,7 +9,6 @@ export interface MetaMap {
   displayLineNumbers: boolean | undefined;
   disableCopyButton: boolean | undefined;
   lang: string | undefined;
-  rawCode: string;
 }
 
 const shikiRehypeOptions: RehypeShikiCoreOptions = {
@@ -27,10 +26,6 @@ const shikiRehypeOptions: RehypeShikiCoreOptions = {
         optionMeta.disableCopyButton =
           options.meta?.__raw?.includes("disableCopyButton");
 
-        optionMeta.rawCode = code.replace(
-          /(\/\/ \[!code (\+\+|\-\-|highlight)\]|\u00AD)/g,
-          "",
-        );
         optionMeta.lang = options.lang;
 
         if (!optionMeta.title || optionMeta.title.length <= 0) {

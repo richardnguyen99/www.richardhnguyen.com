@@ -77,6 +77,7 @@ export default async function BlogPost({ params: { slug } }: BlogPostProps) {
           source={body}
           components={mdxComponents}
           options={{
+            scope: {},
             mdxOptions: {
               useDynamicImport: true,
               rehypePlugins: [

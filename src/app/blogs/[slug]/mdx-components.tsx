@@ -115,7 +115,6 @@ const components: NonNullable<
     const {
       title,
       lang,
-      rawcode,
       disablecopybutton,
       displaylinenumbers: _,
       ...rest
@@ -125,7 +124,6 @@ const components: NonNullable<
     > & {
       title: string;
       lang: string;
-      rawcode: string;
       disablecopybutton?: string;
       displaylinenumbers?: boolean;
     };
@@ -135,7 +133,6 @@ const components: NonNullable<
         title={title}
         lang={lang}
         disableCopyButton={typeof disablecopybutton === "string"}
-        rawCode={rawcode}
         {...rest}
       />
     );

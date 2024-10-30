@@ -18,6 +18,7 @@ import Frontmatter from "./frontmatter";
 import BlogBreadcrumb from "./breadcrumb";
 import Tags from "./tags";
 import shikiRehypeOptions from "./shiki-options";
+import Component from "./components/css-comparison-chart";
 
 interface BlogPostProps {
   params: {

@@ -1,4 +1,8 @@
 import * as React from "react";
+import {
+  InfoCircledIcon,
+  ExclamationTriangleIcon,
+} from "@radix-ui/react-icons";
 
 import {
   Accordion,
@@ -6,7 +10,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
 
 interface CalloutProps {
@@ -28,6 +31,10 @@ const Callout: React.FC<
 
   const getCalloutIcon = () => {
     switch (type) {
+      case "warning":
+        return (
+          <ExclamationTriangleIcon className="callout-icon h-6 w-6 text-yellow-500" />
+        );
       case "info":
       default:
         return (

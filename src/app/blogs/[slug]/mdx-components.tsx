@@ -16,12 +16,14 @@ import ExternalLink from "@/components/external-link";
 import Callout from "@/components/callout";
 import BlogCode from "./code";
 import CSSComparisonChart from "./components/css-comparison-chart";
+import CodeSandbox from "./codesandbox";
 
 const components: NonNullable<
   React.ComponentProps<typeof MDXProvider>["components"]
 > = {
   Callout,
   CSSComparisonChart,
+  CodeSandbox,
 
   table: ({ className, ...rest }) => (
     <Table {...rest} className={cn(className)} />

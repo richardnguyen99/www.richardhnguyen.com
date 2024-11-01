@@ -19,11 +19,158 @@ changeLog:
 Over the past couple of years, [TailwindCSS](https://tailwindcss.com/) has
 become one of the most popular CSS frameworks for building modern websites. The
 beauty of TailwindCSS is that it allows you to build complex designs without
-worrying about creating separate components. In this post, I will share 10 tips
+worrying about creating separate components. This post will show you 10 tips
 that will help you get the most out of TailwindCSS.
 
 {/* EXCERPT */}
 
 # Introduction
 
-<CSSComparisonChart />
+TailwindCSS is a utility-first CSS framework that allows you to build complex
+designs from a composition of small, single-purpose utility classes directly in
+your markup. TailwindCSS works perfectly with browser-heavy frameworks like
+React, Vue and server-side frameworks like Next.js thanks to its efficiency and
+zero runtime.
+
+TailwindCSS proves that it resolves many issues of working with CSS and UI
+systems. You can have a better grasp of your components by looking at them in
+your components' markup. You save time and energy from coming up with names
+for a simple component.
+
+<div className="mb-8">
+  <CSSComparisonChart />
+</div>
+
+# Arbitary values
+
+TailwindCSS ships with a predefined set of utility classes that you can use
+immediately. For example, Tailwind provides a set of predefined [color system](
+https://tailwindcss.com/docs/customizing-colors) and [spacing system](
+https://tailwindcss.com/docs/customizing-spacing#default-spacing-scale). You
+can use them directly in your markup.
+
+```html
+<div className="bg-blue-500 p-4">
+  <p className="text-white">Hello, world!</p>
+</div>
+```
+
+However, you can also use arbitrary values in your utility classes with the
+syntax `property-[value]`. For example:
+
+```html
+<div
+  class="bg-[#bada55] text-[22px] before:content-['Festivus'] grid grid-cols-[fit-content(theme(spacing.32))]"
+>
+  <!-- ... -->
+</div>
+```
+
+This feature works very well with properties that support arbitrary values like
+`background-color`, `font-size`, `color`, etc. However, properties like
+`display` don't support arbitrary values.
+
+# Arbitary properties
+
+TailwindCSS also allows you to use arbitrary properties in your utility classes
+to use some CSS properties that are not covered by TailwindCSS. For example:
+
+```html
+<div class="[mask-type:luminance] hover:[mask-type:alpha] [display:block]">
+  <!-- ... -->
+</div>
+```
+
+This syntax is like how you would write CSS in a stylesheet and you wrap around
+the property with square brackets. You can also use this feature to write
+custom CSS variables:
+
+```html
+<div class="[--my-custom-property:10px]">
+  <!-- ... -->
+</div>
+```
+
+<Callout title="Whitespace caution" type="warning" collapsible>
+
+A common mistake is to use some whitespaces in the syntax like how you would do
+in CSS. However, TailwindCSS doesn't support whitespaces in the syntax. You can
+either remove the whitespaces or use an underscore `_` instead.
+
+```html
+<!-- This will not work -->
+<div class="[mask-type: luminance]">
+  <!-- ... -->
+</div>
+
+<!-- This will work -->
+<div class="[mask-type:_luminance]">
+  <!-- ... -->
+</div>
+```
+
+</Callout>
+
+# Dynamic styles
+
+A common case in building web components is to apply styles based on some sort
+of states. For example, we have a button component that changes its background
+color based on the state of the button.
+
+```tsx
+{/* This won't work */}
+<button className={`bg-${
+  state === "danger" ? "red" : (
+  state === "warning" ? "yellow" : "blue"
+)}-500`}>
+</button>
+```
+
+This won't work because TailwindCSS doesn't support dynamic styles or any
+client-side logics. Every class names must be extractable at build time.
+
+```tsx
+{/* This will work */}
+<button className={`${
+  state === "danger" ? "bg-red-500" : (
+  state === "warning" ? "bg-yellow-500" : "bg-blue-500"
+)}`}>
+</button>
+```
+
+# Client-side styles
+
+But what if there is a situation where you really need to apply styles from the
+client-side? For example, you are building a floating modal that needs the
+current width of the device screen so that you can set the appropriate padding
+
+```tsx {11,17}
+import { useWindowSize } from "@uidotdev/usehooks";
+
+function App() {
+  const { width } = useWindowSize();
+
+  return (
+    <main
+      className="flex flex-col items-center gap-8 py-16 max-w-[1280px] mx-auto"
+      style={
+        {
+          "--container-size": `${width}px`,
+        } as CSSProperties
+      }
+    >
+      {/* ... */}
+
+      <p className="absolute bottom-4 bg-amber-500 p-4 rounded-lg w-[calc(var(--container-size)-48px)] left-[24px] border border-yellow-700 text-amber-50">
+        Click on the Vite and React logos to learn more
+      </p>
+    </main>
+  );
+}
+```
+
+<CodeSandbox
+  src="https://codesandbox.io/p/devbox/upbeat-yonath-wxjrrc"
+  title="TailwindCSS client-side styles"
+/>
+

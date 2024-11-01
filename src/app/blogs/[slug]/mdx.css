@@ -157,17 +157,20 @@ html.dark .content pre code[data-theme*=" "] span {
   @apply w-7;
 }
 
-.content [data-line].diff {
+.content [data-line].diff,
+.content [data-highlighted-line] {
   @apply -mx-4 px-4;
   @apply relative;
 }
 
-.content [data-line].diff {
+.content [data-line].diff,
+.content [data-highlighted-line] {
   @apply bg-slate-400/20 dark:!bg-slate-500/30;
   @apply border-l-2 border-slate-700 dark:border-slate-200;
 }
 
-.content [data-line].diff::after {
+.content [data-line].diff::after,
+.content [data-highlighted-line]::after {
   @apply absolute left-0 top-0;
 }
 

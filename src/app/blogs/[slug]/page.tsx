@@ -9,8 +9,6 @@ import { fromHtmlIsomorphic } from "hast-util-from-html-isomorphic";
 import rehypeSlug from "rehype-slug";
 import rehypePrettyCode from "rehype-pretty-code";
 import { getSingletonHighlighter } from "shiki";
-import remarkEmbedder, { RemarkEmbedderOptions } from "@remark-embedder/core";
-import remarkHtml from "remark-html";
 
 import { generateMdxSlugs, getMdxContentFromSlug } from "@/lib/mdx";
 import { Separator } from "@/components/ui/separator";
@@ -20,32 +18,12 @@ import Frontmatter from "./frontmatter";
 import BlogBreadcrumb from "./breadcrumb";
 import Tags from "./tags";
 import shikiRehypeOptions from "./shiki-options";
-import Component from "./components/css-comparison-chart";
 
 interface BlogPostProps {
   params: {
     slug: string;
   };
 }
-
-const StackBlitzTransformer = {
-  name: "StackBlitz",
-  // shouldTransform can also be async
-  shouldTransform(url: string) {
-    const { host, pathname } = new URL(url);
-
-    return (
-      ["stackblitz.com", "www.stackblitz.com"].includes(host) &&
-      pathname.includes("/s/")
-    );
-  },
-  // getHTML can also be async
-  getHTML(url: string) {
-    const iframeUrl = url.replace("/s/", "/embed/");
-
-    return `<iframe src="${iframeUrl}" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking" sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"></iframe>`;
-  },
-};
 
 // NextJS options to disable dynamic routing at runtime
 export const dynamicParams = false;
@@ -137,15 +115,6 @@ export default async function BlogPost({ params: { slug } }: BlogPostProps) {
                 ],
               ],
               remarkPlugins: [
-                [
-                  remarkEmbedder,
-                  {
-                    transformers: [
-                      StackBlitzTransformer,
-                    ] satisfies RemarkEmbedderOptions["transformers"],
-                  },
-                ],
-                remarkHtml,
                 remarkGfm,
                 remarkReferenceLinks,
                 remarkSmartyPants,

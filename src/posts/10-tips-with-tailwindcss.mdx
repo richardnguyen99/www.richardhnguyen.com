@@ -1,12 +1,14 @@
 ---
 title: '10 tips with TailwindCSS'
 slug: '10-tips-with-tailwindcss'
-date: '2024-09-30'
+date: '2024-11-03'
 published: true
-publishedAt: '2024-09-30'
+publishedAt: '2024-11-03'
 author: 'Richard H. Nguyen'
 tags:
   - 'css'
+  - 'tailwindcss'
+  - 'react'
 category: 'web-development'
 thumbnail: '/thumbnails/10-tips-with-tailwindcss.png'
 changeLog:
@@ -14,6 +16,11 @@ changeLog:
     date: '2024-09-30'
     changes:
       - 'Initial post'
+  -
+    date: '2024-11-03'
+    changes:
+      - 'Added more examples'
+      - 'Added more images'
 ---
 
 Over the past couple of years, [TailwindCSS](https://tailwindcss.com/) has
@@ -169,8 +176,252 @@ function App() {
 }
 ```
 
-<CodeSandbox
-  src="https://codesandbox.io/p/devbox/upbeat-yonath-wxjrrc"
-  title="TailwindCSS client-side styles"
-/>
+<div className="mb-12">
+  <CodeSandbox
+    src="https://codesandbox.io/p/devbox/upbeat-yonath-wxjrrc"
+    title="TailwindCSS client-side styles"
+  />
+</div>
+
+# Traditional classnames
+
+Having a lot of utility classes in your markup can be overwhelming. Imaging
+looking at a component like this:
+
+```html
+<div class="rounded-s w-full h-full [&_img]:scale-100 group-hover:[&_img]:scale-105 group-hover:[&_video]:scale-105 [&_img]:transform-gpu [&_video]:transform-gpu [&_img]:transition-transform [&_img]:ease-curve-d [&_img]:duration-normal [&_video]:transition-transform [&_video]:ease-curve-d [&_video]:duration-normal w-1/2 mx-auto transition-opacity ease-curve-c duration-normal max-w-media relative">
+  <!-- ... -->
+</div>
+```
+
+Sometimes with components like this, it's better to put all the CSS rules in a
+traditional CSS class and use that one class in your markup. Luckily, TailwindCSS provides a native way to do this with the `@apply` directive.
+
+```css
+.card {
+  @apply rounded-s w-full h-full mx-auto relative max-w-media;
+  @apply [&_img]:scale-100 group-hover:[&_img]:scale-105 group-hover:[&_video]:scale-105;
+  @apply [&_img]:transform-gpu [&_img]:transition-transform [&_img]:ease-curve-d [&_img]:duration-normal
+  @apply [&_video]:transform-gpu [&_video]:transition-transform [&_video]:ease-curve-d [&_video]:duration-normal;
+  @apply transition-opacity ease-curve-c duration-normal;
+}
+```
+
+```html
+<div class="card">
+  <!-- ... -->
+</div>
+```
+
+This way is very useful particularly when you write blogs or documentation that
+uses many uniformed, reusable components.
+
+# Directives
+
+However, writing custom CSS classes in CSS files does not give a good
+developing experience. The first thing is that it might cause some compiling
+issues if you are not careful with the `@layers` directive in TailwindCSS[^1].
+Secondly, intellisense on your editor, like [Tailwind CSS IntelliSense](
+https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+does not give any suggestions for your custom CSS classes.
+
+To solve this issue, you can use the [Tailwind Plugin System](
+https://tailwindcss.com/docs/plugins) to create reusable, custom styles. For
+example:
+
+```js title="tailwind.config.js" showLineNumbers
+import plugin from "tailwindcss/plugin";
+
+const config = {
+  darkMode: ["class"],
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx,mdx,md,html}",
+  ],
+  prefix: "",
+  corePlugins: {},
+  theme: {},
+  plugins: [
+    // Other plugins
+    plugin(function ({ addUtilities, theme }) {
+      addUtilities({
+        ".content-container": {
+          marginLeft: "var(--article-gutter-size)",
+          marginRight: "var(--article-gutter-size)",
+          marginBottom: theme("spacing.4"),
+          width: "var(--article-container-size)",
+        },
+      });
+    }),
+    plugin(function ({ addComponents, theme }) {
+      addComponents({});
+    }),
+  ],
+};
+
+export default config;
+```
+
+Modern text editor with TailwindCSS Intellisense will tell you what the class
+is expanded to.
+
+![Custom Tailwind Directive](/custom-tailwind-directive.png)
+
+# Using TailwindCSS Intellisense
+
+Speaking of TailwindCSS Intellisense, it is a must have extension for developers
+to work with TailwindCSS. It provides
+
+- **Autocomplete**. Intelligent suggestions for class names, as well as CSS
+functions and directives.
+- **Linting**. Highlights errors and potential bugs in both your CSS and your
+markup.
+- **Hover Previews**. See the complete CSS for a Tailwind class name by
+hovering over it.
+- **Syntax Highlighting**. Provides syntax definitions so that Tailwind
+features are highlighted correctly.
+
+![Tailwind CSS IntelliSense](/tailwind-intellisense.png)
+
+Unfortunately, TailwindCSS Intellisense does not provide any official support for other editors than Visual Studio Code. However, TailwindCSS Intellisense
+also provides a [Language Server Protocol (LSP)](
+https://github.com/tailwindlabs/tailwindcss-intellisense/tree/main/packages/tailwindcss-language-server)
+that you can use to build your own TailwindCSS Intellisense for other editors.
+
+# Using TailwindCSS Prettier Plugin
+
+Another must-have extension for working with TailwindCSS in VsCode is the
+[prettier-plugin-tailwindcss](
+https://github.com/tailwindlabs/prettier-plugin-tailwindcss). This plugin simply
+sorts and organizes your utility classes in your markup based on the TailwindCSS
+ recommended order.
+
+![TailwindCSS Prettier Plugin](/tailwind-prettier-plugin.jpg)
+
+Since this is a Prettier plugin, it will work seamlessly wherever Prettier works
+in your project, popular IDEs or text editors, and even on command line.
+
+
+```html
+<!-- Before -->
+<button class="text-white px-4 sm:px-8 py-2 sm:py-3 bg-sky-700 hover:bg-sky-800">...</button>
+
+<!-- After -->
+<button class="bg-sky-700 px-4 py-2 text-white hover:bg-sky-800 sm:px-8 sm:py-3">...</button>
+```
+
+# Override TailwindCSS classes
+
+Overriding existing styles in existing components is a common case when working
+with TailwindCSS. An easy and direct way to override classes is to use the
+important modifier `!`. For example:
+
+```html
+<div class="bg-blue-500 !bg-red-500">
+  <!-- ... -->
+</div>
+```
+
+However, thou shalt not use `!important` in CSS. Another way to override is to
+use [tailwind-merge](https://www.npmjs.com/package/tailwind-merge).
+
+```tsx
+import { twMerge } from 'tailwind-merge'
+
+twMerge('px-2 py-1 bg-red hover:bg-dark-red', 'p-3 bg-[#B91C1C]')
+// → 'hover:bg-dark-red p-3 bg-[#B91C1C]'
+```
+
+# Refactor TailwindCSS classes
+
+As mentioned above, having a lot of utility classes in your markup is a pain.
+Put all the CSS rules in a traditional CSS class is helpful. But what if the
+component contains some conditions such as states, variants, etc.? Or even, you
+just want to break down the utility classes into smaller pieces that fit your
+80-character line limit?
+
+Packages like [classnames](https://www.npmjs.com/package/classnames) and [clsx](
+https://www.npmjs.com/package/clsx) allow you to combine multiple classes into
+one classname string. For example:
+
+```tsx
+import * as React from "react";
+import clsx from "clsx";
+
+interface ButtonProps {
+  size: "sm" | "md" | "lg";
+  color: "red" | "green" | "blue";
+}
+
+export const Button: React.FC<ButtonProps> = ({ variant, size, color }) => {
+  return (
+    <button
+      className={clsx(
+        "px-4 py-2",
+        size === "sm" && "text-sm",
+        size === "md" && "text-md",
+        size === "lg" && "text-lg",
+        color === "red" && "bg-red-500",
+        color === "green" && "bg-green-500",
+        color === "blue" && "bg-blue-500"
+      )}
+    >
+      Click me
+    </button>
+  );
+};
+```
+
+You can also combine `clsx` with `tailwind-merge` to create a robust utility
+function for managing your styles. For example, creating a reusable function
+to handle that all together:
+
+```ts title="src/lib/utils.ts"
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+```
+
+And then use it in  your reusable components that allow you to specify the class
+later:
+
+```tsx
+import * as React from "react";
+
+import { cn } from "@/lib/utils";
+
+const Card = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn(
+      "rounded-xl border bg-card text-card-foreground shadow",
+      className,
+    )}
+    {...props}
+  />
+));
+Card.displayName = "Card";
+```
+
+# Conclusion
+
+TailwindCSS is a powerful utility-firstthaal serful
+Like any other tools, TailwindCSS has its own strengths and weaknesses. I hope
+this post has given you some insights into how to get the most out of TailwindCSS.
+
+
+# References
+
+[^1]: [Using `@apply` with per-component CSS](https://tailwindcss.com/docs/functions-and-directives#using-apply-with-per-component-css)
+
+
+
 

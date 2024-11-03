@@ -12,6 +12,13 @@
   @import "@radix-ui/colors/green-dark.css";
   @import "@radix-ui/colors/red-dark.css";
 
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
   :root {
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
@@ -68,14 +75,7 @@
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-
+@layer utilities {
   .ease-out-cubic {
     transition-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
   }

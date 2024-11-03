@@ -6,10 +6,10 @@ const CodeSandbox: React.FC<{ src: string; title: string }> = ({
   title,
 }) => {
   return (
-    <div className="mx-[var(--article-gutter-size)] w-[var(--article-container-size)]">
+    <div className="content-container lg:mx-[var(--gutter-size)] lg:w-[var(--container-size)]">
       <iframe
         title={title}
-        className="mb-4 min-h-[480px] w-full"
+        className="mb-4 min-h-[480px] w-full lg:min-h-[678px]"
         src={src}
         allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
         sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"

@@ -7,7 +7,7 @@ interface BlogTagsProps {
 
 const BlogTags: React.FC<BlogTagsProps> = ({ tags }) => {
   return (
-    <div className="mx-[var(--article-gutter-size)] mt-6 flex w-[var(--article-container-size)] gap-4 border-t pt-6">
+    <div className="mx-[var(--article-gutter-size)] mt-6 flex w-[var(--article-container-size)] gap-4 border-t border-neutral-500 pt-6 dark:border-neutral-700">
       <h4 className="text-base font-bold md:text-lg">Tags:</h4>
       <div className="flex flex-wrap gap-2">
         {tags.map((tag) => (

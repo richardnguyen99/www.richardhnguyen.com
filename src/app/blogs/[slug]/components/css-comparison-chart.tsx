@@ -178,7 +178,7 @@ const CSSComparisonChart: React.FC = () => {
     .slice(1);
 
   return (
-    <Card className="mx-[var(--article-gutter-size)] w-[var(--article-container-size)]">
+    <Card className="mx-[var(--article-gutter-size)] w-[var(--article-container-size)] border-neutral-300 dark:border-neutral-600">
       <CardHeader>
         <CardTitle className="!mx-0 !w-full">Download Comparison</CardTitle>
         <CardDescription className="!mx-0 !w-full">

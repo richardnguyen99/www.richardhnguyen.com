@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 const config = {
   darkMode: ["class"],
@@ -82,7 +83,23 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/typography"),
+    plugin(function ({ addUtilities, theme }) {
+      addUtilities({
+        ".content-container": {
+          marginLeft: "var(--article-gutter-size)",
+          marginRight: "var(--article-gutter-size)",
+          marginBottom: theme("spacing.4"),
+          width: "var(--article-container-size)",
+        },
+      });
+    }),
+    plugin(function ({ addComponents, theme }) {
+      addComponents({});
+    }),
+  ],
 } satisfies Config;
 
 export default config;

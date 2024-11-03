@@ -1,5 +1,4 @@
 import * as React from "react";
-import dynamic from "next/dynamic";
 
 import { cn } from "@/lib/utils";
 import { getAllCategories, getAllTags, getLatestMdxContent } from "@/lib/mdx";

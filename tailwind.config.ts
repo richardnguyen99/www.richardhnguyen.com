@@ -19,7 +19,18 @@ const config = {
       },
     },
     extend: {
+      transitionProperty: {
+        toc: "opacity,transform,max-height",
+      },
+      spacing: {
+        navHeight: "50px",
+      },
       colors: {
+        nativeBorder: "var(--native-border)",
+        nativeBorderHover: "var(--native-border-hover)",
+        nativeBorderActive: "var(--native-border-active)",
+        nativeBorderDisabled: "var(--native-border-disabled)",
+
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

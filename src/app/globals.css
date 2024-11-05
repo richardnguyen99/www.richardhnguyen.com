@@ -20,6 +20,10 @@
   }
 
   :root {
+    --native-border: theme("colors.neutral.300");
+    --native-border-hover: theme("colors.neutral.400");
+    --native-border-active: theme("colors.neutral.500");
+    --native-border-disabled: theme("colors.neutral.200");
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
@@ -48,6 +52,11 @@
   }
 
   .dark {
+    --native-border: theme("colors.neutral.700");
+    --native-border-hover: theme("colors.neutral.600");
+    --native-border-active: theme("colors.neutral.500");
+    --native-border-disabled: theme("colors.neutral.800");
+
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
     --card: 0 0% 3.9%;

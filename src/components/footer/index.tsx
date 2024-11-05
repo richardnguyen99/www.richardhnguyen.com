@@ -32,7 +32,7 @@ const Footer: React.FC = async () => {
   return (
     <FootWrapper>
       <div className="mx-[var(--gutter-size)] w-[var(--container-size)]">
-        <div className="my-12 flex flex-col gap-16 lg:flex-row">
+        <div className="my-36 flex flex-col gap-16 lg:flex-row">
           <div className="w-full lg:w-4/12">
             <Newsletter />
           </div>
@@ -76,7 +76,7 @@ const Footer: React.FC = async () => {
 
       <div className="border-t border-neutral-700">
         <div className="mx-[var(--gutter-size)] w-[var(--container-size)]">
-          <div className="flex w-full flex-col items-center justify-center gap-4 py-4 sm:items-start sm:justify-start lg:flex-row lg:items-center lg:gap-0">
+          <div className="flex w-full flex-col items-center justify-center gap-4 py-8 sm:items-start sm:justify-start lg:flex-row lg:items-center lg:gap-0">
             <p className="flex w-full items-center justify-center gap-1 text-center text-sm sm:w-[unset] sm:justify-start">
               <span className="min-w-[10px] overflow-clip text-ellipsis whitespace-nowrap">
                 richardhnguyen.com

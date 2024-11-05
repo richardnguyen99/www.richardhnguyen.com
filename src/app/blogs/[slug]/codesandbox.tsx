@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import Image from "next/image";
 
@@ -5,27 +7,30 @@ const CodeSandbox: React.FC<{ src: string; title: string }> = ({
   src,
   title,
 }) => {
+  const ref = React.useRef<HTMLIFrameElement | null>(null);
+
+  React.useEffect(() => {
+    if (!ref.current) return;
+
+    const id = setTimeout(() => {
+      ref.current?.classList.remove("hidden");
+    }, 2000);
+
+    return () => {
+      clearTimeout(id);
+    };
+  }, []);
+
   return (
-    <div className="content-container lg:mx-[var(--gutter-size)] lg:w-[var(--container-size)]">
+    <div className="h-[480px] overflow-auto content-container lg:mx-[var(--gutter-size)] lg:h-[678px] lg:w-[var(--container-size)]">
       <iframe
-        title={title}
-        className="mb-4 min-h-[480px] w-full lg:min-h-[678px]"
+        ref={ref}
         src={src}
+        className="hidden h-full w-full border-0 border-none"
+        title={title}
         allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
         sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
       />
-      <a
-        title={`Edit ${src} on CodeSandbox`}
-        href={src}
-        className="relative inline-block h-12 w-48"
-        target="_blank"
-      >
-        <Image
-          alt="Edit react-sanbox"
-          src="https://codesandbox.io/static/img/play-codesandbox.svg"
-          fill
-        />
-      </a>
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import * as React from "react";
+import dynamic from "next/dynamic";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import type { Metadata } from "next";
 import remarkReferenceLinks from "remark-reference-links";
@@ -18,6 +19,10 @@ import Frontmatter from "./frontmatter";
 import BlogBreadcrumb from "./breadcrumb";
 import Tags from "./tags";
 import shikiRehypeOptions from "./shiki-options";
+
+const TableOfContent = dynamic(() => import("../table-of-content"), {
+  ssr: false,
+});
 
 interface BlogPostProps {
   params: {
@@ -64,6 +69,8 @@ export default async function BlogPost({ params: { slug } }: BlogPostProps) {
 
   return (
     <div className="w-full text-left [--article-container-size:var(--container-size)] [--article-gutter-size:var(--gutter-size,_100%)] md:[--article-container-size:calc(theme(maxWidth.3xl)-theme(spacing.6))] md:[--article-gutter-size:auto]">
+      <TableOfContent />
+
       <BlogBreadcrumb
         title={frontMatter.title}
         href={`https://github.com/richardnguyen99/next.richardhnguyen.com/edit/main/src/posts/${slug}.mdx`}

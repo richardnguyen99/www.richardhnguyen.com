@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 @layer components {
+  .content {
+    /* For general text, unless specified otherwise */
+    @apply text-neutral-800 dark:text-neutral-300;
+  }
+
   .content pre code[data-theme*=" "] {
     background-color: var(--shiki-light-bg);
   }
@@ -19,11 +24,6 @@
   html.dark .content pre code[data-theme*=" "] span {
     color: var(--shiki-dark);
     text-decoration: var(--shiki-dark-text-decoration, unset);
-  }
-
-  .content {
-    /* For general text, unless specified otherwise */
-    @apply text-neutral-800 dark:text-neutral-300;
   }
 
   .content h1 {
@@ -255,7 +255,7 @@
   .content h1,
   .content h2,
   .content h3 {
-    @apply scroll-mt-14;
+    @apply scroll-mt-24;
     @apply scroll-smooth;
   }
 

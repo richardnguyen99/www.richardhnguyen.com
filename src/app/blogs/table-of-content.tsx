@@ -42,14 +42,68 @@ const TableOfContent: React.FC = () => {
       {
         // This will make sure the intersectioning is triggered if and only if
         // the header appears 90% on viewport, i.e. the content is 90% visible
-        rootMargin: "0px 0px -90% 0px",
+        rootMargin: "-96px 0px -66% 0px",
       },
     );
 
     contentObserver.observe(content);
 
+    const headingObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const id = entry.target.id;
+          // have to do "All" here cause we render this component in pageContent for mobile too
+
+          const tocItem = Array.from(
+            document.querySelectorAll(`#toc-${id}`),
+          ).at(-1);
+          // this occurs when the id = "toc-heading"
+          if (!tocItem) return;
+
+          if (entry.isIntersecting) {
+            // get current all active elements
+            const currentActiveElements = Array.from(
+              document.querySelectorAll(
+                `[data-current-active-tab-content-item="true"]`,
+              ),
+            );
+
+            // if has active elements
+            if (currentActiveElements.length) {
+              // loop through all elements and remove class and attr
+              for (const el of currentActiveElements) {
+                el.classList.remove("active");
+                el.removeAttribute("data-current-active-tab-content-item");
+              }
+            }
+
+            tocItem.classList.add("active");
+            // set data attr to active element also will helpful when need to remove active state
+            tocItem.setAttribute(
+              "data-current-active-tab-content-item",
+              "true",
+            );
+
+            setActiveHeading(entry.target as HTMLElement);
+          }
+        });
+      },
+      {
+        rootMargin: "-96px 0% -66%",
+        threshold: 1,
+      },
+    );
+
+    content.querySelectorAll("h1, h2").forEach((heading) => {
+      headingObserver.observe(heading);
+    });
+
     return () => {
       contentObserver.unobserve(content);
+
+      content.querySelectorAll("h1, h2").forEach((heading) => {
+        headingObserver.unobserve(heading);
+      });
     };
   }, [extraLarge]);
 
@@ -58,10 +112,10 @@ const TableOfContent: React.FC = () => {
       <nav
         ref={ref}
         className={cn(
-          "ease-curve-d duration-normal sticky top-0 z-50 h-0 w-full translate-y-[50px] overflow-visible opacity-100 transition-toc xl:ml-8 xl:h-fit xl:w-[calc((100%-var(--article-container-size))/2-4rem)] xl:translate-y-[66px] xl:cursor-default xl:overflow-visible xl:border-none xl:bg-transparent",
+          "ease-curve-d duration-normal sticky top-0 z-50 h-0 w-full translate-y-[50px] overflow-visible opacity-100 transition-toc xl:ml-8 xl:w-[calc((100%-var(--article-container-size))/2-4rem)] xl:translate-y-[66px] xl:cursor-default xl:overflow-visible xl:border-none xl:bg-transparent",
           {
-            "pointer-events-none opacity-0": !inViewport,
-            "pointer-events-auto opacity-100": inViewport,
+            "pointer-events-none opacity-0 xl:h-0": !inViewport,
+            "pointer-events-auto opacity-100 xl:h-fit": inViewport,
           },
         )}
       >
@@ -73,7 +127,13 @@ const TableOfContent: React.FC = () => {
                 onClick={() => setCollapsing((prev) => !prev)}
                 className="flex w-full items-center justify-between py-4 text-sm font-medium transition-colors duration-200"
               >
-                <span>Table of Content</span>
+                <span>
+                  {extraLarge
+                    ? "Table of Content"
+                    : collapsing
+                      ? "Table of Content"
+                      : activeHeading?.childNodes[0].textContent}
+                </span>
                 {collapsing ? (
                   <ChevronUp className="h-4 w-4" />
                 ) : (
@@ -84,7 +144,7 @@ const TableOfContent: React.FC = () => {
               <div className="">
                 <ScrollArea
                   className={cn(
-                    "ease-curve-d max-h-[calc(100vh-50px)] w-full transition-[max-height] duration-300 xl:max-h-[calc(100vh-82px)]",
+                    "ease-curve-d max-h-[calc(100vh-50px)] w-full transition-[max-height] duration-300 xl:max-h-[calc(100vh-114px)]",
                     {
                       "mb-4 h-fit": collapsing,
                       "max-h-0 xl:max-h-0": !collapsing,
@@ -99,9 +159,19 @@ const TableOfContent: React.FC = () => {
 
                     return (
                       <div
+                        id={`toc-${id}`}
                         key={index}
-                        onClick={() => setCollapsing(false)}
-                        className="line-height mb-2 line-clamp-1 cursor-pointer gap-2 text-sm dark:text-neutral-700 dark:hover:text-neutral-500 dark:active:text-neutral-300"
+                        onClick={() => {
+                          if (!extraLarge) {
+                            setCollapsing(false);
+                          }
+                        }}
+                        className={cn(
+                          "line-height mb-2 line-clamp-1 cursor-pointer gap-2 text-sm dark:text-neutral-700 dark:hover:text-neutral-500 dark:data-[current-active-tab-content-item]:text-white",
+                          {
+                            "pl-4": heading.tagName === "H2",
+                          },
+                        )}
                       >
                         <a href={`#${id}`}>{text}</a>
                       </div>

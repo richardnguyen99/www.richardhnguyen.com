@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
 
 const CodeSandbox: React.FC<{ src: string; title: string }> = ({
   src,

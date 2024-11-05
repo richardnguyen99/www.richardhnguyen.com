@@ -41,7 +41,8 @@ const TableOfContent: React.FC = () => {
       },
       {
         // This will make sure the intersectioning is triggered if and only if
-        // the header appears 90% on viewport, i.e. the content is 90% visible
+        // the header appears 66% on viewport, i.e. the content is 66% visible.
+        // 96px is for auto scroll margin.
         rootMargin: "-96px 0px -66% 0px",
       },
     );
@@ -52,23 +53,23 @@ const TableOfContent: React.FC = () => {
       (entries) => {
         entries.forEach((entry) => {
           const id = entry.target.id;
-          // have to do "All" here cause we render this component in pageContent for mobile too
 
+          // Get the corresponding toc item from the heading id
           const tocItem = Array.from(
             document.querySelectorAll(`#toc-${id}`),
           ).at(-1);
-          // this occurs when the id = "toc-heading"
+
           if (!tocItem) return;
 
           if (entry.isIntersecting) {
-            // get current all active elements
+            // Find all the current active elements.
             const currentActiveElements = Array.from(
               document.querySelectorAll(
                 `[data-current-active-tab-content-item="true"]`,
               ),
             );
 
-            // if has active elements
+            // remove the active class and attributes
             if (currentActiveElements.length) {
               // loop through all elements and remove class and attr
               for (const el of currentActiveElements) {
@@ -77,19 +78,20 @@ const TableOfContent: React.FC = () => {
               }
             }
 
-            tocItem.classList.add("active");
-            // set data attr to active element also will helpful when need to remove active state
+            // Add active class and attributes
             tocItem.setAttribute(
               "data-current-active-tab-content-item",
               "true",
             );
 
+            // Reusable active class
             setActiveHeading(entry.target as HTMLElement);
           }
         });
       },
       {
-        rootMargin: "-96px 0% -66%",
+        // See above for explanation
+        rootMargin: "-96px 0px -66% 0px",
         threshold: 1,
       },
     );

@@ -121,7 +121,7 @@ const TableOfContent: React.FC = () => {
           },
         )}
       >
-        <div className="bg-white/90 backdrop-blur dark:bg-black/80 xl:rounded-md xl:border-transparent xl:bg-transparent xl:px-6">
+        <div className="bg-white/80 backdrop-blur dark:bg-black/80 xl:rounded-md xl:border-transparent xl:bg-transparent xl:px-6">
           <div className="relative mx-[var(--article-gutter-size)] flex w-[var(--article-container-size)] items-start justify-between overflow-hidden rounded-md xl:mx-[unset] xl:w-[unset] xl:[display:unset]">
             <div className="w-full">
               <button
@@ -169,7 +169,7 @@ const TableOfContent: React.FC = () => {
                           }
                         }}
                         className={cn(
-                          "line-height mb-2 line-clamp-1 cursor-pointer gap-2 text-sm dark:text-neutral-700 dark:hover:text-neutral-500 dark:data-[current-active-tab-content-item]:text-white",
+                          "line-height mb-2 line-clamp-1 cursor-pointer gap-2 text-sm text-slate-400 hover:text-slate-600 data-[current-active-tab-content-item]:text-black dark:text-neutral-700 dark:hover:text-neutral-500 dark:data-[current-active-tab-content-item]:text-white",
                           {
                             "pl-4": heading.tagName === "H2",
                           },
@@ -188,7 +188,7 @@ const TableOfContent: React.FC = () => {
       <div
         onClick={() => setCollapsing(false)}
         className={cn(
-          "ease-curve-d fixed left-0 top-0 z-[49] h-full w-full bg-black/80 transition-opacity duration-300 xl:hidden",
+          "ease-curve-d fixed left-0 top-0 z-[49] h-full w-full bg-white/80 transition-opacity duration-300 dark:bg-black/80 xl:hidden",
           {
             "pointer-events-auto opacity-100": collapsing,
             "pointer-events-none opacity-0": !collapsing,

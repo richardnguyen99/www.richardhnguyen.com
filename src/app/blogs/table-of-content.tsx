@@ -2,10 +2,10 @@
 
 import * as React from "react";
 import { useMediaQuery } from "@uidotdev/usehooks";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ChevronDown, ChevronUp } from "lucide-react";
 
 const TableOfContent: React.FC = () => {
   const ref = React.useRef<HTMLDivElement | null>(null);

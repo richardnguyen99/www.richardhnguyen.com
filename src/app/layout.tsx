@@ -114,7 +114,11 @@ interface RootLayoutProps {
 
 const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      className="[scrollbar-gutter:_stable_both-edges]"
+      suppressHydrationWarning
+    >
       <body
         className={`${inter.className} h-full w-screen max-w-full bg-white [--gutter-size:theme(spacing.5)] dark:bg-black sm:[--container-size:calc(theme(maxWidth.xl)-theme(spacing.6))] sm:[--gutter-size:calc((100vw-(theme(maxWidth.xl)-theme(spacing.6)))/2)] md:[--container-size:calc(theme(maxWidth.3xl)-theme(spacing.6))] md:[--gutter-size:calc((100vw-(theme(maxWidth.3xl)-theme(spacing.6)))/2)] lg:[--container-size:calc(theme(maxWidth.5xl)-theme(spacing.8))] lg:[--gutter-size:calc((100vw-(theme(maxWidth.5xl)-theme(spacing.8)))/2)] xl:[--container-size:calc(theme(maxWidth.6xl)-theme(spacing.8))] xl:[--gutter-size:calc((100vw-(theme(maxWidth.6xl)-theme(spacing.8)))/2)]`}
       >

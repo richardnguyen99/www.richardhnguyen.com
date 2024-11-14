@@ -1,4 +1,5 @@
 import * as React from "react";
+import { TerminalIcon } from "@primer/octicons-react";
 
 import ReactTSIcon from "@/components/icons/reactts";
 import JsIcon from "@/components/icons/js";
@@ -12,9 +13,9 @@ import MarkdownIcon from "@/components/icons/markdown";
 import MdxIcon from "@/components/icons/mdx";
 import CSSIcon from "@/components/icons/css";
 import HTMLIcon from "@/components/icons/html";
-import { TerminalIcon } from "@primer/octicons-react";
 import ReactJSIcon from "@/components/icons/reactjs";
 import ScssIcon from "@/components/icons/scss";
+import GnuMakefileIcon from "@/components/icons/gnu";
 
 interface ExtensionObject {
   text: string;
@@ -24,6 +25,13 @@ interface ExtensionObject {
 type ExtensionRecord = readonly [string, ExtensionObject];
 
 const iterable: ExtensionRecord[] = [
+  [
+    "makefile",
+    {
+      text: "Makefile",
+      component: <GnuMakefileIcon />,
+    },
+  ],
   [
     "tsx",
     {

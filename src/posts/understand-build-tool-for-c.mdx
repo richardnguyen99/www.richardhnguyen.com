@@ -19,20 +19,161 @@ changeLog:
       - 'Initial post'
 ---
 
-For a single-source-file C project, `gcc` is sufficient to compile the code.
-But what if your projects have multiple steps and a huge number of source files?
-How do you check if a dependency is missing? How do you automate the build
-process? That's where build tools such as `make` and `cmake` come into play.
-
-{/* EXCERPT */}
+C build tools are essential for compiling and linking C programs. There are many
+build tools available, from native programs to cross-platform tools that allow
+you to build C projects on different operating systems. In this post, we will
+explore some of the most popular build tools for C and how to use them.
 
 # Introduction
 
-When you first learned C or C++ programming language, you might have needed a
-simple `gcc` command to compile your code. What if you have a bigger project
-that requires multiple source files and libraries? Sure, a `gcc` command would
-do just fine compiling all the source files? But what if your project has
-50+ source files, or simply you want to automate the build process? That's
-where all the build tools come into play. In this post, we will discuss the
-most common build tools for C and C++ projects: `gcc`, `make`, `cmake`, and
-`autoconfig`.
+Build tools are orchestration tools that automate the process of compiling and
+linking source code into executable programs. They allow you to group source
+files, include libraries, and define compiler flags in a configuration file.
+
+For example, if you have a C program that consists of multiple source files and
+with a complex build options such as:
+
+```sh
+gcc -DPACKAGE_NAME=\"reactor\" -DPACKAGE_TARNAME=\"reactor\" -DPACKAGE_VERSION=\"0.0.1\" -DPACKAGE_STRING=\"reactor\ 0.0.1\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DPACKAGE=\"reactor\" -DVERSION=\"0.0.1\" -DHAVE_STDIO_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_STRINGS_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_UNISTD_H=1 -DSTDC_HEADERS=1 -I.    -I../include -Wall -Wextra -Werror -pedantic -std=c11 -fPIC -O3  -g -O2 -MT librx_la-rx_request.lo -MD -MP -MF .deps/librx_la-rx_request.Tpo -c -o librx_la-rx_request.lo `test -f 'rx_request.c' || echo './'`rx_request.c
+```
+
+and imagine you have to type this command for 10 other files. It would be a
+painful experience.
+
+This is why build tools are created. They allo you to define a common pattern
+that can be reused for all the source files.
+
+# GNU Make
+
+[`GNU Make`](https://www.gnu.org/software/make/) is one of the most popular
+build tools, which controls the generation of executables and other non-source
+files of a program from the program's source files. `make` uses a `Makefile` to
+define a set of rules and source files to build the target executable.
+
+## Advantages
+
+Here are some advantages of using `make`:
+
+- `make` is an language-agnostic build tool, which means you can use it for
+building many different types of languages other than C.
+- `make` knows how to build a target from its dependencies, which means you can
+define the order of the build process.
+- `make` knows how to optimize the build process by only building the files that
+have changed, instead of compiling all the source files.
+- `make` is more than just a build tool. It can install, uninstall, clean up,
+generate files and more.
+
+## File structure
+
+Let's take a look at a typical project that uses `make`:
+
+```ansi disableCopyButton
+using-make
+├── Makefile
+├── include
+│   └── whois.h
+└── src
+    ├── whois.c
+    ├── whoisclient.c
+    └── whoisserver.c
+
+3 directories, 5 files
+```
+
+Here is the content of the `Makefile`:
+
+```makefile
+# Compiler options
+# gcc for C source code
+CC=gcc
+INCLUDEDIR=include
+SRCDIR=src
+
+# Optimized and fully warnings
+CFLAGS=-Wall -Wextra -Werror -O3
+
+# For debugging and testing only
+DEBUGS=-DDEBUG -g -O0
+
+# Include directory
+INCLUDE=-I./$(INCLUDEDIR)
+
+# Short - Compile all
+all: whoisserver whoisclient
+
+# Use to debug and test. This will display some useful message and provide quick
+# development. However do not use for grading as it might not cover all hidden
+# bugs.
+debug:
+	$(CC) $(DEBUGS) $(INCLUDE) src/whoisclient.c src/whois.c -o whoisclient_debug
+	$(CC) $(DEBUGS) $(INCLUDE) src/whoisserver.c src/whois.c -o whoisserver_debug
+
+whoisclient: whois.o whoisclient.o
+	$(CC) $(CFLAGS) $(INCLUDE) whoisclient.o whois.o -o whoisclient
+
+whoisserver: whois.o whoisserver.o
+	$(CC) $(CFLAGS) $(INCLUDE) whoisserver.o whois.o -o whoisserver
+
+# Compile all the source code to object files
+%.o: $(SRCDIR)/%.c
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+
+clean:
+	rm -rf *.o whoisclient whoisserver whoisclient_debug whoisserver_debug
+```
+
+## Variables
+
+In this `Makefile`, we define some compiling variables such as `CC`, `CFLAGS`,
+and `INCLUDE`. Defining these variables allows us to change only one place where
+the variable is defined, and it will be applied to all the source files.
+
+To reference a variable, you can use the syntax `$(VARIABLE_NAME)`. For example,
+`$(CC)` will be replaced with `gcc` when the `make` command is executed.
+
+## Targets
+
+The next thing is the target. Target is defined by a rule followed by a colon.
+This rule allows you to specify the desired computations to be performed.
+
+For example, the target `debug` will compile the `whoisclient` and `whoisserver`
+in debug mode. To use this target, you can run the command `make debug`.
+
+The target `all` is preserved for the default target, which you can run by just
+typing `make`. This target will run all the dependencies in the order specified.
+
+The dependencies are targets that need to be run before the specified target.
+For example, the `all` target depends on `whoisserver` and `whoisclient`. So
+when you run `make`, it will run the computations defined under `whoisserver`
+and `whoisclient` first. The dependencies are also computed recursively, which
+means if a dependency has its own sub-dependencies, the sub-dependencies will be
+computed until all the dependencies are resolved.
+
+```ansi disableCopyButton
+$ make
+gcc -Wall -Wextra -Werror -O3 -I./include -c src/whois.c -o whois.o
+gcc -Wall -Wextra -Werror -O3 -I./include -c src/whoisserver.c -o whoisserver.o
+gcc -Wall -Wextra -Werror -O3 -I./include whoisserver.o whois.o -o whoisserver
+gcc -Wall -Wextra -Werror -O3 -I./include -c src/whoisclient.c -o whoisclient.o
+gcc -Wall -Wextra -Werror -O3 -I./include whoisclient.o whois.o -o whoisclient
+```
+
+Thanks to the optimization of `make`, no target is compiled more than once.
+
+## Disadvantages
+
+`make` is a powerful build tool and a great entry point for beginners who want
+to learn how to automate the build process. However, `make` has some
+disadvantages:
+
+- `make` is exclusive to Unix-like operating systems. If you want to build your
+C project on Windows, it might not be the best choice, unless you are using
+[Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install)
+- `make` cannot check for libraries and dependencies. For example, `make` does
+not have a builtin function to check if a library is installed on the system.
+- `make` does support refactoring. For example, having multiple `Makefile` files
+for different parts of the project is not supported natively and requires some
+manual work to get it done.
+
+
+

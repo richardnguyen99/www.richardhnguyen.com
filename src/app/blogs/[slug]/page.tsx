@@ -115,7 +115,7 @@ export default async function BlogPost({ params: { slug } }: BlogPostProps) {
                     getHighlighter: (options) => {
                       return getSingletonHighlighter({
                         ...options,
-                        langs: [...options.langs, "makefile"],
+                        langs: [...options.langs, "makefile", "cmake"],
                       });
                     },
                   } as Parameters<typeof rehypePrettyCode>[0],

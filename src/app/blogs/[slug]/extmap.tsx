@@ -16,6 +16,7 @@ import HTMLIcon from "@/components/icons/html";
 import ReactJSIcon from "@/components/icons/reactjs";
 import ScssIcon from "@/components/icons/scss";
 import GnuMakefileIcon from "@/components/icons/gnu";
+import CMakeIcon from "@/components/icons/cmake";
 
 interface ExtensionObject {
   text: string;
@@ -30,6 +31,13 @@ const iterable: ExtensionRecord[] = [
     {
       text: "Makefile",
       component: <GnuMakefileIcon />,
+    },
+  ],
+  [
+    "cmake",
+    {
+      text: "CMake",
+      component: <CMakeIcon />,
     },
   ],
   [

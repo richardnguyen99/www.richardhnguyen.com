@@ -423,12 +423,211 @@ build portable C projects. However, `autotools` has some disadvantages:
 - `autotools` is complex and has a steep learning curve. It might be difficult
 for beginners to understand how to use `autotools` effectively.
 - `autotools` is exclusive to Unix-like operating systems, like `GNU Make`.
+- `autotools` does not provide a package manager. If you want to use external
+libraries, you need to install them manually on your system.
 
 
-## CMake
+# CMake
+
+[`CMake`](https://cmake.org/) is a cross-platform build tool that allows you to
+define the build process in a configuration file.  Like `autotools`, `CMake`
+provides a configuration step that generates the build files for the target
+system.
+
+That said, Cmake is more modern and easier to use than `autotools`. Cmake
+provides a unified build system. Instead of having different tools for different
+stages or mulitple files for the build process, Cmake provides a single entry
+point for the build.
+
+## File structure
+
+Let's take a look at the file structure for a project that uses `CMake`:
+
+```ansi disableCopyButton
+.
+├── CMakeLists.txt
+├── include
+│   └── whois.h
+└── src
+    ├── CMakeLists.txt
+    ├── whois.c
+    ├── whoisclient.c
+    └── whoisserver.c
+
+3 directories, 6 files
+```
+
+We are going to reuse the implementation for `whois` project and convert it to
+use `CMake`. `CMakeLists.txt` is the main file that defines the build process,
+including the source files, dependency checking and compiler flags.
+
+`src/CMakeLists.txt` is a subdirectory file that defines the source files for
+the targets. This file is included in the main `CMakeLists.txt` file for
+refactoring purposes.
+
+## CMakeLists.txt
+
+Let's take a look at the content of `CMakeLists.txt`:
+
+```cmake title="CMakeLists.txt"
+cmake_minimum_required(VERSION 3.13)
+project(using-cmake)
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
+# Set common compiler flags
+set(CMAKE_C_FLAGS "-Wall -Werror")
+
+# Check for header files
+include(CheckIncludeFile)
+check_include_file(fcntl.h HAVE_FCNTL_H)
+check_include_file(unistd.h HAVE_UNISTD_H)
+check_include_file(sys/socket.h HAVE_SYS_SOCKET_H)
+check_include_file(netinet/in.h HAVE_NETINET_IN_H)
+check_include_file(arpa/inet.h HAVE_ARPA_INET_H)
+check_include_file(sys/types.h HAVE_SYS_TYPES_H)
+check_include_file(sys/stat.h HAVE_SYS_STAT_H)
+check_include_file(stdlib.h HAVE_STDLIB_H)
+check_include_file(stdio.h HAVE_STDIO_H)
+check_include_file(string.h HAVE_STRING_H)
+check_include_file(errno.h HAVE_ERRNO_H)
+check_include_file(signal.h HAVE_SIGNAL_H)
+check_include_file(sys/time.h HAVE_SYS_TIME_H)
+check_include_file(time.h HAVE_TIME_H)
+
+# Check for functions
+include(CheckFunctionExists)
+check_function_exists(fcntl HAVE_FCNTL)
+check_function_exists(socket HAVE_SOCKET)
+check_function_exists(bind HAVE_BIND)
+check_function_exists(listen HAVE_LISTEN)
+check_function_exists(accept HAVE_ACCEPT)
+check_function_exists(close HAVE_CLOSE)
+check_function_exists(read HAVE_READ)
+check_function_exists(write HAVE_WRITE)
+check_function_exists(recv HAVE_RECV)
+
+# Check for declarations
+include(CheckSymbolExists)
+check_symbol_exists(NULL "stddef.h" HAVE_NULLPTR)
+
+# Check for type definitions
+include(CheckTypeSize)
+check_type_size(pthread_t HAVE_PTHREAD_T)
+check_type_size(int8_t HAVE_INT8_T)
+check_type_size(ssize_t HAVE_SSIZE_T)
+check_type_size(size_t HAVE_SIZE_T)
+check_type_size(u_char HAVE_U_CHAR)
+
+# Add subdirectories
+add_subdirectory(src)
+```
+
+It is pretty similar to `configure.ac`. We define some common variables such as
+compiler, compiler flags, dependency checking and include the subdirectory file.
+However, `CMake` provides a more robust and concise way to achieve the goal.
+
+## src/CMakeLists.txt
+
+Let's take a look at the content of `src/CMakeLists.txt`:
+
+```cmake title="src/CMakeLists.txt" showLineNumbers
+cmake_minimum_required(VERSION 3.13)
+project(using-cmake)
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
+# Add compiler flags based on the build type
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DDEBUG -g -O0")
+else()
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wextra -O3")
+endif()
+
+# Compile shared library
+set(BUILD_SHARED_LIBS ON)
+
+# Add source code to library
+add_library(whois whois.c ${CMAKE_SOURCE_DIR}/include/whois.h)
+target_include_directories(whois PUBLIC ${CMAKE_SOURCE_DIR}/include)
+
+# Compile target whoisclient
+add_executable(whoisclient whoisclient.c)
+
+# Link whoisclient with whois library
+target_include_directories(whoisclient PUBLIC ${CMAKE_SOURCE_DIR}/include)
+target_link_libraries(whoisclient whois)
+
+# Compile target whoisserver
+add_executable(whoisserver whoisserver.c)
+
+# Link whoisserver with whois library
+target_include_directories(whoisserver PUBLIC ${CMAKE_SOURCE_DIR}/include)
+target_link_libraries(whoisserver whois)
+```
+
+The structure of the `CMakeLists.txt` file is also similar to `Makefile.am`. We
+define executables by using `add_executable(<name> <options>... <sources>...)`.[^2]
+Each target has its own source files, include directories and linkages.
+
+We can also define a shared library for performance purposes by using
+`add_library(<name> <options>...<sources>...)`[^3]. This library can be
+compiled once and reused by other targets.
+
+## Running the build process
+
+To build the project using `CMake`, you need to create a build directory and
+run the `cmake` command to generate the build files:
+
+```sh
+mkdir build
+cd build
+cmake -S .. -B . -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug # or Release
+make
+```
+
+## Advantages
+
+- `CMake` is a cross-platform build tool so you can build your C project on many
+major operating systems.
+- `CMake` provides a unified configuration file that allows you to define your
+build process, including compiler flags, dependencies, source files and
+executables.
+- `CMake` also provides modules that allow you to check for dependencies, or
+install one if you need to such as [FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html).
+
+## Disadvantages
+
+CMake is considered the de facto build tool for C and C++ projects. However, it
+still has some common negative feedback:
+
+- Its syntax is cumbersome to work with. A simple project can be defined in an
+unnecessarily complex way.
+- Its documentation is often cryptic and esoteric because it does not provide
+a clear, explicit explanation  of the modules.
+- There are hardly any example codes in the documentation. Most of the time,
+you have to rely on reading other people's code on GitHub/GitLab.
+
+# Conclusion
+
+In this post, we have explorered different build tools for C/C++ projects. `GNU
+Make` is a smallest and most simple tool that is suitable for small projects.
+Even bigger projects still use `GNU Make` for fine-grained controls. `GNU
+Autotools` provides a large set of tools that support specific stages of the
+build process. It is suitable for large projects, especially those written in
+Linux. Then, we have `Cmake`, a cross-platform build tool that provides a
+unified configuration file for the build process. It is suitable for major
+projects and has become the industry standard for C/C++ projects.
+
+If you are new to C/C++, I would recommend learning `GNU Make` first to
+understand how build tools work and orchestrate. Learn and try it out to see
+what it brings and what it misses. Then, you can move on to `CMake` to learn
+to build a more complex project that requires more features such as dependency
+checking, shared libraries, testing and cross-platform support.
 
 
-
-# References:
+# References
 
 [^1]: [GNU Autotools](https://www.gnu.org/software/automake/)
+[^2]: [add_executable](https://cmake.org/cmake/help/latest/command/add_executable.html)
+[^3]: [add_library](https://cmake.org/cmake/help/latest/command/add_library.html)

@@ -1,9 +1,9 @@
 ---
 title: 'How HTTP works'
 slug: 'how-http-works'
-date: '2024-09-07'
+date: '2024-12-10'
 published: true
-publishedAt: '2024-09-07'
+publishedAt: '2024-12-10'
 author: 'Richard H. Nguyen'
 tags:
   - 'http'
@@ -24,3 +24,33 @@ videos, everything is transferred over HTTP.
 {/* EXCERPT */}
 
 # Introduction
+
+HTTP stands for _HyperText Transfer Protocol_. HTTP was defined in [RFC 1945](
+https://datatracker.ietf.org/doc/html/rfc1945) and [RFC 2616](
+https://datatracker.ietf.org/doc/html/rfc2616) for HTTP/1.0 and HTTP/1.1
+respectively. HTTP has been the backbone of our modern web and internet
+communication.
+
+HTTP involves two components: a client and a server. The client is an active
+component that initializes the communication whereas the server is a passive
+component that waits for incoming communication. They talk to each other using
+HTTP messages. HTTP defines the structure of these messages to indicate which
+one is a request sent by clients, and which one is a response sent by servers.
+
+
+```mermaid
+sequenceDiagram
+    Client->>Server: GET /index.html HTTP/1.1
+    activate Server
+    Server-->>Client: HTTP/1.1 200 OK
+    deactivate Server
+    Client->>Server: POST /login HTTP/1.1
+    activate Server
+    Server-->>Client: HTTP/1.1 400 Bad Request
+    deactivate Server
+```
+
+
+
+
+

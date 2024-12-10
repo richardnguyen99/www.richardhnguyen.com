@@ -130,7 +130,19 @@ const components: NonNullable<
       lang: string;
       disablecopybutton?: string;
       displaylinenumbers?: boolean;
+      "data-language": string;
     };
+
+    if (rest["data-language"] === "mermaid") {
+      if (React.isValidElement(props.children)) {
+        const content = props.children.props.children as string;
+        return (
+          <div className="mermaid [&:not([data-processed])]:hidden">
+            {content}
+          </div>
+        );
+      }
+    }
 
     return (
       <BlogCode

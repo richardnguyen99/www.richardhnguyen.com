@@ -23,6 +23,12 @@ const shikiRehypeOptions: RehypeShikiCoreOptions = {
     {
       preprocess(code, options) {
         const optionMeta = options.meta as MetaMap;
+
+        if (options.lang === "mermaid" && options.meta) {
+          options.meta.__raw = code;
+          return;
+        }
+
         optionMeta.disableCopyButton =
           options.meta?.__raw?.includes("disableCopyButton");
 
@@ -44,6 +50,26 @@ const shikiRehypeOptions: RehypeShikiCoreOptions = {
 
       span(node, line, col) {
         node.properties["data-token"] = `token:${line}:${col}`;
+      },
+
+      pre(hast) {
+        if (this.options.lang === "mermaid") {
+          hast.children = [
+            {
+              type: "element",
+              tagName: "div",
+              properties: {
+                className: "mermaid",
+              },
+              children: [
+                {
+                  type: "text",
+                  value: this.options.meta?.__raw || "",
+                },
+              ],
+            },
+          ];
+        }
       },
     },
   ],

@@ -1,4 +1,5 @@
 import * as React from "react";
+import Script from "next/script";
 import dynamic from "next/dynamic";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import type { Metadata } from "next";
@@ -146,6 +147,18 @@ export default async function BlogPost({ params: { slug } }: BlogPostProps) {
         />
       </div>
       <Tags tags={frontMatter.tags} />
+      <Script
+        id="mermaidjs-cdn"
+        type="module"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+        import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@9/dist/mermaid.esm.min.mjs";
+        mermaid.initialize({startOnLoad: true});
+        mermaid.contentLoaded();
+`,
+        }}
+      />
     </div>
   );
 }

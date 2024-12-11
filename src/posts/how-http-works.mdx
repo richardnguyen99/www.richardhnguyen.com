@@ -40,6 +40,7 @@ one is a request sent by clients, and which one is a response sent by servers.
 
 ```mermaid
 sequenceDiagram
+    autonumber
     Client->>Server: GET /index.html HTTP/1.1
     activate Server
     Server-->>Client: HTTP/1.1 200 OK

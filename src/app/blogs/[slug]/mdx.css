@@ -336,4 +336,42 @@
   .content .callout button:disabled svg:not(.callout-icon) {
     @apply invisible hidden opacity-0;
   }
+
+  .mermaid rect.actor {
+    @apply !fill-neutral-200 dark:!fill-neutral-800;
+    @apply !stroke-neutral-500 dark:!stroke-neutral-200;
+  }
+
+  .mermaid text.actor > tspan {
+    @apply !text-neutral-800 dark:!text-neutral-100;
+    @apply !fill-neutral-800 dark:!fill-neutral-100;
+  }
+
+  .mermaid line {
+    @apply !stroke-neutral-500 dark:!stroke-neutral-200;
+    @apply !fill-neutral-500 dark:!fill-neutral-200;
+  }
+
+  .mermaid .messageText {
+    @apply stroke-none;
+    @apply !fill-neutral-800 dark:!fill-neutral-200;
+  }
+
+  .mermaid #arrowhead path {
+    @apply !stroke-neutral-500 dark:!stroke-neutral-200;
+    @apply !fill-neutral-500 dark:!fill-neutral-200;
+  }
+
+  .mermaid #sequencenumber {
+    @apply !fill-neutral-500 dark:!fill-neutral-200;
+  }
+
+  .mermaid text.sequenceNumber {
+    @apply !fill-neutral-200 dark:!fill-neutral-800;
+  }
+
+  .mermaid rect.activation0 {
+    @apply !fill-neutral-200 dark:!fill-neutral-700;
+    @apply !stroke-neutral-500 dark:!stroke-neutral-200;
+  }
 }

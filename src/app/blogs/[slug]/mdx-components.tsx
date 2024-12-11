@@ -137,7 +137,7 @@ const components: NonNullable<
       if (React.isValidElement(props.children)) {
         const content = props.children.props.children as string;
         return (
-          <div className="mermaid [&:not([data-processed])]:hidden">
+          <div className="mermaid flex items-center justify-center [&:not([data-processed])]:invisible [&:not([data-processed])]:hidden [&:not([data-processed])]:opacity-0">
             {content}
           </div>
         );

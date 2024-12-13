@@ -154,8 +154,14 @@ const TableOfContent: React.FC = () => {
                   )}
                 >
                   {headings.map((heading, index) => {
-                    const text = heading.childNodes[0].textContent;
                     const id = heading.getAttribute("id");
+                    const text = heading.childNodes
+                      .entries()
+                      .reduce((acc, [_, node]) => {
+                        if (node.textContent === "#") return acc;
+
+                        return acc + node.textContent;
+                      }, "");
 
                     if (!text || !id) return null;
 

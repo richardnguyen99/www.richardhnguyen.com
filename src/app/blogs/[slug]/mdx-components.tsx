@@ -153,6 +153,12 @@ const components: NonNullable<
       />
     );
   },
+
+  blockquote: (props) => {
+    const { children, ...rest } = props;
+
+    return <blockquote {...rest}>{children}</blockquote>;
+  },
 };
 
 export default components;

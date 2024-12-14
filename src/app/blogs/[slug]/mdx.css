@@ -53,6 +53,22 @@
     @apply text-sm leading-6 sm:text-base sm:leading-8;
   }
 
+  .content blockquote {
+    @apply relative content-container;
+    @apply mb-12 p-4;
+    @apply bg-neutral-200 dark:bg-neutral-800;
+    @apply border-l-4 border-neutral-300 dark:border-neutral-600;
+  }
+
+  .content blockquote p {
+    @apply w-auto;
+    @apply mb-4 lg:mb-6;
+  }
+
+  .content blockquote p:last-child {
+    @apply mb-0;
+  }
+
   .content strong {
     @apply font-bold;
     @apply text-black dark:text-white;
@@ -362,6 +378,11 @@
   }
 
   .mermaid .messageText {
+    @apply stroke-none;
+    @apply !fill-neutral-800 dark:!fill-neutral-200;
+  }
+
+  .mermaid .loopText > tspan {
     @apply stroke-none;
     @apply !fill-neutral-800 dark:!fill-neutral-200;
   }

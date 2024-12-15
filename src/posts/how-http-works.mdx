@@ -913,7 +913,8 @@ fact, it is prohibited:
 
 By default, HTTP is a stateless protocol. It means that each request is handled
 separately and independently. The server does not keep track of the state of
-the client between requests.
+the client between requests. Therefore, each client request is required to put
+some information in the request to identify itself.
 
 For example, when a client successfully logs in to a website, the server
 provides some authorization token to the client. The client must send the token
@@ -972,6 +973,93 @@ client. Some will use the `Authorization` header to send the token back to the
 server.  Some servers send the authorization token in the body of the response
 and the client will store it in a local storage. With this method, developers
 on client apps need to manually include the token in the `Authorization` header.
+
+# HTTP over TLS
+
+Transport Layer Security (TLS) is a cryptographic protocol that provides a
+secure communication channel betweem two parties over the Internet. It is
+primarily used to encrypt the data exchange in HTTP messages between web
+applications and servers. A HTTP message over TLS is called HTTPS. HTTPS is
+set up on top of TCP and below the application layer.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant client
+    participant server
+
+    par TCP handshake
+        activate server
+        client->>server: SYN
+        server-->>client: SYN + ACK
+        client->>server: ACK
+        deactivate server
+
+        Note over client,server: TCP established
+    end
+
+    par TLS handshake
+        activate server
+        client->>server: ClientHello
+        server-->>client: ServerHello + Certificate
+        client->>server: ClientKeyExchange + ChangeCipher
+        server-->>client: ChangeCipher
+        deactivate server
+
+        Note over client,server: TLS established
+    end
+
+    client->>+server: GET / HTTP/1.1
+    server-->>-client: HTTP/1.1 200 OK<br />Content-Type: text/html
+```
+
+What TLS provides:
+
+- **Encryption**: hides the exchanged data from third parties.
+- **Authentication**: ensures that the data is sent and received by the
+  intended parties.
+- **Integrity**: ensures that the data is not tampered with during the
+  transmission.
+
+In a nutshell, HTTPS provides a secure communication channel in which only the
+end sender and the end receiver can read the data. Even if the data travel
+across the Internet, it is encrypted and cannot be read by third parties.
+Without HTTPS, third parties such as Internet Service Providers (ISPs),
+gateways and eavesdroppers can read the data and potentially steal sensitive
+information.
+
+<Callout type="info" title="Port for HTTP and HTTPS">
+
+HTTP servers can be configured to listen on many different port numbers as long
+as they are valid and not in use. However, the default port number for HTTP and
+HTTPS are `80` and `443` respectively. When a client sends a request to a server
+without specifying the port number, the default port number is used based on the
+the scheme of the URI. For example, if a client sends a request to `http://www.example.com`. The default port number is `80`. If the client sends a request to `https://www.example.com`, the default port number is `443`.
+
+</Callout>
+
+# Conclusion
+
+HTTP has been the backbone of our modern web applications and the main protocol
+for communication between clients and servers. By defining a set of rules or
+formats of messages, HTTP allows clients and servers to transfer data over the
+Internet. That includes texts, images, videos, or hyperlinks. By learning the
+basic concepts of HTTP, you can understand how HTTP works under the hood in a
+basic level.
+
+You can follow my GitHub repository, [richardnguyen99/http-from-scratch](
+https://github.com/richardnguyen99/http-from-scratch), to learn more about
+building your own HTTP server from scratch in C++ without using any third-party
+HTTP libraries.
+
+HTTP also has many advanced and complex features that are used to solve some
+common problems in HTTP. For more details, you can refer to my other posts:
+
+- [Cross-Origin Resource Sharing (CORS)](https://next.richardhnguyen.com/blogs/cors-in-different-ways)
+- [Web caching](https://next.richardhnguyen.com/blogs/web-caching)
+- [So you would like some cookies](https://next.richardhnguyen.com/blogs/how-http-works)
+- [head-of-line blocking: Differences between HTTP/1.1, HTTP/2 and HTTP/3](https://next.richardhnguyen.com/blogs/head-of-line-blocking)
+
 
 # References
 

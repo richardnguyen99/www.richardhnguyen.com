@@ -1,0 +1,69 @@
+---
+title: 'Explain Cross-Origin Resource Sharing (CORS)'
+slug: 'explain-cross-origin-resource-sharing-cors'
+date: '2024-12-24'
+published: true
+publishedAt: '2024-12-24'
+author: 'Richard H. Nguyen'
+tags:
+  - 'css'
+  - 'react'
+category: 'web-development'
+thumbnail: '/thumbnails/explain-cross-origin-resource-sharing-cors.png'
+changeLog:
+  -
+    date: '2024-12-24'
+    changes:
+      - 'Initial post'
+---
+
+
+You are learning how to build a full-stack, micro-service application. You have
+a beautiful front-end app. You build a sophisticated REST API. Now, you want to
+connect the two together to create a seamless experience for your users.
+However, you run into a problem. Your front-end app is blocked from accessing
+the results from your REST API requests. This is the notorious CORS error.
+
+{/* Excerpt */}
+
+# What is CORS?
+
+Cross-Origin Resource Sharing (CORS) is a security feature implemented by
+default in most modern web browser. The idea is to prevent requests made to
+different origins from happening.
+
+A common scenario in web developmentn is when a web page makes a request to a
+different domain, whether it is a subdomain, a different port, different scheme,
+or a completely different third-party domain. This is considered a cross-origin
+request.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant mypage.com
+    participant api.mypage.com
+    participant somethirdpartypage.com/api
+
+
+    critical Request internal data
+        mypage.com->>+api.mypage.com: GET /v1/users/123345
+        api.mypage.com-->>-mypage.com: HTTP/1.1 200 OK
+        mypage.com->>mypage.com: Prepare data
+
+        Note over mypage.com,api.mypage.com: Data displayed
+    end
+
+    critical Request external data
+        mypage.com->>+somethirdpartypage.com/api: GET /v1/accounts/something
+        somethirdpartypage.com/api-->>-mypage.com: HTTP/1.1 200 OK
+        mypage.com-xmypage.com: CORS Error
+
+        Note over mypage.com,somethirdpartypage.com/api: Data displayed
+    end
+```
+
+## Why requests
+
+
+## Same-origin policy
+

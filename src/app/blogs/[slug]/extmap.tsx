@@ -18,6 +18,7 @@ import ScssIcon from "@/components/icons/scss";
 import GnuMakefileIcon from "@/components/icons/gnu";
 import CMakeIcon from "@/components/icons/cmake";
 import HttpIcon from "@/components/icons/http";
+import YamlIcon from "@/components/icons/yaml";
 
 interface ExtensionObject {
   text: string;
@@ -27,6 +28,13 @@ interface ExtensionObject {
 type ExtensionRecord = readonly [string, ExtensionObject];
 
 const iterable: ExtensionRecord[] = [
+  [
+    "yaml",
+    {
+      text: "YAML",
+      component: <YamlIcon />,
+    },
+  ],
   [
     "makefile",
     {

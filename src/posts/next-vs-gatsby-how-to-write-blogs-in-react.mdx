@@ -1,0 +1,828 @@
+---
+title: 'React Blog: Next.js vs Gatsby.js'
+slug: 'next-vs-gatsby-how-to-write-blogs-in-react'
+date: '2025-01-26'
+published: true
+publishedAt: '2025-01-26'
+author: 'Richard H. Nguyen'
+tags:
+  - 'react'
+  - 'nextjs'
+  - 'gatsbyjs'
+  - 'markdown'
+  - 'mdx'
+category: 'web-development'
+thumbnail: '/thumbnails/nextjs-vs-gatsbyjs.png'
+changeLog:
+  -
+    date: '2025-01-26'
+    changes:
+      - 'Initial post'
+---
+
+Next.js and Gatsby.js are the most two dominant frameworks for building blogs
+using the React ecosystem. Both frameworks are capable fo generating static
+sites that are optimized for SEO and performance. But how are they different and
+which one is the best fit for your needs? This post will help you find out.
+
+{/* EXCERPT */}
+
+# Introduction
+
+Next.JS is a server-side rendering framework for React that allows you to build
+a complete, full-stack application with React and Server component. GatsbyJS
+first started as a static site generator but has evolved into a full-fledged
+framework for building web applications with React. Specific to blogs, both
+are trusted and used by many React developers to build their personal blogs.
+
+Since both frameworks are built on top of React, they share a huge ecosystem of
+libraries and tools that help you build your React apps, from styling, state
+management, UI blocks to testing. However, NextJS focuses on server-side
+rendering, which means you can use native NodeJS APIs and libraries to fetch
+data and render your posts. GatsbyJS, on the other hand, uses GraphQL and its
+plugin system to achieve the same thing. Based on those differences, this
+article will help you decide which one is the best fit for your needs.
+
+# Criteria
+
+To compare NextJS and GatsbyJS, we will use the following criteria:
+
+- **Setup**: How easy it is to set up a new project with both frameworks.
+- **TypeScript-friendly**: How easy it is to use TypeScript with both
+  frameworks.
+- **UI and styling**: How easy both frameworks integrate with major UI tools
+  such as TailwindCSS and ShadCN.
+- **Post rendering**: How both frameworks fetch data and render posts using MDX.
+- **Server-side features (minimal)**: How both frameworks support server-side
+  features such as query strings, and pagination.
+- **SEO**: How SEO is supported in both frameworks.
+- **Third-party integration** How well both frameworks support and integrate
+  with other plugins, libraries, and tools.
+- **Customization**: How you can deeply interfere and customize the behavior of
+  both frameworks, such as dark mode, adding scripts, dynamic page generating,
+  custom components in MDX files.
+
+What we don't cover in this article:
+
+- **Performance**: We are targeting blogs, which are mostly static content.
+  Performance is not a big concern here.
+- **Hosting**: Both frameworks can be hosted on any major static site hosting.
+  I don't get into this topic to avoid bias and sponsorships issues.
+- **Testing**: While testing is important, it is beyond the scope of this
+  article. Who tests their personal blog anyway?
+- **Databases and APIs**: We are focusing on static sites with MDX files.
+  Everything must be generated at build time, so there will no APIs or database
+  involved during runtime.
+
+# Layout of the applications
+
+To keep it simple, each project will have the following layout:
+
+- `/`: Home page with a list of posts.
+- `/posts/:slug`: Post page with the content of the post.
+- `/about`: About page with some information about the author.
+
+Each post will be written in MDX format and will have the following frontmatter:
+
+```yaml
+---
+title: string
+slug: string
+date: string
+published: boolean
+publishedAt: string
+author: string
+tags: string[]
+category: string
+thumbnail: string
+---
+```
+
+# Server components
+
+A major feature in NextJS is the ability to use React Server Components by
+default. In a nutshell, server components are rendered on the server ahead of
+time, before bundling, in an environment separate from your client app or SSR
+server[^1].
+
+While NextJS has an amazing support for server components, GatsbyJS does not
+fully support server components yet. First, the feature is still beta and not
+recommended for production. Second, RSC does not work in `gatsby develop`
+environment, which is a major drawback for developers who want to use it[^2].
+More discussion in this [RFC](https://github.com/gatsbyjs/gatsby/discussions/36608).
+
+While server components are a great feature that reduces the complexity of
+data fetching and rendering, it is not a must-have feature for a blog since the
+majority of the content is static and can be pre-rendered at build time from
+MDX files. Therefore, I will not consider this feature in our comparison.
+
+# Setup
+
+Both frameworks provide a CLI tool to create a new project with a step-by-step
+configuration so you can tailor your project to your needs.
+
+## NextJS
+
+In NextJS, you can create a new project with [`create-next-app`](
+https://www.npmjs.com/package/create-next-app):
+including
+```ansi
+$ [0;34mnpx[0;0m create-next-app@latest next-mdx-blog-template
+Need to install the following packages:
+create-next-app@15.1.6
+Ok to proceed? (y) y
+
+[0;32m✔[0;0m Would you like to use [0;1;36mTypeScript[0;0m? … No / [0;4;34mYes[0;0m
+[0;32m✔[0;0m Would you like to use [0;1;36mESLint[0;0m? … No / [0;4;34mYes[0;0m
+[0;32m✔[0;0m Would you like to use [0;1;36mTailwind CSS[0;0m? … No / [0;4;34mYes[0;0m
+[0;32m✔[0;0m Would you like your code inside a [0;1;36m`src/` directory[0;0m? … No / [0;4;34mYes[0;0m
+[0;32m✔[0;0m Would you like to use [0;1;36mApp Router[0;0m? (recommended) … No / [0;4;34mYes[0;0m
+[0;32m✔[0;0m Would you like to use [0;1;36mTurbopack[0;0m for `next dev`? … No / [0;4;34mYes[0;0m
+[0;32m✔[0;0m Would you like to customize the [0;1;36mimport alias[0;0m (`@/*` by default)? … No / [0;4;34mYes[0;0m
+[0;32m✔[0;0m What [0;1;36mimport alias[0;0m would you like configured? … [0;4;34m@/*[0;0m
+Creating a new Next.js app in [0;32m~/next-mdx-blog-template[0;0m.
+
+...
+```
+
+NextJS CLI also allows you to choose an existing template to start. Those
+templates varies from a simple blog with small features such as TypeScript
+support to a full-fledged e-commerce site with a CMS integration. To clone
+a template, you can use the following command:
+
+```sh
+npx create-next-app --example with-cloudinary with-cloudinary-app
+```
+
+More templates can be found at [NextJS starter templates and themes](
+https://vercel.com/templates/next.js).
+
+## GatsbyJS
+
+In GatsbyJS you can create a new project with [`create-gatsby`](
+https://www.npmjs.com/package/create-gatsby):
+
+```ansi
+$ [0;34mnpm[0;0m init gatsby
+
+> npx
+> create-gatsby
+
+[0;2;37mcreate-gatsby version 3.14.0[0;0m
+
+[0;4;34mWelcome to Gatsby![0;0m
+
+
+This command will generate a new Gatsby site for you in [0;1m~[0;0m with the setup
+you select. [0;1mLet's answer some questions[0;0m:
+
+
+What would you like to call your site?
+[0;32m✔[0;0m · gatsby-mdx-blog-template
+What would you like to name the folder where your site will be created?
+[0;32m✔[0;0m ~/ gatsby-mdx-blog-template
+[0;32m✔[0;0m Will you be using JavaScript or TypeScript?
+[0;34m· TypeScript[0;0m
+[0;32m✔[0;0m Will you be using a CMS?
+[0;34m· No (or I'll add it later)[0;0m
+[0;32m✔[0;0m Would you like to install a styling system?
+[0;34m· Tailwind CSS[0;0m
+[0;32m✔[0;0m Would you like to install additional features with other plugins?
+[0;34m· Add responsive images[0;0m
+[0;34m· Add an automatic sitemap[0;0m
+[0;34m· Generate a manifest file[0;0m
+[0;34m· Add Markdown and MDX support[0;0m
+
+
+Thanks! Here's what we'll now do:
+
+    🛠  Create a new Gatsby site in the folder [0;35mgatsby-mdx-blog-template[0;0m
+    🎨 Get you set up to use [0;35mTailwind CSS[0;0m for styling your site
+    🔌 Install [0;35mgatsby-plugin-image[0;0m, [0;35mgatsby-plugin-sitemap[0;0m, [0;35mgatsby-plugin-manifest[0;0m, [0;35mgatsby-plugin-mdx[0;0m
+
+✔ Shall we do this? (Y/n) · Yes
+
+...
+```
+
+Like NextJS, GatsbyJS also has a list of starters and templates, developed by
+either the Gatsby Team or the community. They also varies from a simple page
+with small features to a full-stack. production-ready website. To clone a
+starter, you can use the following command:
+
+```sh
+npx gatsby new gatsby-starter-shopify https://github.com/gatsbyjs/gatsby-starter-shopify
+```
+
+More starters can be found on [Gatsby starter library](
+https://www.gatsbyjs.com/starters/)
+
+## Conclusion
+
+Both frameworks provide a great CLI tool to create or clone new projects that
+are tailored to your need. Both CLI tools offer a command-line prompt to help
+developers choose the right setup for their projects. For this criteria, **both
+frameworks are equal**.
+
+# TypeScript-friendly
+
+TypeScript is a big consideration when it comes to choosing which one to
+build your blog. At the core, TypeScript provides a type-checking system that
+prevents a majority of type errors from happening at runtime. From developer's
+perspective, it also provides a better intellisense and code completion when
+using a modern IDE, or a language server. So how easy it is to use and integrate
+TypeScript in both frameworks should be weighed carefully.
+
+## NextJS
+
+Since both frameworks are built on top of React, writing React components and
+logic code in TypeScript is easy and straight forward, with the help of the
+`@types/react`, `@types/react-dom` packages and each framework's CLI tools.
+
+**However, the tricky parts are those configuration and plugin code that is
+deeply rooted in each framework.**
+
+For example, in NextJS, generating metadata for SEO or a sitemap requires you to
+define a custom object, or pages might have some props such as params and search
+queries. Luckily, NextJS has a great support for TypeScript for those specific
+types:
+
+```tsx title="app/shop/page.tsx"
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: '...',
+  description: '...',
+}
+
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const slug = (await params).slug
+}
+```
+
+## GatsbyJS
+
+However, it's a lot more complex in GatsbyJS.
+
+First, GatsbyJS has its own API files `gatsby-node`, `gatsby-config`,
+`gatsby-ssr` and `gatsby-browser` to control the build process. Although Gatsby
+has a support to integrate TypeScript into these files natively, a better
+approach is to use JSDoc comments to define the types for the functions and
+objects:
+
+```js title="gatsby-ssr.js" showLineNumbers
+/**
+ * @type {import('gatsby').GatsbySSR['onRenderBody']}
+ */
+exports.onRenderBody = ({
+  setHtmlAttributes,
+  setBodyProps,
+  setBodyAttributes,
+}) => {
+  setHtmlAttributes({ lang: `en` });
+  setBodyAttributes({
+    className: `bg-slate-950`
+  })
+}
+```
+
+More at [GatsbyJS TypeScript documentation](https://www.gatsbyjs.com/docs/how-to/custom-configuration/typescript/).
+
+Second, GatsbyJS uses GraphQL to fetch data and render pages. For small
+projects, you can define the query and result directly in your React code.
+However, it's redundant and not scalable for resuable components. A better
+approach is to turn on the option `graphqlTypegen: true` in your `gatsby-config`
+to generate types based on the GraphQL schema.
+
+This will generate a `src/gatsby-types.d.ts` file that contains all the types
+for your GraphQL queries on the first time you run your code. For example:
+
+```tsx
+import * as React from "react";
+import { graphql, useStaticQuery } from "gatsby";
+
+const PostsTimeline: React.FC = () => {
+  const {
+    allMdx: { edges },
+  } = useStaticQuery<Queries.ArticleTimelineQuery>(query);
+
+  return (
+    <div>...</div>
+  );
+};
+
+export default PostsTimeline;
+
+export const query = graphql`
+  query ArticleTimeline {
+    allMdx(
+      sort: { frontmatter: { created: DESC } }
+      filter: { frontmatter: { published: { eq: true } } }
+    ) {
+      edges {
+        node {
+          id
+          tableOfContents(maxDepth: 2)
+          timeToRead
+
+          fields {
+            excerpt
+            slug
+          }
+        }
+      }
+    }
+  }
+`;
+```
+
+This feature will scan the project for GraphQL queries and generate types that
+match with the query name. In this case, you first write the query
+`ArticleTimeline`, run it first and then use the generated type in your
+component.
+
+Finally, using TypeScript in GatsbyJS requires an additional package called
+[`gatsby-plugin-typescript`](
+https://www.npmjs.com/package/gatsby-plugin-typescript) to transpile the code.
+However, the TypeScript compiler is not involved so many features supported by
+TypeScript natively.
+
+## Conclusion
+
+NextJS and GatsbyJS have official guides and suports for TypeScript, from
+writing React code to deeply intefering with the build process. However, because
+GatsbyJS uses its own proprietary API files and GraphQL to fetch data, it's more
+complicated to config and use TypeScript. Meanwhile, TypeScript does not require
+to write NextJS-specific codes and configurations; you feel like you are just
+writing TypeScript code with React components. For this criteria, **using
+TypeScript in NextJS feels more natural and easier than in GatsbyJS**.
+
+
+# UI and styling
+
+To fairly compare both frameworks, `tailwindcss` and `shadcn` will be used as
+the main UI and styling tools. Both are popular and widely used in the React
+community. While `tailwindcss`  provides utility-first CSS class names to style
+the components quickly, `shadcn` will provide headless UI components with
+complete functionality and customization.
+
+## NextJS
+
+Both libraries have an official guide to integrate with NextJS. For
+`tailwindcss`, you can follow the [official guide](
+https://tailwindcss.com/docs/guides/nextjs) to configure and set up your
+TailwindCSS. For `shadcn`, you can follow the [official guide](
+https://shadcn.com/docs/getting-started/installation) to configure, install and
+use their UI components in your actual project.
+
+## GatsbyJS
+
+Unlike NextJS, GatsbyJS does not have an official guide to install TailwindCSS,
+or at least an updated one. You might need to tweak [TailwindCSS's Using
+PostCSS guide](https://tailwindcss.com/docs/installation/using-postcss). Then,
+you need to install [`gatsby-plugin-postcss`](
+https://www.gatsbyjs.com/docs/how-to/styling/post-css/) plugin for GatsbyJS to
+transpile the CSS code.
+
+A complete guide is found at [this gist](
+https://gist.github.com/richardnguyen99/7939d6f7413bd87874264bbe942f2f3c).
+
+For `shadcn`, they have an official guide to configure, install and use their
+UI components in Gatsby projects. You follow [this guide](
+https://ui.shadcn.com/docs/installation/gatsby) to achieve so.
+
+## Conclusion
+
+While both libraries have official guides to integrate with NextJS, only
+`shadcn` has an official guide to integrate with GatsbyJS. For `tailwindcss`,
+you need to work around with PostCSS and GatsbyJS plugin system to make it work.
+The amount of work is practically the same since NextJS also requires you to
+set up PostCSS correctly. But, in all fairness, **NextJS has a better support
+for UI and styling libraries than GatsbyJS**.
+
+> At the time this article is being written, `shadcn` is struggling with the
+> release of `tailwindcss v4.0`. If you have a similar problem, please refer to
+> this [GitHub discussion](
+> https://github.com/shadcn-ui/ui/discussions/2996#discussioncomment-11454000)
+> for more information.
+
+# Post rendering
+
+Post rendering is the process that fetches MDX posts from the file system and
+automatically generates pages for each post. This process is crucial for
+writing blogs since you don't want to manually create a new React page for each
+post. **Instead, you only want to write a template and let the automation handle
+the rest**.
+
+## NextJS
+
+This is the controversial part of NextJS. NextJS does have an official support
+for generating pages from MDX files. More can be found [here](
+https://nextjs.org/docs/pages/building-your-application/configuring/mdx).
+
+However, the official package, [`@next/mdx`](
+https://www.npmjs.com/package/@next/mdx),  has many limitations. For example,
+it does not support frontmatter, which is crucial for writing blogs. You need to
+manually parse the MDX files and extract the frontmatter, headings and content.
+Using this package also requires you to follow the folder pattern that NextJS
+expects, which is not flexible if you want to organize your posts in a different
+way.
+
+Another approach is to use [`next-mdx-remote`](
+https://github.com/hashicorp/next-mdx-remote). This package initially solves
+the problem of remote MDX content. However, NextJS allows you to use Node file
+system APIs to read the MDX files and parse them. This approach is more flexible
+and allows you to organize your posts in any way you want.
+
+We also use [NextJS Dynamic Routes](
+https://nextjs.org/docs/pages/building-your-application/routing/dynamic-routes)
+and [`generateStaticParams()`](
+https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes#generating-static-params)
+to statically generate routes at build time. To strictly enforce the static
+params, you can set [`dynamicParams=false`](
+https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#dynamicparams)
+to return a 404 page if the route is not found in the result array of
+`generateStaticParams()`.
+
+```tsx title="src/app/blog/[slug]/page.tsx" showLineNumbers
+// Force NextJS to return 404 for unknown slugs
+export const dynamicParams = false;
+
+// NextJS options to enable to generate static
+// paths at build time.
+export const generateStaticParams = async () => {
+  const posts = await fs.promises.readdir("posts");
+  return posts.map((post) => ({
+    params: { slug: post.replace(/\.mdx$/, "") },
+  }));
+
+  // Return: ["blog-1", "blog-2", "blog-3", ...]
+};
+
+export default async function BlogPost({ params }) {
+  const { slug } = await params;
+  const post = await getMdxBySlug(slug);
+
+  return (
+    <div>
+      <h1>{post.frontmatter.title}</h1>
+      <MDXRemote
+        source={post.body}
+        components={{} /* JSX components to use directly*/}
+        options={{} /* Remark and MDX plugins */}
+      />
+    </div>
+  );
+}
+```
+
+
+
+NextJS leaves the rest to you to handle the fetching and rendering posts,
+depending on how you implement functions like `getMdxBySlug()`. This approach
+is more flexible and allows you to customize the behavior of the post rendering.
+You can add more fields that are not available in the frontmatter such as
+`timeToRead`, and `tableOfContents` by extending your `getMdxBySlug()` function.
+
+## GatsbyJS
+
+Unlike NextJS, GatsbyJS provides an official support for generating pages from
+MDX files. GatsbyJS utilizes the Gatsby Config API, and the [`createPages`](
+https://www.gatsbyjs.com/docs/creating-and-modifying-pages/) of the Gatsby Node
+API to create pages.
+
+At the core, GatsbyJS uses the `gatsby-source-filesystem` plugin to read the MDX
+files from the file system and the `gatsby-plugin-mdx` to parse the MDX files,
+including the frontmatter, headings and the content. These are done by the
+Gatsby Config API automatically.
+
+Then, you can use the `createPages` API to generate pages for each post. For
+example:
+
+```ts title="gatsby-node.ts" showLineNumbers
+export const createPages: GatsbyNode["createPages"] = async ({
+  graphql,
+  actions,
+  reporter,
+}) => {
+  const { createPage } = actions;
+
+  const result = await graphql(`#graphql
+    query MdxNode {
+      allMdx {
+        nodes {
+          id
+          frontmatter {
+            slug
+          }
+          internal {
+            contentFilePath
+          }
+        }
+      }
+    }
+  `);
+
+  if (result.errors) {
+    reporter.panicOnBuild("Error loading MDX result", result.errors);
+    return;
+  }
+
+  if (typeof result.data === "undefined") {
+    reporter.panicOnBuild("No data returned from MDX query");
+    return;
+  }
+
+  // Create blog post pages.
+  const posts = result.data.allMdx.nodes;
+  const postTemplate = path.resolve(__dirname, "src", "templates", "post.tsx");
+
+  posts.forEach((post) => {
+    createPage({
+      path: `/blog/${post.frontmatter.slug}`,
+      component: `${postTemplate}?__contentFilePath=${post.internal.contentFilePath}`,
+      context: {
+        id: post.id,
+      },
+    })
+  });
+};
+```
+
+This code will generate a new page for each MDX files from the GraphQL query
+result. The `postTemplate` is a React component that will be treated as a page
+as those in `src/pages` directory. You can use the `context` object to pass
+additional data to the page. For example, passing the `id` of the post to the
+page so it can query the post content for rendering:
+
+```tsx
+import React from "react";
+import { MDXProvider } from "@mdx-js/react";
+import { graphql } from "gatsby";
+
+// Custom components to use directly in MDX files
+const shortCodes = {};
+
+const PostLayout: React.FC<React.PropsWithChildren<Queries.PostLayoutQuery>> = ({ mdx, children }) => {
+  return (
+    <div className="min-h-screen max-w-3xl mx-auto pr-4 pl-8 font-[family-name:var(--font-geist-sans)]">
+      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+        <div className="w-full text-center">
+          <h1 className="mt-4 text-3xl">{mdx?.frontmatter?.title}</h1>
+        </div>
+        <div>
+          <MDXProvider components={shortCodes}>{children}</MDXProvider>;
+        </div>
+      </main>
+    </div>
+  );
+};
+
+export default PostLayout;
+
+export const query = graphql`
+  query PostLayout($id: String!) {
+    mdx(id: { eq: $id }) {
+      frontmatter {
+        title
+        # More information if needed such as tags, thumbnail, etc.
+      }
+    }
+  }
+`;
+```
+
+GatsbyJS also provides some ways to customized your MDX files that are not
+available in the frontmatter such as `timeToRead`. For example,
+[`onCreateNode`](https://www.gatsbyjs.com/docs/reference/config-files/gatsby-node/#onCreateNode)
+API can be used to extend the node object with more fields:
+
+```ts title="gatsby-node.ts" showLineNumbers
+// Other APIs
+
+export const onCreateNode: GatsbyNode["onCreateNode"] = ({
+  node,
+  actions,
+  reporter,
+}) => {
+  const { createNodeField } = actions;
+
+  if (node.internal.type === "Mdx") {
+    try {
+      createNodeField({
+        name: "timeToRead",
+        node,
+        value: readingTime(node.body as string),
+      });
+    } catch (e) {
+      reporter.panicOnBuild(
+        "Error creating node field (Node ID: " +
+          node.id +
+          "):\n" +
+          (e as Error).message
+      );
+    }
+  }
+};
+```
+
+## Conclusion
+
+This is a tough one. NextJS allows you to control and handle the post rendering
+process as you do so in a normal TypeScript code: fetch from file system, parse
+the raw content, extract the frontmatter and pass the content to MDX renderer.
+This requires a lot of manual work, including handling installing the right
+packages, extracting the right parts, and defining the right types. But it will
+give you the flexibility to customize the behavior of the post rendering.
+
+GatsbyJS, on the other hand, automates the process for you but it feels like
+you are writing GatsbyJS code, with GraphQL and its proprietary APIs. Howevever,
+by having a strict convention and a set of APIs, GatsbyJS provides a more
+bullet-proof way to fetch and render posts. Especially with the help of the
+GraphiQL playground in development, you can easily test and debug your queries.
+GatsbyJS also infers the types for you based on the GraphQL schema, which is a
+huge advantage for TypeScript users.
+
+```graphql
+query MdxNode {
+  allMdx {
+    nodes {
+      id
+      fields {
+        timeToRead {
+          minutes
+          time
+        }
+      }
+
+      frontmatter {
+        slug
+      }
+    }
+  }
+}
+```
+
+For this criteria, **GatsbyJS is the winner**.
+
+# Minimmal Server-side Features
+
+Both frameworks are capable of handling render on demand with query strings and
+search params. This allows you to build features such as pagination, searching
+and filtering.
+
+## NextJS
+
+NextJS provides server-side rendering (SSR) pages with the help of [Dynamic
+Rendering](https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering).
+This feature allows users to request for page information in runtime. By simply
+using search params in URLs, you can trigger the SSR process and render the page
+with the requested data.
+
+NextJS also has a great documentation for search params and query strings.
+These are built-in features for page components (`page.tsx`). For example:
+
+```tsx title="app/blog/page.tsx" showLineNumbers
+type Props = {
+  searchParams: Promise<{
+    filter?: string;
+    sort?: string;
+    page?: string;
+  }>;
+};
+
+export default async function Blog({ searchParams }: Props) {
+  const { filter, page = "1", sort } = await searchParams;
+
+  // ...
+}
+```
+
+By using `searchParams`, NextJS will automatically opt in [dynamic rendering](
+https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering)
+at the request time. More information can be found [here](
+https://nextjs.org/docs/app/api-reference/file-conventions/page#searchparams-optional).
+
+## GatsbyJS
+
+Modern GatsbyJS also supports SSR. Unlike NextJS, GatsbyJS requires users to
+specifically export [`getServerData`](https://www.gatsbyjs.com/docs/reference/rendering-options/server-side-rendering/)
+function to handle the SSR process. This function allows users to preprocess the
+requests and pass appropriate data into page components under prop `serverData`.
+
+```tsx title="src/pages/index.tsx" showLineNumbers
+import { GetServerData, PageProps } from "gatsby";
+
+type ServerDataType = {
+  filter?: string;
+  sort?: string;
+  page?: number;
+};
+
+type Props = PageProps<Queries.BlogPageQuery, object, unknown, ServerDataType>;
+
+function Blog(props: Props) {
+  const { serverData } = props;
+  const { filter, page, sort } = serverData;
+
+  // ...
+}
+
+export const getServerData: GetServerData<ServerDataType> = async (context) => {
+  const { query } = context;
+  const { filter, page = "1", sort } = query;
+
+  // ...
+
+  return {
+    status: 200, // The HTTP status code that should be returned
+    props: {
+      filter,
+      sort,
+      page,
+    }, // Will be passed to the page component as "serverData" prop
+    headers: {}, // HTTP response headers for this page
+  };
+};
+
+export default Blog;
+```
+
+However, the workflow is more complicated than expected when you try
+incorporating GraphQL. Gatsby uses GraphQL to fetch data at build time,
+wheter your pages are rendered statically or on server-side. GatsbyJS does not
+support runtime GraphQL queries yet [^3].
+
+This means you will need to handle the search params in `getServerData` and the requested blog data in the page components.
+
+```tsx title="src/pages/index.tsx" {10-35}
+import { GetServerData, PageProps, graphql } from "gatsby"; // [!code ++]
+
+function Blog(props: Props) {
+  const { data, serverData } = props; // [!code ++]
+  const { filter, page, sort } = serverData;
+
+  // ...
+}
+
+export const query = graphql`
+  query BlogPage {
+    allMdx {
+      nodes
+        fields {
+          timeToRead {
+            text
+            time
+          }
+        }
+
+        frontmatter {
+          slug
+          title
+          date
+          author
+          description
+          tags
+          category
+          published
+          publishedAt
+        }
+      }
+    }
+  }
+`;
+```
+
+The GraphQL result will be passed to the page components under prop `data`. You can combine `data` and `serverData` to handle the rendering logic such as
+paginating, sorting and filtering your posts.
+
+## Conclusion
+
+Both frameworks provide a way to handle server-side rendering with basic runtime
+requests. However, NextJS has a more straighforward approach to handle search
+params and query strings. You can simply use the `searchParams` prop in your
+React component without any boilerplate. GatsbyJS, on the other hand, requires
+you to export a specific function to handle the SSR process. The process is also
+more complicated when you try to incorporate GraphQL. For this criteria,
+**NextJS slightly wins over GatsbyJS**.
+
+# SEO
+
+SEO is a crucial part of building a blog. It helps your blog be easier to be
+indexed by search engines and be more accessible to readers. Both frameworks
+provide a way to handle SEO with metadata and sitemap.
+
+## NextJS
+
+## GatsbyJS
+
+# References
+
+[^1]: [React Server Components](https://react.dev/reference/rsc/server-components#)
+[^2]: [Partial Hydration](https://www.gatsbyjs.com/docs/how-to/performance/partial-hydration)
+[^3]: [Interplay with build-time GraphQL queries](https://www.gatsbyjs.com/docs/reference/rendering-options/server-side-rendering/#interplay-with-build-time-graphql-queries)
+

@@ -14,6 +14,7 @@
 
   .content pre code[data-theme*=" "] span {
     color: var(--shiki-light);
+    font-weight: var(--shiki-light-font-weight, normal);
     text-decoration: var(--shiki-light-text-decoration, unset);
   }
 
@@ -24,6 +25,7 @@
   html.dark .content pre code[data-theme*=" "] span {
     color: var(--shiki-dark);
     text-decoration: var(--shiki-dark-text-decoration, unset);
+    font-weight: var(--shiki-dark-font-weight, normal);
   }
 
   .content h1 {

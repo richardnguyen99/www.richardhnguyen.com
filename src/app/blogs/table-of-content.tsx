@@ -146,7 +146,7 @@ const TableOfContent: React.FC = () => {
               <div className="">
                 <ScrollArea
                   className={cn(
-                    "ease-curve-d max-h-[calc(100vh-50px)] w-full transition-[max-height] duration-300 xl:max-h-[calc(100vh-114px)]",
+                    "ease-curve-d max-h-[calc(100vh-300px)] w-full overflow-auto transition-[max-height] duration-300 xl:max-h-[calc(100vh-300px)]",
                     {
                       "mb-4 h-fit": collapsing,
                       "max-h-0 xl:max-h-0": !collapsing,

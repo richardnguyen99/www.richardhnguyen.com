@@ -1174,11 +1174,382 @@ For those reasons, **NextJS is the winner**.
 
 # Third-party integration
 
-## NextJS
+Third-party solutions are crucial for building a blog. They provide additional
+features such as analytics, image hosting and searching. Both frameworks have a
+list of official and community plugins to integrate with third-party tools.
 
-## GatsbyJS
+Since we are building a blog, we will focus on those features that are menioned
+above: _analytics_, _image hosting_ and _searching_.
+
+For analytics, [Google Analytics](https://developers.google.com/analytics) will
+help us track the page views, user interactions and other metrics. For image
+hosting, [Cloudinary](https://cloudinary.com/) is a popular choice for hosting
+images and optimize delivery via programmatic configurations. For searching, we
+are going to use [Algolia](https://www.algolia.com/) to index and search our posts.
+
+## Analytics
+
+Google Analytics is a popular, free choice to monitor website traffic and user
+behavior. Although setting up Google Analytics is fairly easy in React
+projects, both frameworks have their own official plugins to integrate with
+Google Analytics without a hassle. This will eliminate the need to manually
+configure the tracking code and reduce the risk of errors.
+
+### NextJS
+
+NextJS provides [`@next/third-parties/google`](
+https://nextjs.org/docs/app/building-your-application/optimizing/third-party-libraries#server-side-tagging)
+to integrate with Google Analytics. This package provides a set of components
+and hooks to integrate with Google SDK, including Google Analytics. To use it, simply import the `<GoogleTagManager>` component and wrap your application with it:
+
+```tsx title="app/layout.tsx" showLineNumbers
+import { GoogleTagManager } from "@next/third-parties/google"
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en">
+      <GoogleTagManager gtmId="GTM-XYZ" />
+      <body>{children}</body>
+    </html>
+  )
+}
+```
+
+### GatsbyJS
+
+[`gatsby-plugin-google-gtag`](https://www.gatsbyjs.com/plugins/gatsby-plugin-google-gtag/)
+is the official plugin from Gatsby to integrate with Google Analytics. Unlike
+`@next/third-parties/google` which uses a React component, you need to put
+the plugin in your `gatsby-config` file and pass the configuration options to
+it.
+
+```ts title="gatsby-config.ts" showLineNumbers
+const config: GatsbyConfig = {
+  plugins: [
+    {
+      resolve: `gatsby-plugin-google-gtag`,
+      options: {
+        trackingIds: [
+          `G-RW65TSLLP4`,
+        ],
+        pluginConfig: {
+          head: true,
+        },
+      },
+    },
+
+    // ...
+  ],
+};
+```
+
+## Image hosting
+
+For image hosting, I decided to go with [Cloudinary](https://cloudinary.com/).
+Cloudinary is a popular choice for hosting images and video because it provides
+a programmatic way to upload, transform and deliver images. It also supports a
+variety of languages and frameworks, including React.
+
+### NextJS
+
+Cloudinary has an official package, [`next-cloudinary`](https://next.cloudinary.dev/)
+just for NextJS. The package lets you set up Cloudinary environmment variables
+and use the React commponent immmediately.
+
+```txt
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="<Your Cloud Name>"
+NEXT_PUBLIC_CLOUDINARY_API_KEY="<Your API Key>"
+CLOUDINARY_API_SECRET="<Your API Secret>"
+```
+
+```tsx
+import { CldImage } from 'next-cloudinary';
+
+<CldImage
+  width="960"
+  height="600"
+  src="<Public ID>"
+  sizes="100vw"
+  alt="Description of my image"
+/>
+```
+
+### GatsbyJS
+
+GatsbyJS does provide community plugins to integrate with Cloudinary.
+[`gatsby-source-cloudinary`](https://www.gatsbyjs.com/plugins/gatsby-source-cloudinary/)
+allows you to add your Cloudinary resources into Gatsby's GraphQL data layer.
+Then, you can use [`gatsby-transformer-cloudinary`](https://www.gatsbyjs.com/plugins/gatsby-transformer-cloudinary/)
+to transform the Cloudinary resources into Gatsby's image format. This allows
+you to use the `<GatsbyImage>` component to render the images.
+
+```ts title="gatsby-config.ts" showLineNumbers
+module.exports = {
+  plugins: [
+    {
+      resolve: `gatsby-source-cloudinary`,
+      options: {
+        cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+        apiKey: process.env.CLOUDINARY_API_KEY,
+        apiSecret: process.env.CLOUDINARY_API_SECRET,
+        // resourceType: `image`,
+        // type: `twitter`,
+        // maxResults: 22,
+        // tags: true,
+        // context: true,
+        // prefix: `demo/animals`
+      },
+    },
+    {
+      resolve: `gatsby-transformer-cloudinary`,
+      options: {
+        // Add the `gatsbyImageData` resolver to `CloudinaryMedia`
+        transformTypes: [`CloudinaryMedia`],
+      },
+    },
+    `gatsby-plugin-image`,
+  ],
+};
+```
+
+However, the setup and configuration is not as straightforward. You will need To
+create a GraphQL type or configure an existing one in order for the plugin to
+recognize the resources and transform accordingly. An easy way is to use their
+React package:
+
+```tsx
+import React from "react";
+import { Cloudinary } from "@cloudinary/url-gen";
+import { AdvancedImage } from "@cloudinary/react";
+import { auto } from "@cloudinary/url-gen/actions/resize";
+import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
+
+import { cn } from "@/lib/utils";
+
+type Props = {
+  src: string;
+  alt: string;
+  className?: string;
+};
+
+const ImageCard: React.FC<Props> = ({ src, alt, className }) => {
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName: process.env.GATSBY_CLOUDINARY_CLOUD_NAME,
+    },
+  });
+
+  const img = cld
+    .image(src)
+    .format("auto")
+    .quality("auto")
+    .resize(auto().gravity(autoGravity()));
+
+  return (
+    <div
+      className={
+        cn("[&>img]:object-cover [&>img]:w-full [&>img]:h-40", className)
+      }
+    >
+      <AdvancedImage cldImg={img} alt={alt} />
+    </div>
+  );
+};
+```
+
+## Searching
+
+Searching, or indexing, or autocommplete, is a crucial part of building a blog.
+It helps our readers to easily search and find the posts they are looking for in
+a fast, accurate way.
+
+Algolia is considered the best choice for indexing technical content. You can
+uploadd your content to Algolia using their write APIs. Algolia provides
+from a complete UI tools, [`react-instantsearch`](
+https://www.algolia.com/doc/guides/building-search-ui/what-is-instantsearch/react/),
+a mix-match between UI and logic, [`autocomplete`](
+https://www.algolia.com/doc/ui-libraries/autocomplete/introduction/what-is-autocomplete/),
+to a fully-customizable React renderer, [`autocomplete-core`](
+https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-core/)
+so you can build your search features however you want. In this criterion, we
+care about how easy to upload the content to Algolia and to use the indices.
+
+> Algolia also has a free plan for open-source, non-commercial projects such as
+> technical writings and documentations, [docsearch](https://docsearch.algolia.com/).
+> Algolia team will take a look at your project and provide snippets on how to
+> integrate the free plan into your website.
+
+### NextJS
+
+For uploading the content to Algolia, unfortunately, you need to write your own
+standalone script to do so. An upside is that you can use NodeJS and control
+the process on your own. However, this requires you to manually configure, and
+upload the content to Algolia.
+
+```ts title="scripts/upload-algolia.ts" showLineNumbers
+import { algoliasearch } from "algoliasearch";
+
+const client = algoliasearch(
+  process.env.ALGOLIA_APP_ID as string,
+  process.env.ALGOLIA_ADMIN_API_KEY as string
+);
+
+const processRecords = async () => {
+  const posts = await getMdxPosts()
+
+  const postIndices = await Promise.all(
+    posts.map(async (file) => {
+      const { frontmatter, headings } = await getMdxBySlug(file);
+
+      return {
+        objectID: file.replace(".mdx", ""),
+        title: frontmatter.data.title,
+        description: frontmatter.data.description,
+        // other attributes for searching
+      };
+    })
+  );
+
+  return await client.saveObjects({
+    indexName: process.env.ALGOLIA_INDEX_NAME as string,
+    objects: posts,
+  });
+};
+
+processRecords()
+  .then(() => {
+    console.log("Successfully indexed records");
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+```
+
+After successfully uploading the indexing data to Algolia, you can use Algolia's
+searching UI packages to integrate with your website.
+
+`react-instantsearch` provides a complete UI out-of-the-box solution with many
+widgets to choose from. They also provide hooks for each UI widgets so that you
+can write your own components.
+
+> `react-instantsearch` provides a package, `react-instantsearch-nextjs`, that
+> exclusively supports NextJS an React Server Components. This package enables
+> SSR to generate HTMML from `react-instantsearch` components on the server.
+
+`autocomplete-js` provides a pre-defined UI logic such as functionalities,
+accessibilities and keyboard navigation. However, you are in control of writing
+your own UI components and integrating themm with `autocomplete-js` props.
+
+Finally, `autocomplete-core` lets you define your own logic on how Algolia
+should return the results. From writing queries, defining the result objects to
+customizing collections such as recent and favorite results.
+
+### GatsbyJS
+
+GatsbyJS provides a good documentation on how to integrate with Algolia. It also
+includes [`gatsby-plugin-algolia`](
+https://github.com/algolia/gatsby-plugin-algolia) to help you upload the
+indexing data to Algolia. The beauty of this plugin is that it automatically
+send the data to Algolia when you run `gatsby build` command, even in local
+environment. With the help of Gatsby Cache, it will only upload the data that
+has been changed the last build.
+
+```ts title="gatsby-config.ts
+const pageQuery = `#graphql
+query AlgoliaQuery {
+  pages: allMdx {
+    nodes {
+      id
+      internal {
+        contentDigest
+      }
+
+      tableOfContents(maxDepth: 3)
+
+      frontmatter {
+        slug
+        title
+        description
+        tags
+        publishedAt
+        thumbnail {
+          cloudName
+          alt
+          publicId
+        }
+      }
+    }
+  }
+}`;
+
+
+function pageToAlgoliaRecord(props) {
+
+
+  return {
+    objectID: props.frontmatter.slug,
+    title: props.frontmatter.title,
+    description: props.frontmatter.description,
+    // other attributes for searching
+  };
+}
+
+const queries = [
+  {
+    query: pageQuery,
+    transformer: ({ data }: { data: Data }) =>
+      data.pages.nodes.map(pageToAlgoliaRecord),
+    indexName: process.env.GATSBY_ALGOLIA_INDEX_NAME as string,
+  },
+];
+
+const config: GatsbyConfig = {
+  plugins: [
+    {
+      resolve: `gatsby-plugin-algolia`,
+      options: {
+        appId: process.env.GATSBY_ALGOLIA_APP_ID,
+        apiKey: process.env.ALGOLIA_WRITE_KEY,
+        queries,
+        settings: {
+          // optional, any index settings
+          // Note: by supplying settings, you will
+          // overwrite all existing settings on the index
+        },
+      },
+    },
+
+    // ...
+  ],
+};
+
+export default config;
+```
+
+After successfully uploading the indexing data to Algolia, you can use Algolia's
+searching UI packages to integrate with your website as mentioned above.
 
 ## Conclusion
+
+Both frameworks provide a way to integrate with third-party services such as
+Google Analytics, Cloudinary and Algolia. However, NextJS has a more
+straightforward approach to integrate with Google Analytics and Cloudinary.
+
+Integration with Algolia is an interesting one. NextJS does not have an
+automatic process to upload the indedxing data to Algolia. Meanwhile, the
+configuration and setup in GatsbJS is more complicated due to GraphQL queries.
+
+However, I'm still inclined to say that **NextJS is the winner** here. An
+important part of integrating with third-party plugins is how well the docs are.
+Finding documentation in NextJS is fairly easy because the docs are well
+supportedd in many cases andd well maintained to resolve many issues. I cannot
+say the same thing to GatsbyJS. The documentation is either lacking or outdated.
+Searching for solutions in GatsbyJS is also painful since there are not many
+active community members to help you out.
 
 # Customization
 

@@ -66,8 +66,6 @@ What we don't cover in this article:
 
 - **Performance**: We are targeting blogs, which are mostly static content.
   Performance is not a big concern here.
-- **Hosting**: Both frameworks can be hosted on any major static site hosting.
-  I don't get into this topic to avoid bias and sponsorships issues.
 - **Testing**: While testing is important, it is beyond the scope of this
   article. Who tests their personal blog anyway?
 - **Databases and APIs**: We are focusing on static sites with MDX files.
@@ -1553,13 +1551,388 @@ active community members to help you out.
 
 # Customization
 
+Customization is how easy you can customize the framework to fit your needs.
+This is a broad and subjective aspect because you might customize your app
+based on your needs. However, I focus on the most commonly implemented feature
+in a blog: _dark mode_.
+
+To keep the comparison fair, I won't use any third-party libraries or packages
+to implement the dark mode. Instead, I will write my own implementation to
+demonstrate how easy it is to customize the frameworks.
+
+There are three main parts to implement dark mode:
+
+- Detect and persist the user's preference with `localStorage` API.
+- Have a theme switch to toggle between light and dark mode.
+- Prevent the flash of unstyled content (FOUC) when the page is loading.
+
 ## NextJS
 
+To be compatible with TailwindCSS, which uses HTML classes to toggle the light
+and dark theme, we need to add a custom client script that retrieves the user's
+preference from `localStorage` and applies the theme to the HTML element.
+
+```js
+void function () {
+  /**
+   * Callback fired when window.__theme was set or updated
+   */
+  window.__onThemeChange = function () {};
+
+  /**
+   * Sets the theme on the <body> element
+   * @param {string} newTheme - The new theme to set
+   */
+  let preferredTheme;
+  try {
+    preferredTheme = localStorage.getItem("theme");
+  } catch (err) { }
+
+  function setTheme(newTheme) {
+    const oldTheme = window.__theme;
+    const darkOrLight =
+      newTheme === "system"
+        ? (
+            window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light"
+          )
+        : newTheme;
+
+    if (preferredTheme &&
+        document.documentElement.classList.contains(preferredTheme) &&
+        preferredTheme !== darkOrLight) {
+
+      document
+        .documentElement
+        .classList
+        .replace(preferredTheme, darkOrLight);
+
+    } else {
+      document.documentElement.classList.add(darkOrLight);
+    }
+
+    window.__theme = newTheme;
+    preferredTheme = darkOrLight;
+    window.__onThemeChange(darkOrLight);
+  }
+
+  window.__setPreferredTheme = function (newTheme) {
+    setTheme(newTheme);
+    try {
+      localStorage.setItem("theme", newTheme);
+    } catch (err) {}
+  }
+
+  var darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+  darkQuery.addListener(function (e) {
+    window.__setPreferredTheme(e.matches ? "dark" : "light");
+  });
+
+  setTheme(preferredTheme || (darkQuery.matches ? "dark" : "light"))
+}();
+```
+
+The purpose of the script is to detect the user's preference and apply the theme
+to the HTML element. It's also suggested to include the script at the top of the
+page to reduce potential flash of unstyled content (FOUC).
+
+```tsx title="app/layout.tsx" showLineNumbers
+import type { Metadata } from "next";
+
+const script = /*js*/ `
+// The script above
+`;
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <script
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: script,
+          }}
+        ></script>
+
+        <Header />
+        {children}
+        <Footer />
+      </body>
+    </html>
+  );
+}
+```
+
+Finally, we need a theme switcher to toggle between light and dark mode. This
+can be done in a React component that interacts with the script above.
+
+```tsx title="app/components/theme-switcher.tsx" showLineNumbers
+"use client";
+
+import React, { type JSX } from "react";
+import { LucideMonitor, MoonIcon } from "lucide-react";
+import { SunIcon } from "@primer/octicons-react";
+
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
+
+declare global {
+  interface Window {
+    __theme: string;
+    __onThemeChange: (theme: string) => void;
+    __setPreferredTheme: (theme: string) => void;
+  }
+}
+
+function ThemeSwitcher(): JSX.Element {
+  const [mounted, setMounted] = React.useState(false);
+  const [theme, setTheme] = React.useState("system");
+
+  const handleThemeChange = React.useCallback((newTheme: string) => {
+    window.__setPreferredTheme(newTheme);
+  }, []);
+
+  React.useEffect(() => {
+    window.__onThemeChange = function () {
+      setTheme(window.__theme);
+    };
+
+    // Fix hydration error
+    setTheme(window.__theme);
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="w-9 h-9 rounded-md animate-pulse dark:bg-slate-800" />
+    );
+  }
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          size="icon"
+          className={cn(
+            "cursor-pointer",
+            "dark:text-slate-200",
+            "dark:hover:bg-sky-900"
+          )}
+          suppressHydrationWarning
+        >
+          {theme === "dark" ? (
+            <MoonIcon className="h-4 w-4" />
+          ) : theme === "light" ? (
+            <SunIcon className="h-4 w-4" />
+          ) : (
+            <LucideMonitor className="h-4 w-4" />
+          )}
+        </Button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuRadioGroup
+          value={theme ?? "system"}
+          onValueChange={handleThemeChange}
+        >
+          <DropdownMenuRadioItem value="system">System</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="light">Light</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="dark">Dark</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+export default ThemeSwitcher;
+```
+
 ## GatsbyJS
+
+GatsbyJS has a similar approach to duo theme feature as NextJS. First, we need
+to figure out how to insert the script. Unlike NextJS, which allows you to
+directly add inline scripts in app layout, GatsbyJS requires you to use the
+`gatsby-ssr` to specifically interact with the `<head>` and `<body>` elements.
+
+```tsx title="gatsby-ssr.tsx" showLineNumbers
+import React from "react";
+import { type GatsbySSR } from "gatsby";
+
+// Other APIs from GatsbySSR
+
+export const onRenderBody: GatsbySSR["onRenderBody"] = ({
+  setHtmlAttributes,
+  setPreBodyComponents,
+}) => {
+  setHtmlAttributes({
+    lang: "en",
+    suppressHydrationWarning: true,
+  });
+
+  setPreBodyComponents([
+    <script
+      key="theme-script"
+      dangerouslySetInnerHTML={{
+        __html: /*js*/ `
+          // The script above
+        `,
+      }}
+    />,
+  ]);
+};
+```
+
+Then, we need to create a React component to interact with the script to handle
+the theme switching. The code is practically the same as the NextJS version
+since both are using the same methods from the script.
+
+## Other customizations
+
+Other customizations are where things get polarized. Let's take another example
+where you want to control which MDX pages are generated in production.
+
+Typically, the structure of MDX posts has a frontmatter field called `published`
+to indicate whether the post is ready to be published or not. I mean, you
+neither want to publish a draft nor commit a 1000-line post in a single commit.
+You want to commit the post in small chunks just like you do with your code.
+
+In NextJS, with the help of `generateStaticParams`, you can filter the posts
+based on the `published` field and generate only the slugs for the
+ready-to-be-published posts. In GatsbyJS, you must use the `createPages` method
+from Gatsby Node API to filter the posts based on the `published` field and
+generate the pages.
+
+The tricky part is that NextJS allows you to use NodeJS File System API to read
+the MDX files directly. After reading, you can use other libraries such as
+`gray-matter` to retrieve the fields, just like any text files. However,
+GatsbyJS requires you to do that via GraphQL queries. This means that you need
+to write a GraphQL query to filter the posts based on the `published` field.
+
+```tsx title="gatsby-node.tsx"
+export const createPages: GatsbyNode["createPages"] = async ({
+  graphql,
+  actions,
+  reporter,
+}) => {
+  const { createPage } = actions;
+
+  const result = await graphql(`
+    #graphql
+    query MdxNode {
+      allMdx {
+        nodes {
+          id
+          frontmatter {
+            slug
+            published
+          }
+          internal {
+            contentFilePath
+          }
+        }
+      }
+    }
+  `);
+
+  // Create blog post pages.
+  const posts = result.data.allMdx.nodes;
+  const postTemplate =
+    path.resolve(__dirname, "src", "templates", "post.tsx");
+
+  posts.forEach((post) => {
+    if (!post.frontmatter.published) {
+      return;
+    }
+
+    createPage({
+      path: `/blog/${post.frontmatter.slug}`,
+      component:
+`${postTemplate}?__contentFilePath=${post.internal.contentFilePath}`,
+      context: {
+        id: post.id,
+      },
+    });
+  });
+};
+```
+
+## Conclusion
+
+Both frameworks provide ways to customize your blog with many features. This is
+a subjective aspect because it really depends how deep you want to intervene
+with the frameworks to customize your app. To be fair, both frameworks will
+provide you the tools to tweak your app thoroughly.
+
+However, I prefer the NextJS approach. By directly interacting with the NodeJS
+APIs with few NextJS APIs, you can easily get the job done. GatsbyJS, on the
+other hand, requires you to use GraphQL and proprietary APIs to achieve the same
+result. Therefore, **NextJS is the winner**.
+
+# Hosting
+
+To fairly compare the hosting services, I will use the official hosting services
+behind the frameworks: Vercel for NextJS and Netlify for GatsbyJS. And I will be
+using the free tier for both services.
+
+A major advantage of NextJS is the hosting service behind the framework, Vercel.
+NextJS is well supported by Vercel, which provides a seamless deployment. You
+can deploy static sites, serverless functions for SSR and API routes very
+easily. There is almost no problem with the deployment process from Vercel.
+
+Meanwhile, Netlify, the hosting service behind GatsbyJS, has some problems with
+the deployment process of Gatsby. The major problem is that Gatsby Image Plugin
+on server-side rendering, and deferred static generation does not work in
+Netlify [^4].
+
+The Gatsby app demo in this blog is deployed to Vercel. Although it works fine,
+the serverless function for SSR routes is extremely slow, compared to the ones
+written in NextJS. However, it's still better than not deployed at all.
+
+# Final words
+
+My first-ever written React app was actually a Gatsby app for my portfolio site.
+Back then, GatsbyJS was the pioneer in bringing React to the server side and
+static site generators.
+
+However, due to lack of active community and less frequent updates, GatsbyJS is
+becoming less popular compared to other frameworks. The major thing you will see
+in GatsbyJS during development is that it's lacking in documentation and active
+community support. Documentation is either outdated or not well-maintained.
+
+NextJS, on ther other hand, provides a more detailed documentation and has an
+active community support. The framework is also more flexible since you can
+search for solutions in regular React or NodeJS problems, whereas Gatsby has its
+own proprietary APIs.
+
+Many major developers who had their blog written in GatsbyJS are now moving to
+either NextJS or Astro. So if you are planning a blog, I would strongly
+recommend NextJS over GatsbyJS.
+
+You can also visit the demo apps for both frameworks here:
+
+- `gatsby-mdx-blog-template`: [GitHub](
+https://github.com/richardnguyen99/gatsby-mdx-blog-template/tree/main) | [Demo](
+https://gatsby-mdx-blog-template.vercel.app/)
+- `next-mdx-blog-template`: [GitHub](
+https://github.com/richardnguyen99/next-mdx-blog-template/tree/main) | [Demo](
+https://next-mdx-blog-template.vercel.app/)
 
 # References
 
 [^1]: [React Server Components](https://react.dev/reference/rsc/server-components#)
 [^2]: [Partial Hydration](https://www.gatsbyjs.com/docs/how-to/performance/partial-hydration)
 [^3]: [Interplay with build-time GraphQL queries](https://www.gatsbyjs.com/docs/reference/rendering-options/server-side-rendering/#interplay-with-build-time-graphql-queries)
-
+[^4]: [Gatsby Limitations on Netlify](https://docs.netlify.com/frameworks/gatsby/?gatsby-version=adapters)

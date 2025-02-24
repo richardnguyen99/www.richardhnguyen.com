@@ -4,7 +4,7 @@ import * as React from "react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { useMediaQuery } from "@uidotdev/usehooks";
 
-import { type FrontMatter } from "@/lib/mdx";
+import { type FrontMatter } from "@/types/mdx";
 import { cn } from "@/lib/utils";
 import {
   Carousel,

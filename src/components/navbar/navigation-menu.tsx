@@ -5,7 +5,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 
 import { cn } from "@/lib/utils";
-import { FrontMatter } from "@/lib/mdx";
+import { type FrontMatter } from "@/types/mdx";
 import {
   NavigationMenu as UINavigationMenu,
   NavigationMenuContent as UNavigationMenuContent,

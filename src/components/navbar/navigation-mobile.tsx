@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
-import { FrontMatter } from "@/lib/mdx";
+import { type FrontMatter } from "@/types/mdx";
 import { NavigationMenuLink as UINavigationMenuLink } from "@/components/ui/navigation-menu";
 import { useNavbarContext } from "./context";
 import {

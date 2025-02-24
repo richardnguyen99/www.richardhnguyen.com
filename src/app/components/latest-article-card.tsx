@@ -4,7 +4,7 @@ import Image from "next/image";
 import { DotFilledIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
-import { type FrontMatter } from "@/lib/mdx";
+import { type FrontMatter } from "@/types/mdx";
 
 type Props = {
   frontMatter: FrontMatter;

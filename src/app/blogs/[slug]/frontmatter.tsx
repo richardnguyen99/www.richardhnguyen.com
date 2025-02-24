@@ -2,7 +2,7 @@ import * as React from "react";
 import Image from "next/image";
 import { useRemarkSync } from "react-remark";
 
-import type { FrontMatter as FrontmatterType } from "@/lib/mdx";
+import type { FrontMatter as FrontmatterType } from "@/types/mdx";
 import mdxComponents from "./mdx-components";
 
 interface FrontmatterProps {

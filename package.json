@@ -10,6 +10,8 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@algolia/autocomplete-core": "^1.18.1",
+    "@algolia/autocomplete-preset-algolia": "^1.18.1",
     "@hookform/resolvers": "^3.9.0",
     "@mdx-js/loader": "^3.0.1",
     "@mdx-js/mdx": "^3.0.1",
@@ -33,9 +35,11 @@
     "@remark-embedder/core": "^3.0.3",
     "@tanstack/react-table": "^8.20.5",
     "@uidotdev/usehooks": "^2.4.1",
+    "algoliasearch": "^5.20.3",
     "class-variance-authority": "^0.7.0",
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",
+    "dotenv": "^16.4.7",
     "embla-carousel-react": "^8.2.1",
     "embla-carousel-wheel-gestures": "^8.0.1",
     "gray-matter": "^4.0.3",
@@ -50,6 +54,7 @@
     "react-hook-form": "^7.53.0",
     "react-remark": "^2.1.0",
     "react-snap-carousel": "^0.4.1",
+    "reading-time": "^1.5.0",
     "recharts": "^2.13.0",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-format": "^5.0.1",
@@ -96,6 +101,8 @@
     "prettier-plugin-tailwindcss": "^0.6.6",
     "shiki": "^1.22.0",
     "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.2.0"
   }

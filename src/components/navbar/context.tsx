@@ -3,6 +3,8 @@ import * as React from "react";
 export interface NavbarContextValue {
   isOpen: boolean;
   handleIsOpen: (_newIsOpen: boolean) => void;
+  open(): void;
+  close(): void;
   activeCollapsiblleTab: string;
   setActiveCollapsibleTab: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -47,6 +49,14 @@ const NavbarProvider: React.FC<
     [timeoutId],
   );
 
+  const open = React.useCallback(() => {
+    handleIsOpen(true);
+  }, [handleIsOpen]);
+
+  const close = React.useCallback(() => {
+    handleIsOpen(false);
+  }, [handleIsOpen]);
+
   const value = React.useMemo(() => {
     return {
       isOpen,
@@ -54,8 +64,17 @@ const NavbarProvider: React.FC<
       activeCollapsiblleTab,
       setActiveCollapsibleTab,
       handleIsOpen,
+      open,
+      close,
     };
-  }, [isOpen, handleIsOpen, isMobileMenuOpen, activeCollapsiblleTab]);
+  }, [
+    isOpen,
+    isMobileMenuOpen,
+    activeCollapsiblleTab,
+    handleIsOpen,
+    open,
+    close,
+  ]);
 
   return (
     <NavbarContext.Provider value={value} {...props}>

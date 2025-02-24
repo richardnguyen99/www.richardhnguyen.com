@@ -5,18 +5,31 @@ import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { useNavbarContext } from "./context";
 
-const NavigationSearchButton: React.FC = () => {
+type Props = {
+  containerRef: React.RefObject<HTMLDivElement>;
+};
+
+const NavigationSearchButton: React.FC<Props> = ({ containerRef }) => {
   const navbarContext = useNavbarContext();
 
+  const handleClick = React.useCallback(() => {
+    console.log("open", navbarContext.isOpen);
+    if (navbarContext.isOpen) {
+      navbarContext.close();
+    } else {
+      navbarContext.open();
+    }
+  }, [navbarContext]);
+
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>
+    <Popover onOpenChange={navbarContext.handleIsOpen}>
+      <PopoverTrigger asChild>
         <button
           className={cn(
             "group relative block",
@@ -24,20 +37,28 @@ const NavigationSearchButton: React.FC = () => {
             "hover:bg-neutral-100 dark:hover:bg-neutral-700",
             "ease-curve-d transition-opacity duration-300",
             {
-              "opacity-0": navbarContext.isOpen,
-              "opacity-100": !navbarContext.isOpen,
+              "pointer-events-none opacity-0": navbarContext.isOpen,
+              "pointer-events-auto opacity-100": !navbarContext.isOpen,
             },
           )}
           type="button"
           aria-label="Search"
+          onClick={handleClick}
         >
           <MagnifyingGlassIcon className="h-full w-full" />
         </button>
-      </TooltipTrigger>
-      <TooltipContent className="border border-neutral-200 bg-neutral-100 text-neutral-900 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white">
-        Search
-      </TooltipContent>
-    </Tooltip>
+      </PopoverTrigger>
+      <PopoverContent
+        container={containerRef.current}
+        className="mx-[var(--gutter-size)] w-[var(--container-size)] border-none bg-transparent"
+        side="top"
+        align="start"
+      >
+        <form>
+          <input />
+        </form>
+      </PopoverContent>
+    </Popover>
   );
 };
 

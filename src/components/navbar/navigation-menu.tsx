@@ -61,6 +61,7 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
   mostViewedCategories,
   mostViewedTags,
 }) => {
+  const containerRef = React.useRef<HTMLDivElement>(null);
   const navbarContext = useNavbarContext();
   const [isListReady, setIsListReady] = React.useState(false);
   const [timeoutId, setTimeoutId] = React.useState<number | null>(null);
@@ -100,13 +101,21 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
     >
       <div
         className={cn(
-          "pointer-events-none z-[-1] transform-gpu opacity-0 lg:-translate-y-[100%]",
+          "z-[-1] transform-gpu opacity-0 lg:-translate-y-[100%]",
           "ease-out-cubic transition-[opacity,transform] duration-300",
-          "absolute left-1/2 top-0 h-[calc(100vh-1rem)] w-[200%] lg:h-[42.5rem]",
+          "absolute left-1/2 top-0 h-[calc(100vh-1rem)] w-[200%] lg:h-[80rem]",
           "-translate-x-[100vw] bg-gradient-to-b from-white from-60% to-white/0 dark:from-black dark:to-black/0 lg:from-80%",
           {
             "opacity-100 lg:-translate-y-1/2": navbarContext.isOpen,
           },
+        )}
+      ></div>
+
+      <div
+        ref={containerRef}
+        className={cn(
+          "absolute top-0 z-40 flex min-h-11 w-full flex-col justify-center overflow-hidden",
+          "[&>div]:!w-full [&>div]:!translate-x-0 [&>div]:!translate-y-14",
         )}
       ></div>
 
@@ -141,7 +150,7 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
             )}
           >
             <ThemeSwitcher />
-            <NavigationSearchButton />
+            <NavigationSearchButton containerRef={containerRef} />
             <NavigationMobileTrigger />
           </div>
 
@@ -203,7 +212,7 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
           </div>
 
           <div className="hidden items-center gap-3 md:flex">
-            <NavigationSearchButton />
+            <NavigationSearchButton containerRef={containerRef} />
             <ThemeSwitcher />
           </div>
         </div>

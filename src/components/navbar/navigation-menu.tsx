@@ -74,6 +74,7 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
         }
 
         navbarContext.handleIsOpen(false);
+        navbarContext.setTab(null);
         setIsListReady(false);
       } else {
         const id = window.setTimeout(() => {
@@ -81,6 +82,7 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
         }, 300);
         setTimeoutId(id);
         navbarContext.handleIsOpen(true);
+        navbarContext.setTab("navigation");
       }
     },
     [navbarContext, timeoutId],
@@ -115,7 +117,7 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
         ref={containerRef}
         className={cn(
           "absolute top-0 z-40 flex min-h-11 w-full flex-col justify-center overflow-hidden",
-          "[&>div]:!w-full [&>div]:!translate-x-0 [&>div]:!translate-y-14",
+          "[&>div]:!left-[var(--gutter-size)] [&>div]:!w-[var(--container-size)] [&>div]:!translate-x-0 [&>div]:!translate-y-12",
         )}
       ></div>
 
@@ -143,16 +145,6 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
               <div className="h-full w-full bg-black dark:bg-white"></div>
             </UINavigationMenuLink>
           </Link>
-
-          <div
-            className={cn(
-              "ml-auto flex items-center justify-center gap-[0.5rem] md:hidden",
-            )}
-          >
-            <ThemeSwitcher />
-            <NavigationSearchButton containerRef={containerRef} />
-            <NavigationMobileTrigger />
-          </div>
 
           <div className="[&>div]:!static [&>div]:h-full">
             <UINavigationList

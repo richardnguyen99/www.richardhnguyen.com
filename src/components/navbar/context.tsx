@@ -5,6 +5,8 @@ export interface NavbarContextValue {
   handleIsOpen: (_newIsOpen: boolean) => void;
   open(): void;
   close(): void;
+  tab: "navigation" | "search" | null;
+  setTab: React.Dispatch<React.SetStateAction<"navigation" | "search" | null>>;
   activeCollapsiblleTab: string;
   setActiveCollapsibleTab: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -22,6 +24,7 @@ const NavbarProvider: React.FC<
   const [isMobileMenuOpen] = React.useState(false);
   const [activeCollapsiblleTab, setActiveCollapsibleTab] = React.useState("");
   const [timeoutId, setTimeoutId] = React.useState<number | null>(null);
+  const [tab, setTab] = React.useState<"navigation" | "search" | null>(null);
 
   const handleIsOpen = React.useCallback(
     (newIsOpen: boolean) => {
@@ -66,6 +69,8 @@ const NavbarProvider: React.FC<
       handleIsOpen,
       open,
       close,
+      tab,
+      setTab,
     };
   }, [
     isOpen,
@@ -74,6 +79,8 @@ const NavbarProvider: React.FC<
     handleIsOpen,
     open,
     close,
+    tab,
+    setTab,
   ]);
 
   return (

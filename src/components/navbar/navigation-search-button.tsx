@@ -54,7 +54,7 @@ const NavigationSearchButton: React.FC<Props> = ({ containerRef }) => {
           navbarContext.setTab(null);
         }
       }}
-      open={navbarContext.tab === "search"}
+      open={navbarContext.isOpen && navbarContext.tab === "search"}
       modal={false}
     >
       <PopoverTrigger

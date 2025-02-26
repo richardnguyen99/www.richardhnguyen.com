@@ -5,7 +5,9 @@ export interface UseSearchKeyboardEventsProps {
   onOpen: () => void;
   onClose: () => void;
   onInput?: (_event: KeyboardEvent) => void;
-  setTab: React.Dispatch<React.SetStateAction<"navigation" | "search" | null>>;
+  setTab: React.Dispatch<
+    React.SetStateAction<"navigation" | "search" | "mobile" | null>
+  >;
   searchButtonRef: React.RefObject<HTMLDivElement | null>;
 }
 

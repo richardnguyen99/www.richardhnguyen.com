@@ -48,6 +48,14 @@ const ThemeSwitcher = dynamic(() => import("./theme-switcher"), {
   loading: NavigationSkeletonButton,
 });
 
+const NavigationMobileButton = dynamic(
+  () => import("./navigation-mobile-button"),
+  {
+    ssr: false,
+    loading: NavigationMobileSkeletonButton,
+  },
+);
+
 export type HeaderDataProps = {
   latestPost: FrontMatter;
   mostViewedCategories: Array<{
@@ -107,12 +115,13 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
     >
       <div
         className={cn(
-          "z-[-1] transform-gpu opacity-0 lg:-translate-y-[100%]",
+          "z-[-1] -translate-y-[100%] transform-gpu opacity-0",
           "ease-out-cubic transition-[opacity,transform] duration-300",
           "absolute left-1/2 top-0 h-[calc(100vh-1rem)] w-[200%] lg:h-[80rem]",
           "-translate-x-[100vw] bg-gradient-to-b from-white from-60% to-white/0 dark:from-black dark:to-black/0 lg:from-80%",
           {
-            "opacity-100 lg:-translate-y-1/2": navbarContext.isOpen,
+            "-translate-y-1/4 opacity-100 lg:-translate-y-1/2":
+              navbarContext.isOpen,
           },
         )}
       ></div>
@@ -121,8 +130,10 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
         ref={containerRef}
         className={cn(
           "absolute top-0 z-40 flex min-h-11 w-full flex-col justify-center overflow-hidden",
-          "[&>div]:!w-full [&>div]:!translate-x-0 [&>div]:!translate-y-12",
-          "sm:[&>div]:!mx-[var(--gutter-size)] sm:[&>div]:!max-w-[calc(100%-var(--gutter-size)*2)]",
+          "[&>div]:!mx-[var(--gutter-size)]",
+          "md[&>div]:!w-[var(--container-size)] [&>div]:!w-[calc(100%-var(--gutter-size)*2)] [&>div]:!min-w-0",
+          "[&>div]:!translate-x-0 [&>div]:!translate-y-12",
+          "",
         )}
       ></div>
 
@@ -211,16 +222,15 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
           <div className="flex items-center gap-3">
             <NavigationSearchButton containerRef={containerRef} />
             <ThemeSwitcher />
-            <NavigationMobileTrigger />
+            <NavigationMobileButton
+              containerRef={containerRef}
+              mostViewedCategories={mostViewedCategories}
+              mostViewedTags={mostViewedTags}
+              latestPost={latestPost}
+            />
           </div>
         </div>
       </div>
-
-      <NavigationMobile
-        mostViewedCategories={mostViewedCategories}
-        mostViewedTags={mostViewedTags}
-        latestPost={latestPost}
-      />
     </UINavigationMenu>
   );
 };

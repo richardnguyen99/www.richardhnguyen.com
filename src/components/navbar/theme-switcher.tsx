@@ -25,7 +25,7 @@ import { useNavbarContext } from "./context";
 const ThemeSwitcher: React.FC = () => {
   const navbarContext = useNavbarContext();
   const { theme, setTheme } = useTheme();
-  const isSmallScreen = useMediaQuery("(max-width: 640px)");
+  const isSmallScreen = useMediaQuery("(max-width: 768px)");
   const [mounted, setMounted] = React.useState(false);
   const [isDropped, setIsDropped] = React.useState(false);
   const [showTooltip, setShowTooltip] = React.useState(false);
@@ -50,11 +50,6 @@ const ThemeSwitcher: React.FC = () => {
               "h-10 w-10 rounded-full p-2",
               "hover:bg-neutral-100 dark:hover:bg-neutral-700",
               "ease-curve-d transition-opacity duration-300",
-
-              {
-                "pointer-events-none stroke-neutral-400 dark:stroke-neutral-700":
-                  navbarContext.tab !== null,
-              },
             )}
             type="button"
             aria-label="Search"

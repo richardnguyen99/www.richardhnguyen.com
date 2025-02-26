@@ -57,12 +57,7 @@ const NavigationSearchButton: React.FC<Props> = ({ containerRef }) => {
       open={navbarContext.isOpen && navbarContext.tab === "search"}
       modal={false}
     >
-      <PopoverTrigger
-        className={cn({
-          "pointer-events-none cursor-default":
-            navbarContext.tab !== null && navbarContext.tab === "navigation",
-        })}
-      >
+      <PopoverTrigger>
         <Tooltip>
           <TooltipTrigger asChild>
             <div
@@ -75,10 +70,6 @@ const NavigationSearchButton: React.FC<Props> = ({ containerRef }) => {
                 {
                   "bg-neutral-100 dark:bg-neutral-700":
                     navbarContext.isOpen && navbarContext.tab === "search",
-
-                  "stroke-neutral-400 dark:stroke-neutral-700":
-                    navbarContext.tab !== null &&
-                    navbarContext.tab === "navigation",
                 },
               )}
               onClick={handleClick}

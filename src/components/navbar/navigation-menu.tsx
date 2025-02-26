@@ -23,11 +23,15 @@ const NavigationSkeletonButton = () => (
   <div className="h-10 w-10 animate-pulse rounded-full bg-neutral-200 p-2 dark:bg-neutral-900"></div>
 );
 
+const NavigationMobileSkeletonButton = () => (
+  <div className="block h-10 w-10 animate-pulse rounded-full bg-neutral-200 p-2 dark:bg-neutral-900 md:hidden"></div>
+);
+
 const NavigationMobileTrigger = dynamic(
   () => import("./navigation-mobile-trigger"),
   {
     ssr: false,
-    loading: NavigationSkeletonButton,
+    loading: NavigationMobileSkeletonButton,
   },
 );
 
@@ -117,7 +121,8 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
         ref={containerRef}
         className={cn(
           "absolute top-0 z-40 flex min-h-11 w-full flex-col justify-center overflow-hidden",
-          "[&>div]:!left-[var(--gutter-size)] [&>div]:!w-[var(--container-size)] [&>div]:!translate-x-0 [&>div]:!translate-y-12",
+          "[&>div]:!w-full [&>div]:!translate-x-0 [&>div]:!translate-y-12",
+          "sm:[&>div]:!mx-[var(--gutter-size)] sm:[&>div]:!max-w-[calc(100%-var(--gutter-size)*2)]",
         )}
       ></div>
 
@@ -203,9 +208,10 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
             </UINavigationList>
           </div>
 
-          <div className="hidden items-center gap-3 md:flex">
+          <div className="flex items-center gap-3">
             <NavigationSearchButton containerRef={containerRef} />
             <ThemeSwitcher />
+            <NavigationMobileTrigger />
           </div>
         </div>
       </div>

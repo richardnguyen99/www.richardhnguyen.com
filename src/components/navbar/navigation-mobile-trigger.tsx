@@ -14,6 +14,16 @@ import { useNavbarContext } from "./context";
 const NavigationMobileTrigger: React.FC = () => {
   const navbarContext = useNavbarContext();
 
+  const handleClick = React.useCallback(() => {
+    if (navbarContext.isOpen) {
+      navbarContext.close();
+      navbarContext.setTab(null);
+    } else {
+      navbarContext.open();
+      navbarContext.setTab("navigation");
+    }
+  }, [navbarContext]);
+
   return (
     <Tooltip>
       <TooltipTrigger asChild>
@@ -22,12 +32,17 @@ const NavigationMobileTrigger: React.FC = () => {
             "group relative block",
             "h-10 w-10 rounded-full p-2",
             "hover:bg-neutral-100 dark:hover:bg-neutral-700",
+            "block md:hidden",
+            {
+              "pointer-events-none stroke-neutral-400 dark:stroke-neutral-700":
+                navbarContext.tab !== null && navbarContext.tab === "search",
+            },
           )}
           type="button"
           aria-label="menu"
-          onClick={() => navbarContext.handleIsOpen(!navbarContext.isOpen)}
+          onClick={handleClick}
         >
-          <HamburgerMenuIcon className="h-full w-full" />
+          <HamburgerMenuIcon className="pointer-events-none h-full w-full" />
         </button>
       </TooltipTrigger>
       <TooltipContent

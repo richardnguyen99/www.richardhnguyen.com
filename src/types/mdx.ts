@@ -1,5 +1,3 @@
-import { ReadTimeResults } from "reading-time";
-
 export type SortOrder = "asc" | "desc";
 
 export interface ChangeLog {

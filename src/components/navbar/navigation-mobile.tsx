@@ -42,7 +42,8 @@ const NavigationMobile: React.FC<NavigationMobileProps> = ({
         "md:!pointer-events-none md:!hidden md:!opacity-0",
         "h-screen w-full",
         {
-          "pointer-events-auto opacity-100": navbarContext.isOpen,
+          "pointer-events-auto opacity-100":
+            navbarContext.isOpen && navbarContext.tab === "navigation",
         },
       )}
       aria-expanded={true}
@@ -53,7 +54,8 @@ const NavigationMobile: React.FC<NavigationMobileProps> = ({
           className={cn(
             "text-small mx-[--gutter-size] flex w-[var(--container-size)] flex-col justify-between gap-4 pb-[3rem] pt-[3rem]",
             {
-              invisible: !navbarContext.isOpen,
+              invisible:
+                !navbarContext.isOpen && navbarContext.tab === "navigation",
             },
           )}
         >

@@ -64,7 +64,7 @@ function SearchRecent({
                         state={state}
                         source={source}
                         onItemClick={onItemClick}
-                        renderIcon={() => <History />}
+                        renderIcon={() => <History className="grow-0" />}
                         renderAction={({
                           deleteTransitionCallback,
                           favoriteTransitionCallback,

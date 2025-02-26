@@ -84,7 +84,7 @@ function SearchPanel({ onClose }: Props): React.JSX.Element {
     <div className="ais">
       <div className="ais-header">
         <h2 className="text-lg font-semibold">Search</h2>
-        <p className="text-sm text-slate-500">
+        <p className="hidden text-sm text-slate-500 sm:block">
           Search through the content of this site.
         </p>
       </div>

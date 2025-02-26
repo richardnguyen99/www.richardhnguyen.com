@@ -73,16 +73,22 @@ const processRecords = async () => {
         title: frontMatter.title,
         description: excerpt || "",
         publishedAt: frontMatter.publishedAt,
+        published: frontMatter.published,
         tags: frontMatter.tags,
         headings: extractHeadings(body),
         imageUrl: generateImageUrl(frontMatter.thumbnail),
-      } satisfies InternalSearchAlgoliaAttributes & { objectID: string };
+      } satisfies InternalSearchAlgoliaAttributes & {
+        objectID: string;
+        published: boolean;
+      };
     }),
   );
 
+  const objects = posts.filter((post) => post.published);
+
   return await client.saveObjects({
     indexName: process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME as string,
-    objects: posts,
+    objects,
   });
 };
 

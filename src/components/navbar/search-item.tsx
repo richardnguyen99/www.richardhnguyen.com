@@ -68,7 +68,9 @@ function SearchItem(props: Props): JSX.Element {
       }}
     >
       {props.renderIcon({ item: props.item, index: props.index })}
-      <span>{props.item.title}</span>
+      <div className="grow-[auto]">
+        <p>{props.item.title}</p>
+      </div>
 
       {props.renderAction({
         item: props.item,

@@ -23,13 +23,15 @@ type Props = {
 };
 
 const NavigationSearchButton: React.FC<Props> = ({ containerRef }) => {
-  const searchButtonRef = React.useRef<HTMLButtonElement>(null);
+  const searchButtonRef = React.useRef<HTMLDivElement>(null);
   const navbarContext = useNavbarContext();
 
   const handleClick = React.useCallback(() => {
     if (navbarContext.isOpen) {
-      navbarContext.close();
-      navbarContext.setTab(null);
+      if (navbarContext.tab === "search") {
+        navbarContext.close();
+        navbarContext.setTab(null);
+      }
     } else {
       navbarContext.open();
       navbarContext.setTab("search");
@@ -47,20 +49,23 @@ const NavigationSearchButton: React.FC<Props> = ({ containerRef }) => {
   return (
     <Popover
       onOpenChange={(newValue) => {
-        console.log("onOpenChange", newValue);
-
         if (!newValue) {
           navbarContext.close();
           navbarContext.setTab(null);
         }
       }}
-      open={navbarContext.isOpen && navbarContext.tab === "search"}
+      open={navbarContext.tab === "search"}
       modal={false}
     >
-      <PopoverTrigger>
+      <PopoverTrigger
+        className={cn({
+          "pointer-events-none cursor-default":
+            navbarContext.tab !== null && navbarContext.tab === "navigation",
+        })}
+      >
         <Tooltip>
           <TooltipTrigger asChild>
-            <button
+            <div
               ref={searchButtonRef}
               className={cn(
                 "group relative block",
@@ -68,25 +73,27 @@ const NavigationSearchButton: React.FC<Props> = ({ containerRef }) => {
                 "hover:bg-neutral-100 dark:hover:bg-neutral-700",
                 "ease-curve-d transition-opacity duration-300",
                 {
-                  "pointer-events-none opacity-0": navbarContext.isOpen,
-                  "pointer-events-auto opacity-100": !navbarContext.isOpen,
+                  "bg-neutral-100 dark:bg-neutral-700":
+                    navbarContext.isOpen && navbarContext.tab === "search",
+
+                  "stroke-neutral-400 dark:stroke-neutral-700":
+                    navbarContext.tab !== null &&
+                    navbarContext.tab === "navigation",
                 },
               )}
-              type="button"
-              aria-label="Search"
               onClick={handleClick}
             >
               <MagnifyingGlassIcon className="h-full w-full" />
-            </button>
+            </div>
           </TooltipTrigger>
           <TooltipContent className="border border-neutral-200 bg-neutral-100 text-black dark:border-neutral-700 dark:bg-neutral-800 dark:text-white">
-            <p>Add to library</p>
+            <p>Search articles ...</p>
           </TooltipContent>
         </Tooltip>
       </PopoverTrigger>
       <PopoverContent
         container={containerRef.current}
-        className="w-full border-none bg-transparent"
+        className="mt-4 w-full border-none bg-transparent p-0"
         side="top"
         align="start"
       >

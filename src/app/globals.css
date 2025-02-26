@@ -107,6 +107,7 @@
   .ais {
     @apply flex flex-col gap-2 rounded-lg p-4;
     @apply border border-border bg-background;
+    @apply w-full;
   }
 
   .ais-header {
@@ -159,6 +160,7 @@
     @apply text-muted-foreground opacity-100;
     @apply transition-[background-color,opacity,transform] duration-200 ease-in-out;
     @apply cursor-pointer;
+    @apply w-full;
     transform: scale(1);
   }
 
@@ -194,6 +196,21 @@
     @apply bg-muted text-muted-foreground;
   }
 
+  .ais-source-item > div {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    font-weight: 500;
+    justify-content: center;
+    line-height: 1.2em;
+    margin: 0 8px;
+    overflow-x: hidden;
+    position: relative;
+    text-overflow: ellipsis;
+    width: calc(100% - 96px);
+    white-space: nowrap;
+  }
+
   .ais-source-item[aria-selected="true"] {
     @apply bg-gray-100 text-gray-950 dark:bg-neutral-900 dark:text-neutral-200;
   }
@@ -208,7 +225,7 @@
   }
 
   .ais-footer {
-    @apply flex items-center justify-between px-4 py-2;
+    @apply flex flex-col items-center justify-between px-4 py-2 sm:flex-row;
     @apply border-t border-border;
   }
 
@@ -223,7 +240,7 @@
   }
 
   .ais-commands {
-    @apply flex items-center gap-3;
+    @apply hidden items-center gap-3 sm:flex;
     @apply order-1;
   }
 

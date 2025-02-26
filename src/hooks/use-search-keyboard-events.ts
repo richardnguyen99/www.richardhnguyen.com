@@ -6,7 +6,7 @@ export interface UseSearchKeyboardEventsProps {
   onClose: () => void;
   onInput?: (_event: KeyboardEvent) => void;
   setTab: React.Dispatch<React.SetStateAction<"navigation" | "search" | null>>;
-  searchButtonRef: React.RefObject<HTMLButtonElement | null>;
+  searchButtonRef: React.RefObject<HTMLDivElement | null>;
 }
 
 function isEditingContent(event: KeyboardEvent): boolean {

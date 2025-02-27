@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import { NavigationMenuLink as UINavigationMenuLink } from "@/components/ui/navigation-menu";
-import { FrontMatter } from "@/lib/mdx";
+import { type FrontMatter } from "@/types/mdx";
 import { useNavbarContext } from "./context";
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
@@ -32,7 +32,7 @@ const NavigationMenuLatestPost: React.FC<Props> = ({
     <div
       {...rest}
       onClickCapture={handleClickCapture}
-      className={cn("relative w-full", className)}
+      className={cn("relative mt-8 w-full", className)}
     >
       <Link
         href={`/blogs/${latestPost.slug}`}

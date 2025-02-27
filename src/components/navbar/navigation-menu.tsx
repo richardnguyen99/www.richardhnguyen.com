@@ -5,7 +5,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 
 import { cn } from "@/lib/utils";
-import { FrontMatter } from "@/lib/mdx";
+import { type FrontMatter } from "@/types/mdx";
 import {
   NavigationMenu as UINavigationMenu,
   NavigationMenuContent as UNavigationMenuContent,
@@ -15,7 +15,6 @@ import {
   NavigationMenuLink as UINavigationMenuLink,
 } from "@/components/ui/navigation-menu";
 import { useNavbarContext } from "./context";
-import NavigationMobile from "./navigation-mobile";
 import NavigationMenuList from "./navigation-menu-list";
 import NavigationMenuLatestPost from "./navigation-menu-latest-post";
 
@@ -23,12 +22,8 @@ const NavigationSkeletonButton = () => (
   <div className="h-10 w-10 animate-pulse rounded-full bg-neutral-200 p-2 dark:bg-neutral-900"></div>
 );
 
-const NavigationMobileTrigger = dynamic(
-  () => import("./navigation-mobile-trigger"),
-  {
-    ssr: false,
-    loading: NavigationSkeletonButton,
-  },
+const NavigationMobileSkeletonButton = () => (
+  <div className="block h-10 w-10 animate-pulse rounded-full bg-neutral-200 p-2 dark:bg-neutral-900 md:hidden"></div>
 );
 
 const NavigationSearchButton = dynamic(
@@ -43,6 +38,14 @@ const ThemeSwitcher = dynamic(() => import("./theme-switcher"), {
   ssr: false,
   loading: NavigationSkeletonButton,
 });
+
+const NavigationMobileButton = dynamic(
+  () => import("./navigation-mobile-button"),
+  {
+    ssr: false,
+    loading: NavigationMobileSkeletonButton,
+  },
+);
 
 export type HeaderDataProps = {
   latestPost: FrontMatter;
@@ -61,6 +64,7 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
   mostViewedCategories,
   mostViewedTags,
 }) => {
+  const containerRef = React.useRef<HTMLDivElement>(null);
   const navbarContext = useNavbarContext();
   const [isListReady, setIsListReady] = React.useState(false);
   const [timeoutId, setTimeoutId] = React.useState<number | null>(null);
@@ -73,6 +77,7 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
         }
 
         navbarContext.handleIsOpen(false);
+        navbarContext.setTab(null);
         setIsListReady(false);
       } else {
         const id = window.setTimeout(() => {
@@ -80,6 +85,7 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
         }, 300);
         setTimeoutId(id);
         navbarContext.handleIsOpen(true);
+        navbarContext.setTab("navigation");
       }
     },
     [navbarContext, timeoutId],
@@ -100,19 +106,31 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
     >
       <div
         className={cn(
-          "pointer-events-none z-[-1] transform-gpu opacity-0 lg:-translate-y-[100%]",
+          "z-[-1] -translate-y-[100%] transform-gpu opacity-0",
           "ease-out-cubic transition-[opacity,transform] duration-300",
-          "absolute left-1/2 top-0 h-[calc(100vh-1rem)] w-[200%] lg:h-[42.5rem]",
+          "absolute left-1/2 top-0 h-[calc(100vh-1rem)] w-[200%] lg:h-[80rem]",
           "-translate-x-[100vw] bg-gradient-to-b from-white from-60% to-white/0 dark:from-black dark:to-black/0 lg:from-80%",
           {
-            "opacity-100 lg:-translate-y-1/2": navbarContext.isOpen,
+            "-translate-y-1/4 opacity-100 lg:-translate-y-1/2":
+              navbarContext.isOpen,
           },
         )}
       ></div>
 
       <div
+        ref={containerRef}
         className={cn(
-          "ease-out-cubic relative z-50 mx-auto h-full min-h-[3.125rem] w-full transform-gpu bg-white/80 backdrop-blur transition-colors duration-700 dark:bg-black/80 md:h-[3.125rem]",
+          "absolute top-0 z-40 flex min-h-11 w-full flex-col justify-center overflow-hidden",
+          "[&>div]:!mx-[var(--gutter-size)]",
+          "md[&>div]:!w-[var(--container-size)] [&>div]:!w-[calc(100%-var(--gutter-size)*2)] [&>div]:!min-w-0",
+          "[&>div]:!translate-x-0 [&>div]:!translate-y-12",
+          "",
+        )}
+      ></div>
+
+      <div
+        className={cn(
+          "ease-out-cubic relative z-50 mx-auto h-full min-h-[3.125rem] w-full bg-white/80 backdrop-blur dark:bg-black/80 md:h-[3.125rem]",
           {
             "bg-white/0 dark:bg-black/0": navbarContext.isOpen,
           },
@@ -120,7 +138,7 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
       >
         <div
           className={cn(
-            "ease-curve-d relative mx-[var(--gutter-size)] flex min-h-[3.125rem] w-[var(--container-size)] items-center justify-between transition duration-300 [&>div]:h-full",
+            "relative mx-[var(--gutter-size)] flex min-h-[3.125rem] w-[var(--container-size)] items-center justify-between [&>div]:h-full",
           )}
         >
           <Link href="/" passHref legacyBehavior>
@@ -135,16 +153,6 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
             </UINavigationMenuLink>
           </Link>
 
-          <div
-            className={cn(
-              "ml-auto flex items-center justify-center gap-[0.5rem] md:hidden",
-            )}
-          >
-            <ThemeSwitcher />
-            <NavigationSearchButton />
-            <NavigationMobileTrigger />
-          </div>
-
           <div className="[&>div]:!static [&>div]:h-full">
             <UINavigationList
               className={cn(
@@ -152,7 +160,9 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
               )}
             >
               <UINavigationMenuItem>
-                <UINavigationMenuTrigger>Articles</UINavigationMenuTrigger>
+                <UINavigationMenuTrigger className="transition-none duration-0">
+                  Articles
+                </UINavigationMenuTrigger>
 
                 <UNavigationMenuContent className="md:left-[calc(0.5_*_(100%-var(--container-size)))]">
                   <div className="data-[]: relative grid w-full grid-cols-[repeat(2,calc(20px+(0.5*(min(100%,68rem)-352px))))_1fr]">
@@ -191,29 +201,56 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
               </UINavigationMenuItem>
 
               <UINavigationMenuItem>
-                <UINavigationMenuTrigger>Gists</UINavigationMenuTrigger>
-                <UNavigationMenuContent className="md:left-[calc(0.5_*_(100%-var(--container-size)))]"></UNavigationMenuContent>
+                <UINavigationMenuTrigger className="transition-none duration-0">
+                  Projects
+                </UINavigationMenuTrigger>
+                <UNavigationMenuContent className="md:left-[calc(0.5_*_(100%-var(--container-size)))]">
+                  <div className="data-[]: relative grid w-full grid-cols-[repeat(2,calc(20px+(0.5*(min(100%,68rem)-352px))))_1fr]">
+                    <NavigationMenuList
+                      title="Repositories"
+                      initialDelay={0}
+                      items={[]}
+                      isListReady={isListReady}
+                    />
+
+                    <NavigationMenuList
+                      title="Gists"
+                      initialDelay={0}
+                      items={[]}
+                      isListReady={isListReady}
+                    />
+
+                    <NavigationMenuList
+                      title="Projects"
+                      initialDelay={0}
+                      items={[]}
+                      isListReady={isListReady}
+                    />
+                  </div>
+                </UNavigationMenuContent>
               </UINavigationMenuItem>
 
               <UINavigationMenuItem>
-                <UINavigationMenuTrigger>About</UINavigationMenuTrigger>
+                <UINavigationMenuTrigger className="transition-none duration-0">
+                  About
+                </UINavigationMenuTrigger>
                 <UNavigationMenuContent className="md:left-[calc(0.5_*_(100%-var(--container-size)))]"></UNavigationMenuContent>
               </UINavigationMenuItem>
             </UINavigationList>
           </div>
 
-          <div className="hidden items-center gap-3 md:flex">
-            <NavigationSearchButton />
+          <div className="flex items-center gap-3">
+            <NavigationSearchButton containerRef={containerRef} />
             <ThemeSwitcher />
+            <NavigationMobileButton
+              containerRef={containerRef}
+              mostViewedCategories={mostViewedCategories}
+              mostViewedTags={mostViewedTags}
+              latestPost={latestPost}
+            />
           </div>
         </div>
       </div>
-
-      <NavigationMobile
-        mostViewedCategories={mostViewedCategories}
-        mostViewedTags={mostViewedTags}
-        latestPost={latestPost}
-      />
     </UINavigationMenu>
   );
 };

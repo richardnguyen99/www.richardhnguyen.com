@@ -20,12 +20,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useNavbarContext } from "./context";
 
 const ThemeSwitcher: React.FC = () => {
   const { theme, setTheme } = useTheme();
-  const isSmallScreen = useMediaQuery("(max-width: 640px)");
-  const navbarContext = useNavbarContext();
+  const isSmallScreen = useMediaQuery("(max-width: 768px)");
   const [mounted, setMounted] = React.useState(false);
   const [isDropped, setIsDropped] = React.useState(false);
   const [showTooltip, setShowTooltip] = React.useState(false);
@@ -50,10 +48,6 @@ const ThemeSwitcher: React.FC = () => {
               "h-10 w-10 rounded-full p-2",
               "hover:bg-neutral-100 dark:hover:bg-neutral-700",
               "ease-curve-d transition-opacity duration-300",
-              {
-                "opacity-0": navbarContext.isOpen,
-                "opacity-100": !navbarContext.isOpen,
-              },
             )}
             type="button"
             aria-label="Search"

@@ -7,7 +7,7 @@ import { DotFilledIcon } from "@radix-ui/react-icons";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { CarouselItem } from "@/components/ui/carousel";
-import { FrontMatter } from "@/lib/mdx";
+import { type FrontMatter } from "@/types/mdx";
 
 type Metadata = {
   metadata: FrontMatter & { excerpt: string | null };

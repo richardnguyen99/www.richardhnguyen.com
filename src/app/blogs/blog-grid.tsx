@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { DotFilledIcon } from "@radix-ui/react-icons";
 
-import { MdxContent } from "@/lib/mdx";
+import { type MdxContent } from "@/types/mdx";
 import { NUM_POST_PER_PAGE } from "./constant";
 
 interface BlogGridProps {

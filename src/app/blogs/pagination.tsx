@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
-import { MdxContent } from "@/lib/mdx";
+import { type MdxContent } from "@/types/mdx";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Pagination,

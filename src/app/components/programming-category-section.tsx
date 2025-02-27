@@ -1,7 +1,8 @@
 import * as React from "react";
 import dynamic from "next/dynamic";
 
-import { type FrontMatter, getMdxContentsWithFilter } from "@/lib/mdx";
+import { getMdxContentsWithFilter } from "@/lib/mdx";
+import { type FrontMatter } from "@/types/mdx";
 import { cn } from "@/lib/utils";
 
 const CategoryCarousel = dynamic(() => import("./category-carousel"), {

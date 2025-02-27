@@ -1,8 +1,13 @@
 import * as React from "react";
 
+type Tab = "navigation" | "search" | "mobile" | null;
 export interface NavbarContextValue {
   isOpen: boolean;
   handleIsOpen: (_newIsOpen: boolean) => void;
+  open(): void;
+  close(): void;
+  tab: Tab;
+  setTab: React.Dispatch<React.SetStateAction<Tab>>;
   activeCollapsiblleTab: string;
   setActiveCollapsibleTab: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -20,6 +25,7 @@ const NavbarProvider: React.FC<
   const [isMobileMenuOpen] = React.useState(false);
   const [activeCollapsiblleTab, setActiveCollapsibleTab] = React.useState("");
   const [timeoutId, setTimeoutId] = React.useState<number | null>(null);
+  const [tab, setTab] = React.useState<Tab>(null);
 
   const handleIsOpen = React.useCallback(
     (newIsOpen: boolean) => {
@@ -47,6 +53,14 @@ const NavbarProvider: React.FC<
     [timeoutId],
   );
 
+  const open = React.useCallback(() => {
+    handleIsOpen(true);
+  }, [handleIsOpen]);
+
+  const close = React.useCallback(() => {
+    handleIsOpen(false);
+  }, [handleIsOpen]);
+
   const value = React.useMemo(() => {
     return {
       isOpen,
@@ -54,8 +68,21 @@ const NavbarProvider: React.FC<
       activeCollapsiblleTab,
       setActiveCollapsibleTab,
       handleIsOpen,
+      open,
+      close,
+      tab,
+      setTab,
     };
-  }, [isOpen, handleIsOpen, isMobileMenuOpen, activeCollapsiblleTab]);
+  }, [
+    isOpen,
+    isMobileMenuOpen,
+    activeCollapsiblleTab,
+    handleIsOpen,
+    open,
+    close,
+    tab,
+    setTab,
+  ]);
 
   return (
     <NavbarContext.Provider value={value} {...props}>

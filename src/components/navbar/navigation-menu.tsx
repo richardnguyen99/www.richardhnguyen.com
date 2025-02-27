@@ -139,7 +139,7 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
 
       <div
         className={cn(
-          "ease-out-cubic relative z-50 mx-auto h-full min-h-[3.125rem] w-full transform-gpu bg-white/80 backdrop-blur transition-colors duration-700 dark:bg-black/80 md:h-[3.125rem]",
+          "ease-out-cubic relative z-50 mx-auto h-full min-h-[3.125rem] w-full bg-white/80 backdrop-blur dark:bg-black/80 md:h-[3.125rem]",
           {
             "bg-white/0 dark:bg-black/0": navbarContext.isOpen,
           },
@@ -147,7 +147,7 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
       >
         <div
           className={cn(
-            "ease-curve-d relative mx-[var(--gutter-size)] flex min-h-[3.125rem] w-[var(--container-size)] items-center justify-between transition duration-300 [&>div]:h-full",
+            "relative mx-[var(--gutter-size)] flex min-h-[3.125rem] w-[var(--container-size)] items-center justify-between [&>div]:h-full",
           )}
         >
           <Link href="/" passHref legacyBehavior>
@@ -169,7 +169,9 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
               )}
             >
               <UINavigationMenuItem>
-                <UINavigationMenuTrigger>Articles</UINavigationMenuTrigger>
+                <UINavigationMenuTrigger className="transition-none duration-0">
+                  Articles
+                </UINavigationMenuTrigger>
 
                 <UNavigationMenuContent className="md:left-[calc(0.5_*_(100%-var(--container-size)))]">
                   <div className="data-[]: relative grid w-full grid-cols-[repeat(2,calc(20px+(0.5*(min(100%,68rem)-352px))))_1fr]">
@@ -208,12 +210,16 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
               </UINavigationMenuItem>
 
               <UINavigationMenuItem>
-                <UINavigationMenuTrigger>Gists</UINavigationMenuTrigger>
+                <UINavigationMenuTrigger className="transition-none duration-0">
+                  Gists
+                </UINavigationMenuTrigger>
                 <UNavigationMenuContent className="md:left-[calc(0.5_*_(100%-var(--container-size)))]"></UNavigationMenuContent>
               </UINavigationMenuItem>
 
               <UINavigationMenuItem>
-                <UINavigationMenuTrigger>About</UINavigationMenuTrigger>
+                <UINavigationMenuTrigger className="transition-none duration-0">
+                  About
+                </UINavigationMenuTrigger>
                 <UNavigationMenuContent className="md:left-[calc(0.5_*_(100%-var(--container-size)))]"></UNavigationMenuContent>
               </UINavigationMenuItem>
             </UINavigationList>

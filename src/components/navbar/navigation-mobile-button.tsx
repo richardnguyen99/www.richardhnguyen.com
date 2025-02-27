@@ -14,11 +14,11 @@ import { type FrontMatter } from "@/types/mdx";
 import { useNavbarContext } from "./context";
 import NavigationIconButton from "./navigation-icon-button";
 import {
-  CollapsibleTrigger,
-  CollapsibleContent,
-  CollapsibleContentItem,
-  CollapsibleHeading,
-} from "./collapsible";
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import NavigationMenuLatestPost from "./navigation-menu-latest-post";
 import { Menu } from "lucide-react";
 
@@ -56,6 +56,11 @@ const NavigationMobileButton: React.FC<Props> = ({
     }
   }, [navbarContext]);
 
+  const handleClickCapture = React.useCallback(() => {
+    navbarContext.close();
+    navbarContext.setTab(null);
+  }, [navbarContext]);
+
   return (
     <Popover
       onOpenChange={(newValue) => {
@@ -73,11 +78,8 @@ const NavigationMobileButton: React.FC<Props> = ({
           onClick={handleClick}
           renderIcon={() => <Menu className="h-full w-full" />}
           className={cn({
-            "pointer-events-none cursor-default":
-              navbarContext.tab !== null && navbarContext.tab === "mobile",
-
-            "stroke-neutral-400 dark:stroke-neutral-700":
-              navbarContext.tab !== null && navbarContext.tab !== "mobile",
+            "bg-neutral-100 dark:bg-neutral-700":
+              navbarContext.isOpen && navbarContext.tab === "mobile",
           })}
         >
           <p>Open Menu</p>
@@ -85,47 +87,47 @@ const NavigationMobileButton: React.FC<Props> = ({
       </PopoverTrigger>
       <PopoverContent
         container={containerRef.current}
-        className="mt-4 w-full border-none bg-transparent p-0"
+        className="mt-4 w-full border-none bg-transparent p-0 shadow-none"
         side="top"
         align="start"
       >
-        <ul>
-          <CollapsibleTrigger>
-            <CollapsibleHeading>Categories</CollapsibleHeading>
-            <CollapsibleContent>
-              {mostViewedCategories.map((category, i) => (
-                <CollapsibleContentItem key={i}>
-                  <Link href={category.url} passHref legacyBehavior>
-                    <UINavigationMenuLink>
-                      {category.category}
-                    </UINavigationMenuLink>
-                  </Link>
-                </CollapsibleContentItem>
-              ))}
-            </CollapsibleContent>
-          </CollapsibleTrigger>
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="item-1">
+            <AccordionTrigger className="text-2xl">Categories</AccordionTrigger>
+            <AccordionContent onClickCapture={handleClickCapture}>
+              <ul>
+                {mostViewedCategories.map((category, i) => (
+                  <li key={i}>
+                    <Link href={category.url} passHref legacyBehavior>
+                      <UINavigationMenuLink className="text-lg text-muted-foreground hover:text-accent-foreground">
+                        {category.category}
+                      </UINavigationMenuLink>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </AccordionContent>
+          </AccordionItem>
 
-          <CollapsibleTrigger>
-            <CollapsibleHeading>Tags</CollapsibleHeading>
-            <CollapsibleContent>
-              {mostViewedTags.map((tag, i) => (
-                <CollapsibleContentItem key={i}>
-                  <Link href={tag.url} passHref legacyBehavior>
-                    <UINavigationMenuLink className="text-black">
-                      {tag.tag}
-                    </UINavigationMenuLink>
-                  </Link>
-                </CollapsibleContentItem>
-              ))}
-            </CollapsibleContent>
-          </CollapsibleTrigger>
-        </ul>
+          <AccordionItem value="item-2">
+            <AccordionTrigger className="text-2xl">Tags</AccordionTrigger>
+            <AccordionContent onClickCapture={handleClickCapture}>
+              <ul>
+                {mostViewedTags.map((tag, i) => (
+                  <li key={i}>
+                    <Link href={tag.url} passHref legacyBehavior>
+                      <UINavigationMenuLink className="text-lg text-muted-foreground hover:text-accent-foreground">
+                        {tag.tag}
+                      </UINavigationMenuLink>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
 
-        <NavigationMenuLatestPost
-          className="mx-[var(--gutter-size)] w-[var(--container-size)]"
-          isListReady={true}
-          latestPost={latestPost}
-        />
+        <NavigationMenuLatestPost isListReady={true} latestPost={latestPost} />
       </PopoverContent>
     </Popover>
   );

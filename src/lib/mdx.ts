@@ -292,7 +292,7 @@ export const getAllTags = async () => {
       content.frontMatter.tags.forEach((tag) => {
         if (!acc.has(tag)) {
           acc.set(tag, {
-            url: `/blogs?categories=${tag}`,
+            url: `/blogs?tags=${tag}`,
             postCount: 1,
           });
         } else {

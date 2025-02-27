@@ -32,7 +32,7 @@ const NavigationMenuLatestPost: React.FC<Props> = ({
     <div
       {...rest}
       onClickCapture={handleClickCapture}
-      className={cn("relative w-full", className)}
+      className={cn("relative mt-8 w-full", className)}
     >
       <Link
         href={`/blogs/${latestPost.slug}`}

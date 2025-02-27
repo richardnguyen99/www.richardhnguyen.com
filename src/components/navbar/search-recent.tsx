@@ -1,4 +1,4 @@
-import React, { type JSX } from "react";
+import React from "react";
 import { History, Star, X } from "lucide-react";
 
 import useMemoizedAutocomplete from "./use-autocomplete";
@@ -22,11 +22,7 @@ type Props = ReturnType<typeof useMemoizedAutocomplete> & {
   hasCollections: boolean;
 };
 
-function SearchRecent({
-  state,
-  onItemClick,
-  ...rest
-}: Props): JSX.Element | null {
+const SearchRecent: React.FC<Props> = ({ state, onItemClick, ...rest }) => {
   if (state.status === "idle" && !rest.hasCollections) {
     return (
       <div className="ais-panel ais-recent my-4 text-center">
@@ -144,6 +140,6 @@ function SearchRecent({
         })}
     </div>
   );
-}
+};
 
 export default SearchRecent;

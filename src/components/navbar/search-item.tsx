@@ -30,7 +30,7 @@ type Props = ReturnType<typeof useMemoizedAutocomplete> & {
   }) => JSX.Element;
 };
 
-function SearchItem(props: Props): JSX.Element {
+const SearchItem: React.FC<Props> = (props) => {
   const [isDeleting, setIsDeleting] = React.useState(false);
   const [isFavoriting, setIsFavoriting] = React.useState(false);
   const action = React.useRef<(() => void) | null>(null);
@@ -79,6 +79,6 @@ function SearchItem(props: Props): JSX.Element {
       })}
     </li>
   );
-}
+};
 
 export default SearchItem;

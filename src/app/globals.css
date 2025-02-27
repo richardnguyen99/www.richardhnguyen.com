@@ -12,14 +12,6 @@
   @import "@radix-ui/colors/green-dark.css";
   @import "@radix-ui/colors/red-dark.css";
 
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-  }
-
   :root {
     --native-border: theme("colors.neutral.300");
     --native-border-hover: theme("colors.neutral.400");

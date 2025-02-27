@@ -1,4 +1,4 @@
-import React, { type JSX } from "react";
+import React from "react";
 import { Search, File } from "lucide-react";
 
 import useMemoizedAutocomplete from "./use-autocomplete";
@@ -15,7 +15,7 @@ type Props = ReturnType<typeof useMemoizedAutocomplete> & {
   ) => void;
 };
 
-function SearchResult({ state, onItemClick, ...rest }: Props): JSX.Element {
+const SearchResult: React.FC<Props> = ({ state, onItemClick, ...rest }) => {
   return (
     <div className="ais-panel" {...rest.getPanelProps({})}>
       {state.isOpen &&
@@ -55,6 +55,6 @@ function SearchResult({ state, onItemClick, ...rest }: Props): JSX.Element {
         })}
     </div>
   );
-}
+};
 
 export default SearchResult;

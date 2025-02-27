@@ -1,4 +1,4 @@
-import React, { type JSX } from "react";
+import React from "react";
 
 import {
   InternalSearchHitWithParent,
@@ -21,7 +21,7 @@ type Props = ReturnType<typeof useMemoizedAutocomplete> & {
   ) => void;
 };
 
-function SearchScreen(props: Props): JSX.Element {
+const SearchScreen: React.FC<Props> = (props) => {
   if (props.state.status === "error") {
     return (
       <div className="flex h-full items-center justify-center">
@@ -43,7 +43,7 @@ function SearchScreen(props: Props): JSX.Element {
   }
 
   return <ScreenResult {...props} />;
-}
+};
 
 export default React.memo(
   SearchScreen,

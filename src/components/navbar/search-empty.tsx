@@ -1,4 +1,4 @@
-import React, { type JSX } from "react";
+import React from "react";
 import { Search } from "lucide-react";
 
 import useMemoizedAutocomplete from "./use-autocomplete";
@@ -11,7 +11,7 @@ type Props = ReturnType<typeof useMemoizedAutocomplete> & {
   state: InternalSearchState<InternalSearchHitWithParent>;
 };
 
-function SearchEmpty(props: Props): JSX.Element {
+const SearchEmpty: React.FC<Props> = (props) => {
   return (
     <div className="my-6 text-center">
       <Search className="mx-auto h-12 w-12 text-gray-400" />
@@ -24,6 +24,6 @@ function SearchEmpty(props: Props): JSX.Element {
       </p>
     </div>
   );
-}
+};
 
 export default SearchEmpty;

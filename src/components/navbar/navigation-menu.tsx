@@ -15,7 +15,6 @@ import {
   NavigationMenuLink as UINavigationMenuLink,
 } from "@/components/ui/navigation-menu";
 import { useNavbarContext } from "./context";
-import NavigationMobile from "./navigation-mobile";
 import NavigationMenuList from "./navigation-menu-list";
 import NavigationMenuLatestPost from "./navigation-menu-latest-post";
 
@@ -25,14 +24,6 @@ const NavigationSkeletonButton = () => (
 
 const NavigationMobileSkeletonButton = () => (
   <div className="block h-10 w-10 animate-pulse rounded-full bg-neutral-200 p-2 dark:bg-neutral-900 md:hidden"></div>
-);
-
-const NavigationMobileTrigger = dynamic(
-  () => import("./navigation-mobile-trigger"),
-  {
-    ssr: false,
-    loading: NavigationMobileSkeletonButton,
-  },
 );
 
 const NavigationSearchButton = dynamic(
@@ -211,9 +202,32 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
 
               <UINavigationMenuItem>
                 <UINavigationMenuTrigger className="transition-none duration-0">
-                  Gists
+                  Projects
                 </UINavigationMenuTrigger>
-                <UNavigationMenuContent className="md:left-[calc(0.5_*_(100%-var(--container-size)))]"></UNavigationMenuContent>
+                <UNavigationMenuContent className="md:left-[calc(0.5_*_(100%-var(--container-size)))]">
+                  <div className="data-[]: relative grid w-full grid-cols-[repeat(2,calc(20px+(0.5*(min(100%,68rem)-352px))))_1fr]">
+                    <NavigationMenuList
+                      title="Repositories"
+                      initialDelay={0}
+                      items={[]}
+                      isListReady={isListReady}
+                    />
+
+                    <NavigationMenuList
+                      title="Gists"
+                      initialDelay={0}
+                      items={[]}
+                      isListReady={isListReady}
+                    />
+
+                    <NavigationMenuList
+                      title="Projects"
+                      initialDelay={0}
+                      items={[]}
+                      isListReady={isListReady}
+                    />
+                  </div>
+                </UNavigationMenuContent>
               </UINavigationMenuItem>
 
               <UINavigationMenuItem>

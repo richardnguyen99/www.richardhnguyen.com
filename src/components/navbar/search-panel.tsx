@@ -22,7 +22,7 @@ type Props = {
   onClose: () => void;
 };
 
-function SearchPanel({ onClose }: Props): React.JSX.Element {
+const SearchPanel: React.FC<Props> = ({ onClose }) => {
   const indexName = process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME as string;
 
   const { push } = useRouter();
@@ -124,6 +124,6 @@ function SearchPanel({ onClose }: Props): React.JSX.Element {
       </div>
     </div>
   );
-}
+};
 
 export default SearchPanel;

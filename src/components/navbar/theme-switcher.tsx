@@ -20,10 +20,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useNavbarContext } from "./context";
 
 const ThemeSwitcher: React.FC = () => {
-  const navbarContext = useNavbarContext();
   const { theme, setTheme } = useTheme();
   const isSmallScreen = useMediaQuery("(max-width: 768px)");
   const [mounted, setMounted] = React.useState(false);

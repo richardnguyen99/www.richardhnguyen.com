@@ -3,6 +3,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { getAllCategories, getAllTags, getLatestMdxContent } from "@/lib/mdx";
 import NavbarNavigationMenu from "./navigation-menu";
+import { getPinnedRepos } from "@/lib/github";
 
 const Navbar: React.FC = async () => {
   const mostViewedCategories = Array.from(
@@ -36,6 +37,20 @@ const Navbar: React.FC = async () => {
     return mdxContent.frontMatter;
   });
 
+  const githubRepos = await getPinnedRepos();
+
+  const projects = githubRepos.data.repositoryOwner.repos.nodes
+    .filter((repo) => {
+      return repo.homepageUrl !== null;
+    })
+    .map((repo) => {
+      return {
+        name: repo.name,
+        description: repo.description,
+        url: repo.homepageUrl!,
+      };
+    });
+
   return (
     <header
       aria-label="Main Navigation"
@@ -49,6 +64,9 @@ const Navbar: React.FC = async () => {
         latestPost={latestPost[0]}
         mostViewedCategories={mostViewedCategories}
         mostViewedTags={mostViewedTags}
+        pinnedGists={githubRepos.data.repositoryOwner.gists.nodes}
+        pinnedProjects={projects}
+        pinnedRepos={githubRepos.data.repositoryOwner.repos.nodes}
       />
     </header>
   );

@@ -59,9 +59,9 @@ const LatestArticleCard: React.FC<Props> = ({
               src={frontMatter.thumbnail}
               alt="Next.js vs Gatsby.js"
               className="object-cover object-center"
-              loading="lazy"
               fill={true}
               sizes="(max-width: 1024px) 100vw, 1024px"
+              priority={true}
             />
           </div>
         </div>

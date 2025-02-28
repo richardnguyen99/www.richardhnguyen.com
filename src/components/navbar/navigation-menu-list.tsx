@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { NavigationMenuLink as UINavigationMenuLink } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
+import { MoveUpRight } from "lucide-react";
 
 type Props = React.PropsWithChildren<
   {
@@ -14,9 +15,36 @@ type Props = React.PropsWithChildren<
     items: Array<{
       text: string;
       url: string;
+      external?: boolean;
     }>;
   } & React.HTMLAttributes<HTMLUListElement>
 >;
+
+const linkClassName =
+  "ease-curve-d line-clamp-1 w-max transform-gpu border-b-2 border-transparent transition-[border-color] duration-200 hover:border-gray-800 dark:hover:border-gray-200";
+
+const NavigationMenuLink: React.FC<Props["items"][0]> = ({ text, url }) => {
+  return (
+    <Link href={url} legacyBehavior passHref>
+      <UINavigationMenuLink className={cn(linkClassName)}>
+        {text}
+      </UINavigationMenuLink>
+    </Link>
+  );
+};
+
+const NavigationMenuExternal: React.FC<Props["items"][0]> = ({ text, url }) => {
+  return (
+    <a href={url} target="_blank" rel="noopener noreferrer">
+      <UINavigationMenuLink
+        className={cn(linkClassName, "flex items-center gap-1")}
+      >
+        <p className="flex-shrink">{text}</p>
+        <MoveUpRight size={16} />
+      </UINavigationMenuLink>
+    </a>
+  );
+};
 
 const NavigationMenuList: React.FC<Props> = ({
   isListReady,
@@ -63,11 +91,11 @@ const NavigationMenuList: React.FC<Props> = ({
               : {}
           }
         >
-          <Link href={item.url} legacyBehavior passHref>
-            <UINavigationMenuLink className="ease-curve-d transform-gpu border-b-2 border-transparent transition-[border-color] duration-200 hover:border-gray-800 dark:hover:border-gray-200">
-              {item.text}
-            </UINavigationMenuLink>
-          </Link>
+          {item.external ? (
+            <NavigationMenuExternal {...item} />
+          ) : (
+            <NavigationMenuLink {...item} />
+          )}
         </li>
       ))}
     </ul>

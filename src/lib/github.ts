@@ -34,15 +34,17 @@ export const getPinnedRepos = async () => {
         }
       }
 
-      gists: pinnedItems(first: 6, types: GIST) {
+      gists: gists(first: 6, orderBy: { field: CREATED_AT, direction: DESC }) {
         nodes {
-          ... on Gist {
-            createdAt
-            description
-            id
+          createdAt
+          description
+          id
+          name
+          stargazerCount
+          url
+          files {
+            text
             name
-            stargazerCount
-            url
           }
         }
       }

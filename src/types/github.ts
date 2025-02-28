@@ -1,40 +1,51 @@
-type RepositoryTopic = {
+export type File = {
+  text: string;
+  name: string;
+  size: number;
+  extension: string;
+  language: string;
+  encoding: string;
+  encodedName: string;
+};
+
+export type RepositoryTopic = {
   url: string;
   id: string;
 };
 
-type RepositoryTopicEdge = {
+export type RepositoryTopicEdge = {
   cursor: string;
   node: RepositoryTopic;
 };
 
-type RepositoryTopicConnection = {
+export type RepositoryTopicConnection = {
   edges: RepositoryTopicEdge[];
   nodes: RepositoryTopic[];
   totalCount: number;
 };
 
-type Gist = {
+export type Gist = {
   createdAt: string;
   description: string | null;
   id: string;
   name: string;
   stargazerCount: number;
   url: string;
+  files: File[];
 };
 
-type GistEdge = {
+export type GistEdge = {
   cursor: string;
   node: Gist;
 };
 
-type GistConnection = {
+export type GistConnection = {
   edges: GistEdge[];
   nodes: Gist[];
   totalCount: number;
 };
 
-type Repository = {
+export type Repository = {
   name: string;
   description: string | null;
   descriptionHTML: string | null;
@@ -46,26 +57,26 @@ type Repository = {
   url: string;
 };
 
-type PinnableItem = Gist & Repository;
+export type PinnableItem = Gist & Repository;
 
-type PinnableItemEdge = {
+export type PinnableItemEdge = {
   cusor: string;
   node: PinnableItem;
 };
 
-type PinnableItemConnection = {
+export type PinnableItemConnection = {
   edges: PinnableItemEdge[];
   nodes: PinnableItem[];
   totalCount: number;
 };
 
-type Organization = {};
+export type Organization = {};
 
-type User = {
+export type User = {
   pinnedItems: PinnableItemConnection;
 };
 
-type RepositoryOwner = Organization & User;
+export type RepositoryOwner = Organization & User;
 
 export type Queries = {
   repositoryOwner: RepositoryOwner;

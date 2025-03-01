@@ -248,26 +248,27 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
                       }))}
                       isListReady={isListReady}
                     />
-                    <Link
-                      href="/projects"
-                      className={cn(
-                        "mt-4 transform-gpu text-lg font-medium transition-opacity duration-300",
-                        {
-                          "opacity-0": !isListReady,
-                          "opacity-100": isListReady,
-                        },
-                      )}
-                      style={{
-                        transitionDelay: `${
-                          (pinnedRepos.length +
-                            pinnedGists.length +
-                            pinnedProjects.length +
-                            1) *
-                          50
-                        }ms`,
-                      }}
-                    >
-                      More at <code>/projects</code>
+                    <Link href="/projects" legacyBehavior passHref>
+                      <UINavigationMenuLink
+                        className={cn(
+                          "mt-4 transform-gpu text-lg font-medium transition-opacity duration-300",
+                          {
+                            "opacity-0": !isListReady,
+                            "opacity-100": isListReady,
+                          },
+                        )}
+                        style={{
+                          transitionDelay: `${
+                            (pinnedRepos.length +
+                              pinnedGists.length +
+                              pinnedProjects.length +
+                              1) *
+                            50
+                          }ms`,
+                        }}
+                      >
+                        More at <code>/projects</code>
+                      </UINavigationMenuLink>
                     </Link>
                   </div>
                 </UNavigationMenuContent>

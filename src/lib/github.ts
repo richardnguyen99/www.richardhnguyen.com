@@ -10,7 +10,9 @@ async function getPinnedRepos() {
     headers: {
       Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
     },
-    cache: "force-cache",
+    next: {
+      revalidate: 60 * 60, // 1 hour
+    },
     body: JSON.stringify({
       query: `#graphql
 {

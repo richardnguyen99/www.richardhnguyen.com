@@ -1,6 +1,6 @@
 import { Queries } from "@/types/github";
 
-export const getPinnedRepos = async () => {
+export async function getPinnedRepos() {
   const res = await fetch("https://api.github.com/graphql", {
     method: "POST",
     headers: {
@@ -65,4 +65,4 @@ export const getPinnedRepos = async () => {
   };
 
   return data;
-};
+}

@@ -10,7 +10,7 @@ type Props = {
   frontMatter: FrontMatter;
 } & React.HTMLAttributes<HTMLDivElement>;
 
-const LatestArticleCard: React.FC<Props> = ({
+const LatestArticleCard: React.FC<Props> = async ({
   frontMatter,
   className,
   ...rest

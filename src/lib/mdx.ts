@@ -223,14 +223,18 @@ export const getMdxContentsWithFilter = async (
   sortOrder: SortOrder = "desc",
   filter: (_content: MdxContent) => boolean = () => true,
 ) => {
+  // Uncomment the following line to simulate a slow network
+  // const r = Math.floor(Math.random() * (4 - 1 + 1) + 1);
+  // await new Promise((resolve) => setTimeout(resolve, 5 * 1000));
+
   const mdxContents = await getMdxContents();
+
   const sortedMdxContents = mdxContents.filter(filter).sort((a, b) => {
     const dateA = new Date(a.frontMatter.date).getTime();
     const dateB = new Date(b.frontMatter.date).getTime();
 
     return sortOrder === "desc" ? dateB - dateA : dateA - dateB;
   });
-
   return numPosts > 0
     ? sortedMdxContents.slice(0, numPosts)
     : sortedMdxContents;

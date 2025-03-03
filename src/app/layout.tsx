@@ -12,7 +12,6 @@ import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 import NavbarOverlay from "@/components/navbar/overlay";
 import NavigationMenuSkeleton from "@/components/navbar/navbar-menu-skeleton";
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -132,7 +131,10 @@ const RootLayout: React.FC<RootLayoutProps> = async ({ children }) => {
           <NavbarOverlay />
 
           <LayoutMain>{children}</LayoutMain>
-          <Footer />
+
+          <Suspense fallback={<div>Loading...</div>}>
+            <Footer />
+          </Suspense>
         </GlobalProvider>
         <Toaster />
       </body>

@@ -3,7 +3,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { getAllCategories, getAllTags, getLatestMdxContent } from "@/lib/mdx";
 import NavbarNavigationMenu from "./navigation-menu";
-import { getPinnedRepos } from "@/lib/github";
+import getPinnedRepos from "@/lib/github";
 
 const Navbar: React.FC = async () => {
   const mostViewedCategories = Array.from(

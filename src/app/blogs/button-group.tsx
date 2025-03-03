@@ -1,9 +1,25 @@
 "use client";
 
 import * as React from "react";
+import dynamic from "next/dynamic";
 
-import FilterButton from "./filter-button";
-import SortButton from "./sort-button";
+// import FilterButton from "./filter-button";
+// import SortButton from "./sort-button";
+import { ClientOnly } from "@/components/client-only";
+
+const SortButton = dynamic(() => import("./sort-button"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 dark:bg-neutral-700 md:w-[100px]" />
+  ),
+});
+
+const FilterButton = dynamic(() => import("./filter-button"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 dark:bg-neutral-700 md:w-[100px]" />
+  ),
+});
 
 interface ButtonGroupProps {
   sortOrder?: "asc" | "desc";

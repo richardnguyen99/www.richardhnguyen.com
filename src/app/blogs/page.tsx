@@ -78,7 +78,7 @@ const Blog: React.FC<BlogProps> = async (props) => {
   });
 
   return (
-    <div className="mt-8 w-screen max-w-full sm:mt-12 md:mt-20 lg:mt-28">
+    <React.Fragment>
       <div className="mx-[var(--gutter-size)] flex justify-between gap-4 sm:w-[var(--container-size)]">
         <div className="flex w-full flex-col">
           <h2 className="font-mono text-xs/5 font-semibold uppercase tracking-widest text-neutral-500 dark:text-neutral-400">
@@ -116,7 +116,7 @@ const Blog: React.FC<BlogProps> = async (props) => {
             .flat()}
         />
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 

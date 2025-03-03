@@ -1,6 +1,10 @@
 import { Queries } from "@/types/github";
 
-export async function getPinnedRepos() {
+async function getPinnedRepos() {
+  // Uncomment the following line to simulate a slow network
+  // const r = Math.floor(Math.random() * (4 - 1 + 1) + 1);
+  // await new Promise((resolve) => setTimeout(resolve, r * 1000));
+
   const res = await fetch("https://api.github.com/graphql", {
     method: "POST",
     headers: {
@@ -55,14 +59,23 @@ export async function getPinnedRepos() {
     }),
   });
 
-  const data = (await res.json()) as {
+  //const data = (await res.json()) as {
+  //data: {
+  //repositoryOwner: {
+  //repos: Queries["repositoryOwner"]["pinnedItems"];
+  //gists: Queries["repositoryOwner"]["pinnedItems"];
+  //};
+  //};
+  //};
+
+  return res.json() as Promise<{
     data: {
       repositoryOwner: {
         repos: Queries["repositoryOwner"]["pinnedItems"];
         gists: Queries["repositoryOwner"]["pinnedItems"];
       };
     };
-  };
-
-  return data;
+  }>;
 }
+
+export default getPinnedRepos;

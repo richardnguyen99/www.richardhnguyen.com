@@ -6,7 +6,7 @@ import ProjectGistList from "./project-gist-list";
 
 export const dynamic = "force-dynamic";
 
-export default function Projects() {
+export default async function Projects() {
   return (
     <div className="mt-28 w-full">
       <section className="max-w-full">

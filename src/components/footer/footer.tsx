@@ -9,7 +9,7 @@ interface FooterProps
   extends React.PropsWithChildren<React.HTMLAttributes<HTMLDivElement>> {}
 
 const Footer: React.FC<FooterProps> = ({ children, className, ...rest }) => {
-  const navbarContext = useNavbarContext();
+  // const navbarContext = useNavbarContext();
 
   return (
     <footer
@@ -19,13 +19,6 @@ const Footer: React.FC<FooterProps> = ({ children, className, ...rest }) => {
         "border-t border-transparent dark:border-neutral-700",
         "origin-[50%_0px] transition-[transform,_opacity,_filter]",
         "ease-out-cubic overflow-hidden duration-300",
-        {
-          "delay-75 duration-700": !navbarContext.isOpen,
-          "duration-300": navbarContext.isOpen,
-          "blur-[50px] saturate-[2]": navbarContext.isOpen,
-          "translate-y-[5rem] scale-[0.96]": navbarContext.isOpen,
-          "overflow-hidden": navbarContext.isOpen,
-        },
         className,
       )}
     >

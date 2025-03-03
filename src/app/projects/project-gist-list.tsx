@@ -1,15 +1,15 @@
 import React from "react";
 
 import ProjectList from "./project-list";
-import { getPinnedRepos } from "@/lib/github";
+import getPinnedRepos from "@/lib/github";
 
 const ProjectGistList: React.FC = async () => {
-  const { data } = await getPinnedRepos();
+  const data = await getPinnedRepos();
 
   return (
     <ProjectList
       title="Gists"
-      initialData={data.repositoryOwner.gists.nodes.map((gist) => ({
+      initialData={data.data.repositoryOwner.gists.nodes.map((gist) => ({
         title: gist.files[0].name,
         url: gist.url,
         starCounts: gist.stargazerCount,

@@ -1,15 +1,15 @@
 import React from "react";
 
 import ProjectList from "./project-list";
-import { getPinnedRepos } from "@/lib/github";
+import getPinnedRepos from "@/lib/github";
 
 export default async function ProjectRepoList() {
-  const { data } = await getPinnedRepos();
+  const data = await getPinnedRepos();
 
   return (
     <ProjectList
       title="Repositories"
-      initialData={data.repositoryOwner.repos.nodes.map((repo) => ({
+      initialData={data.data.repositoryOwner.repos.nodes.map((repo) => ({
         title: repo.name,
         url: repo.url,
         starCounts: repo.stargazerCount,

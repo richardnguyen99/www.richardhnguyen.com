@@ -55,7 +55,7 @@ const CardWithForm: React.FC<Props> = ({
               </span>
             )}
           </div>
-          <p className="line-clamp-2 text-sm text-muted-foreground">
+          <p className="line-clamp-2 h-[40px] text-sm text-muted-foreground">
             {description}
           </p>
         </div>

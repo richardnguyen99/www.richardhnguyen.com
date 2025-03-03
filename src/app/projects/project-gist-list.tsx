@@ -9,6 +9,7 @@ const ProjectGistList: React.FC = async () => {
   return (
     <ProjectList
       title="Gists"
+      type="gist"
       initialData={data.data.repositoryOwner.gists.nodes.map((gist) => ({
         title: gist.files[0].name,
         url: gist.url,

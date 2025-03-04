@@ -18,7 +18,7 @@ const LatestArticleCard: React.FC<Props> = async ({
   <div {...rest} className={cn("col-span-12 row-span-1", className)}>
     <Link
       href={`/blogs/${frontMatter.slug}`}
-      className="ease-curve-a duration-250 group relative z-0 block aspect-[16/9] h-full w-full max-w-[68rem] overflow-hidden rounded-md bg-transparent transition [&>div]:h-full"
+      className="ease-curve-a duration-250 group relative z-0 block aspect-[16/9] h-full w-full max-w-[68rem] overflow-hidden rounded-md bg-accent transition [&>div]:h-full"
       aria-label="View Item"
     >
       <div className="ease-curve-d pointer-events-none absolute left-0 top-0 z-10 h-full w-full overflow-hidden p-3 opacity-100 transition-[opacity,background] duration-300">

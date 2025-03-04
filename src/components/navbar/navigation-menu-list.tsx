@@ -35,14 +35,20 @@ const NavigationMenuLink: React.FC<Props["items"][0]> = ({ text, url }) => {
 
 const NavigationMenuExternal: React.FC<Props["items"][0]> = ({ text, url }) => {
   return (
-    <a href={url} target="_blank" rel="noopener noreferrer">
-      <UINavigationMenuLink
-        className={cn(linkClassName, "flex items-center gap-1")}
+    <UINavigationMenuLink asChild>
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={cn(
+          linkClassName,
+          "flex w-fit flex-row flex-nowrap items-center gap-1",
+        )}
       >
-        <p className="flex-shrink">{text}</p>
-        <MoveUpRight size={16} />
-      </UINavigationMenuLink>
-    </a>
+        <p className="line-clamp-1">{text}</p>
+        <MoveUpRight size={16} className="h-4 w-4 flex-shrink-0 basis-[16px]" />
+      </a>
+    </UINavigationMenuLink>
   );
 };
 
@@ -57,7 +63,7 @@ const NavigationMenuList: React.FC<Props> = ({
     <ul {...rest} className="flex w-full list-none flex-col gap-4">
       <li
         className={cn(
-          "-translate-y-4 transform-gpu text-gray-600 opacity-0 transition-[opacity,transform] duration-300 ease-out dark:text-gray-500",
+          "w-full -translate-y-4 transform-gpu text-gray-600 opacity-0 transition-[opacity,transform] duration-300 ease-out dark:text-gray-500",
           {
             "translate-y-0 opacity-100": isListReady,
             "-translate-y-4 opacity-0": !isListReady,
@@ -77,7 +83,7 @@ const NavigationMenuList: React.FC<Props> = ({
         <li
           key={item.url}
           className={cn(
-            "-translate-y-4 transform-gpu opacity-0 transition-[opacity,transform] duration-300 ease-out",
+            "w-full -translate-y-4 transform-gpu overflow-hidden opacity-0 transition-[opacity,transform] duration-300",
             {
               "translate-y-0 opacity-100": isListReady,
               "-translate-y-4 opacity-0": !isListReady,

@@ -65,7 +65,7 @@ const CategoryCard = React.forwardRef<HTMLDivElement, Metadata>(
               <div className="[&_img]:ease-curve-d [&_video]:ease-curve-d ease-curve-c relative z-[1] mx-auto h-full w-full overflow-hidden transition-opacity duration-300 [&_img]:scale-100 [&_img]:transform-gpu [&_img]:transition-[transform,filter] [&_img]:duration-300 group-hover:[&_img]:scale-105 lg:group-hover:[&_img]:blur-[25px] lg:group-hover:[&_img]:drop-shadow-[0_0_120px_rgba(0,0,0,1)] [&_video]:transform-gpu [&_video]:transition-transform [&_video]:duration-300 group-hover:[&_video]:scale-105">
                 <div className="relative aspect-[3/4] h-full w-full lg:aspect-[4/3]">
                   <div className="ease-curve-c absolute bottom-0 left-0 right-0 top-0 z-50 rounded-lg bg-transparent transition-colors duration-300 group-hover:bg-black/75"></div>
-                  <div className="ease-curve-d relative z-[40] aspect-[3/4] h-full w-full overflow-hidden rounded-lg bg-transparent transition-[background] duration-300 lg:aspect-[4/3]">
+                  <div className="ease-curve-d relative z-[40] aspect-[3/4] h-full w-full overflow-hidden rounded-lg bg-accent transition-[background] duration-300 lg:aspect-[4/3]">
                     <Image
                       src={metadata.thumbnail}
                       alt={metadata.title}

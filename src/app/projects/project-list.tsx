@@ -37,7 +37,9 @@ async function fetchGithubRepos(
       headers: {
         Accept: "application/vnd.github+json",
       },
-      cache: "force-cache",
+      next: {
+        revalidate: 60 * 60, // 1 hour
+      },
     },
   );
 

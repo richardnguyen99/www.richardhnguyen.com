@@ -251,7 +251,7 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
                     <Link href="/projects" legacyBehavior passHref>
                       <UINavigationMenuLink
                         className={cn(
-                          "mt-4 transform-gpu text-lg font-medium transition-opacity duration-300",
+                          "mt-4 transform-gpu pb-8 text-lg font-medium transition-opacity duration-300",
                           {
                             "opacity-0": !isListReady,
                             "opacity-100": isListReady,

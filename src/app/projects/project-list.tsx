@@ -1,11 +1,13 @@
 "use client";
 
 import React from "react";
+import { Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import ProjectCard from "./project-card";
 
 type Project = {
+  id: string;
   title: string;
   url: string;
   starCounts: number;
@@ -65,6 +67,17 @@ export default function ProjectList({
   const [isLoading, setIsLoading] = React.useState(false);
   const [hasMore, setHasMore] = React.useState(true);
 
+  const joinProjectsWithoutDuplicates = React.useCallback(
+    (prevProjs: Project[], newProjs: Project[]) => {
+      const newProjects = newProjs.filter(
+        (newProject) =>
+          !prevProjs.some((prevProject) => prevProject.url === newProject.url),
+      );
+      return [...prevProjs, ...newProjects];
+    },
+    [],
+  );
+
   const buttonRef = React.useRef<HTMLButtonElement>(null);
   const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -83,7 +96,7 @@ export default function ProjectList({
       if (newProjects.length === 0) {
         setHasMore(false);
       } else {
-        setProjects((prev) => [...prev, ...newProjects]);
+        setProjects((prev) => joinProjectsWithoutDuplicates(prev, newProjects));
         setPage(nextPage);
       }
     } catch (error) {
@@ -91,7 +104,7 @@ export default function ProjectList({
     } finally {
       setIsLoading(false);
     }
-  }, [isLoading, hasMore, page, type]);
+  }, [isLoading, hasMore, page, type, joinProjectsWithoutDuplicates]);
 
   return (
     <div className="flex flex-col">
@@ -119,6 +132,7 @@ export default function ProjectList({
         onClick={handleClick}
         disabled={isLoading || !hasMore}
       >
+        {isLoading && <Loader2 className="animate-spin" />}
         {isLoading ? "Loading..." : "Load more"}
       </Button>
     </div>

@@ -11,6 +11,7 @@ const ProjectGistList: React.FC = async () => {
       title="Gists"
       type="gist"
       initialData={data.data.repositoryOwner.gists.nodes.map((gist) => ({
+        id: gist.id,
         title: gist.files[0].name,
         url: gist.url,
         starCounts: gist.stargazerCount,

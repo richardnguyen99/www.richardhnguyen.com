@@ -10,6 +10,7 @@ export default async function ProjectRepoList() {
     <ProjectList
       title="Repositories"
       initialData={data.data.repositoryOwner.repos.nodes.map((repo) => ({
+        id: repo.id,
         title: repo.name,
         url: repo.url,
         starCounts: repo.stargazerCount,

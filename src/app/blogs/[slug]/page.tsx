@@ -1,6 +1,5 @@
 import * as React from "react";
 import Script from "next/script";
-import dynamic from "next/dynamic";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import type { Metadata } from "next";
 import remarkReferenceLinks from "remark-reference-links";
@@ -11,6 +10,7 @@ import { fromHtmlIsomorphic } from "hast-util-from-html-isomorphic";
 import rehypeSlug from "rehype-slug";
 import rehypePrettyCode from "rehype-pretty-code";
 import { getSingletonHighlighter } from "shiki";
+import dynamic from "next/dynamic";
 
 import { generateMdxSlugs, getMdxContentFromSlug } from "@/lib/mdx";
 import { Separator } from "@/components/ui/separator";
@@ -20,15 +20,14 @@ import Frontmatter from "./frontmatter";
 import BlogBreadcrumb from "./breadcrumb";
 import Tags from "./tags";
 import shikiRehypeOptions from "./shiki-options";
+import { ClientOnly } from "@/components/client-only";
 
-const TableOfContent = dynamic(() => import("../table-of-content"), {
-  ssr: false,
-});
+const TableOfContent = dynamic(() => import("./table-of-content"), {});
 
 interface BlogPostProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 // NextJS options to disable dynamic routing at runtime
@@ -41,8 +40,9 @@ export const generateStaticParams = async () => {
 
 // NextJS options to generate metadata for page dynamically
 export const generateMetadata = async ({
-  params: { slug },
+  params,
 }: BlogPostProps): Promise<Metadata> => {
+  const { slug } = await params;
   const { frontMatter, excerpt } = await getMdxContentFromSlug(slug);
 
   return {
@@ -78,12 +78,15 @@ export const generateMetadata = async ({
   };
 };
 
-export default async function BlogPost({ params: { slug } }: BlogPostProps) {
+export default async function BlogPost({ params }: BlogPostProps) {
+  const { slug } = await params;
   const { frontMatter, body, excerpt } = await getMdxContentFromSlug(slug);
 
   return (
     <div className="w-full text-left [--article-container-size:var(--container-size)] [--article-gutter-size:var(--gutter-size,_100%)] md:[--article-container-size:calc(theme(maxWidth.3xl)-theme(spacing.6))] md:[--article-gutter-size:auto]">
-      <TableOfContent />
+      <ClientOnly>
+        <TableOfContent />
+      </ClientOnly>
 
       <BlogBreadcrumb
         title={frontMatter.title}

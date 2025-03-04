@@ -1,18 +1,20 @@
 import * as React from "react";
 import Link from "next/link";
 
-import LatestArticleSection from "./components/latest-article-section";
 import CategorySection from "./components/category-section";
+import LatestArticleContainer from "./components/latest-article-container";
 
 const Home: React.FC = async () => {
   return (
     <div className="mt-28 max-w-full">
-      <LatestArticleSection />
+      <LatestArticleContainer />
 
-      <CategorySection title="API Design" category="api" />
-      <CategorySection title="Programming" category="programming" />
-      <CategorySection title="Computer Network" category="computer-network" />
-      <CategorySection title="Web Development" category="web-development" />
+      <React.Suspense fallback={null}>
+        <CategorySection title="API Design" category="api" />
+        <CategorySection title="Programming" category="programming" />
+        <CategorySection title="Computer Network" category="computer-network" />
+        <CategorySection title="Web Development" category="web-development" />
+      </React.Suspense>
 
       <div className="mt-12 max-w-full sm:mt-16 md:mt-20">
         <div className="mx-[var(--gutter-size)] flex w-[var(--container-size)] items-center justify-center">

@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 
 import { cn } from "@/lib/utils";
 import { type FrontMatter } from "@/types/mdx";
+import { type Repository, type Gist } from "@/types/github";
 import {
   NavigationMenu as UINavigationMenu,
   NavigationMenuContent as UNavigationMenuContent,
@@ -57,12 +58,19 @@ export type HeaderDataProps = {
     url: string;
     tag: string;
   }>;
+
+  pinnedRepos: Repository[];
+  pinnedGists: Gist[];
+  pinnedProjects: Pick<Repository, "name" | "description" | "url">[];
 };
 
 const NavigationMenu: React.FC<HeaderDataProps> = ({
   latestPost,
   mostViewedCategories,
   mostViewedTags,
+  pinnedGists,
+  pinnedRepos,
+  pinnedProjects,
 }) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const navbarContext = useNavbarContext();
@@ -205,27 +213,63 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
                   Projects
                 </UINavigationMenuTrigger>
                 <UNavigationMenuContent className="md:left-[calc(0.5_*_(100%-var(--container-size)))]">
-                  <div className="data-[]: relative grid w-full grid-cols-[repeat(2,calc(20px+(0.5*(min(100%,68rem)-352px))))_1fr]">
+                  <div className="data-[]: relative grid grid-cols-3 gap-3">
                     <NavigationMenuList
                       title="Repositories"
                       initialDelay={0}
-                      items={[]}
+                      items={pinnedRepos.map((repo) => ({
+                        text: repo.name,
+                        url: repo.url,
+                        external: true,
+                      }))}
                       isListReady={isListReady}
                     />
 
                     <NavigationMenuList
                       title="Gists"
-                      initialDelay={0}
-                      items={[]}
+                      initialDelay={pinnedRepos.length * 50}
+                      items={pinnedGists.map((gist) => ({
+                        text: gist.files[0].name,
+                        url: gist.url,
+                        external: true,
+                      }))}
                       isListReady={isListReady}
                     />
 
                     <NavigationMenuList
                       title="Projects"
-                      initialDelay={0}
-                      items={[]}
+                      initialDelay={
+                        (pinnedRepos.length + pinnedGists.length) * 50
+                      }
+                      items={pinnedProjects.map((project) => ({
+                        text: project.name,
+                        url: project.url,
+                        external: true,
+                      }))}
                       isListReady={isListReady}
                     />
+                    <Link href="/projects" legacyBehavior passHref>
+                      <UINavigationMenuLink
+                        className={cn(
+                          "mt-4 transform-gpu pb-8 text-lg font-medium transition-opacity duration-300",
+                          {
+                            "opacity-0": !isListReady,
+                            "opacity-100": isListReady,
+                          },
+                        )}
+                        style={{
+                          transitionDelay: `${
+                            (pinnedRepos.length +
+                              pinnedGists.length +
+                              pinnedProjects.length +
+                              1) *
+                            50
+                          }ms`,
+                        }}
+                      >
+                        More at <code>/projects</code>
+                      </UINavigationMenuLink>
+                    </Link>
                   </div>
                 </UNavigationMenuContent>
               </UINavigationMenuItem>

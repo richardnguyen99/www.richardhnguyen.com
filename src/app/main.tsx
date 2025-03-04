@@ -15,7 +15,7 @@ const LayoutMain: React.FC<React.PropsWithChildren> = ({ children }) => {
         tabIndex={-1}
         className={cn(
           "flex flex-col items-center justify-between",
-          "relative min-h-screen pb-32 pt-[66px] outline-none",
+          "relative min-h-screen pb-32 outline-none",
           "origin-[50%_0px] transition-[transform,_opacity,_filter]",
           "ease-out-cubic duration-300",
           {

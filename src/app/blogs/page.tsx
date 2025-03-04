@@ -7,7 +7,6 @@ import BlogPagination from "./pagination";
 import { Metadata } from "next";
 
 const ButtonGroup = dynamic(() => import("./button-group"), {
-  ssr: false,
   loading: () => (
     <div className="flex items-center gap-4">
       <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 dark:bg-neutral-700 md:w-[100px]" />
@@ -17,13 +16,13 @@ const ButtonGroup = dynamic(() => import("./button-group"), {
 });
 
 interface BlogProps {
-  searchParams?: {
+  searchParams?: Promise<{
     sortOrder?: "asc" | "desc";
     sortType?: "latest" | "alphabet";
     tags?: string;
     categories?: string;
     page?: number;
-  };
+  }>;
 }
 
 export const metadata: Metadata = {
@@ -31,19 +30,21 @@ export const metadata: Metadata = {
 };
 
 const Blog: React.FC<BlogProps> = async (props) => {
+  const searchParams = await props.searchParams;
+
   const tags = Array.from((await getAllTags()).entries()).map(([key]) => key);
 
   const categories = Array.from((await getAllCategories()).entries()).map(
     ([key]) => key,
   );
 
-  const selectedSortType = props.searchParams?.sortType;
+  const selectedSortType = searchParams?.sortType;
 
-  const selectedSortOrder = props.searchParams?.sortOrder;
+  const selectedSortOrder = searchParams?.sortOrder;
 
-  const selectedTags = props.searchParams?.tags?.split(",") || [];
+  const selectedTags = searchParams?.tags?.split(",") || [];
 
-  const selectedCategories = props.searchParams?.categories?.split(",") || [];
+  const selectedCategories = searchParams?.categories?.split(",") || [];
 
   const selectedTagIndices = selectedTags.map((tag) => tags.indexOf(tag));
 
@@ -51,7 +52,7 @@ const Blog: React.FC<BlogProps> = async (props) => {
     categories.indexOf(category),
   );
 
-  const currentPage = props.searchParams?.page || 1;
+  const currentPage = searchParams?.page || 1;
 
   const posts = await getMdxContents({
     filter: (post) => {
@@ -77,7 +78,7 @@ const Blog: React.FC<BlogProps> = async (props) => {
   });
 
   return (
-    <div className="mt-8 w-screen max-w-full sm:mt-12 md:mt-20 lg:mt-28">
+    <React.Fragment>
       <div className="mx-[var(--gutter-size)] flex justify-between gap-4 sm:w-[var(--container-size)]">
         <div className="flex w-full flex-col">
           <h2 className="font-mono text-xs/5 font-semibold uppercase tracking-widest text-neutral-500 dark:text-neutral-400">
@@ -115,7 +116,7 @@ const Blog: React.FC<BlogProps> = async (props) => {
             .flat()}
         />
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 

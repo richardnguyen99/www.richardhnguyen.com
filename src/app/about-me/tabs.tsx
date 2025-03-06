@@ -74,7 +74,7 @@ export default function Tabs({ children, activeTab }: Props): JSX.Element {
       <nav
         ref={wrapperRef}
         onMouseLeave={resetHighlight}
-        className="relative -mx-4 mb-4 mt-8 border-b border-border"
+        className="relative -mx-4 mb-4 mt-8 overflow-x-auto whitespace-nowrap border-b border-border"
       >
         <div
           ref={highlightRef}

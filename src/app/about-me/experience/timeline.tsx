@@ -7,7 +7,6 @@ import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import DownloadButton from "./download-button";
 
 type TimelineItemProps = {
@@ -54,7 +53,7 @@ const TimelineItem = ({
           onClick={() => setIsExpanded(!isExpanded)}
           className="mb-2 flex w-full items-center text-left text-2xl font-bold hover:text-primary focus:outline-none"
         >
-          {title}
+          <div className="line-clamp-1">{title}</div>
           <ChevronDown
             className={`ml-2 h-5 w-5 transition-transform duration-200 ${isExpanded ? "rotate-180" : "rotate-0"}`}
           />
@@ -91,11 +90,11 @@ type Props = {
   className?: string;
 };
 
-export default function Timeline({ children, className }: Props): JSX.Element {
+export default function Timeline({ className }: Props): JSX.Element {
   const timelineItems = [
     {
       number: 1,
-      title: "Worked as a teacher assistant (2020-2023)",
+      title: "Teacher Assistant (2020-2023)",
       techstack: ["Python", "Java", "C++", "PostgresQL"],
       content: (
         <React.Fragment>
@@ -123,7 +122,7 @@ export default function Timeline({ children, className }: Props): JSX.Element {
     },
     {
       number: 2,
-      title: "Interned at SDI Engineering Inc. (2022-2023)",
+      title: "Intern at SDI Engineering Inc. (2022-2023)",
       techstack: ["C++", "Qt", "QML", "Agile", "Scrum"],
       content: (
         <React.Fragment>
@@ -242,10 +241,6 @@ export default function Timeline({ children, className }: Props): JSX.Element {
             <div>{item.content}</div>
           </TimelineItem>
         ))}
-
-        <div>
-          <DownloadButton />
-        </div>
       </div>
     </div>
   );

@@ -124,6 +124,11 @@ export default function Bio(): JSX.Element {
           for more information.
         </p>
 
+        <p>
+          In 2024, I was naturalized and have become a U.S citizen of America
+          since then. 🇺🇸 🇺🇸{" "}
+        </p>
+
         <h4>My work</h4>
 
         <p>My strength is building fullstack web applications.</p>

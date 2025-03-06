@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 const tabsData = [
   {
     text: "Biography",
-    url: "/about-me/bio",
+    url: "/about-me/biography",
     key: "bio",
   },
   {
@@ -98,7 +98,7 @@ export default function Tabs({ children, activeTab }: Props): JSX.Element {
         ))}
       </nav>
 
-      <div className="prose prose-base max-w-none dark:prose-invert md:prose-lg lg:prose-xl">
+      <div className="prose prose-base max-w-none dark:prose-invert xl:prose-lg">
         {children}
       </div>
     </div>

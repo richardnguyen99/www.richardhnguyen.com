@@ -10,13 +10,13 @@ export default function Bio(): JSX.Element {
       </h1>
 
       <Tabs activeTab="bio">
-        <div className="flex gap-8">
+        <div className="flex items-center gap-8">
           <Image
             src="/profile.jpg"
             alt="Richard H. Nguyen"
             className="rounded-full"
-            width={240}
-            height={240}
+            width={180}
+            height={180}
           />
 
           <div>
@@ -123,6 +123,88 @@ export default function Bio(): JSX.Element {
           </a>{" "}
           for more information.
         </p>
+
+        <h4>My work</h4>
+
+        <p>My strength is building fullstack web applications.</p>
+
+        <p>
+          I have experience with modern frontend frameworks and tools like ESM,
+          TypeScript, React NextJS. I&apos;m also capable of building backend
+          services with Flask, Django and Express, from a complete server-side
+          rendered application to a RESTful API server.
+        </p>
+
+        <p>
+          I also write blogs about software engineering, programming and coding
+          tips. That is the reason why I built this blog site. It&apos;s a place
+          where I can share my knowledge and what I learned during my journey as
+          a software engineer. I hope this site can inspired you to try new
+          stuff. Or for some tech savvy, you can inspect{" "}
+          <a
+            href="https://github.com/richardnguyen99/next.richardhnguyen.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            this site&apos;s source code
+          </a>{" "}
+          to learn how I built it.
+        </p>
+
+        <h4>My hobbies</h4>
+
+        <p>
+          My favorite hobby is programming and writing OSS, very obvious right?
+          When I&apos;m not coding, I like to hangout with my friends. My
+          favorite activity is hiking and camping. Every summer, I hike{" "}
+          <a
+            href="https://www.nps.gov/mora/planyourvisit/trails-of-mount-rainier.htm"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Mount Rainier, Washington
+          </a>
+          .
+        </p>
+
+        <p>
+          I also play video games. My two favorite games are{" "}
+          <a
+            href="https://store.steampowered.com/app/524220/NieRAutomata/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            NieR: Automata
+          </a>{" "}
+          and{" "}
+          <a
+            href="https://store.steampowered.com/app/1113560/NieR_Replicant_ver122474487139/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            NieR: Replicant
+          </a>
+          . I love these games because the philosophy and the story behind them,
+          not to mention the music in Nier games are amazing.
+        </p>
+
+        <p>
+          Reading books is also another hobby of mine. I mainly read books when
+          I&apos;m on the bus, at the station or when I&apos;m waiting for
+          someone. My genres are mostly fantasy and philosophical books. Here is
+          my favorite book list if you are interested.
+        </p>
+
+        <ul>
+          <li>Harry Potter Collection - By J.K. Rowling</li>
+          <li>The Chronicles of Narnia - By C. S. Lewis</li>
+          <li>1984 - By George Orwell</li>
+          <li>Animal Farm - By George Orwell</li>
+          <li>The Plague - By Albert Camus</li>
+          <li>Book of Proverbs - From The Bible</li>
+          <li>Book of Ecclesiastes - From The Bible</li>
+          <li>Beyond Good and Evil - By Friedrich Nietzsche</li>
+        </ul>
       </Tabs>
     </div>
   );

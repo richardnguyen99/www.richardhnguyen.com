@@ -213,7 +213,7 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
                   Projects
                 </UINavigationMenuTrigger>
                 <UNavigationMenuContent className="md:left-[calc(0.5_*_(100%-var(--container-size)))]">
-                  <div className="data-[]: relative grid grid-cols-3 gap-3">
+                  <div className="data-[]: relative grid w-full grid-cols-3 gap-3">
                     <NavigationMenuList
                       title="Repositories"
                       initialDelay={0}
@@ -278,7 +278,77 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
                 <UINavigationMenuTrigger className="transition-none duration-0">
                   About
                 </UINavigationMenuTrigger>
-                <UNavigationMenuContent className="md:left-[calc(0.5_*_(100%-var(--container-size)))]"></UNavigationMenuContent>
+                <UNavigationMenuContent className="md:left-[calc(0.5_*_(100%-var(--container-size)))]">
+                  <div className="data-[]: relative grid w-full grid-cols-3 gap-3">
+                    <NavigationMenuList
+                      title="About Me"
+                      initialDelay={0}
+                      items={[
+                        {
+                          text: "Biography",
+                          url: "/about-me/biography",
+                        },
+                        {
+                          text: "Work experience",
+                          url: "/about-me/experience",
+                        },
+                        {
+                          text: "FAQ",
+                          url: "/about-me/faq",
+                        },
+                      ]}
+                      isListReady={isListReady}
+                    />
+
+                    <NavigationMenuList
+                      title="Legal notices"
+                      initialDelay={3 * 50}
+                      items={[
+                        {
+                          text: "Privacy Policy",
+                          url: "/legal/privacy",
+                        },
+                        {
+                          text: "Terms of Service",
+                          url: "/legal/terms",
+                        },
+                        {
+                          text: "Cookie Policy",
+                          url: "/legal/cookie",
+                        },
+                      ]}
+                      isListReady={isListReady}
+                    />
+
+                    <NavigationMenuList
+                      title="Socials"
+                      initialDelay={6 * 50}
+                      items={[
+                        {
+                          text: "Twitter",
+                          url: "https://x.com/RichardNgu65749",
+                          external: true,
+                        },
+                        {
+                          text: "GitHub",
+                          url: "https://github.com/richardnguyen99",
+                          external: true,
+                        },
+                        {
+                          text: "LinkedIn",
+                          url: "https://www.linkedin.com/in/richardmhnguyen/",
+                          external: true,
+                        },
+                        {
+                          text: "Stack Overflow",
+                          url: "https://stackoverflow.com/users/12915739/richard-h-nguyen",
+                          external: true,
+                        },
+                      ]}
+                      isListReady={isListReady}
+                    />
+                  </div>
+                </UNavigationMenuContent>
               </UINavigationMenuItem>
             </UINavigationList>
           </div>

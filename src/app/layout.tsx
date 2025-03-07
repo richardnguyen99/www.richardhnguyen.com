@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     default: "Home | Richard H. Nguyen",
   },
   description: "Personal blog of Richard H. Nguyen",
-  metadataBase: new URL(process.env.METADATA_BASE),
+  metadataBase: new URL("https://next.richardhnguyen.com"),
   twitter: {
     site: "@richardhnguyen",
     creator: "@richardhnguyen",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://www.richardhnguyen.com",
-    siteName: "Richard H. Nguyen",
+    siteName: "richardhnguyen.com",
     title: "Personal blog of Richard H. Nguyen",
     images: [
       {

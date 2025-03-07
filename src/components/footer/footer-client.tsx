@@ -88,7 +88,7 @@ const FooterClient: React.FC<Props> = ({ categories, tags }) => {
                 <li className="line-clamp-1 list-none">
                   <Link
                     className="border-b border-dotted border-white/0 hover:border-white/100"
-                    href="/#"
+                    href="/legal/privacy-policy"
                   >
                     Privacy Policy
                   </Link>
@@ -97,16 +97,7 @@ const FooterClient: React.FC<Props> = ({ categories, tags }) => {
                 <li className="line-clamp-1">
                   <Link
                     className="border-b border-dotted border-white/0 hover:border-white/100"
-                    href="/#"
-                  >
-                    Cookie Preference
-                  </Link>
-                </li>
-                <li className="hidden sm:block">●</li>
-                <li className="line-clamp-1">
-                  <Link
-                    className="border-b border-dotted border-white/0 hover:border-white/100"
-                    href="/#"
+                    href="/legal/terms"
                   >
                     Terms of Service
                   </Link>

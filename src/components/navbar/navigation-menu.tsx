@@ -306,15 +306,11 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
                       items={[
                         {
                           text: "Privacy Policy",
-                          url: "/legal/privacy",
+                          url: "/legal/privacy-policy",
                         },
                         {
                           text: "Terms of Service",
                           url: "/legal/terms",
-                        },
-                        {
-                          text: "Cookie Policy",
-                          url: "/legal/cookie",
                         },
                       ]}
                       isListReady={isListReady}

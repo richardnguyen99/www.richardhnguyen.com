@@ -9,9 +9,9 @@ export default function Terms(): JSX.Element {
       <hr />
 
       <p>
-        These terms of service are entered into between you and my, Richard H.
+        These terms of service are entered into between you and me, Richard H.
         Nguyen (&ldquo;me&rdquo;, &ldquo;I&rdquo;, &ldquo;me&rdquo;) for the use
-        of our application. By accessing this websites (the
+        of my application. By accessing this websites (the
         &ldquo;Services&rdquo;) of mine, you acknowledge that you have read,
         understood, and agree to the most recent version of these Terms of
         Service (&ldquo;Terms&rdquo;).
@@ -30,31 +30,26 @@ export default function Terms(): JSX.Element {
       <h2>I. USE OF SERVICES</h2>
 
       <p>
-        You agree that by using my Services, you have accepted these Terms and
-        understand your obligations herein and under the Privacy Policies. You
-        further agree that you are authorized to use our Services for your sole
-        benefit. I reserve the right, at my sole discretion, to terminate any
-        transactions or activities where I believe that the activities violate
-        these Terms, Privacy Policies, or any laws. Notification of termination
-        may be given at our discretion.
+        You agree that by visiting my site, reading my articles and using other
+        services on the site, you have accepted these Terms and understand your
+        obligations herein and under the Privacy Policies. You further agree
+        that you are authorized to use my site for your sole benefit. I reserve
+        the right, at my sole discretion, to terminate any transactions or
+        activities where I believe that the activities violate these Terms,
+        Privacy Policies, or any laws. Notification of termination may be given
+        at my discretion.
       </p>
 
       <h3>i. RESTRICTIONS</h3>
 
       <p>
-        You agree that the use of my Service must not involve any activities
-        that are dangerous, harmful, fraudulent, deceptive, threatening,
-        harassing, defamatory, or obscene. You are prohibited from attempting to
-        obtain any password, account, or security information belonging to
-        anyone on any platforms in illegal ways. Running autoresponders, spam,
-        or any process that operates while you are not logged into the platform
-        or that interferes with the Service&apos;s operation (including placing
-        an undue load on its infrastructure) is not allowed. You must not use
-        the Service in violation of any law or regulation, nor directly compete
-        with LeetCode. Although the Site is open source and free to use, I bear
-        no responsibility for any litigations, criminal charges, damages or
-        losses that may result from your use, modification, or trade of the
-        Site.
+        You agree that the use of my Site must not involve any activities that
+        are dangerous, harmful, fraudulent, deceptive, threatening, harassing,
+        defamatory, or obscene. You are prohibited from attempting to use what I
+        wrote to conduct unethical and illegal work deemed by the Laws. Although
+        the Site is open source and free to use, I bear no responsibility for
+        any litigations, criminal charges, damages or losses that may result
+        from your use, modification, or trade of the Site.
       </p>
 
       <h3>ii. CONTENT</h3>
@@ -62,23 +57,21 @@ export default function Terms(): JSX.Element {
       <p>
         &ldquo;Content&rdquo; refers to all software, images, content,
         communications, and any related material perceived or made available
-        from my Service platform. Content delivered through my Services platform
-        may be owned by us (&ldquo;Our Content&rdquo;), contributed by our wider
+        from my Service platform. Content delivered through my Site platform may
+        be owned by me (&ldquo;My Content&rdquo;), contributed by My wider
         community of volunteers, or contributed by users like you (&ldquo;User
         Submitted Content&rdquo;). You agree to abide by all copyright notices
         and restrictions in the Content you access. Unless otherwise specified
         in writing, all my Content is owned, controlled, or licensed by me. You
         agree that all Content is my sole and exclusive property, which includes
         all software, images, content communications, or any material associated
-        with the Service platform. All Our Content is copyrighted under United
-        States copyright laws and/or similar laws of other jurisdictions,
-        protecting it from unauthorized use.
+        with the Service platform.
       </p>
 
       <h3>iii. CONTRIBUTION & SUBMISSION</h3>
 
       <p>
-        You agree that by submitting any User Submitted Content to my Service
+        You agree that by submitting any User Submitted Content to my Site
         platform, either via email or via GitHub pull request, you grant me a
         worldwide, non-exclusive, royalty-free, perpetual, and irrevocable
         license to use, reproduce, modify, distribute, display, and perform it
@@ -117,7 +110,7 @@ export default function Terms(): JSX.Element {
 
       <p>
         USE OF THE SERVICES IS AT YOUR OWN RISK. THE SERVICES ARE PROVIDED ON AN
-        &lddquo;AS IS&rdquo; AND &ldquo;AS AVAILABLE&rdquo; BASIS. I EXPRESSLY
+        &ldquo;AS IS&rdquo; AND &ldquo;AS AVAILABLE&rdquo; BASIS. I EXPRESSLY
         DISCLAIM ALL WARRANTIES OF ANY KIND, WHETHER EXPRESS OR IMPLIED,
         INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF TITLE,
         MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.

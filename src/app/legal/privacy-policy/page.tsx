@@ -4,6 +4,35 @@ import { type Metadata } from "next";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description: "Privacy Policy for Richard H. Nguyen Site",
+  openGraph: {
+    title: "Privacy Policy",
+    description: "Privacy Policy for Richard H. Nguyen Site",
+    images: [
+      {
+        url: "/privacy-policy.png",
+        width: 1470,
+        height: 980,
+        type: "image/png",
+        alt: "Privacy Policy OG Image",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Privacy Policy",
+    description: "Privacy Policy for Richard H. Nguyen Site",
+    site: "@RichardNgu65749",
+    creator: "@RichardNgu65749",
+    images: [
+      {
+        url: "/privacy-policy.png",
+        width: 1470,
+        height: 980,
+        type: "image/png",
+        alt: "Privacy Policy Twitter Image",
+      },
+    ],
+  },
 };
 
 export default function PrivacyPolicy(): JSX.Element {

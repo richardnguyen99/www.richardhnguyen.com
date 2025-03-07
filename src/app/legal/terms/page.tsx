@@ -4,6 +4,36 @@ import { type Metadata } from "next";
 export const metadata: Metadata = {
   title: "Terms of Service",
   description: "Terms of Service for Richard H. Nguyen Site",
+  keywords: ["Terms of Service", "Terms", "Service"],
+  openGraph: {
+    title: "Terms of Service",
+    description: "Terms of Service for Richard H. Nguyen Site",
+    images: [
+      {
+        url: "/terms-of-service.png",
+        width: 1470,
+        height: 980,
+        type: "image/png",
+        alt: "Terms of Service OG Image",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Terms of Service",
+    description: "Terms of Service for Richard H. Nguyen Site",
+    site: "@RichardNgu65749",
+    creator: "@RichardNgu65749",
+    images: [
+      {
+        url: "/terms-of-service.png",
+        width: 1470,
+        height: 980,
+        type: "image/png",
+        alt: "Terms of Service Twitter Image",
+      },
+    ],
+  },
 };
 
 export default function Terms(): JSX.Element {

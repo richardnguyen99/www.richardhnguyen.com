@@ -1,4 +1,10 @@
 import React, { type JSX } from "react";
+import { type Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Terms of Service",
+  description: "Terms of Service for Richard H. Nguyen Site",
+};
 
 export default function Terms(): JSX.Element {
   return (

@@ -7,6 +7,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Privacy Policy",
     description: "Privacy Policy for Richard H. Nguyen Site",
+    siteName: "richardhnguyen.com",
+    url:
+      process.env.NODE_ENV === "production"
+        ? "/legal/privacy-policy"
+        : undefined,
     images: [
       {
         url: "/privacy-policy.png",

@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Terms of Service",
     description: "Terms of Service for Richard H. Nguyen Site",
+    siteName: "richardhnguyen.com",
+    url: process.env.NODE_ENV === "production" ? "/legal/terms" : undefined,
     images: [
       {
         url: "/terms-of-service.png",

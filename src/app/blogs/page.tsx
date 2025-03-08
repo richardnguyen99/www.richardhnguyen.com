@@ -1,10 +1,11 @@
-import * as React from "react";
+import React, { type JSX } from "react";
+import { type Metadata } from "next";
 import dynamic from "next/dynamic";
 
 import { getAllCategories, getAllTags, getMdxContents } from "@/lib/mdx";
 import BlogGrid from "./blog-grid";
 import BlogPagination from "./pagination";
-import { Metadata } from "next";
+import { sharedMetadata } from "@/lib/metadata";
 
 const ButtonGroup = dynamic(() => import("./button-group"), {
   loading: () => (
@@ -26,28 +27,52 @@ interface BlogProps {
 }
 
 export const metadata: Metadata = {
+  ...sharedMetadata,
   title: "Blogs",
+  description: "Blog section of Richard H. Nguyen Site",
+  openGraph: {
+    ...sharedMetadata.openGraph,
+    title: "Blogs",
+    description: "Blog section of Richard H. Nguyen Site",
+    images: [
+      {
+        url: "/blogs.png",
+        width: 1470,
+        height: 980,
+        alt: "Richard H. Nguyen Blogs 's OG Image",
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    ...sharedMetadata.twitter,
+    card: "summary_large_image",
+    title: "Blogs",
+    description: "Blog section of Richard H. Nguyen Site",
+    images: [
+      {
+        url: "/blogs.png",
+        width: 1470,
+        height: 980,
+        alt: "Richard H. Nguyen Blogs 's Twitter Card",
+        type: "image/png",
+      },
+    ],
+  },
 };
 
-const Blog: React.FC<BlogProps> = async (props) => {
+export default async function Blog(props: BlogProps): Promise<JSX.Element> {
   const searchParams = await props.searchParams;
-
   const tags = Array.from((await getAllTags()).entries()).map(([key]) => key);
-
   const categories = Array.from((await getAllCategories()).entries()).map(
     ([key]) => key,
   );
 
   const selectedSortType = searchParams?.sortType;
-
   const selectedSortOrder = searchParams?.sortOrder;
-
   const selectedTags = searchParams?.tags?.split(",") || [];
-
   const selectedCategories = searchParams?.categories?.split(",") || [];
-
   const selectedTagIndices = selectedTags.map((tag) => tags.indexOf(tag));
-
   const selectedCategoryIndices = selectedCategories.map((category) =>
     categories.indexOf(category),
   );
@@ -118,6 +143,4 @@ const Blog: React.FC<BlogProps> = async (props) => {
       </div>
     </React.Fragment>
   );
-};
-
-export default Blog;
+}

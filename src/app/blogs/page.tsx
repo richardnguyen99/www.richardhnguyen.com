@@ -34,6 +34,8 @@ export const metadata: Metadata = {
     ...sharedMetadata.openGraph,
     title: "Blogs",
     description: "Blog section of Richard H. Nguyen Site",
+    url: process.env.NODE_ENV === "production" ? "/blogs" : undefined,
+    type: "website",
     images: [
       {
         url: "/blogs.png",

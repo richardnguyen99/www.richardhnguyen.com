@@ -31,7 +31,10 @@ export const sharedMetadata: Metadata = {
     locale: "en_US",
     url: process.env.NODE_ENV === "production" ? "/" : undefined,
     siteName: "richardhnguyen.com",
-    title: "Home | Richard H. Nguyen",
+    title: {
+      default: "Home | Richard H. Nguyen",
+      template: "%s | Richard H. Nguyen",
+    },
     images: [
       {
         url: "/twitter-card.png",

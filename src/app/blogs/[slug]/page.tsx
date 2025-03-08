@@ -21,6 +21,7 @@ import BlogBreadcrumb from "./breadcrumb";
 import Tags from "./tags";
 import shikiRehypeOptions from "./shiki-options";
 import { ClientOnly } from "@/components/client-only";
+import { sharedMetadata } from "@/lib/metadata";
 
 const TableOfContent = dynamic(() => import("./table-of-content"), {});
 
@@ -46,6 +47,7 @@ export const generateMetadata = async ({
   const { frontMatter, excerpt } = await getMdxContentFromSlug(slug);
 
   return {
+    ...sharedMetadata,
     title: frontMatter.title,
     description: excerpt,
     keywords: frontMatter.tags,
@@ -53,6 +55,7 @@ export const generateMetadata = async ({
       title: frontMatter.title,
       description: excerpt,
       type: "article",
+      url: process.env.NODE_ENV === "production" ? `/blogs/${slug}` : undefined,
       images: [
         {
           url: frontMatter.thumbnail,

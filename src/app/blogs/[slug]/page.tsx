@@ -52,6 +52,7 @@ export const generateMetadata = async ({
     description: excerpt,
     keywords: frontMatter.tags,
     openGraph: {
+      ...sharedMetadata.openGraph,
       title: frontMatter.title,
       description: excerpt,
       type: "article",
@@ -62,10 +63,12 @@ export const generateMetadata = async ({
           width: 1470,
           height: 980,
           alt: frontMatter.title,
+          type: "image/png",
         },
       ],
     },
     twitter: {
+      ...sharedMetadata.twitter,
       card: "summary_large_image",
       title: frontMatter.title,
       description: excerpt,

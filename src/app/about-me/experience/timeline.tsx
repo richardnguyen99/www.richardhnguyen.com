@@ -7,7 +7,6 @@ import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import DownloadButton from "./download-button";
 
 type TimelineItemProps = {
   number: number;

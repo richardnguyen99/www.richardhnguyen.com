@@ -48,12 +48,12 @@ export const generateMetadata = async ({
 
   return {
     ...sharedMetadata,
-    title: frontMatter.title,
+    title: `${frontMatter.title} | Richard H. Nguyen`,
     description: excerpt,
     keywords: frontMatter.tags,
     openGraph: {
       ...sharedMetadata.openGraph,
-      title: frontMatter.title,
+      title: `${frontMatter.title} | Richard H. Nguyen`,
       description: excerpt,
       type: "article",
       url: process.env.NODE_ENV === "production" ? `/blogs/${slug}` : undefined,

@@ -1,6 +1,47 @@
 import React, { type JSX } from "react";
-import Tabs from "../tabs";
 import Image from "next/image";
+import { type Metadata } from "next";
+
+import Tabs from "../tabs";
+import { sharedMetadata } from "@/lib/metadata";
+
+export const metadata: Metadata = {
+  ...sharedMetadata,
+  title: "Biography",
+  description: "section of Richard H. Nguyen Site",
+  openGraph: {
+    ...sharedMetadata.openGraph,
+    title: "Biography",
+    description: "Biography section of Richard H. Nguyen Site",
+    url:
+      process.env.NODE_ENV === "production" ? "/about-me/biography" : undefined,
+    type: "website",
+    images: [
+      {
+        url: "/biography.png",
+        width: 1470,
+        height: 980,
+        alt: "Richard H. Nguyen Biography's OG Image",
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    ...sharedMetadata.twitter,
+    card: "summary_large_image",
+    title: "Biography",
+    description: "Biography section of Richard H. Nguyen Site",
+    images: [
+      {
+        url: "/biography.png",
+        width: 1470,
+        height: 980,
+        alt: "Richard H. Nguyen Biography's Twitter Card",
+        type: "image/png",
+      },
+    ],
+  },
+};
 
 export default function Bio(): JSX.Element {
   return (

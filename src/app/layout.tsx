@@ -12,87 +12,12 @@ import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 import NavbarOverlay from "@/components/navbar/overlay";
 import NavigationMenuSkeleton from "@/components/navbar/navbar-menu-skeleton";
+import { sharedMetadata } from "@/lib/metadata";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: {
-    template: "%s | Richard H. Nguyen",
-    default: "Home | Richard H. Nguyen",
-  },
-  description: "Personal blog of Richard H. Nguyen",
-  metadataBase: new URL("https://next.richardhnguyen.com"),
-  twitter: {
-    site: "@richardhnguyen",
-    creator: "@richardhnguyen",
-  },
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://www.richardhnguyen.com",
-    siteName: "richardhnguyen.com",
-    title: "Personal blog of Richard H. Nguyen",
-    images: [
-      {
-        url: "https://next.richardhnguyen.com/Logo16.png",
-        width: 16,
-        height: 16,
-        alt: "Logo 16x16",
-      },
-      {
-        url: "https://next.richardhnguyen.com/Logo32.png",
-        width: 32,
-        height: 32,
-        alt: "Logo 32x32",
-        type: "image/png",
-      },
-      {
-        url: "https://next.richardhnguyen.com/Logo48.png",
-        width: 48,
-        height: 48,
-        alt: "Logo 48x48",
-        type: "image/png",
-      },
-      {
-        url: "https://next.richardhnguyen.com/Logo64.png",
-        width: 64,
-        height: 64,
-        alt: "Logo 64x64",
-        type: "image/png",
-      },
-      {
-        url: "https://next.richardhnguyen.com/Logo128.png",
-        width: 128,
-        height: 128,
-        alt: "Logo 128x128",
-        type: "image/png",
-      },
-      {
-        url: "https://next.richardhnguyen.com/Logo256.png",
-        width: 256,
-        height: 256,
-        alt: "Logo 256x256",
-        type: "image/png",
-      },
-    ],
-  },
-  icons: {
-    icon: "/Logo128.png",
-    shortcut: "/Logo16.png",
-    apple: "/Logo256.png",
-  },
-  robots: {
-    index: false,
-    follow: true,
-    nocache: true,
-    googleBot: {
-      index: true,
-      follow: false,
-      noimageindex: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
+  ...sharedMetadata,
 };
 
 export function generateViewport(): Viewport {

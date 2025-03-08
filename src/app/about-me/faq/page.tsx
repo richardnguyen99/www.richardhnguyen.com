@@ -1,4 +1,5 @@
 import React, { type JSX } from "react";
+import { type Metadata } from "next";
 
 import {
   Accordion,
@@ -11,13 +12,49 @@ import Tabs from "../tabs";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { sharedMetadata } from "@/lib/metadata";
+
+export const metadata: Metadata = {
+  ...sharedMetadata,
+  title: "FAQ",
+  description: "FAQ section of Richard H. Nguyen Site",
+  openGraph: {
+    ...sharedMetadata.openGraph,
+    title: "FAQ",
+    description: "FAQ section of Richard H. Nguyen Site",
+    url: process.env.NODE_ENV === "production" ? "/about-me/faq" : undefined,
+    type: "website",
+    images: [
+      {
+        url: "/faq.png",
+        width: 1470,
+        height: 980,
+        alt: "Richard H. Nguyen FAQ 's OG Image",
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    ...sharedMetadata.twitter,
+    card: "summary_large_image",
+    title: "FAQ",
+    description: "FAQ section of Richard H. Nguyen Site",
+    images: [
+      {
+        url: "/faq.png",
+        width: 1470,
+        height: 980,
+        alt: "Richard H. Nguyen FAQ 's Twitter Card",
+        type: "image/png",
+      },
+    ],
+  },
+};
 
 export default function Faq(): JSX.Element {
   return (

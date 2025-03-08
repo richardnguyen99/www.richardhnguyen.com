@@ -1,10 +1,49 @@
 import * as React from "react";
+import { type Metadata } from "next";
 
 import ProjectRepoList from "./project-repo-list";
 import ProjectSelectionSkeleton from "./project-section-skeleton";
 import ProjectGistList from "./project-gist-list";
+import { sharedMetadata } from "@/lib/metadata";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  ...sharedMetadata,
+  title: "Projects",
+  description: "Projects section of Richard H. Nguyen Site",
+  openGraph: {
+    ...sharedMetadata.openGraph,
+    title: "Projects",
+    description: "Projects section of Richard H. Nguyen Site",
+    url: process.env.NODE_ENV === "production" ? "/projects" : undefined,
+    type: "website",
+    images: [
+      {
+        url: "/projects.png",
+        width: 1470,
+        height: 980,
+        alt: "Richard H. Nguyen Projects 's OG Image",
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    ...sharedMetadata.twitter,
+    card: "summary_large_image",
+    title: "Projects",
+    description: "Projects section of Richard H. Nguyen Site",
+    images: [
+      {
+        url: "/projects.png",
+        width: 1470,
+        height: 980,
+        alt: "Richard H. Nguyen Projects 's Twitter Card",
+        type: "image/png",
+      },
+    ],
+  },
+};
 
 export default async function Projects() {
   return (

@@ -21,6 +21,7 @@ import BlogBreadcrumb from "./breadcrumb";
 import Tags from "./tags";
 import shikiRehypeOptions from "./shiki-options";
 import { ClientOnly } from "@/components/client-only";
+import { sharedMetadata } from "@/lib/metadata";
 
 const TableOfContent = dynamic(() => import("./table-of-content"), {});
 
@@ -46,23 +47,28 @@ export const generateMetadata = async ({
   const { frontMatter, excerpt } = await getMdxContentFromSlug(slug);
 
   return {
-    title: frontMatter.title,
+    ...sharedMetadata,
+    title: `${frontMatter.title} | Richard H. Nguyen`,
     description: excerpt,
     keywords: frontMatter.tags,
     openGraph: {
-      title: frontMatter.title,
+      ...sharedMetadata.openGraph,
+      title: `${frontMatter.title} | Richard H. Nguyen`,
       description: excerpt,
       type: "article",
+      url: process.env.NODE_ENV === "production" ? `/blogs/${slug}` : undefined,
       images: [
         {
           url: frontMatter.thumbnail,
           width: 1470,
           height: 980,
           alt: frontMatter.title,
+          type: "image/png",
         },
       ],
     },
     twitter: {
+      ...sharedMetadata.twitter,
       card: "summary_large_image",
       title: frontMatter.title,
       description: excerpt,

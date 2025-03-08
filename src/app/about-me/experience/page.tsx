@@ -1,7 +1,50 @@
 import React, { type JSX } from "react";
+import { type Metadata } from "next";
+
 import Tabs from "../tabs";
 import Timeline from "./timeline";
 import DownloadButton from "./download-button";
+import { sharedMetadata } from "@/lib/metadata";
+
+export const metadata: Metadata = {
+  ...sharedMetadata,
+  title: "Work Experience",
+  description: "Work Experience section of Richard H. Nguyen Site",
+  openGraph: {
+    ...sharedMetadata.openGraph,
+    title: "Work Experience",
+    description: "Work Experience section of Richard H. Nguyen Site",
+    url:
+      process.env.NODE_ENV === "production"
+        ? "/about-me/experience"
+        : undefined,
+    type: "website",
+    images: [
+      {
+        url: "/work-experience.png",
+        width: 1470,
+        height: 980,
+        alt: "Richard H. Nguyen Work Experience's OG Image",
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    ...sharedMetadata.twitter,
+    card: "summary_large_image",
+    title: "Work Experience",
+    description: "Work Experience section of Richard H. Nguyen Site",
+    images: [
+      {
+        url: "/work-experience.png",
+        width: 1470,
+        height: 980,
+        alt: "Richard H. Nguyen Work Experience's Twitter Card",
+        type: "image/png",
+      },
+    ],
+  },
+};
 
 export default function Experience(): JSX.Element {
   return (

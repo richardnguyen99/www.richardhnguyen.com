@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React, { type JSX } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -47,13 +47,13 @@ const FormSchema = z.object({
   categories: z.array(z.string()),
 });
 
-const FilterButton: React.FC<FilterButtonProps> = ({
+export default function FilterButton({
   opening,
   onOpenChange,
   filterTags,
   filterCategories,
   ...rest
-}) => {
+}: FilterButtonProps): JSX.Element {
   const tags = React.useMemo(
     () =>
       filterTags.tags.map((tag) => ({
@@ -390,6 +390,4 @@ const FilterButton: React.FC<FilterButtonProps> = ({
       </PopoverContent>
     </Popover>
   );
-};
-
-export default FilterButton;
+}

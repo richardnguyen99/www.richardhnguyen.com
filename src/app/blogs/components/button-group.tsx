@@ -3,10 +3,6 @@
 import * as React from "react";
 import dynamic from "next/dynamic";
 
-// import FilterButton from "./filter-button";
-// import SortButton from "./sort-button";
-import { ClientOnly } from "@/components/client-only";
-
 const SortButton = dynamic(() => import("./sort-button"), {
   ssr: false,
   loading: () => (
@@ -34,12 +30,12 @@ interface ButtonGroupProps {
   };
 }
 
-const ButtonGroup: React.FC<ButtonGroupProps> = ({
+export default function ButtonGroup({
   tags,
   categories,
   sortOrder,
   sortType,
-}) => {
+}: ButtonGroupProps): JSX.Element {
   const [openingTag, setOpeningTag] = React.useState<string>("");
 
   return (
@@ -70,6 +66,4 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({
       />
     </div>
   );
-};
-
-export default ButtonGroup;
+}

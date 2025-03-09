@@ -1,8 +1,8 @@
-import * as React from "react";
+import React, { type JSX } from "react";
 
-import BlogCodeCopyButton from "./copy-button";
-import { type MetaMap } from "./shiki-options";
-import extMap from "./extmap";
+import BlogCodeCopyButton from "../copy-button";
+import { type MetaMap } from "../../lib/shiki-options";
+import extMap from "../extmap";
 
 type BlogCodeProps = React.PropsWithChildren<
   React.DetailedHTMLProps<
@@ -68,13 +68,13 @@ const getCacheRawCode = React.cache(async (children: React.ReactNode) => {
   return rawCode;
 });
 
-const BlogCode: React.FC<BlogCodeProps> = async ({
+export default async function BlogCode({
   title,
   disableCopyButton,
   children,
   lang,
   ...rest
-}) => {
+}: BlogCodeProps): Promise<JSX.Element> {
   const fileExt = await getCacheFileExt(lang);
   const rawCode = await getCacheRawCode(children);
 
@@ -91,6 +91,4 @@ const BlogCode: React.FC<BlogCodeProps> = async ({
       <div className="w-full overflow-x-auto">{children}</div>
     </pre>
   );
-};
-
-export default BlogCode;
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React, { type JSX } from "react";
 import useSWR from "swr";
 import { TrendingUp } from "lucide-react";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
@@ -19,7 +19,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import ChartSkeleton from "./chart-skeleton";
+import ChartSkeleton from "../chart-skeleton";
 
 interface NpmDownloadResponse {
   package: string;
@@ -107,7 +107,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const CSSComparisonChart: React.FC = () => {
+export default function CSSComparisonChart(): JSX.Element {
   const {
     data: twData,
     error: twError,
@@ -255,6 +255,4 @@ const CSSComparisonChart: React.FC = () => {
       </CardFooter>
     </Card>
   );
-};
-
-export default CSSComparisonChart;
+}

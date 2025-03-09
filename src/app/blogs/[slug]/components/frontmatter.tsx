@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { type JSX } from "react";
 import Image from "next/image";
 import { useRemarkSync } from "react-remark";
 
@@ -10,7 +10,10 @@ interface FrontmatterProps {
   excerpt?: string;
 }
 
-const Frontmatter: React.FC<FrontmatterProps> = ({ data, excerpt = "" }) => {
+export default function Frontmatter({
+  data,
+  excerpt = "",
+}: FrontmatterProps): JSX.Element {
   const mdxContent = useRemarkSync(excerpt, {
     rehypeReactOptions: {
       // @ts-ignore
@@ -37,7 +40,7 @@ const Frontmatter: React.FC<FrontmatterProps> = ({ data, excerpt = "" }) => {
           </div>
         )}
       </div>
-      <div className="mx-[var(--gutter-size)] mt-16 w-[var(--container-size)] [&_img]:rounded-lg">
+      <div className="mx-[var(--gutter-size)] mt-16 w-[var(--container-size)] bg-accent [&_img]:rounded-lg">
         <Image
           src={data.thumbnail}
           alt={data.title}
@@ -50,6 +53,4 @@ const Frontmatter: React.FC<FrontmatterProps> = ({ data, excerpt = "" }) => {
       </div>
     </>
   );
-};
-
-export default Frontmatter;
+}

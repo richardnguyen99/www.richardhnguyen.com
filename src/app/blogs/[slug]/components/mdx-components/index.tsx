@@ -15,7 +15,7 @@ import {
 import ExternalLink from "@/components/external-link";
 import Callout from "@/components/callout";
 import BlogCode from "./code";
-import CSSComparisonChart from "./components/css-comparison-chart";
+import CSSComparisonChart from "./css-comparison-chart";
 import CodeSandbox from "./codesandbox";
 
 const components: NonNullable<

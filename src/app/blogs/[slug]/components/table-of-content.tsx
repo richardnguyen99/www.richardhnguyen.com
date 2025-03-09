@@ -1,13 +1,13 @@
 "use client";
 
-import * as React from "react";
+import React, { type JSX } from "react";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-const TableOfContent: React.FC = () => {
+export default function TableOfContent(): JSX.Element {
   const ref = React.useRef<HTMLDivElement | null>(null);
   const extraLarge = useMediaQuery("(min-width: 1280px)");
   const [headings, setHeadings] = React.useState<HTMLElement[]>([]);
@@ -203,6 +203,4 @@ const TableOfContent: React.FC = () => {
       ></div>
     </>
   );
-};
-
-export default TableOfContent;
+}

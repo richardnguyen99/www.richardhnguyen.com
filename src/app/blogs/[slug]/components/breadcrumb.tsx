@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { type JSX } from "react";
 
 import { cn } from "@/lib/utils";
 import {
@@ -16,12 +16,12 @@ interface BlogBreadcrumbProps extends React.ComponentProps<"nav"> {
   href: string;
 }
 
-const BlogBreadcrumb: React.FC<BlogBreadcrumbProps> = ({
+export default function BlogBreadcrumb({
   title,
   href,
   className,
   ...rest
-}) => {
+}: BlogBreadcrumbProps): JSX.Element {
   return (
     <div className="mx-auto mb-24 mt-12 flex w-[var(--article-container-size)] items-center justify-center px-[var(--article-gutter-size)]">
       <Breadcrumb className={cn(className)} {...rest}>
@@ -29,11 +29,15 @@ const BlogBreadcrumb: React.FC<BlogBreadcrumbProps> = ({
           <BreadcrumbItem>
             <BreadcrumbLink href="/">Home</BreadcrumbLink>
           </BreadcrumbItem>
+
           <BreadcrumbSeparator />
+
           <BreadcrumbItem>
             <BreadcrumbLink href="/blogs">Blogs</BreadcrumbLink>
           </BreadcrumbItem>
+
           <BreadcrumbSeparator />
+
           <BreadcrumbItem>
             <BreadcrumbPage>
               <ExternalLink
@@ -49,6 +53,4 @@ const BlogBreadcrumb: React.FC<BlogBreadcrumbProps> = ({
       </Breadcrumb>
     </div>
   );
-};
-
-export default BlogBreadcrumb;
+}

@@ -1,11 +1,13 @@
 "use client";
 
-import * as React from "react";
+import React, { type JSX } from "react";
 
-const CodeSandbox: React.FC<{ src: string; title: string }> = ({
-  src,
-  title,
-}) => {
+type Props = {
+  src: string;
+  title: string;
+};
+
+export default function CodeSandbox({ src, title }: Props): JSX.Element {
   const ref = React.useRef<HTMLIFrameElement | null>(null);
 
   React.useEffect(() => {
@@ -32,6 +34,4 @@ const CodeSandbox: React.FC<{ src: string; title: string }> = ({
       />
     </div>
   );
-};
-
-export default CodeSandbox;
+}

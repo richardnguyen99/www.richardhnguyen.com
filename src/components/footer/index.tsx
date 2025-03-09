@@ -1,9 +1,9 @@
-import * as React from "react";
+import React, { type JSX } from "react";
 
 import { getAllCategories, getAllTags } from "@/lib/mdx";
-import FooterClient from "./footer-client";
+import FooterWrapper from "./footer";
 
-const Footer: React.FC = async () => {
+export default async function Footer(): Promise<JSX.Element> {
   const categories = Array.from((await getAllCategories()).entries())
     .map(([category, data]) => ({
       category,
@@ -22,7 +22,5 @@ const Footer: React.FC = async () => {
     .sort((a, b) => b.postCount - a.postCount)
     .slice(0, 5);
 
-  return <FooterClient categories={categories} tags={tags} />;
-};
-
-export default Footer;
+  return <FooterWrapper categories={categories} tags={tags} />;
+}

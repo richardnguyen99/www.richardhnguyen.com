@@ -1,11 +1,11 @@
-import * as React from "react";
+import React, { type JSX } from "react";
 import Link from "next/link";
 
 interface BlogTagsProps {
   tags: string[];
 }
 
-const BlogTags: React.FC<BlogTagsProps> = ({ tags }) => {
+export default function BlogTags({ tags }: BlogTagsProps): JSX.Element {
   return (
     <div className="mx-[var(--article-gutter-size)] mt-6 flex w-[var(--article-container-size)] gap-4 border-t border-neutral-500 pt-6 dark:border-neutral-700">
       <h4 className="text-base font-bold md:text-lg">Tags:</h4>
@@ -20,6 +20,4 @@ const BlogTags: React.FC<BlogTagsProps> = ({ tags }) => {
       </div>
     </div>
   );
-};
-
-export default BlogTags;
+}

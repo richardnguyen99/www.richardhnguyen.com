@@ -12,7 +12,6 @@
   "files.associations": {
     "*.css": "tailwindcss"
   },
-  "editor.wordWrap": "wordWrapColumn",
   "editor.wordWrapColumn": 80,
   // Language specific
   "[javascript]": {

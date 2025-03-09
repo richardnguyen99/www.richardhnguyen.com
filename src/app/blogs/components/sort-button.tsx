@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React, { type JSX } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   DownloadIcon,
@@ -49,13 +49,13 @@ const radioClassNames = cn(
   "data-[state=checked]:bg-black data-[state=checked]:text-white [&_svg]:data-[state=checked]:fill-white",
 );
 
-const SortButton: React.FC<SortButtonProps> = ({
+export default function SortButton({
   open,
   onOpenChange,
   initialSortOrder,
   initialSortType,
   ...rest
-}) => {
+}: SortButtonProps): JSX.Element {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -276,6 +276,4 @@ const SortButton: React.FC<SortButtonProps> = ({
       </PopoverContent>
     </Popover>
   );
-};
-
-export default SortButton;
+}

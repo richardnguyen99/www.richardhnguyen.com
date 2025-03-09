@@ -1,19 +1,20 @@
-"use client";
-
-import * as React from "react";
+import React, { type JSX } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { DotFilledIcon } from "@radix-ui/react-icons";
 
 import { type MdxContent } from "@/types/mdx";
-import { NUM_POST_PER_PAGE } from "./constant";
+import { NUM_POST_PER_PAGE } from "../lib/constant";
 
 interface BlogGridProps {
   posts: MdxContent[];
   currentPage: number;
 }
 
-const BlogGrid: React.FC<BlogGridProps> = ({ posts, currentPage }) => {
+export default function BlogGrid({
+  posts,
+  currentPage,
+}: BlogGridProps): JSX.Element {
   const pageStart = (currentPage - 1) * NUM_POST_PER_PAGE;
   const pageEnd = currentPage * NUM_POST_PER_PAGE;
 
@@ -63,7 +64,7 @@ const BlogGrid: React.FC<BlogGridProps> = ({ posts, currentPage }) => {
 
               <div className="[&_img]:ease-curve-d [&_img]:duration-normal [&_video]:ease-curve-d [&_video]:duration-normal ease-curve-c duration-normal relative mx-auto h-full w-full max-w-[theme(maxWidth.5xl)] rounded-s transition-opacity [&_img]:scale-100 [&_img]:transform-gpu [&_img]:transition-transform group-hover:[&_img]:scale-105 [&_video]:transform-gpu [&_video]:transition-transform group-hover:[&_video]:scale-105">
                 <div className="relative aspect-[3/4] h-full w-full sm:aspect-[3/4]">
-                  <div className="ease-curve-d duration-normal ease-curve-d relative aspect-[3/4] h-full w-full transform-gpu overflow-hidden rounded-s bg-transparent transition-[background,transform] duration-300 sm:aspect-[3/4]">
+                  <div className="ease-curve-d duration-normal ease-curve-d relative aspect-[3/4] h-full w-full transform-gpu overflow-hidden rounded-s bg-accent transition-[background,transform] duration-300 sm:aspect-[3/4]">
                     <Image
                       src={post.frontMatter.thumbnail}
                       className="object-cover object-center"
@@ -100,6 +101,4 @@ const BlogGrid: React.FC<BlogGridProps> = ({ posts, currentPage }) => {
       )}
     </ul>
   );
-};
-
-export default BlogGrid;
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React, { type JSX } from "react";
 import { CheckIcon, CopyIcon } from "@primer/octicons-react";
 
 import { cn } from "@/lib/utils";
@@ -10,13 +10,13 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-export type CopyButtonProps = {
+type CopyButtonProps = {
   content: string;
 };
 
 type Props = React.HTMLAttributes<HTMLButtonElement> & CopyButtonProps;
 
-const CopyButton: React.FC<Props> = ({ content, ...rest }) => {
+export default function CopyButton({ content, ...rest }: Props): JSX.Element {
   const [isHovered, setIsHovered] = React.useState(false);
   const [isCopied, setIsCopied] = React.useState(false);
 
@@ -62,6 +62,7 @@ const CopyButton: React.FC<Props> = ({ content, ...rest }) => {
             size={16}
             className="absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 scale-50 opacity-0 transition-all duration-500 ease-in-out group-[:not(.show)]:scale-100 group-[:not(.show)]:opacity-100"
           />
+
           <CheckIcon
             size={16}
             className="absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 scale-50 fill-green-500 opacity-0 transition-all duration-500 ease-in-out group-[.show]:scale-100 group-[.show]:opacity-100"
@@ -77,6 +78,4 @@ const CopyButton: React.FC<Props> = ({ content, ...rest }) => {
       </TooltipContent>
     </Tooltip>
   );
-};
-
-export default CopyButton;
+}

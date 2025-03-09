@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { type JSX } from "react";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
@@ -10,13 +10,13 @@ interface FooterGridItemProps
   url?: string;
 }
 
-const FooterGridItem: React.FC<FooterGridItemProps> = ({
+export default function FooterGridItem({
   text,
   count,
   url = "/#",
   className,
   ...rest
-}) => {
+}: FooterGridItemProps): JSX.Element {
   return (
     <li {...rest} className={cn("text-sm", className)}>
       <Link href={url} className="group flex items-center gap-2">
@@ -27,6 +27,4 @@ const FooterGridItem: React.FC<FooterGridItemProps> = ({
       </Link>
     </li>
   );
-};
-
-export default FooterGridItem;
+}

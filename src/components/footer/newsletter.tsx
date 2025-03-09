@@ -1,9 +1,9 @@
-import * as React from "react";
+import React, { type JSX } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const Newsletter: React.FC = () => {
+export default function Newsletter(): JSX.Element {
   return (
     <div className="relative h-full w-full">
       <div className="flex items-center gap-4">
@@ -22,6 +22,7 @@ const Newsletter: React.FC = () => {
             type="email"
             placeholder="Email"
           />
+
           <Button
             className="ease-curve-d relative transform-gpu border border-transparent bg-neutral-900 text-white transition-[transform,box_shadow] duration-300 hover:bg-neutral-800 hover:ring-1 hover:ring-neutral-700 active:bg-neutral-700 active:ring-2 active:ring-neutral-500"
             type="submit"
@@ -32,6 +33,4 @@ const Newsletter: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default Newsletter;
+}

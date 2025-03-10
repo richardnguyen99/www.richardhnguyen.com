@@ -28,7 +28,7 @@ export default function NotFoundBlogPost(): JSX.Element {
         </h3>
         <p className="mt-4">
           If you believe this is a mistake, please{" "}
-          <ExternalLink href="https://github.com/richardnguyen99/next.richardhnguyen.com/issues/new">
+          <ExternalLink href="https://github.com/richardnguyen99/www.richardhnguyen.com/issues/new">
             open an issue on GitHub
           </ExternalLink>
           .
@@ -106,7 +106,7 @@ export default function NotFoundBlogPost(): JSX.Element {
         </Link>
 
         <a
-          href="https://github.com/richardnguyen99/next.richardhnguyen.com"
+          href="https://github.com/richardnguyen99/www.richardhnguyen.com"
           className={cn(
             "group rounded-lg",
             "border border-transparent",

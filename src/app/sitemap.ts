@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { getMdxContents } from "@/lib/mdx";
 
-export const baseUrl = "https://next.richardhnguyen.com";
+export const baseUrl = "https://www.richardhnguyen.com";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts: MetadataRoute.Sitemap = (await getMdxContents()).map(

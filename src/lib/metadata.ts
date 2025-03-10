@@ -6,7 +6,7 @@ export const sharedMetadata: Metadata = {
     default: "Home | Richard H. Nguyen",
   },
   description: "Personal blog of Richard H. Nguyen",
-  metadataBase: new URL("https://next.richardhnguyen.com"),
+  metadataBase: new URL("https://www.richardhnguyen.com"),
   twitter: {
     site: "@richardhnguyen",
     creator: "@richardhnguyen",

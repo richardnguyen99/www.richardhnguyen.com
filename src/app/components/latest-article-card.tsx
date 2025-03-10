@@ -52,7 +52,7 @@ export default function LatestArticleCard({
           </div>
         </div>
 
-        <div className="[&_img]:ease-curve-d ease-curve-c relative mx-auto h-full w-full max-w-[180rem] rounded-md transition-opacity duration-300 [&_img]:scale-100 [&_img]:transform-gpu [&_img]:transition-[transform,filter] [&_img]:duration-300 group-hover:[&_img]:scale-105 group-hover:[&_img]:blur-sm group-hover:[&_img]:drop-shadow-[0_0_120px_rgba(0,0,0,1)] group-hover:[&_img]:saturate-50">
+        <div className="[&_img]:ease-curve-d ease-curve-c relative mx-auto h-full w-full max-w-[180rem] rounded-md transition-opacity duration-300 [&_img]:scale-100 [&_img]:transform-gpu [&_img]:transition-[transform,filter,scale] [&_img]:duration-300 group-hover:[&_img]:scale-105 group-hover:[&_img]:blur-sm group-hover:[&_img]:drop-shadow-[0_0_120px_rgba(0,0,0,1)] group-hover:[&_img]:saturate-50">
           <div className="relative h-full w-full">
             <div className="ease-curve-d relative aspect-[16/9] h-full w-full overflow-hidden rounded-none bg-transparent transition-[background] duration-300">
               <div className="ease-curve-d absolute inset-0 z-0 h-full w-full bg-transparent transition-colors duration-300 group-hover:bg-black/40"></div>

@@ -21,7 +21,7 @@ export default async function MdxRemote({ slug }: Props): Promise<JSX.Element> {
     <React.Fragment>
       <BlogBreadcrumb
         title={frontMatter.title}
-        href={`https://github.com/richardnguyen99/next.richardhnguyen.com/edit/main/src/posts/${slug}.mdx`}
+        href={`https://github.com/richardnguyen99/www.richardhnguyen.com/edit/main/src/posts/${slug}.mdx`}
       />
 
       <Frontmatter data={frontMatter} excerpt={excerpt} />

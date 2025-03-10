@@ -1,6 +1,6 @@
 {
-  "name": "next.richardhnguyen.com",
-  "version": "0.1.0",
+  "name": "www.richardhnguyen.com",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",

@@ -188,7 +188,7 @@ export default function Bio(): JSX.Element {
           a software engineer. I hope this site can inspired you to try new
           stuff. Or for some tech savvy, you can inspect{" "}
           <a
-            href="https://github.com/richardnguyen99/next.richardhnguyen.com"
+            href="https://github.com/richardnguyen99/www.richardhnguyen.com"
             target="_blank"
             rel="noopener noreferrer"
           >

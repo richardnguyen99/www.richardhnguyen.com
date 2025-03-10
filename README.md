@@ -1,6 +1,6 @@
 # richardhnguyen.com main page
 
-This is the repository for my website, [next.richardhnguyen.com](https://next.richardhnguyen.com).
+This is the repository for my website, [www.richardhnguyen.com](https://www.richardhnguyen.com).
 
 ## Tech stack
 
@@ -30,7 +30,7 @@ want to run in your local machine, there are some prerequesites:
 ### Clone this repository
 
 ```bash
-git clone https://github.com/richardnguyen99/next.richardhnguyen.com
+git clone https://github.com/richardnguyen99/www.richardhnguyen.com
 ```
 
 ### Install NPM dependencies
@@ -60,5 +60,5 @@ see fit.
 
 ## License
 
-See [LICENSE](https://github.com/richardnguyen99/next.richardhnguyen.com/blob/master/LICENSE)
+See [LICENSE](https://github.com/richardnguyen99/www.richardhnguyen.com/blob/master/LICENSE)
 for more information.

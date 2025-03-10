@@ -5,7 +5,7 @@ import path from "path";
 
 export const dynamic = "force-static";
 
-export async function GET(_req: NextRequest, _res: NextResponse) {
+export async function GET(_req: NextRequest) {
   const filePath = path.join(
     process.cwd(),
     "src",

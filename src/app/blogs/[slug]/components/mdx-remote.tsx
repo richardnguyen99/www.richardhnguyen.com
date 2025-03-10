@@ -29,19 +29,21 @@ export default async function MdxRemote({ slug }: Props): Promise<JSX.Element> {
       <Separator className="mx-auto my-12 w-[var(--article-container-size)] bg-neutral-300 px-[var(--article-gutter-size)] dark:bg-neutral-700" />
 
       <div className="content">
-        <MDXRemote
-          source={body}
-          components={mdxComponents}
-          options={{
-            scope: {},
-            mdxOptions: {
-              useDynamicImport: true,
-              rehypePlugins,
-              remarkPlugins,
-              format: "mdx",
-            },
-          }}
-        />
+        <React.Suspense fallback={<div>Loading...</div>}>
+          <MDXRemote
+            source={body}
+            components={mdxComponents}
+            options={{
+              scope: {},
+              mdxOptions: {
+                useDynamicImport: true,
+                rehypePlugins,
+                remarkPlugins,
+                format: "mdx",
+              },
+            }}
+          />
+        </React.Suspense>
       </div>
 
       <Tags tags={frontMatter.tags} />

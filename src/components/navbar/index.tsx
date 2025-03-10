@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { getAllCategories, getAllTags, getLatestMdxContent } from "@/lib/mdx";
 import NavbarNavigationMenu from "./navigation-menu";
 import getPinnedRepos from "@/lib/github";
+import { ClientOnly } from "../client-only";
 
 const Navbar: React.FC = async () => {
   const mostViewedCategories = Array.from(
@@ -60,14 +61,16 @@ const Navbar: React.FC = async () => {
         "ease-curve-d transition-header transform-gpu",
       )}
     >
-      <NavbarNavigationMenu
-        latestPost={latestPost[0]}
-        mostViewedCategories={mostViewedCategories}
-        mostViewedTags={mostViewedTags}
-        pinnedGists={githubRepos.data.repositoryOwner.gists.nodes}
-        pinnedProjects={projects}
-        pinnedRepos={githubRepos.data.repositoryOwner.repos.nodes}
-      />
+      <ClientOnly>
+        <NavbarNavigationMenu
+          latestPost={latestPost[0]}
+          mostViewedCategories={mostViewedCategories}
+          mostViewedTags={mostViewedTags}
+          pinnedGists={githubRepos.data.repositoryOwner.gists.nodes}
+          pinnedProjects={projects}
+          pinnedRepos={githubRepos.data.repositoryOwner.repos.nodes}
+        />
+      </ClientOnly>
     </header>
   );
 };

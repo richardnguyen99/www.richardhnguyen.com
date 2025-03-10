@@ -24,7 +24,7 @@ const NavigationSkeletonButton = () => (
 );
 
 const NavigationMobileSkeletonButton = () => (
-  <div className="block h-10 w-10 animate-pulse rounded-full bg-neutral-200 p-2 dark:bg-neutral-900 md:hidden"></div>
+  <div className="block h-10 w-10 animate-pulse rounded-full bg-neutral-200 p-2 md:hidden dark:bg-neutral-900"></div>
 );
 
 const NavigationSearchButton = dynamic(
@@ -116,8 +116,8 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
         className={cn(
           "z-[-1] -translate-y-[100%] transform-gpu opacity-0",
           "ease-out-cubic transition-[opacity,transform] duration-300",
-          "absolute left-1/2 top-0 h-[calc(100vh-1rem)] w-[200%] lg:h-[80rem]",
-          "-translate-x-[100vw] bg-gradient-to-b from-white from-60% to-white/0 dark:from-black dark:to-black/0 lg:from-80%",
+          "absolute top-0 left-1/2 h-[calc(100vh-1rem)] w-[200%] lg:h-[80rem]",
+          "-translate-x-[100vw] bg-gradient-to-b from-white from-60% to-white/0 lg:from-80% dark:from-black dark:to-black/0",
           {
             "-translate-y-1/4 opacity-100 lg:-translate-y-1/2":
               navbarContext.isOpen,
@@ -138,7 +138,7 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
 
       <div
         className={cn(
-          "ease-out-cubic relative z-50 mx-auto h-full min-h-[3.125rem] w-full bg-white/80 backdrop-blur dark:bg-black/80 md:h-[3.125rem]",
+          "ease-out-cubic relative z-50 mx-auto h-full min-h-[3.125rem] w-full bg-white/80 backdrop-blur md:h-[3.125rem] dark:bg-black/80",
           {
             "bg-white/0 dark:bg-black/0": navbarContext.isOpen,
           },

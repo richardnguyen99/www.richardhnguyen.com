@@ -1,5 +1,5 @@
 // Download resume button
-import { NextResponse, NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 import fs from "fs/promises";
 import path from "path";
 

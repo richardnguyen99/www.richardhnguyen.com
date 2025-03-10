@@ -131,7 +131,7 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
           "absolute top-0 z-40 flex min-h-11 w-full flex-col justify-center overflow-hidden",
           "[&>div]:!mx-[var(--gutter-size)]",
           "md[&>div]:!w-[var(--container-size)] [&>div]:!w-[calc(100%-var(--gutter-size)*2)] [&>div]:!min-w-0",
-          "[&>div]:!translate-x-0 [&>div]:!translate-y-12",
+          "[&>div]:!translate-x-0 [&>div]:!translate-y-12 [&>div]:!transform-[translate(var(--tw-translate-x),_var(--tw-translate-y))]",
           "",
         )}
       ></div>

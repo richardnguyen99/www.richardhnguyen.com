@@ -16,8 +16,8 @@ const LayoutMain: React.FC<React.PropsWithChildren> = ({ children }) => {
         className={cn(
           "flex flex-col items-center justify-between",
           "relative min-h-screen pb-32 outline-none",
-          "origin-[50%_0px] transition-[transform,_opacity,_filter]",
-          "ease-out-cubic duration-300",
+          "origin-[50%_0px] transition-[translate,_opacity,_filter,_scale]",
+          "ease-out-cubic translate-y-0 scale-[1] duration-300",
           {
             "delay-75 duration-700": !navbarContext.isOpen,
             "duration-300": navbarContext.isOpen,

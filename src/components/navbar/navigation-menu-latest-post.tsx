@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React, { type JSX } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -15,13 +15,13 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
   initialDelay?: number;
 };
 
-const NavigationMenuLatestPost: React.FC<Props> = ({
+export default function NavigationMenuLatestPost({
   isListReady,
   initialDelay = 0,
   latestPost,
   className,
   ...rest
-}) => {
+}: Props): JSX.Element {
   const navbarContext = useNavbarContext();
 
   const handleClickCapture = () => {
@@ -70,7 +70,7 @@ const NavigationMenuLatestPost: React.FC<Props> = ({
 
           <h3
             className={cn(
-              "text-xl font-extrabold leading-6 tracking-tight",
+              "text-xl leading-6 font-extrabold tracking-tight",
               "mt-4",
               "w-full -translate-y-10 rounded-lg opacity-0 transition-[opacity,transform] duration-300 ease-in-out",
               {
@@ -92,6 +92,4 @@ const NavigationMenuLatestPost: React.FC<Props> = ({
       </Link>
     </div>
   );
-};
-
-export default NavigationMenuLatestPost;
+}

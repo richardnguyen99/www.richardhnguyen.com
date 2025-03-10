@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { createAutocomplete } from "@algolia/autocomplete-core";
 import { getAlgoliaResults } from "@algolia/autocomplete-preset-algolia";
 
-import {
+import type {
   InternalSearchHit,
   InternalSearchHitWithParent,
   InternalSearchState,
@@ -32,6 +32,19 @@ export function isModifierEvent<TEvent extends KeyboardEvent | MouseEvent>(
   );
 }
 
+/**
+ * Create a memoized Algolia Autocomplete instance for custom renderrers.
+ *
+ * @param autocompleteState - The current state of the autocomplete.
+ * @param setAutocompleteState - React hook to update the autocomplete state.
+ * @param indexName - Algolia index name.
+ * @param onClose - Callback when closing the autocomplete search.
+ * @param recentSearches - Recently-stored search results.
+ * @param favoriteSearches - Favorite-stored search results.
+ * @param saveRecentSearch - Callback when saving a recent search.
+ * @param push - Next.JS router push function to navigation to pages.
+ * @returns A memoized Algolia Autocomplete instance.
+ */
 function useMemoizedAutocomplete(
   autocompleteState: State,
   setAutocompleteState: (_state: State) => void,

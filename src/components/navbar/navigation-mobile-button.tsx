@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React, { type JSX } from "react";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
@@ -35,12 +35,12 @@ type Props = {
   }>;
 };
 
-const NavigationMobileButton: React.FC<Props> = ({
+export default function NavigationMobileButton({
   containerRef,
   latestPost,
   mostViewedCategories,
   mostViewedTags,
-}) => {
+}: Props): JSX.Element {
   const mobileButtonRef = React.useRef<HTMLButtonElement>(null);
   const navbarContext = useNavbarContext();
 
@@ -99,7 +99,7 @@ const NavigationMobileButton: React.FC<Props> = ({
                 {mostViewedCategories.map((category, i) => (
                   <li key={i}>
                     <Link href={category.url} passHref legacyBehavior>
-                      <UINavigationMenuLink className="text-lg text-muted-foreground hover:text-accent-foreground">
+                      <UINavigationMenuLink className="text-muted-foreground hover:text-accent-foreground text-lg">
                         {category.category}
                       </UINavigationMenuLink>
                     </Link>
@@ -116,7 +116,7 @@ const NavigationMobileButton: React.FC<Props> = ({
                 {mostViewedTags.map((tag, i) => (
                   <li key={i}>
                     <Link href={tag.url} passHref legacyBehavior>
-                      <UINavigationMenuLink className="text-lg text-muted-foreground hover:text-accent-foreground">
+                      <UINavigationMenuLink className="text-muted-foreground hover:text-accent-foreground text-lg">
                         {tag.tag}
                       </UINavigationMenuLink>
                     </Link>
@@ -131,6 +131,4 @@ const NavigationMobileButton: React.FC<Props> = ({
       </PopoverContent>
     </Popover>
   );
-};
-
-export default NavigationMobileButton;
+}

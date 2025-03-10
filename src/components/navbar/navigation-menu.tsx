@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React, { type JSX } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
@@ -64,14 +64,14 @@ export type HeaderDataProps = {
   pinnedProjects: Pick<Repository, "name" | "description" | "url">[];
 };
 
-const NavigationMenu: React.FC<HeaderDataProps> = ({
+export default function NavigationMenu({
   latestPost,
   mostViewedCategories,
   mostViewedTags,
   pinnedGists,
   pinnedRepos,
   pinnedProjects,
-}) => {
+}: HeaderDataProps): JSX.Element {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const navbarContext = useNavbarContext();
   const [isListReady, setIsListReady] = React.useState(false);
@@ -363,6 +363,4 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
       </div>
     </UINavigationMenu>
   );
-};
-
-export default NavigationMenu;
+}

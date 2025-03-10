@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { type JSX } from "react";
 
 import { cn } from "@/lib/utils";
 import {
@@ -9,11 +9,11 @@ import {
   NavigationMenuTrigger as UINavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 
-const NavigationMenuSkeleton: React.FC = () => {
+export default function NavigationMenuSkeleton(): JSX.Element {
   return (
     <header className="fixed top-0 z-[100] m-auto w-full max-w-full md:py-0">
       <UINavigationMenu className="bg-transparent">
-        <div className="ease-out-cubic relative z-50 mx-auto h-full min-h-[3.125rem] w-full bg-white/80 backdrop-blur dark:bg-black/80 md:h-[3.125rem]">
+        <div className="ease-out-cubic relative z-50 mx-auto h-full min-h-[3.125rem] w-full bg-white/80 backdrop-blur md:h-[3.125rem] dark:bg-black/80">
           <div className="relative mx-[var(--gutter-size)] flex min-h-[3.125rem] w-[var(--container-size)] items-center justify-between [&>div]:h-full">
             <a className="flex h-10 w-10 items-center justify-center rounded-full p-2">
               <div className="h-full w-full bg-black dark:bg-white"></div>
@@ -58,13 +58,11 @@ const NavigationMenuSkeleton: React.FC = () => {
             <div className="flex items-center gap-3">
               <div className="h-10 w-10 animate-pulse rounded-full bg-neutral-200 p-2 dark:bg-neutral-900"></div>
               <div className="h-10 w-10 animate-pulse rounded-full bg-neutral-200 p-2 dark:bg-neutral-900"></div>
-              <div className="h-10 w-10 animate-pulse rounded-full bg-neutral-200 p-2 dark:bg-neutral-900 md:hidden"></div>
+              <div className="h-10 w-10 animate-pulse rounded-full bg-neutral-200 p-2 md:hidden dark:bg-neutral-900"></div>
             </div>
           </div>
         </div>
       </UINavigationMenu>
     </header>
   );
-};
-
-export default NavigationMenuSkeleton;
+}

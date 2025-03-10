@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React, { type JSX } from "react";
 import { DesktopIcon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { useTheme } from "next-themes";
 import { useMediaQuery } from "@uidotdev/usehooks";
@@ -21,7 +21,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const ThemeSwitcher: React.FC = () => {
+export default function ThemeSwitcher(): JSX.Element {
   const { theme, setTheme } = useTheme();
   const isSmallScreen = useMediaQuery("(max-width: 768px)");
   const [mounted, setMounted] = React.useState(false);
@@ -113,6 +113,4 @@ const ThemeSwitcher: React.FC = () => {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-};
-
-export default ThemeSwitcher;
+}

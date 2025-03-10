@@ -1,12 +1,11 @@
-import * as React from "react";
+import React, { type JSX } from "react";
 
 import { cn } from "@/lib/utils";
 import { getAllCategories, getAllTags, getLatestMdxContent } from "@/lib/mdx";
 import NavbarNavigationMenu from "./navigation-menu";
 import getPinnedRepos from "@/lib/github";
-import { ClientOnly } from "../client-only";
 
-const Navbar: React.FC = async () => {
+export default async function Navbar(): Promise<JSX.Element> {
   const mostViewedCategories = Array.from(
     (await getAllCategories()).entries(),
   ).map(([key, value]) => ({
@@ -61,18 +60,14 @@ const Navbar: React.FC = async () => {
         "ease-curve-d transition-header transform-gpu",
       )}
     >
-      <ClientOnly>
-        <NavbarNavigationMenu
-          latestPost={latestPost[0]}
-          mostViewedCategories={mostViewedCategories}
-          mostViewedTags={mostViewedTags}
-          pinnedGists={githubRepos.data.repositoryOwner.gists.nodes}
-          pinnedProjects={projects}
-          pinnedRepos={githubRepos.data.repositoryOwner.repos.nodes}
-        />
-      </ClientOnly>
+      <NavbarNavigationMenu
+        latestPost={latestPost[0]}
+        mostViewedCategories={mostViewedCategories}
+        mostViewedTags={mostViewedTags}
+        pinnedGists={githubRepos.data.repositoryOwner.gists.nodes}
+        pinnedProjects={projects}
+        pinnedRepos={githubRepos.data.repositoryOwner.repos.nodes}
+      />
     </header>
   );
-};
-
-export default Navbar;
+}

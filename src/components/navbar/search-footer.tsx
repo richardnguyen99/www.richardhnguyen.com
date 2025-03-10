@@ -1,11 +1,11 @@
-import React from "react";
+import React, { type JSX } from "react";
 import { CornerDownLeft, MoveDown, MoveUp } from "lucide-react";
 
-function Kbd(props: { children: React.ReactNode }) {
+function Kbd(props: { children: React.ReactNode }): JSX.Element {
   return <kbd className="ais-kbd">{props.children}</kbd>;
 }
 
-const SearchFooter: React.FC = () => {
+export default function SearchFooter(): JSX.Element {
   return (
     <div className="ais-footer">
       <div className="ais-logo">
@@ -36,6 +36,4 @@ const SearchFooter: React.FC = () => {
       </ul>
     </div>
   );
-};
-
-export default SearchFooter;
+}

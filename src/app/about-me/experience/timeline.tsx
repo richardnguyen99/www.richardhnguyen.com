@@ -29,20 +29,20 @@ const TimelineItem = ({
     <div className="relative flex w-full gap-6">
       {/* Number with square brackets */}
       <div className="relative z-10 flex-shrink-0">
-        <div className="relative z-20 flex h-7 w-7 items-center justify-center bg-background font-mono">
+        <div className="bg-background relative z-20 flex h-7 w-7 items-center justify-center font-mono">
           {/* Left bracket */}
-          <div className="absolute bottom-0 left-0 top-0 w-[4px] border-b-2 border-l-2 border-t-2 border-primary"></div>
+          <div className="border-primary absolute top-0 bottom-0 left-0 w-[4px] border-t-2 border-b-2 border-l-2"></div>
 
           {/* Number */}
           <span className="font-bold">{number}</span>
 
           {/* Right bracket */}
-          <div className="absolute bottom-0 right-0 top-0 w-[4px] border-b-2 border-r-2 border-t-2 border-primary"></div>
+          <div className="border-primary absolute top-0 right-0 bottom-0 w-[4px] border-t-2 border-r-2 border-b-2"></div>
         </div>
 
         {/* Connecting line */}
         {!isLast && (
-          <div className="absolute left-1/2 top-0 z-10 h-full w-0.5 -translate-x-1/2 bg-border" />
+          <div className="bg-border absolute top-0 left-1/2 z-10 h-full w-0.5 -translate-x-1/2" />
         )}
       </div>
 
@@ -50,11 +50,11 @@ const TimelineItem = ({
       <div className="w-full flex-grow pb-10">
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="mb-2 flex w-full items-center text-left text-2xl font-bold hover:text-primary focus:outline-none"
+          className="hover:text-primary mb-2 flex w-full items-center text-left text-lg font-bold focus:outline-none lg:text-2xl"
         >
           <div className="line-clamp-1">{title}</div>
           <ChevronDown
-            className={`ml-2 h-5 w-5 transition-transform duration-200 ${isExpanded ? "rotate-180" : "rotate-0"}`}
+            className={`ml-2 h-5 w-5 shrink-0 transition-transform duration-200 ${isExpanded ? "rotate-180" : "rotate-0"}`}
           />
         </button>
         <div
@@ -70,7 +70,7 @@ const TimelineItem = ({
             <div className="flex flex-wrap gap-2">
               {techstack.map((tech) => (
                 <Badge
-                  className="bg-lime-600 text-secondary dark:bg-lime-400"
+                  className="text-secondary bg-lime-600 dark:bg-lime-400"
                   key={tech}
                 >
                   {tech}

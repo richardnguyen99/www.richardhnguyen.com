@@ -114,15 +114,15 @@ export default function TableOfContent(): JSX.Element {
       <nav
         ref={ref}
         className={cn(
-          "ease-curve-d duration-normal sticky top-0 z-50 h-0 w-full translate-y-[50px] overflow-visible opacity-100 transition-toc xl:ml-8 xl:w-[calc((100%-var(--article-container-size))/2-4rem)] xl:translate-y-[66px] xl:cursor-default xl:overflow-visible xl:border-none xl:bg-transparent",
+          "ease-curve-d duration-normal transition-toc sticky top-0 z-50 h-0 w-full translate-y-[50px] overflow-visible opacity-100 xl:ml-8 xl:w-[calc((100%-var(--article-container-size))/2-4rem)] xl:translate-y-[66px] xl:cursor-default xl:overflow-visible xl:border-none xl:bg-transparent",
           {
             "pointer-events-none opacity-0 xl:h-0": !inViewport,
             "pointer-events-auto opacity-100 xl:h-fit": inViewport,
           },
         )}
       >
-        <div className="bg-white/80 backdrop-blur dark:bg-black/80 xl:rounded-md xl:border-transparent xl:bg-transparent xl:px-6">
-          <div className="relative mx-[var(--article-gutter-size)] flex w-[var(--article-container-size)] items-start justify-between overflow-hidden rounded-md xl:mx-[unset] xl:w-[unset] xl:[display:unset]">
+        <div className="bg-white/80 backdrop-blur xl:rounded-md xl:border-transparent xl:bg-transparent xl:px-6 dark:bg-black/80">
+          <div className="relative mx-[var(--article-gutter-size)] flex w-[var(--article-container-size)] items-start justify-between overflow-hidden rounded-md xl:mx-[unset] xl:[display:unset] xl:w-[unset]">
             <div className="w-full">
               <button
                 type="button"
@@ -155,13 +155,13 @@ export default function TableOfContent(): JSX.Element {
                 >
                   {headings.map((heading, index) => {
                     const id = heading.getAttribute("id");
-                    const text = heading.childNodes
-                      .entries()
-                      .reduce((acc, [_, node]) => {
-                        if (node.textContent === "#") return acc;
+                    const text = Array.from(
+                      heading.childNodes.entries(),
+                    ).reduce((acc, [_, node]) => {
+                      if (node.textContent === "#") return acc;
 
-                        return acc + node.textContent;
-                      }, "");
+                      return acc + node.textContent;
+                    }, "");
 
                     if (!text || !id) return null;
 
@@ -194,7 +194,7 @@ export default function TableOfContent(): JSX.Element {
       <div
         onClick={() => setCollapsing(false)}
         className={cn(
-          "ease-curve-d fixed left-0 top-0 z-[49] h-full w-full bg-white/80 transition-opacity duration-300 dark:bg-black/80 xl:hidden",
+          "ease-curve-d fixed top-0 left-0 z-[49] h-full w-full bg-white/80 transition-opacity duration-300 xl:hidden dark:bg-black/80",
           {
             "pointer-events-auto opacity-100": collapsing,
             "pointer-events-none opacity-0": !collapsing,

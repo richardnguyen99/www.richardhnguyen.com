@@ -23,7 +23,7 @@ import NavigationMenuLatestPost from "./navigation-menu-latest-post";
 import { Menu } from "lucide-react";
 
 type Props = {
-  containerRef: React.RefObject<HTMLDivElement>;
+  containerRef: React.RefObject<HTMLDivElement | null>;
   latestPost: FrontMatter;
   mostViewedCategories: Array<{
     url: string;

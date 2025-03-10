@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 import { cn } from "@/lib/utils";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
@@ -28,12 +28,9 @@ const ExternalLink: React.FC<React.ComponentPropsWithoutRef<"a">> = ({
           <span>
             {
               (
-                children as
-                  | React.ReactPortal
-                  | React.ReactElement<
-                      unknown,
-                      string | React.JSXElementConstructor<any>
-                    >
+                children as React.ReactElement<{
+                  children: React.ReactNode;
+                }>
               ).props.children
             }
           </span>

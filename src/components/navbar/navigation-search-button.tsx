@@ -19,7 +19,7 @@ import { useNavbarContext } from "./context";
 import SearchPanel from "./search-panel";
 
 type Props = {
-  containerRef: React.RefObject<HTMLDivElement>;
+  containerRef: React.RefObject<HTMLDivElement | null>;
 };
 
 export default function NavigationSearchButton({

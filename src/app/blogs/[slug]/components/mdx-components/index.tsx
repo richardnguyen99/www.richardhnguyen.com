@@ -94,7 +94,11 @@ const components: NonNullable<
   ) => {
     const { children, ...rest } = props;
 
-    const firstChild = React.Children.toArray(children)[0];
+    const firstChild = React.Children.toArray(
+      children,
+    )[0] as React.ReactElement<{
+      children: string;
+    }>;
     const secondChild = React.Children.toArray(children)[1];
 
     // get props of the first child

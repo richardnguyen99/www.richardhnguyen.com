@@ -1,5 +1,4 @@
-import * as React from "react";
-import Script from "next/script";
+import React, { type JSX } from "react";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 
@@ -74,7 +73,9 @@ export const generateMetadata = async ({
   };
 };
 
-export default async function BlogPost({ params }: BlogPostProps) {
+export default async function BlogPost({
+  params,
+}: BlogPostProps): Promise<JSX.Element> {
   const { slug } = await params;
 
   return (

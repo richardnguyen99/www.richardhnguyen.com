@@ -1,12 +1,16 @@
 "use client";
 
-import * as React from "react";
+import React, { type JSX } from "react";
 import { ThemeProvider } from "next-themes";
 
 import NavbarProvider from "@/components/navbar/context";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
-const GlobalProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+export default function GlobalProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}): JSX.Element {
   return (
     <ThemeProvider
       defaultTheme="dark"
@@ -19,6 +23,4 @@ const GlobalProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
       </TooltipProvider>
     </ThemeProvider>
   );
-};
-
-export default GlobalProvider;
+}

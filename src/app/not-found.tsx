@@ -1,13 +1,13 @@
 "use client";
 
-import * as React from "react";
+import React, { type JSX } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import ExternalLink from "@/components/external-link";
 
-export default function NotFoundBlogPost() {
+export default function NotFoundBlogPost(): JSX.Element {
   const pathname = usePathname();
 
   return (

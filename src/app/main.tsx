@@ -1,11 +1,15 @@
 "use client";
 
-import * as React from "react";
+import React, { type JSX } from "react";
 
 import { cn } from "@/lib/utils";
 import { useNavbarContext } from "@/components/navbar/context";
 
-const LayoutMain: React.FC<React.PropsWithChildren> = ({ children }) => {
+export default function LayoutMain({
+  children,
+}: {
+  children: React.ReactNode;
+}): JSX.Element {
   const navbarContext = useNavbarContext();
 
   return (
@@ -31,6 +35,4 @@ const LayoutMain: React.FC<React.PropsWithChildren> = ({ children }) => {
       </main>
     </>
   );
-};
-
-export default LayoutMain;
+}

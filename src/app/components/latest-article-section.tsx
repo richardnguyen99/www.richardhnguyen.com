@@ -1,9 +1,9 @@
-import * as React from "react";
+import React, { type JSX } from "react";
 
 import { getMdxContentsWithFilter } from "@/lib/mdx";
 import LatestArticleCard from "./latest-article-card";
 
-const LatestArticleSection: React.FC = async () => {
+export default async function LatestArticleSection(): Promise<JSX.Element> {
   const contents = await getMdxContentsWithFilter(3, "desc");
 
   return (
@@ -22,6 +22,4 @@ const LatestArticleSection: React.FC = async () => {
       />
     </div>
   );
-};
-
-export default LatestArticleSection;
+}

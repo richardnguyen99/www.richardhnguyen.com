@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { type JSX } from "react";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 
-import {
+import type {
   InternalSearchHit,
   InternalSearchHitWithParent,
   InternalSearchState,
@@ -22,7 +22,17 @@ type Props = {
   onClose: () => void;
 };
 
-const SearchPanel: React.FC<Props> = ({ onClose }) => {
+/**
+ * The main panel of the search component when users open the search, either
+ * by clicking or via keyboard shortcut.
+ *
+ * This component is responsible for controlling the logics of the search and
+ * the rendering of the search UI.
+ *
+ * @param {Props} props - The properties of the component.
+ * @returns {JSX.Element}
+ */
+export default function SearchPanel({ onClose }: Props): JSX.Element {
   const indexName = process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME as string;
 
   const { push } = useRouter();
@@ -124,6 +134,4 @@ const SearchPanel: React.FC<Props> = ({ onClose }) => {
       </div>
     </div>
   );
-};
-
-export default SearchPanel;
+}

@@ -86,9 +86,9 @@ const NavbarProvider: React.FC<
   ]);
 
   return (
-    <NavbarContext.Provider value={value} {...props}>
+    <NavbarContext value={value} {...props}>
       {children}
-    </NavbarContext.Provider>
+    </NavbarContext>
   );
 };
 

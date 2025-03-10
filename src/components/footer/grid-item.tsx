@@ -18,9 +18,9 @@ export default function FooterGridItem({
   ...rest
 }: FooterGridItemProps): JSX.Element {
   return (
-    <li {...rest} className={cn("text-sm", className)}>
+    <li {...rest} className={cn("", className)}>
       <Link href={url} className="group flex items-center gap-2">
-        <p className="ease-curve-c leading-2 transform-gpu border-b-2 border-transparent text-lg font-medium transition-colors duration-150 group-hover:border-b-neutral-600 group-hover:text-neutral-500 md:text-2xl md:font-bold md:leading-5 lg:text-base lg:font-normal lg:leading-normal">
+        <p className="ease-curve-c transform-gpu border-b-2 border-transparent text-lg leading-5 font-medium transition-colors duration-150 group-hover:border-b-neutral-600 group-hover:text-neutral-500 md:text-2xl md:font-bold lg:text-base lg:leading-normal lg:font-normal">
           {text}
         </p>
         {count && <sup className="text-neutral-400"> ({count})</sup>}

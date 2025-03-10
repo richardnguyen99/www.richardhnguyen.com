@@ -2,7 +2,7 @@ import React, { type JSX } from "react";
 import { InternalAutocompleteSource } from "@algolia/autocomplete-core";
 
 import useMemoizedAutocomplete from "./use-autocomplete";
-import {
+import type {
   InternalSearchHitWithParent,
   InternalSearchState,
 } from "@/types/algolia";
@@ -30,7 +30,7 @@ type Props = ReturnType<typeof useMemoizedAutocomplete> & {
   }) => JSX.Element;
 };
 
-const SearchItem: React.FC<Props> = (props) => {
+export default function SearchItem(props: Props): JSX.Element {
   const [isDeleting, setIsDeleting] = React.useState(false);
   const [isFavoriting, setIsFavoriting] = React.useState(false);
   const action = React.useRef<(() => void) | null>(null);
@@ -79,6 +79,4 @@ const SearchItem: React.FC<Props> = (props) => {
       })}
     </li>
   );
-};
-
-export default SearchItem;
+}

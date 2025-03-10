@@ -1,4 +1,4 @@
-@tailwind components;
+@reference "../../globals.css";
 
 @layer components {
   .content {
@@ -6,21 +6,21 @@
     @apply text-neutral-800 dark:text-neutral-300;
   }
 
-  .content pre code[data-theme*=" "] {
+  .content pre code[data-theme] {
     background-color: var(--shiki-light-bg);
   }
 
-  .content pre code[data-theme*=" "] span {
+  .content pre code[data-theme] span {
     color: var(--shiki-light);
     font-weight: var(--shiki-light-font-weight, normal);
     text-decoration: var(--shiki-light-text-decoration, unset);
   }
 
-  html.dark .content pre code[data-theme*=" "] {
+  html.dark .content pre code[data-theme] {
     background-color: var(--shiki-dark-bg);
   }
 
-  html.dark .content pre code[data-theme*=" "] span {
+  html.dark .content pre code[data-theme] span {
     color: var(--shiki-dark);
     text-decoration: var(--shiki-dark-text-decoration, unset);
     font-weight: var(--shiki-dark-font-weight, normal);
@@ -54,7 +54,7 @@
   }
 
   .content blockquote {
-    @apply relative content-container;
+    @apply content-container relative;
     @apply mb-12 p-4;
     @apply bg-neutral-200 dark:bg-neutral-800;
     @apply border-l-4 border-neutral-300 dark:border-neutral-600;
@@ -102,7 +102,7 @@
 
   .content section.footnotes li p {
     @apply w-full;
-    @apply whitespace-break-spaces break-words;
+    @apply break-words whitespace-break-spaces;
     @apply leading-6;
   }
 
@@ -151,7 +151,7 @@
   }
 
   .content pre code {
-    @apply relative grid whitespace-pre break-normal p-4 text-left;
+    @apply relative grid p-4 text-left break-normal whitespace-pre;
     @apply text-sm !leading-5 sm:text-base;
     @apply overflow-x-auto;
     @apply break-words;
@@ -193,7 +193,7 @@
 
   .content [data-line].diff::after,
   .content [data-highlighted-line]::after {
-    @apply absolute left-0 top-0;
+    @apply absolute top-0 left-0;
   }
 
   .content

@@ -1,12 +1,10 @@
-import React, { Suspense } from "react";
+import React, { type JSX } from "react";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import Script from "next/script";
 
 import GlobalProvider from "./provider";
 import LayoutMain from "./main";
 import Navbar from "@/components/navbar";
-// import NavbarOverlay from "@/components/navbar/overlay";
 import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
@@ -34,11 +32,11 @@ export function generateViewport(): Viewport {
   };
 }
 
-interface RootLayoutProps {
+type Props = {
   children: React.ReactNode;
-}
+};
 
-const RootLayout: React.FC<RootLayoutProps> = async ({ children }) => {
+export default function RootLayout({ children }: Props): JSX.Element {
   return (
     <html
       lang="en"
@@ -46,26 +44,24 @@ const RootLayout: React.FC<RootLayoutProps> = async ({ children }) => {
       suppressHydrationWarning
     >
       <body
-        className={`${inter.className} h-full w-full bg-white [--gutter-size:theme(spacing.5)] dark:bg-black sm:[--container-size:calc(theme(maxWidth.xl)-theme(spacing.6))] sm:[--gutter-size:calc((100vw-(theme(maxWidth.xl)-theme(spacing.6)))/2)] md:[--container-size:calc(theme(maxWidth.3xl)-theme(spacing.6))] md:[--gutter-size:calc((100vw-(theme(maxWidth.3xl)-theme(spacing.6)))/2)] lg:[--container-size:calc(theme(maxWidth.5xl)-theme(spacing.8))] lg:[--gutter-size:calc((100vw-(theme(maxWidth.5xl)-theme(spacing.8)))/2)] xl:[--container-size:calc(theme(maxWidth.6xl)-theme(spacing.8))] xl:[--gutter-size:calc((100vw-(theme(maxWidth.6xl)-theme(spacing.8)))/2)]`}
+        className={`${inter.className} h-full w-full bg-white [--gutter-size:theme(spacing.5)] sm:[--container-size:calc(theme(maxWidth.xl)-theme(spacing.6))] sm:[--gutter-size:calc((100vw-(theme(maxWidth.xl)-theme(spacing.6)))/2)] md:[--container-size:calc(theme(maxWidth.3xl)-theme(spacing.6))] md:[--gutter-size:calc((100vw-(theme(maxWidth.3xl)-theme(spacing.6)))/2)] lg:[--container-size:calc(theme(maxWidth.5xl)-theme(spacing.8))] lg:[--gutter-size:calc((100vw-(theme(maxWidth.5xl)-theme(spacing.8)))/2)] xl:[--container-size:calc(theme(maxWidth.6xl)-theme(spacing.8))] xl:[--gutter-size:calc((100vw-(theme(maxWidth.6xl)-theme(spacing.8)))/2)] dark:bg-black`}
       >
         <GlobalProvider>
-          <Suspense fallback={<NavigationMenuSkeleton />}>
+          <React.Suspense fallback={<NavigationMenuSkeleton />}>
             <Navbar />
-          </Suspense>
+          </React.Suspense>
 
           <NavbarOverlay />
 
           <LayoutMain>{children}</LayoutMain>
 
-          <Suspense fallback={<div>Loading...</div>}>
+          <React.Suspense fallback={<div>Loading...</div>}>
             <Footer />
-          </Suspense>
+          </React.Suspense>
         </GlobalProvider>
+
         <Toaster />
       </body>
-      <Script id="">0</Script>
     </html>
   );
-};
-
-export default RootLayout;
+}

@@ -46,12 +46,12 @@ export const metadata: Metadata = {
 export default function Bio(): JSX.Element {
   return (
     <div className="mx-[var(--gutter-size)] w-[var(--container-size)]">
-      <h1 className="text-center text-5xl font-semibold leading-[110%] tracking-tight">
+      <h1 className="text-center text-5xl leading-[110%] font-semibold tracking-tight">
         Biography
       </h1>
 
       <Tabs activeTab="bio">
-        <div className="flex items-center gap-8">
+        <div className="flex flex-col items-center gap-4 md:flex-row md:gap-8">
           <Image
             src="/profile.jpg"
             alt="Richard H. Nguyen"

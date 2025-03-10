@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React, { type JSX } from "react";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
@@ -19,10 +19,12 @@ import { useNavbarContext } from "./context";
 import SearchPanel from "./search-panel";
 
 type Props = {
-  containerRef: React.RefObject<HTMLDivElement>;
+  containerRef: React.RefObject<HTMLDivElement | null>;
 };
 
-const NavigationSearchButton: React.FC<Props> = ({ containerRef }) => {
+export default function NavigationSearchButton({
+  containerRef,
+}: Props): JSX.Element {
   const searchButtonRef = React.useRef<HTMLDivElement>(null);
   const navbarContext = useNavbarContext();
 
@@ -96,6 +98,4 @@ const NavigationSearchButton: React.FC<Props> = ({ containerRef }) => {
       </PopoverContent>
     </Popover>
   );
-};
-
-export default NavigationSearchButton;
+}

@@ -12,6 +12,7 @@
   "files.associations": {
     "*.css": "tailwindcss"
   },
+  "tailwindCSS.experimental.configFile": "src/app/globals.css",
   "editor.wordWrapColumn": 80,
   // Language specific
   "[javascript]": {

@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    useCache: true,
+  },
+  transpilePackages: ["next-mdx-remote"],
   async redirects() {
     return [
       {

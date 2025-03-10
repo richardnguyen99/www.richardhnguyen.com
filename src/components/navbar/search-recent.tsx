@@ -1,8 +1,8 @@
-import React from "react";
+import React, { type JSX } from "react";
 import { History, Star, X } from "lucide-react";
 
 import useMemoizedAutocomplete from "./use-autocomplete";
-import {
+import type {
   InternalSearchHitWithParent,
   InternalSearchState,
   InternalStoredSearchHit,
@@ -22,7 +22,11 @@ type Props = ReturnType<typeof useMemoizedAutocomplete> & {
   hasCollections: boolean;
 };
 
-const SearchRecent: React.FC<Props> = ({ state, onItemClick, ...rest }) => {
+export default function SearchRecent({
+  state,
+  onItemClick,
+  ...rest
+}: Props): JSX.Element | null {
   if (state.status === "idle" && !rest.hasCollections) {
     return (
       <div className="ais-panel ais-recent my-4 text-center">
@@ -140,6 +144,4 @@ const SearchRecent: React.FC<Props> = ({ state, onItemClick, ...rest }) => {
         })}
     </div>
   );
-};
-
-export default SearchRecent;
+}

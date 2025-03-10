@@ -2,6 +2,7 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { MDXProvider } from "@mdx-js/react";
+import mermaid from "mermaid";
 
 import { cn } from "@/lib/utils";
 
@@ -17,6 +18,11 @@ import Callout from "@/components/callout";
 import BlogCode from "./code";
 import CSSComparisonChart from "./css-comparison-chart";
 import CodeSandbox from "./codesandbox";
+import Mermaid from "./mermaid";
+
+mermaid.initialize({
+  startOnLoad: true,
+});
 
 const components: NonNullable<
   React.ComponentProps<typeof MDXProvider>["components"]
@@ -88,7 +94,11 @@ const components: NonNullable<
   ) => {
     const { children, ...rest } = props;
 
-    const firstChild = React.Children.toArray(children)[0];
+    const firstChild = React.Children.toArray(
+      children,
+    )[0] as React.ReactElement<{
+      children: string;
+    }>;
     const secondChild = React.Children.toArray(children)[1];
 
     // get props of the first child
@@ -136,11 +146,7 @@ const components: NonNullable<
     if (rest["data-language"] === "mermaid") {
       if (React.isValidElement(props.children)) {
         const content = props.children.props.children as string;
-        return (
-          <div className="mermaid mb-12 flex items-center justify-center [&:not([data-processed])]:invisible [&:not([data-processed])]:opacity-0">
-            {content}
-          </div>
-        );
+        return <Mermaid>{content}</Mermaid>;
       }
     }
 

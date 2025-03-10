@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React, { type JSX } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
@@ -24,7 +24,7 @@ const NavigationSkeletonButton = () => (
 );
 
 const NavigationMobileSkeletonButton = () => (
-  <div className="block h-10 w-10 animate-pulse rounded-full bg-neutral-200 p-2 dark:bg-neutral-900 md:hidden"></div>
+  <div className="block h-10 w-10 animate-pulse rounded-full bg-neutral-200 p-2 md:hidden dark:bg-neutral-900"></div>
 );
 
 const NavigationSearchButton = dynamic(
@@ -64,14 +64,14 @@ export type HeaderDataProps = {
   pinnedProjects: Pick<Repository, "name" | "description" | "url">[];
 };
 
-const NavigationMenu: React.FC<HeaderDataProps> = ({
+export default function NavigationMenu({
   latestPost,
   mostViewedCategories,
   mostViewedTags,
   pinnedGists,
   pinnedRepos,
   pinnedProjects,
-}) => {
+}: HeaderDataProps): JSX.Element {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const navbarContext = useNavbarContext();
   const [isListReady, setIsListReady] = React.useState(false);
@@ -116,8 +116,8 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
         className={cn(
           "z-[-1] -translate-y-[100%] transform-gpu opacity-0",
           "ease-out-cubic transition-[opacity,transform] duration-300",
-          "absolute left-1/2 top-0 h-[calc(100vh-1rem)] w-[200%] lg:h-[80rem]",
-          "-translate-x-[100vw] bg-gradient-to-b from-white from-60% to-white/0 dark:from-black dark:to-black/0 lg:from-80%",
+          "absolute top-0 left-1/2 h-[calc(100vh-1rem)] w-[200%] lg:h-[80rem]",
+          "-translate-x-[100vw] bg-gradient-to-b from-white from-60% to-white/0 lg:from-80% dark:from-black dark:to-black/0",
           {
             "-translate-y-1/4 opacity-100 lg:-translate-y-1/2":
               navbarContext.isOpen,
@@ -131,14 +131,14 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
           "absolute top-0 z-40 flex min-h-11 w-full flex-col justify-center overflow-hidden",
           "[&>div]:!mx-[var(--gutter-size)]",
           "md[&>div]:!w-[var(--container-size)] [&>div]:!w-[calc(100%-var(--gutter-size)*2)] [&>div]:!min-w-0",
-          "[&>div]:!translate-x-0 [&>div]:!translate-y-12",
+          "[&>div]:!translate-x-0 [&>div]:!translate-y-12 [&>div]:!transform-[translate(var(--tw-translate-x),_var(--tw-translate-y))]",
           "",
         )}
       ></div>
 
       <div
         className={cn(
-          "ease-out-cubic relative z-50 mx-auto h-full min-h-[3.125rem] w-full bg-white/80 backdrop-blur dark:bg-black/80 md:h-[3.125rem]",
+          "ease-out-cubic relative z-50 mx-auto h-full min-h-[3.125rem] w-full bg-white/80 backdrop-blur md:h-[3.125rem] dark:bg-black/80",
           {
             "bg-white/0 dark:bg-black/0": navbarContext.isOpen,
           },
@@ -363,6 +363,4 @@ const NavigationMenu: React.FC<HeaderDataProps> = ({
       </div>
     </UINavigationMenu>
   );
-};
-
-export default NavigationMenu;
+}

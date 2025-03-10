@@ -27,23 +27,40 @@ const getCacheRawCode = React.cache(async (children: React.ReactNode) => {
   // Check if children is a code tag and contains a data-theme attribute
   if (
     !React.isValidElement(children) ||
-    typeof children.props["data-theme"] !== "string"
+    typeof (children as React.ReactElement<{ "data-theme": string }>).props[
+      "data-theme"
+    ] !== "string"
   ) {
     throw new Error(
       "The BlogCode component must be a code tag with a data-theme attribute.",
     );
   }
 
-  const codeTag = React.Children.toArray(children)[0] as React.ReactElement;
+  const codeTag = React.Children.toArray(children)[0] as React.ReactElement<{
+    children: React.ReactElement<{ line: number }>[];
+  }>;
   let rawCode = "";
+  const lifeSpans = React.Children.toArray(
+    codeTag.props.children,
+  ) as React.ReactElement<{
+    "data-line": string;
+    children: React.ReactNode[];
+  }>[];
 
-  for (const lineSpan of React.Children.toArray(codeTag.props.children)) {
+  for (const lineSpan of lifeSpans) {
     // Check if the child contains an attribute called "data-line"
     if (
       React.isValidElement(lineSpan) &&
       typeof lineSpan.props["data-line"] === "string"
     ) {
-      for (const tokenSpan of React.Children.toArray(lineSpan.props.children)) {
+      const tokenSpans = React.Children.toArray(
+        lineSpan.props.children,
+      ) as React.ReactElement<{
+        "data-token": string;
+        children: React.ReactNode;
+      }>[];
+
+      for (const tokenSpan of tokenSpans) {
         // Check if the child contains an attribute called "data-token"
         if (
           React.isValidElement(tokenSpan) &&

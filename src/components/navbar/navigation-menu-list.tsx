@@ -1,11 +1,11 @@
 "use client";
 
-import * as React from "react";
+import React, { type JSX } from "react";
 import Link from "next/link";
+import { MoveUpRight } from "lucide-react";
 
 import { NavigationMenuLink as UINavigationMenuLink } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-import { MoveUpRight } from "lucide-react";
 
 type Props = React.PropsWithChildren<
   {
@@ -23,7 +23,10 @@ type Props = React.PropsWithChildren<
 const linkClassName =
   "ease-curve-d line-clamp-1 w-max transform-gpu border-b-2 border-transparent transition-[border-color] duration-200 hover:border-gray-800 dark:hover:border-gray-200";
 
-const NavigationMenuLink: React.FC<Props["items"][0]> = ({ text, url }) => {
+export function NavigationMenuLink({
+  text,
+  url,
+}: Props["items"][0]): JSX.Element {
   return (
     <Link href={url} legacyBehavior passHref>
       <UINavigationMenuLink className={cn(linkClassName)}>
@@ -31,9 +34,12 @@ const NavigationMenuLink: React.FC<Props["items"][0]> = ({ text, url }) => {
       </UINavigationMenuLink>
     </Link>
   );
-};
+}
 
-const NavigationMenuExternal: React.FC<Props["items"][0]> = ({ text, url }) => {
+export function NavigationMenuExternal({
+  text,
+  url,
+}: Props["items"][0]): JSX.Element {
   return (
     <UINavigationMenuLink asChild>
       <a
@@ -50,15 +56,15 @@ const NavigationMenuExternal: React.FC<Props["items"][0]> = ({ text, url }) => {
       </a>
     </UINavigationMenuLink>
   );
-};
+}
 
-const NavigationMenuList: React.FC<Props> = ({
+export default function NavigationMenuList({
   isListReady,
   items,
   title,
   initialDelay = 0,
   ...rest
-}) => {
+}: Props): JSX.Element {
   return (
     <ul {...rest} className="flex w-full list-none flex-col gap-4">
       <li
@@ -106,6 +112,4 @@ const NavigationMenuList: React.FC<Props> = ({
       ))}
     </ul>
   );
-};
-
-export default NavigationMenuList;
+}

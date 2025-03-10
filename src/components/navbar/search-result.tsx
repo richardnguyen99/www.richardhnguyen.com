@@ -1,8 +1,8 @@
-import React from "react";
+import React, { type JSX } from "react";
 import { Search, File } from "lucide-react";
 
 import useMemoizedAutocomplete from "./use-autocomplete";
-import {
+import type {
   InternalSearchHitWithParent,
   InternalSearchState,
 } from "@/types/algolia";
@@ -15,7 +15,11 @@ type Props = ReturnType<typeof useMemoizedAutocomplete> & {
   ) => void;
 };
 
-const SearchResult: React.FC<Props> = ({ state, onItemClick, ...rest }) => {
+export default function SearchResult({
+  state,
+  onItemClick,
+  ...rest
+}: Props): JSX.Element {
   return (
     <div className="ais-panel" {...rest.getPanelProps({})}>
       {state.isOpen &&
@@ -55,6 +59,4 @@ const SearchResult: React.FC<Props> = ({ state, onItemClick, ...rest }) => {
         })}
     </div>
   );
-};
-
-export default SearchResult;
+}

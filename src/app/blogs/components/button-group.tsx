@@ -1,19 +1,19 @@
 "use client";
 
-import * as React from "react";
+import React, { type JSX } from "react";
 import dynamic from "next/dynamic";
 
 const SortButton = dynamic(() => import("./sort-button"), {
   ssr: false,
   loading: () => (
-    <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 dark:bg-neutral-700 md:w-[100px]" />
+    <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 md:w-[100px] dark:bg-neutral-700" />
   ),
 });
 
 const FilterButton = dynamic(() => import("./filter-button"), {
   ssr: false,
   loading: () => (
-    <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 dark:bg-neutral-700 md:w-[100px]" />
+    <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 md:w-[100px] dark:bg-neutral-700" />
   ),
 });
 

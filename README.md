@@ -2,6 +2,9 @@
 
 This is the repository for my website, [www.richardhnguyen.com](https://www.richardhnguyen.com).
 
+There is an [old version](https://github.com/richardnguyen99/v1.richardhnguyen.com)
+of my site that is built with GatsbyJS.
+
 ## Tech stack
 
 - [Next.JS](https://nextjs.org/) &mdash; Core framework that powers the site

@@ -8,8 +8,8 @@ import BlogPagination from "./pagination";
 const ButtonGroup = dynamic(() => import("./button-group"), {
   loading: () => (
     <div className="flex items-center gap-4">
-      <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 dark:bg-neutral-700 md:w-[100px]" />
-      <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 dark:bg-neutral-700 md:w-[100px]" />
+      <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 md:w-[100px] dark:bg-neutral-700" />
+      <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 md:w-[100px] dark:bg-neutral-700" />
     </div>
   ),
 });
@@ -32,6 +32,7 @@ export default async function BlogPage(props: BlogProps): Promise<JSX.Element> {
     categories: selectedCategories = [],
     page: currentPage = 1,
   } = props.searchParams;
+
   const tags = Array.from((await getAllTags()).entries()).map(([key]) => key);
   const categories = Array.from((await getAllCategories()).entries()).map(
     ([key]) => key,
@@ -59,7 +60,9 @@ export default async function BlogPage(props: BlogProps): Promise<JSX.Element> {
         }
       }
 
-      return true;
+      return (
+        process.env.NODE_ENV === "development" || post.frontMatter.published
+      );
     },
     sortOrder: selectedSortOrder,
     sortType: selectedSortType,
@@ -69,11 +72,11 @@ export default async function BlogPage(props: BlogProps): Promise<JSX.Element> {
     <React.Fragment>
       <div className="mx-[var(--gutter-size)] flex justify-between gap-4 sm:w-[var(--container-size)]">
         <div className="flex w-full flex-col">
-          <h2 className="font-mono text-xs/5 font-semibold uppercase tracking-widest text-neutral-500 dark:text-neutral-400">
+          <h2 className="font-mono text-xs/5 font-semibold tracking-widest text-neutral-500 uppercase dark:text-neutral-400">
             {posts.length} articles
           </h2>
           <div className="flex w-full flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-0">
-            <h3 className="mt-2 text-pretty text-6xl font-medium tracking-tighter text-neutral-950 dark:text-white sm:text-4xl md:text-2xl">
+            <h3 className="mt-2 text-6xl font-medium tracking-tighter text-pretty text-neutral-950 sm:text-4xl md:text-2xl dark:text-white">
               Latest Blog
             </h3>
 

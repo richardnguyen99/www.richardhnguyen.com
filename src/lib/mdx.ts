@@ -116,7 +116,11 @@ export const getMdxFiles = async () => {
 };
 
 export const generateMdxSlugs = async () => {
-  const mdxContents = await getMdxContents();
+  const mdxContents = await getMdxContents({
+    filter: (content) =>
+      process.env.NODE_ENV === "development" ||
+      (process.env.NODE_ENV === "production" && content.frontMatter.published),
+  });
 
   return mdxContents.map((content) => ({
     slug: `${content.frontMatter.slug}`,
@@ -254,7 +258,10 @@ export const getLatestMdxContentByTag = async (
 };
 
 export const getAllCategories = async () => {
-  const mdxContents = await getMdxContents();
+  const mdxContents = await getMdxContents({
+    filter: (content) =>
+      process.env.NODE_ENV === "development" || content.frontMatter.published,
+  });
 
   const categories = mdxContents.reduce(
     (acc, content) => {
@@ -289,7 +296,10 @@ export const getAllCategories = async () => {
 };
 
 export const getAllTags = async () => {
-  const mdxContents = await getMdxContentsWithFilter();
+  const mdxContents = await getMdxContents({
+    filter: (content) =>
+      process.env.NODE_ENV === "development" || content.frontMatter.published,
+  });
 
   const tags = mdxContents.reduce(
     (acc, content) => {

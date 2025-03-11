@@ -4,7 +4,12 @@ import { getMdxContentsWithFilter } from "@/lib/mdx";
 import LatestArticleCard from "./latest-article-card";
 
 export default async function LatestArticleSection(): Promise<JSX.Element> {
-  const contents = await getMdxContentsWithFilter(3, "desc");
+  const contents = await getMdxContentsWithFilter(
+    3,
+    "desc",
+    (content) =>
+      process.env.NODE_ENV === "development" || content.frontMatter.published,
+  );
 
   return (
     <div className="col-span-12 grid grid-cols-12 gap-3 lg:grid-rows-2">

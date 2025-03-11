@@ -86,6 +86,10 @@ const processRecords = async () => {
 
   const objects = posts.filter((post) => post.published);
 
+  objects.forEach((post) => {
+    console.log("Post: ", post);
+  });
+
   return await client.saveObjects({
     indexName: process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME as string,
     objects,

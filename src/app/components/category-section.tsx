@@ -20,7 +20,9 @@ export default async function CategorySection({
   const data = await getMdxContents({
     limit: 5,
     sortOrder: "desc",
-    filter: (content) => content.frontMatter.category === category,
+    filter: (content) =>
+      content.frontMatter.category === category &&
+      (process.env.NODE_ENV === "development" || content.frontMatter.published),
   });
 
   return (

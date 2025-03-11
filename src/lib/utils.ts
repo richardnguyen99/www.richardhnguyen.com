@@ -14,6 +14,12 @@ export function capitalizeKeywords(keyword: string): string {
   return keyword.charAt(0).toUpperCase() + keyword.slice(1);
 }
 
+export function formatCategory(keyword: string): string {
+  const words = keyword.split("-");
+
+  return words.map((word) => capitalizeKeywords(word)).join(" ");
+}
+
 export function formatTag(
   tag: string,
   options?: {

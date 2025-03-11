@@ -3,7 +3,7 @@ import React, { type JSX } from "react";
 import { getAllCategories } from "@/lib/mdx";
 import CategorySectionSkeleton from "./category-section-skeleton";
 import CategorySection from "./category-section";
-import { capitalizeKeywords } from "@/lib/utils";
+import { capitalizeKeywords, formatCategory } from "@/lib/utils";
 
 export default async function CategoryContainer(): Promise<JSX.Element> {
   const categories = Array.from((await getAllCategories()).entries())
@@ -17,13 +17,13 @@ export default async function CategoryContainer(): Promise<JSX.Element> {
           key={i}
           fallback={
             <CategorySectionSkeleton
-              title={capitalizeKeywords(category)}
+              title={formatCategory(category)}
               category={category}
             />
           }
         >
           <CategorySection
-            title={capitalizeKeywords(category)}
+            title={formatCategory(category)}
             category={category}
           />
         </React.Suspense>

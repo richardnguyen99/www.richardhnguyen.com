@@ -20,7 +20,7 @@ export default function Mermaid({ children }: MermaidProps): JSX.Element {
   }, []);
 
   return (
-    <div className="mermaid mb-12 flex items-center justify-center [&:not([data-processed])]:invisible [&:not([data-processed])]:opacity-0">
+    <div className="mermaid mb-12 flex min-h-[500px] items-center justify-center [&:not([data-processed])]:invisible [&:not([data-processed])]:opacity-0">
       {children}
     </div>
   );

@@ -118,11 +118,159 @@ sequenceDiagram
     end
 ```
 
+To understand the connection-mode of TCP, you should consider how connectionless
+protocols like UDP and IP work. UDP wraps the data in a packet, called
+_datagram_, and sends it to the destination without any prior. It follows the
+principle of "Fire and Forget". The sender does not care if the packet is
+delivered or not. If it needs a response, it will either wait, send another
+packet or respond back to the user.
+
+TCP establishes a connection between two endpoints before transferring any data.
+This connection will detect data corruption, correct errors and retransmit lost
+data. It also ensures that the data is delivered in the same order as it was
+sent.
+
 ## Reliable data transfer
+
+TCP is built on top of the unreliable IP protocol. IP does not guarantee that
+the data is delivered. It follows the principle of "Best Effort", i.e _"I try my
+best but I don't promise anything"_. Due to physical factors, data can be
+corrupted with bit flipping. And when you move higher to the architecture of the
+Internet, data can be lost due to many reasons such as delay, network congestion
+or simply the destination is unreachable.
+
+For example, in a busy network, packets can be dropped due to congestion. In the
+following figure, packet 1 and packet 3 got transferred successfully but packet
+2 got dropped because host D is facing a congestion in its network.
+
+![Packet Loss](/packet-loss.png "Packet Loss")
+
+TCP provides many mechanisms to ensure that the data is transferred in whole and
+in the right order. Not only that, TCP can detect and control the congestion
+in the host and in the network with *flow control* and *congestion control*
+mechanisms respectively.
+
 
 ## Stream-oriented protocol
 
+TCP is a stream-oriented protocol. It means that it provides a continuous
+stream of data between two endpoints. The data is divided into smaller chunks
+called _segments_ and each segment is assigned a sequence number. The receiver
+reassembles the segments in the correct order based on the sequence numbers.
+
+For example, if the sender sends three segments with sequence numbers 1, 2 and
+3, the receiver will receive them in the same order and reassemble them into
+a continuous stream of data. The receiver will also send an acknowledgment
+(ACK) packet to the sender to confirm that the segments are received correctly.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant client
+    participant server
+
+    Note over client,server: Client sends a stream of data to the server
+
+    client->>+server: (TCP) Send segment 1
+    client->>+server: (TCP) Send segment 2
+    client->>+server: (TCP) Send segment 3
+
+    Note over client,server: Server receives the segments and reassembles<br />them into a continuous stream of data
+
+    server-->>-client: (TCP) send ACK for segment 1
+    server-->>-client: (TCP) send ACK for segment 2
+    server-->>-client: (TCP) send ACK for segment 3
+
+    Note over client,server: Client receives the ACK packets and<br />knows that the segments are received correctly
+```
+
+The following figure illustrates how TCP provides a continuous stream of data
+between two endpoints. The sender sends a stream of data to the receiver and
+the receiver reassembles the data into a continuous stream. The sender and
+receiver use sequence numbers to keep track of the segments and ensure that
+the data is delivered in the right order.
+
 # How TCP works
+
+TCP is a complex protocol because it has to handle many different situations
+that can occur during data transmission and cause data loss or corruption. TCP
+provides many mechanisms to ensure the reliability of data transmission such as
+error detection, retransmission, duplication, flow controls and congestion
+controls.
+
+## Error detection
+
+The most basic mechanism of a reliable data transfer (RDT) protocol is the error
+detection mechanism. Let's grant that all the data is delivered to the receiver
+in the correct order. But how do we know that the data is not corrupted?
+
+There are many factors that can cause the data to be corrupted. It could be a
+hardware problem such as faulty network devices, power surge or improper
+shutdown. It could also be a software problem due to wrong configuration on the
+network stacks, outdated drivers, etc.
+
+TCP uses a checksum to detect errors in the data. This checksum is computed at
+the sender side and sent along with the data. The receiver computes the checksum
+of the received data and compares it with the checksum sent by the sender. If
+the checksums match, the data is considered to be correct. If the checksums do
+not match, the data is considered to be corrupted and the receiver will discard
+the data.
+
+But here is the tricky part. How should the receiver tell the sender that the
+data is corrupted? The sender will be wait for the ACK packet from the receiver
+to confirm that the data is received correctly.
+
+The receiver can send a negative acknowledgment (NAK or NACK) packet to the
+sender to indicate that an error is detected. The sender will retransmit the
+data.
+
+![TCP Receiver Error Detection](/tcp-receiver-error-detection.png "TCP Receiver Error Detection")
+
+After sending the data, the sender will wait for the response packet from the
+receiver. If the sender receives an ACK packet, it means that the data is
+received correctly. If the sender receives a NACK packet, it means that the data
+is corrupted and the sender will retransmit the data.
+
+![TCP Sender Error Detection](/tcp-sender-error-detection.png "TCP Sender Error Detection")
+
+However, the NACK mechanism is not used in TCP directly. Instead, the receiver
+treats the corrupted data as a packet loss; it will discard the corrupted data.
+
+
+## Packet loss and Packet retransmission
+
+For every packet that is sent, the send expects an acknowledgment (ACK) packet
+from the receiver to confirm that the packet is arrived safely. If the sender
+does not receive the ACK packet that matches the sequence number of the sent
+packet within a certain time, it will assume that the packet is lost.
+
+TCP uses a time-based retransmission mechanism to retransmit the lost packets.
+When a packet is sent, the sender starts a timer. If the timer expires before
+the sender receives the ACK packet, it will retransmit the packet.
+
+![TCP timeout retransmission](/tcp-timeout.png "TCP timeout retransmission")
+
+> From the perspective of Host A, it does not know whether the packet is lost
+> before arriving at Host B, the packet gets dropped at Host B, the ACK packet
+> from Host B is lost or there is a unusual delay. In all cases, the timer will
+> act as a trigger to retransmit the packet.
+
+Simply relying on timers to retransmit can cause unnecessary delay in the
+network because the timer is usually set to a high value to avoid false
+retransmissions (delayed packets). Fortunately, senders can detect loss packets
+before the timer expires by noting the duplicate ACK packets.
+
+When the sender receives a duplicate ACK packet, it means that the receiver has
+received the previous packet but not the current one. This is a strong
+indication that the current packet is lost. The sender can retransmit the
+current packet without waiting for the timer to expire. This technique is called
+[Fast Retransmit](https://en.wikipedia.org/wiki/Fast_retransmit).
+
+## Pipe-lineing and out-of-order delivery
+
+## Flow control
+
+## Congestion control
 
 # Implement a TCP client and server
 

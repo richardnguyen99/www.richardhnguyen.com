@@ -311,6 +311,86 @@ retransmit all the packets in the window.
 
 ![TCP GBN order](/tcp-gbn-order.png "TCP GBN order")
 
+After reading this, you might wonder why GBN does not send only the ACK-missing
+packet instead of all the packets in the window. The reason is that GBN does not
+maintain a buffer to store packets in the receiver. The receiver only keeps
+track of the expected sequence number. When the receiver receives an
+out-of-order packet, it will discard the packet and send an ACK packet for the
+last orderly-correct packet. A single error packet can make the sender resend
+multiple packets, which is not efficient in terms of bandwidth and resource.
+
+### Selective Repeat
+
+**Selective Repeat (SR)** protocol is an improvement over GBN. As the name
+suggests, SR allows the sender to retransmit only those packets that it
+_suspects_ to be corrupted, or lost at the receiver. There are two main
+differences between SR and GBN:
+
+- SR allows the sender to maintain ACK'd packets that are not the first in the
+  window. If the sender receives an ACK'd packet for the first packet in the
+  window, it will simply advance the window.
+- SR allows the receiver to maintain a sliding window of its own to buffer out-
+  of-order packets. The receiver can send an ACK packet for each received
+  packet in the window. When the receiver receives the first packets in the
+  window, it will deliver the data to the application and advance the window to
+  right.
+
+With a sliding window to buffer out-of-order packets in the receiving end, both
+sender and receiver can communicate with each other to determine which packets
+are ACK'd and which packets are likely to be lost. But then, if the sender knows
+some of the packets are lost, how does it retransmit?
+
+Again, timeout is the key. Timers are used to protect against lost packets. But
+instead of having one timer for all packets, the sender now maintains a timer
+for each sent but not yet ACK'd packet. If the timer expires, the sender will
+retransmit only the packets that are likely to be lost. The sender will not
+retransmit the packets that are already ACK'd by the receiver.
+
+![TCP SR operation](/tcp-sr-operation.png "TCP SR operation")
+
+However, SR has its own drawbacks. First, maintaining multiple timers, one for
+each packet, is not efficient. Secondly, there is no synchronization between the
+the sender's window and the receiver's window. The sender can send packets
+faster than the receiver can receive them. This can cause the receiver's buffer
+to overflow and packets to be dropped. And if every packet is lost, SR will face
+the same problem as GBN, i.e. the sender will retransmit all the packets in the
+window.
+
+### What does TCP use?
+
+Both protocols for handling lost packets and out-of-order problems contain some
+drawback that makes them not suitable for the real-world applications. Instead
+of picking solely one of them, TCP uses a hybrid version of both protocols.
+
+TCP implements another mechanism called **duplicate ACKs** to handle the lost
+packets. When a TCP receiver gets packets out of order (e.g., packet 5 arrives
+but packet 4 is missing), it sends an ACK for the last in-order packet it
+successfully received (in this case, packet 3). If more out-of-order packets
+arrive (say, packets 6 and 7), the receiver keeps sending the same ACK for
+packet 3 repeatedly. These are called duplicate ACKs. Typically, TCP uses 3
+duplicate ACKs as a threshold to trigger the retransmission of the missing
+packet.
+
+Beside that, TCP also implements a mechanism called **fast retransmit** to
+retransmit the lost packets. When the sender receives 3 duplicate ACKs, it
+will retransmit the missing packet without waiting for the timer to expire. This
+is called fast retransmit because it allows the sender to retransmit the missing
+packet before the timer expires. This mechanism is used to improve the
+performance of TCP in networks with high packet loss.
+
+TCP also uses a timer to retransmit the lost packets. However, the timer is used
+in situations that duplicate ACKs are not likely to sent such as a congested
+network, or the packet is the last packet in the window.
+
+Mordern TCP implementations also use a mechanism called **selective
+acknowledgment (SACK)** to improve the performance of TCP in networks with high
+packet loss. SACK allows the receiver to inform the sender about all the packets
+that are received successfully, not just the last in-order packet. This allows
+the sender to retransmit only the missing packets, not all the packets in the
+window.
+
+![TCP SACK operation](/tcp-sack-operation.png "TCP SACK operation")
+
 ## Flow control
 
 ## Congestion control

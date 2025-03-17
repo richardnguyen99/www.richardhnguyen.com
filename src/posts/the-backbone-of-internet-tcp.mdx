@@ -514,6 +514,32 @@ window.
 
 ## Flow control
 
+Flow control is a mechanism that prevents the sender from overwhelming the
+receiver with too much data in a short time window. In practical networks,
+senders often have one job to do, which is to construct and send data. On the
+other hand, receivers have many jobs to fulfill such as receiving data.
+
+For example, an HTTP message is sent from the client to the server to request
+for a video. The client HTTP is relatively simple; it just sends the string text
+as a GET request. However, the job at the server side is much more complex. The
+server needs to read the request, parse it, find the video file by communicating
+with database, read the file, encode it and send it back to the client. These
+works take time and resources and might take delay to respond back to the
+client. If a client sends multiple requests to the server while is still busy
+doing something else, the requests will be buffered in the server. If the buffer
+is full, it will cause an overflow and the server will drop the packets.
+
+Flow control essentially is a feedback server that the receiver sends to the
+sender and says "Hey, I can only handle this much data at a time. Can you please match with it?". The sender will then adjust the sending rate to match with the receiver's receiving rate.
+
+Initially, the receive window is set to the receiver's buffer size:
+
+$$
+\begin{equation}
+\text{rwnd} = \text{RcvBuffer}
+\end{equation}
+$$
+
 ## Congestion control
 
 # Implement a TCP client and server

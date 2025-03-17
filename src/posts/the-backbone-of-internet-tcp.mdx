@@ -130,27 +130,6 @@ This connection will detect data corruption, correct errors and retransmit lost
 data. It also ensures that the data is delivered in the same order as it was
 sent.
 
-## Reliable data transfer
-
-TCP is built on top of the unreliable IP protocol. IP does not guarantee that
-the data is delivered. It follows the principle of "Best Effort", i.e _"I try my
-best but I don't promise anything"_. Due to physical factors, data can be
-corrupted with bit flipping. And when you move higher to the architecture of the
-Internet, data can be lost due to many reasons such as delay, network congestion
-or simply the destination is unreachable.
-
-For example, in a busy network, packets can be dropped due to congestion. In the
-following figure, packet 1 and packet 3 got transferred successfully but packet
-2 got dropped because host D is facing a congestion in its network.
-
-![Packet Loss](/packet-loss.png "Packet Loss")
-
-TCP provides many mechanisms to ensure that the data is transferred in whole and
-in the right order. Not only that, TCP can detect and control the congestion
-in the host and in the network with *flow control* and *congestion control*
-mechanisms respectively.
-
-
 ## Stream-oriented protocol
 
 TCP is a stream-oriented protocol. It means that it provides a continuous
@@ -190,6 +169,26 @@ the receiver reassembles the data into a continuous stream. The sender and
 receiver use sequence numbers to keep track of the segments and ensure that
 the data is delivered in the right order.
 
+## Reliable data transfer
+
+TCP is built on top of the unreliable IP protocol. IP does not guarantee that
+the data is delivered. It follows the principle of "Best Effort", i.e _"I try my
+best but I don't promise anything"_. Due to physical factors, data can be
+corrupted with bit flipping. And when you move higher to the architecture of the
+Internet, data can be lost due to many reasons such as delay, network congestion
+or simply the destination is unreachable.
+
+For example, in a busy network, packets can be dropped due to congestion. In the
+following figure, packet 1 and packet 3 got transferred successfully but packet
+2 got dropped because host D is facing a congestion in its network.
+
+![Packet Loss](/packet-loss.png "Packet Loss")
+
+TCP provides many mechanisms to ensure that the data is transferred in whole and
+in the right order. Not only that, TCP can detect and control the congestion
+in the host and in the network with *flow control* and *congestion control*
+mechanisms respectively.
+
 # How TCP works
 
 TCP is a complex protocol because it has to handle many different situations
@@ -197,6 +196,128 @@ that can occur during data transmission and cause data loss or corruption. TCP
 provides many mechanisms to ensure the reliability of data transmission such as
 error detection, retransmission, duplication, flow controls and congestion
 controls.
+
+## TCP structure
+
+IP protocol is an unreliable protocol. It folows a simple principle _"Best
+Effort"_. It sends the data to the destination without any guarantee that the
+data is delivered. TCP is designed to provide a reliable data transfer.
+
+As discussed above, TCP is a transport-layer protocol between application layer
+and the network layer. TCP works by wrapping the data sent by the application
+into a packet with TCP fields. A complete TCP packet with application data
+and TCP fields is called a **TCP segment**. The TCP segment is then passed to
+the network layer to be encapsulated into an IP packet and IP protocol will
+deliver this packet to lower layers of the network stack.
+
+TCP packet typically looks like this:
+
+```mermaid
+---
+title: "TCP Packet"
+---
+packet-beta
+0-15: "Source Port"
+16-31: "Destination Port"
+32-63: "Sequence Number"
+64-95: "Acknowledgment Number"
+96-99: "Data Offset"
+100-105: "Reserved"
+106: "URG"
+107: "ACK"
+108: "PSH"
+109: "RST"
+110: "SYN"
+111: "FIN"
+112-127: "Window"
+128-143: "Checksum"
+144-159: "Urgent Pointer"
+160-191: "(Options and Padding)"
+192-255: "Data (variable length)"
+```
+
+Now let's break down the structure of a TCP packet:
+
+- **Source Port**: The port number of the application that sends the data.
+- **Destination Port**: The port number of the application that receives the
+  data.
+- **Sequence Number**: The sequence number of the first byte of data in the
+  packet. This is used to build a reliable data transfer protocol as discussed
+  below.
+- **Acknowledgment Number**: The sequence number of the next byte of data that
+  the sender expects to receive. This is used to acknowledge the receipt of
+  data.
+- **Data Offset**: The size of the TCP header in 32-bit words. This is used to
+  determine the length of the TCP header.
+- **Option field**: This field is used to specify optional parameters for the
+  TCP connection. It can be used to set the maximum segment size, window scale,
+  and other options.
+- **Window size**:  The size of the receive window. This is used to control the
+  flow of data between the sender and receiver. It is used in flow control and
+  congestion control (discussed below).
+- **Checksum**: A 16-bit checksum used to detect errors in the TCP header and
+  data. The sender computes the checksum of the TCP header and data and sends it
+  to the receiver. The receiver computes the checksum of the received TCP
+  header and data and compares it with the checksum sent by the sender. If the
+  checksums match, the data is considered to be correct. If the checksums do not
+  match, the data is considered to be corrupted and the receiver will discard
+  the data.
+- **Urgent Pointer**: This field is used to indicate the end of the urgent data
+  in the TCP segment. Urgent data is data that should be processed immediately,
+  such as a keyboard interrupt. However, this field is not used in modern TCP
+  implementations.
+- **Flag fields**: These fields are used to mark the TCP packet with different
+  control flags. The most common flags are:
+  - **URG**: Urgent pointer field significant
+  - **ACK**: Acknowledgment field significant
+  - **PSH**: Push function
+  - **RST**: Reset the connection
+  - **SYN**: Synchronize sequence numbers
+  - **FIN**: No more data from sender
+- **Data**: The application data that is being sent. This is the payload of the
+  TCP packet. The size of the data field is variable and depends on the size of
+  the application data.
+
+To imagine how network packets work, you can think of it's an onion. When an
+application process wants to send a message to another application process, it
+will construct the message, as the core of the onion. TCP receives the message,
+wraps it in a TCP packet as the first layer of the onion. Then, the IP protocol
+will wrap the TCP packet in an IP packet as the second layer of the onion. As
+the packet moves down the network and gets sent through the internet, the
+receiver end then peals off the layers one by one until it reaches the core of the onion, which is the original application message.
+
+![Network Overview](/network-overview.png "Network Overview")
+
+## TCP construction
+
+As mentioned above, TCP is a stream-oriented protocol. It views data as an
+unstructured but ordered stream of bytes. On sending a large file, the sender
+will break the file into smaller chunks of data, called _segments_.
+
+![TCP Stream Orientation](/tcp-stream-orientation.png "TCP Stream Orientation")
+
+Each segment is assigned a sequence number. The sequence number for a segment
+is the byte-stream number of the first byte in the segment. For example, if Host
+A sends a file, whose size is 9216 bytes, to Host B. The **maximum segment size
+(MSS)** is 3072 bytes. The file will be divided into 3 segments, each of which
+has 3072 bytes. The first segment will have a sequence number of 0, the second
+segment will have a sequence number of 3072 and the third segment will have a
+sequence number of 6144.
+
+The acknowledgement (ACK) number is the sequence number of the next byte that
+the receiver expects to receive. For example, if Host A sends a file to Host B
+and Host B receives the first segment with a sequence number of 0 and a byte
+size of 3072 (0-3071), Host B will send an ACK packet with an ACK number of 3072
+to Host A to acknowledge that it has received the first segment correctly and
+are expecting to received the next packet with a sequence number of 3072.
+
+In practical situations, many subsequent segments can be lost or arrive out of
+order. TCP is designed to handle these situations by utilizing the sequence
+number and acknowledgement number. However, the original proposal of TCP did not
+specify *HOW* and left the implementations to the developers. As a result,
+there are many different implementations of TCP that are used in the real world.
+But most of them are based on two main protocols and their variations:
+[Go-Back-N (GBN)](#go-back-n) and [Selective Repeat (SR)](#selective-repeat).
 
 ## Error detection
 

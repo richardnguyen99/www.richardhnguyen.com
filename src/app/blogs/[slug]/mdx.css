@@ -438,12 +438,22 @@
     @apply !fill-neutral-800 dark:!fill-neutral-200;
   }
 
-  .mermaid {
+  .mermaid .packetBlock {
+    @apply !fill-neutral-200 dark:!fill-neutral-800;
+    @apply !stroke-neutral-300 dark:!stroke-neutral-200;
+  }
+
+  .mermaid .packetLabel {
+    @apply !fill-neutral-800 dark:!fill-neutral-200;
+  }
+
+  .mermaid .packetByte {
+    @apply !fill-neutral-800 dark:!fill-neutral-200;
   }
 
   .katex-display {
     @apply !content-container;
-    @apply mb-12;
+    @apply !mb-12;
     @apply text-sm leading-6 sm:text-base sm:leading-8;
   }
 }

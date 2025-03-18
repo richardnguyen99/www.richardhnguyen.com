@@ -514,6 +514,164 @@ window.
 
 ## Flow control
 
+Flow control is a mechanism that prevents the sender from overwhelming the
+receiver with too much data in a short time window. In practical networks,
+senders often have one job to do, which is to construct and send data. On the
+other hand, receivers have many jobs to fulfill such as receiving data.
+
+For example, an HTTP message is sent from the client to the server to request
+for a video. The client HTTP is relatively simple; it just sends the string text
+as a GET request. However, the job at the server side is much more complex. The
+server needs to read the request, parse it, find the video file by communicating
+with database, read the file, encode it and send it back to the client. These
+works take time and resources and might take delay to respond back to the
+client. If a client sends multiple requests to the server while is still busy
+doing something else, the requests will be buffered in the server. If the buffer
+is full, it will cause an overflow and the server will drop the packets.
+
+Flow control essentially is a feedback server that the receiver sends to the
+sender and says "Hey, I can only handle this much data at a time. Can you
+please match with it?". The sender will then adjust the sending rate to match
+with the receiver's receiving rate.
+
+Recalling both sender and receiver maintain a sliding window to keep track of
+the packets that are sent and received. The following diagrams illustrate how
+the sliding window works in the sender and receiver.
+
+```txt disableCopyButton
+
+                   1         2          3          4
+              ----------|----------|----------|----------
+                     SND.UNA    SND.NXT    SND.UNA
+                                          +SND.WND
+
+        1 - old sequence numbers which have been acknowledged
+        2 - sequence numbers of unacknowledged data
+        3 - sequence numbers allowed for new data transmission
+        4 - future sequence numbers which are not yet allowed
+
+                          Send Sequence Space
+```
+
+```txt
+                       1          2          3
+                   ----------|----------|----------
+                          RCV.NXT    RCV.NXT
+                                    +RCV.WND
+
+        1 - old sequence numbers which have been acknowledged
+        2 - sequence numbers allowed for new reception
+        3 - future sequence numbers which are not yet allowed
+
+                         Receive Sequence Space
+```
+
+Let's break down the terms used in the diagrams:
+
+- **SND.UNA**: Unacknowledged sequence number of the first byte in the
+  sender's window.
+- **SND.NXT**: Next sequence number to be sent by the sender.
+- **SND.WND**: Size of the sender's window.
+- **RCV.NXT**: Next sequence number to be received by the receiver.
+- **RCV.WND**: Size of the receiver's window.
+
+The sender's window is the buffer TCP allocates to store the packets are sent.
+However, the sender can only send bytes in the range of `SND.NEXT` to the right
+edge of the window. The sender also needs to consult with `MSS` (maximum segment
+size) to determine the final size of the window.
+
+$$
+\begin{equation}
+\text{SND.WND} = \min(\text{MSS}, \text{SND.UNA} + \text{SND.WND} - \text{SND.NXT})
+\end{equation}
+$$
+
+This allows the sender to utilize the buffer efficiently by sending as much data
+as possible without overflowing the sender's buffer.
+
+On the receiver side, the receiver also maintains a window to store the packets
+that are received. Often, the receive window is pre-allocated by the operating
+system, or more commonly, equal to the receive buffer.
+
+The receiver's window is the buffer TCP allocates to store the packets that are
+received. The receiver can only receive bytes in the range of `RCV.NXT` to the
+right edge of the window.
+
+If a packet arrives outside and on the left of the window, the receiver
+considers the packet as a duplicate packet and discards it. If a packet arrives
+outside and on the right of the window, the receiver considers the packet as an
+out-of-order packet and also discards it because the system has not allocated
+resource to process that packet yet.
+
+If the receiving window is 0, which means there is no space to store the packet,
+the receiver will send an ACK packet with the same sequence number as the last
+received packet and advertise the window size to 0. The sender now enters **the
+persist timer** state, which implements a timer that periodically sends a probe
+packet of 1 byte to the receiver to check if the window is open. If the sender
+continues to receive the ACK packet with the same sequence number and the window
+size is still 0, the sender will continue the same process.
+
+The window size is dynamic and can be adjusted by the receiver:
+
+1. The window closes at the left edge when the receiver has acknowledged the
+  packet.
+2. The window opens at the right edge when the receiver process has finished
+  processing other jobs and allocated resources to process incoming packets.
+3. In rare cases, the window size shrinks when the the receiver closes at the
+  right edge. [RFC 1122 Section 4.2.2.16](
+  https://datatracker.ietf.org/doc/html/rfc1122#page-91) strongly
+  discourages it because it might cause a _negative window_ on the sender size.
+
+Here is the table that summarizes the flow control:
+
+|  Time | Seg # | Sender: | Receiver | Action | Stored | Free |
+|-------|-------|:--------:|:----------:|:--------:|--------|------|
+| 0.000 | 1 | 1:1025(1024)| | | 1024 | 3072 |
+| 0.002 | 2 | 1025:2049(1024) | | | 2048 | 2048 |
+| 0.003 | 3 | 2049:3073(1024) | | | 3072 | 1024 |
+| 0.005 | 4 | 3073:4097(1024) | | | 4096 | 0 |
+| 0.170 | 5 | (persist timer) | ACK 4097, win 0 | | | |
+| 3.990 | | | | read 256 | 3840 | 256 |
+| 5.151 | 6 | 4097:4098(1) | | | 3840 | 256 |
+| 5.990 | | | | read 256 | 3584 | 512 |
+| 7.990 | | | | read 256 | 3328 | 768 |
+| 9.990 | | | | read 256 | 3072 | 1024 |
+| 10.15 | 8 | 4097:4098(1) | | | 3072 | 1024 |
+| 10.17 | 9 | | ACK 4097, win 0 | | | |
+| 11.99 | | | | read 256 | 2816 | 1280 |
+| 13.99 | | | | read 256 | 2560 | 1536 |
+| 15.15 | 10 | 4097:4098(1) | | | 2560 | 1536 |
+| 15.17 | 11 | | ACK 4097, win 1536 | | | |
+| 15.17 | 12 | 4097:5121(1024) | | | 3584 | 512 |
+| 15.37 | 13 | | ACK 5121, win 512 | | | |
+| 15.99 | | | | read 256 | 3328 | 768 |
+| 17.99 | | | | read 256 | 3072 | 1024 |
+| 19.99 | | | | read 256 | 2816 | 1280 |
+| 20.15 | 14 | 5121:5633(512) | | | 3328 | 768 |
+| 20.17 | 15 | (persist timer) | ACK 5633, win 0 | | |
+| 21.99 | | | | read 256 | 3072 | 1024 |
+| 23.99 | | | | read 256 | 2816 | 1280 |
+| 25.15 | 16 | 5633:5634(1) | | | 2816 | 1280 |
+| 25.17 | 17 | | ACK 5633, win 1280 | | | |
+| 25.17 | 18 | 5633:6145(512) | | | 3328 | 768 |
+| 25.20 | 19 | | ACK 6145, win 768 | | | |
+| 25.99 | | | | read 256 | 3072 | 1024 |
+| 27.99 | | | | read 256 | 2816 | 1280 |
+| 29.99 | | | | read 256 | 2560 | 1536 |
+| 31.99 | | | | read 256 | 2304 | 1792 |
+| 33.99 | | | | read 256 | 2048 | 2048 |
+| 35.99 | | | | read 256 | 1792 | 2304 |
+| 37.99 | | | | read 256 | 1536 | 2560 |
+| 39.99 | | | | read 256 | 1280 | 2816 |
+| 40.00 | 20 | | ACK 8193, win 2816 | | | |
+| 41.99 | | | | read 256 | 1024 | 3072 |
+| 43.99 | | | | read 256 | 768 | 3328 |
+| 45.99 | | | | read 256 | 512 | 3584 |
+| 47.99 | | | | read 256 | 256 | 3840 |
+| 49.99 | | | | read 256 | 0 | 4096 |
+| 51.99 | | | | read 256 (EOF) | 0 | 4096 |
+| 52.00 | 21 | | ACK 9473, win 4096 | | | |
+
 ## Congestion control
 
 # Implement a TCP client and server

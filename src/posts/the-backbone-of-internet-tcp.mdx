@@ -674,9 +674,136 @@ Here is the table that summarizes the flow control:
 
 ## Congestion control
 
+Congestion control is a mechanism that prevents the sender from overwhelming the
+network, which is the most important part of TCP data transfer. The basic
+approach is to slow down the sending rate when TCP has some indication that the
+network is being congested. The question is how does TCP know whether the
+network is being congested, and how does it slow down the sending rate?
+
+TCP takes care of data loss by offering a reliable data transfer protocol with
+rigorous error detection and retransmission mechanisms. TCP also provides
+services to prevent from overwhelming the receiver with too much data in a short
+time window. In these scenarios, TCP only involves two parties: the sender and
+the receiver.
+
+Now consider what happens when the network is a collection between senders and
+receivers. Either the senders must slow down or the receivers decide to drop
+lots of packets. When the receivers is forced to drop packets, even a single
+byte cannot fit into the receive buffer, the network is considered to be
+_congested_. So how does TCP handle these terrible situations?
+
+## Detection of TCP congestion
+
+Between two endpoints, TCP senders can easily tell whether the receiver is
+overwhelmed by examining the receive window field in the TCP header. If the
+receiver's window size is 0, the sender will stop sending data andd enter the
+persist timer state, which periodically sends small probe packetes of size 1
+to the receiver to check if the window is open.
+
+However, in a network where multiple senders and receivers are communicating
+with each other, there is no definitive way to tell. However, TCP makes
+assumptions about the network being congested when it detects packet loss.
+
+### Slow Start
+
+TCP begins data transferring with a *Slow Start* phase. In this phase, the
+sender starts by sending one segment and waits for the ACK packet from the
+receiver. When the sender receives the ACK packet, it will double the sending
+rate and send two segments. The sender will continue to double the sending rate
+until it reaches the *congestion window* size.
+
+The congestion window size is the maximum number of segments that the sender can
+send before retransmission timeout. Initially, the congestion window size,
+`cwnd`, is set to 1 segment (MSS). The sender will double the congestion window
+size every time it receives an ACK packet from the receiver.
+
+![TCP Slow Start](/tcp-slow-start.png "TCP Slow Start")
+
+### Congestion Avoidance
+
+But you might ask, if the congestion window keeps increasing with an exponential
+rate, should we worry that it will congest the network at some point? The answer
+is that _you are right_. The sender will need to watch out for the rate to not
+exceed the `ssthresh` value.
+
+`ssthresh` is the threshold value that the sender uses to monitor the sending
+rate. When the congestion window exceeds the `ssthresh` value, the sender will
+switch from slow start to a more conservative approach called *congestion
+avoidance* in which instead of doubling the congestion window size, the sender
+will increase the congestion window size linearly (usually by one MSS).
+
+> In congestion avoidance phase, different algorithms are used to increase the
+> rate of the congestion window. Some simply increase the window size by one MSS
+> as we discussed above. Some use a more complex calculation to optimize the
+> sending rate.
+
+The value of `ssthresh` can be arbitary. However, the most common way to determine its valuy is by half of the last observed congestion window size
+before the congestion occurs.
+
+Being in the congestion avoidance phase does not mean that a congestion is
+happening. It is simply that the senders are taking caution to send data at a
+steady and conservative rate.
+
+A congestion is considered to be happening when the sender detects a packet
+loss. When a packet loss is detected, the sender drops the congestion window
+size to 1 MSS and restarts the slow start phase. However, instead of maintaining
+the same `ssthresh` value, the sender will set the `ssthresh` value to half of
+the congestion window size right before a congestion occurs.
+
+<TCPCongestionControlChart />
+
+Unlike a timeout packet loss where the congestion window is dropped to 1 MSS,
+a triple-duplicate-ACK packet loss does not drop the congestion window size to 1
+but instead continues to increase the congestion window size linearly. This is
+because the congestion window is designed to increase when an ACK packet is
+received.
+
+### Fast Recovery
+
+Fast recovery is triggered when the sender receives three duplicate ACKs.
+Before entering fast recovery phase, the `ssthresh` value is set to half of the
+congestion window size. However, the congestion window size is not dropped to 1
+but continues to increase linearly.
+
+If the sender receives an ACK packet that acknowledges the missing packet, the
+sender will exit the fast recovery phase and reenter the congestion avoidance.
+The congestion window is set to the `ssthresh` value and the congestion window
+size is increased linearly.
+
+If the sender receives a timeout, the sender will reenter the slow start phase.
+The congestion window size is set to 1 MSS andd the `ssthresh` value is set to
+half of the congestion window size before the congestion occurs.
+
+<TCPFastRecoveryCongestionControlChart />
+
+> The fast recovery phase is designed to optimize the sending rate without
+> radically dropping the congestion window size. However, fast recovery is not
+> required. In fact, TCP Tahoe, a congestion control algorithm, does not have
+> a fast recovery phase whereas TCP Reno, another congestion control algorithm,
+> implements the fast recovery phase.
+
+Here is the table that summarizes the congestion control:
+
+| Phase | Event | `cwnd` | `ssthresh` | Action |
+|-------|-------|------|----------|--------|
+| Slow Start | new ACK | `cwnd * 2` | `ssthresh` | transmit new segment|
+| Slow Start | dup ACK < 3 | `cwnd` | `ssthresh` | |
+| Slow Start | dup ACK = 3 | `ssthresh + 3` | `cwnd / 2` | enter **fast recovery** |
+| Slow Start | `cwnd >= ssthresh` | `cwnd` | `ssthresh` | enter **congestion avoidance** |
+| Slow Start | timeout | `1` | `cwnd / 2` | retransmit segment |
+| Congestion Avoidance | new ACK | `cwnd + 1` | `ssthresh` | transmit new segment |
+| Congestion Avoidance | dup ACK < 3 | `cwnd` | `ssthresh` | |
+| Congestion Avoidance | dup ACK = 3 | `ssthresh + 3` | `cwnd / 2` | enter **fast recovery** |
+| Congestion Avoidance | timeout | `1` | `cwnd / 2` | retransmit segment |
+| Fast Recovery | new ACK | `ssthresh` | `ssthresh` | enter **congestion avoidance** |
+| Fast Recovery | dup ACK | `cwnd + 1` | `ssthresh` | |
+| Fast Recovery | timeout | `1` | `cwnd / 2` | retransmit segment |
+
 # Implement a TCP client and server
 
 # Conclusion
+
+# References
 
 [^1]: [Design, Modeling, and Implementation of Robust Migration of Stateful Edge Microservices](https://www.researchgate.net/publication/375562820_Design_Modeling_and_Implementation_of_Robust_Migration_of_Stateful_Edge_Microservices)
 

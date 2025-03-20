@@ -18,6 +18,8 @@ import Callout from "@/components/callout";
 import BlogCode from "./code";
 import CSSComparisonChart from "./css-comparison-chart";
 import CodeSandbox from "./codesandbox";
+import TCPCongestionControlChart from "./tcp-congestion-chart";
+import TCPFastRecoveryCongestionControlChart from "./tcp-fast-recovery-congestion-chart";
 import Mermaid from "./mermaid";
 import { ClientOnly } from "@/components/client-only";
 
@@ -30,6 +32,8 @@ const components: NonNullable<
 > = {
   Callout,
   CSSComparisonChart,
+  TCPCongestionControlChart,
+  TCPFastRecoveryCongestionControlChart,
   CodeSandbox,
 
   table: ({ className, ...rest }) => (
@@ -150,7 +154,7 @@ const components: NonNullable<
 
         return (
           <ClientOnly>
-            <Mermaid>{content}</Mermaid>;
+            <Mermaid>{content}</Mermaid>
           </ClientOnly>
         );
       }

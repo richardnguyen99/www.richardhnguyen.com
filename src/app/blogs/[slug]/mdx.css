@@ -453,7 +453,8 @@
 
   .katex-display {
     @apply !content-container;
-    @apply !mb-12;
+    @apply !mb-8 !pt-2 !pb-2;
     @apply text-sm leading-6 sm:text-base sm:leading-8;
+    @apply overflow-x-auto;
   }
 }

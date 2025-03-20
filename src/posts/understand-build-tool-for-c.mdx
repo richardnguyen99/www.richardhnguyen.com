@@ -359,7 +359,7 @@ dist_doc_DATA=README.md
 ```
 
 ```makefile title="src/Makefile.am" showLineNumbers
-lib_LTLIBRARIES=libwhois.la
+lib_LTLIBRARIES=libris.la
 libwhois_la_SOURCES=whois.c ../include/whois.h
 
 bin_PROGRAMS=whoisclient whoisserver
@@ -440,7 +440,7 @@ system.
 
 That said, Cmake is more modern and easier to use than `autotools`. Cmake
 provides a unified build system. Instead of having different tools for different
-stages or mulitple files for the build process, Cmake provides a single entry
+stages or multiple files for the build process, Cmake provides a single entry
 point for the build.
 
 ## File structure
@@ -614,7 +614,7 @@ you have to rely on reading other people's code on GitHub/GitLab.
 
 # Conclusion
 
-In this post, we have explorered different build tools for C/C++ projects. `GNU
+In this post, we have explored different build tools for C/C++ projects. `GNU
 Make` is a smallest and most simple tool that is suitable for small projects.
 Even bigger projects still use `GNU Make` for fine-grained controls. `GNU
 Autotools` provides a large set of tools that support specific stages of the

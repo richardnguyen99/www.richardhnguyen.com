@@ -292,7 +292,7 @@ More at [GatsbyJS TypeScript documentation](https://www.gatsbyjs.com/docs/how-to
 
 Second, GatsbyJS uses GraphQL to fetch data and render pages. For small
 projects, you can define the query and result directly in your React code.
-However, it's redundant and not scalable for resuable components. A better
+However, it's redundant and not scalable for reusable components. A better
 approach is to turn on the option `graphqlTypegen: true` in your `gatsby-config`
 to generate types based on the GraphQL schema.
 
@@ -351,14 +351,13 @@ TypeScript natively.
 
 ## Conclusion
 
-NextJS and GatsbyJS have official guides and suports for TypeScript, from
-writing React code to deeply intefering with the build process. However, because
-GatsbyJS uses its own proprietary API files and GraphQL to fetch data, it's more
-complicated to config and use TypeScript. Meanwhile, TypeScript does not require
-to write NextJS-specific codes and configurations; you feel like you are just
-writing TypeScript code with React components. For this criteria, **using
-TypeScript in NextJS feels more natural and easier than in GatsbyJS**.
-
+NextJS and GatsbyJS have official guides and supports for TypeScript, from
+writing React code to deeply interfering with the build process. However,
+because GatsbyJS uses its own proprietary API files and GraphQL to fetch data,
+it's more complicated to config and use TypeScript. Meanwhile, TypeScript does
+not require to write NextJS-specific codes and configurations; you feel like
+you are just writing TypeScript code with React components. For this criteria,
+**using TypeScript in NextJS feels more natural and easier than in GatsbyJS**.
 
 # UI and styling
 
@@ -638,7 +637,7 @@ packages, extracting the right parts, and defining the right types. But it will
 give you the flexibility to customize the behavior of the post rendering.
 
 GatsbyJS, on the other hand, automates the process for you but it feels like
-you are writing GatsbyJS code, with GraphQL and its proprietary APIs. Howevever,
+you are writing GatsbyJS code, with GraphQL and its proprietary APIs. However,
 by having a strict convention and a set of APIs, GatsbyJS provides a more
 bullet-proof way to fetch and render posts. Especially with the help of the
 GraphiQL playground in development, you can easily test and debug your queries.
@@ -667,7 +666,7 @@ query MdxNode {
 
 For this criteria, **GatsbyJS is the winner**.
 
-# Minimmal Server-side Features
+# Minimal Server-side Features
 
 Both frameworks are capable of handling render on demand with query strings and
 search params. This allows you to build features such as pagination, searching
@@ -752,7 +751,7 @@ export default Blog;
 
 However, the workflow is more complicated than expected when you try
 incorporating GraphQL. Gatsby uses GraphQL to fetch data at build time,
-wheter your pages are rendered statically or on server-side. GatsbyJS does not
+whether your pages are rendered statically or on server-side. GatsbyJS does not
 support runtime GraphQL queries yet [^3].
 
 This means you will need to handle the search params in `getServerData` and the requested blog data in the page components.
@@ -801,7 +800,7 @@ paginating, sorting and filtering your posts.
 ## Conclusion
 
 Both frameworks provide a way to handle server-side rendering with basic runtime
-requests. However, NextJS has a more straighforward approach to handle search
+requests. However, NextJS has a more straightforward approach to handle search
 params and query strings. You can simply use the `searchParams` prop in your
 React component without any boilerplate. GatsbyJS, on the other hand, requires
 you to export a specific function to handle the SSR process. The process is also
@@ -887,7 +886,7 @@ metadata fields to construct the appropriate HTML `<meta>` tags during runtime.
 ![NextJS Generated SEO metadata](/generated-seo-tags-illustration.png "NextJS Generated SEO metadata")
 
 NextJS also allows you to generate metadata dynamically with
-[`generateMetaddata()`](https://nextjs.org/docs/app/api-reference/functions/generate-metadata).
+[`generateMetadata()`](https://nextjs.org/docs/app/api-reference/functions/generate-metadata).
 This function uses the same props as your page components, `params` and
 `searchParams`. This allows you to generate metadata based on the requested
 data.
@@ -911,7 +910,7 @@ export async function generateMetadata({ params }) {
 ## GatsbyJS
 
 GatsbyJS uses a different approach to handle SEO. Instead of using a single
-metadata object, GatsbyJS uses a combination of configurationns and components
+metadata object, GatsbyJS uses a combination of configurations and components
 to handle SEO.
 
 At the core, Gatsby provides the [`<Head> API`](
@@ -1158,13 +1157,13 @@ export const Head: HeadFC<Queries.PostLayoutQuery> = ({ data }) => {
 ## Conclusion
 
 Both frameworks are initially designed to solve the SEO problems existing in
-normal React applications. These methods are native and officialy supported from
-the frameworks with greate documentation.
+normal React applications. These methods are native and official supported from
+the frameworks with great documentation.
 
 However, NextJS has a more easy way to handle SEO metadata. It's simply that
 NextJS provides a well-structured, type-safe metadata object that tells you
 exactly how you can use each field. GatsbyJS does not provide a good
-documentaion on what fields, or how you should use it. If you want to enforce
+documentation on what fields, or how you should use it. If you want to enforce
 type safety, you need to involve `gatsby-node` to explicitly define the types
 for it.
 
@@ -1176,7 +1175,7 @@ Third-party solutions are crucial for building a blog. They provide additional
 features such as analytics, image hosting and searching. Both frameworks have a
 list of official and community plugins to integrate with third-party tools.
 
-Since we are building a blog, we will focus on those features that are menioned
+Since we are building a blog, we will focus on those features that are mentioned
 above: _analytics_, _image hosting_ and _searching_.
 
 For analytics, [Google Analytics](https://developers.google.com/analytics) will
@@ -1255,8 +1254,8 @@ variety of languages and frameworks, including React.
 ### NextJS
 
 Cloudinary has an official package, [`next-cloudinary`](https://next.cloudinary.dev/)
-just for NextJS. The package lets you set up Cloudinary environmment variables
-and use the React commponent immmediately.
+just for NextJS. The package lets you set up Cloudinary environment variables
+and use the React component immediately.
 
 ```txt
 NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="<Your Cloud Name>"
@@ -1361,12 +1360,12 @@ const ImageCard: React.FC<Props> = ({ src, alt, className }) => {
 
 ## Searching
 
-Searching, or indexing, or autocommplete, is a crucial part of building a blog.
+Searching, or indexing, or autocomplete, is a crucial part of building a blog.
 It helps our readers to easily search and find the posts they are looking for in
 a fast, accurate way.
 
 Algolia is considered the best choice for indexing technical content. You can
-uploadd your content to Algolia using their write APIs. Algolia provides
+upload your content to Algolia using their write APIs. Algolia provides
 from a complete UI tools, [`react-instantsearch`](
 https://www.algolia.com/doc/guides/building-search-ui/what-is-instantsearch/react/),
 a mix-match between UI and logic, [`autocomplete`](
@@ -1436,11 +1435,11 @@ can write your own components.
 
 > `react-instantsearch` provides a package, `react-instantsearch-nextjs`, that
 > exclusively supports NextJS an React Server Components. This package enables
-> SSR to generate HTMML from `react-instantsearch` components on the server.
+> SSR to generate HTML from `react-instantsearch` components on the server.
 
 `autocomplete-js` provides a pre-defined UI logic such as functionalities,
-accessibilities and keyboard navigation. However, you are in control of writing
-your own UI components and integrating themm with `autocomplete-js` props.
+accessibility and keyboard navigation. However, you are in control of writing
+your own UI components and integrating them with `autocomplete-js` props.
 
 Finally, `autocomplete-core` lets you define your own logic on how Algolia
 should return the results. From writing queries, defining the result objects to
@@ -1538,13 +1537,13 @@ Google Analytics, Cloudinary and Algolia. However, NextJS has a more
 straightforward approach to integrate with Google Analytics and Cloudinary.
 
 Integration with Algolia is an interesting one. NextJS does not have an
-automatic process to upload the indedxing data to Algolia. Meanwhile, the
-configuration and setup in GatsbJS is more complicated due to GraphQL queries.
+automatic process to upload the indexing data to Algolia. Meanwhile, the
+configuration and setup in GatsbyJS is more complicated due to GraphQL queries.
 
 However, I'm still inclined to say that **NextJS is the winner** here. An
 important part of integrating with third-party plugins is how well the docs are.
 Finding documentation in NextJS is fairly easy because the docs are well
-supportedd in many cases andd well maintained to resolve many issues. I cannot
+supported in many cases andd well maintained to resolve many issues. I cannot
 say the same thing to GatsbyJS. The documentation is either lacking or outdated.
 Searching for solutions in GatsbyJS is also painful since there are not many
 active community members to help you out.
@@ -1912,7 +1911,7 @@ becoming less popular compared to other frameworks. The major thing you will see
 in GatsbyJS during development is that it's lacking in documentation and active
 community support. Documentation is either outdated or not well-maintained.
 
-NextJS, on ther other hand, provides a more detailed documentation and has an
+NextJS, on the other hand, provides a more detailed documentation and has an
 active community support. The framework is also more flexible since you can
 search for solutions in regular React or NodeJS problems, whereas Gatsby has its
 own proprietary APIs.

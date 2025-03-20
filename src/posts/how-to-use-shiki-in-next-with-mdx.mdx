@@ -35,8 +35,8 @@ There are some existing syntax highlighters that are well supported and powerful
 such as [PrismJS](https://prismjs.com/),
 [HighlightJS](https://highlightjs.org/). However, these are designed to run in
 the browser. ShikiJS takes a different approach called **highlighting ahead of
-time**. Instead of shipping raw code content to the browswer then highlighting
-it, ShikiJS will ship the highlighted code content as HTML to the browswer. This
+time**. Instead of shipping raw code content to the browser then highlighting
+it, ShikiJS will ship the highlighted code content as HTML to the browser. This
 is a more efficient approach for static site generators and server-rendering
 like NextJS.
 
@@ -180,7 +180,7 @@ const highlighter = createHighlighterCore({
     protobufLang,
   ],
 
-  // Default grammar parser. This is reccomended for most use cases. You can
+  // Default grammar parser. This is recommended for most use cases. You can
   // also use your own custom engine.
   // See https://shiki.style/guide/regex-engines#oniguruma-engine
   engine: createOnigurumaEngine(wasm),
@@ -775,11 +775,11 @@ const CustomPre: React.FC<BlogCodeProps> = ({
 
 # Query the language
 
-You might have noticed that the `lang` metadata is not set properly. Obiviously,
+You might have noticed that the `lang` metadata is not set properly. Obviously,
 the code block is written in JavaScript, but the `lang` metadata is set to `txt`.
 
 This is because the `lang` is not considered as a metadata in the code block but
-it is a part of the MDX code block. In order to access the lananguage used in
+it is a part of the MDX code block. In order to access the language used in
 code blocks, you can reference to `options.lang` in the transformer hooks.
 
 ```tsx title="app/components/mdx.tsx"
@@ -895,13 +895,13 @@ the parsing process. ShikiJS provides the list of builtin transformer hooks
 
 You can also create your own custom transformer hooks for your specific use
 case. A common case while writing MDX code blocks is to add line numbers.
-However, Shiki does not provide a transfomer hook for such feature. But you can
+However, Shiki does not provide a transformer hook for such feature. But you can
 create it by yourself.
 
-There are many ways to create such feature. You can intercept deepyly into the
+There are many ways to create such feature. You can intercept deeply into the
 HTML content and add the line numbers manually. Or you can follow the best
 practice that Shiki transformer hooks follow, which is to add a CSS class to the
-HTML content. For simplicty, we are going to use the latter approach.
+HTML content. For simplicity, we are going to use the latter approach.
 
 ```tsx title="app/components/mdx.tsx" showLineNumbers
 export async function CustomMDX(props) {
@@ -986,7 +986,7 @@ code blocks more interactive and more informative.
 
 With that said, Shiki contains many drawbacks. First, it uses a lot of memory
 and CPU resources to parse the code string. Secondly, it requires you to create
-a decent stategy for caching Shiki instances on hot reloading[^3]. Finally, if
+a decent strategy for caching Shiki instances on hot reloading[^3]. Finally, if
 you need something to work in the browser, it's getting tricky to use Shiki in
 such cases.
 

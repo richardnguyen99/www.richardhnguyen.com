@@ -2,7 +2,7 @@
 title: 'The Backbone of Internet: TCP'
 slug: 'the-backbone-of-internet-tcp'
 date: '2025-03-11'
-published: false
+published: true
 publishedAt: '2025-03-11'
 author: 'Richard H. Nguyen'
 tags:
@@ -35,7 +35,7 @@ TCP is one of the standard network protocols that define our modern Internet.
 It was developed in the 1970s by
 [Vint Cerf](https://www.internethalloffame.org/vint-cerf/) and
 [Robert Kahn](https://www.internethalloffame.org/inductee/robert-kahn/)
-to buildd a reliable client-server communication using
+to build a reliable client-server communication using
 [packet-switching](https://ethw.org/Packet_Switching).
 
 > Packet switching is a method of data transmission in which data is broken into
@@ -93,7 +93,7 @@ sequenceDiagram
         server-->>-client: (TCP) send SYN & ACK
         client->>server: (TCP) Send ACK
 
-        Note over client,server: Threeway handshake completed
+        Note over client,server: Three-way handshake completed
     end
 
     client->>+server: Hello!
@@ -114,7 +114,7 @@ sequenceDiagram
         client-->>-server: (TCP) send FIN
         server->>client: (TCP) send ACK
 
-        Note over client,server: Threeway handshake completed
+        Note over client,server: Three-way handshake completed
     end
 ```
 
@@ -199,7 +199,7 @@ controls.
 
 ## TCP structure
 
-IP protocol is an unreliable protocol. It folows a simple principle _"Best
+IP protocol is an unreliable protocol. It follows a simple principle _"Best
 Effort"_. It sends the data to the destination without any guarantee that the
 data is delivered. TCP is designed to provide a reliable data transfer.
 
@@ -427,7 +427,7 @@ receives a packet with the expected sequence number, it will deliver the data to
 the application and send an ACK packet to the sender. If the receiver receives a
 packet with a sequence number that is not expected, it will discard the packet
 and send an ACK packet for the last received packet. Since there is no ACK
-packet that satifies those in the sender's window, the sender will know and
+packet that satisfies those in the sender's window, the sender will know and
 retransmit all the packets in the window.
 
 ![TCP GBN order](/tcp-gbn-order.png "TCP GBN order")
@@ -503,7 +503,7 @@ TCP also uses a timer to retransmit the lost packets. However, the timer is used
 in situations that duplicate ACKs are not likely to sent such as a congested
 network, or the packet is the last packet in the window.
 
-Mordern TCP implementations also use a mechanism called **selective
+Modern TCP implementations also use a mechanism called **selective
 acknowledgment (SACK)** to improve the performance of TCP in networks with high
 packet loss. SACK allows the receiver to inform the sender about all the packets
 that are received successfully, not just the last in-order packet. This allows
@@ -697,7 +697,7 @@ _congested_. So how does TCP handle these terrible situations?
 Between two endpoints, TCP senders can easily tell whether the receiver is
 overwhelmed by examining the receive window field in the TCP header. If the
 receiver's window size is 0, the sender will stop sending data andd enter the
-persist timer state, which periodically sends small probe packetes of size 1
+persist timer state, which periodically sends small probe packets of size 1
 to the receiver to check if the window is open.
 
 However, in a network where multiple senders and receivers are communicating
@@ -737,7 +737,7 @@ will increase the congestion window size linearly (usually by one MSS).
 > as we discussed above. Some use a more complex calculation to optimize the
 > sending rate.
 
-The value of `ssthresh` can be arbitary. However, the most common way to determine its valuy is by half of the last observed congestion window size
+The value of `ssthresh` can be arbitrary. However, the most common way to determine its value is by half of the last observed congestion window size
 before the congestion occurs.
 
 Being in the congestion avoidance phase does not mean that a congestion is
@@ -825,7 +825,7 @@ serve one client at a time.
     - Use [`bind(2)`](https://man7.org/linux/man-pages/man2/bind.2.html) to bind
       the socket to the address and port.
 3. Use [`listen(2)`](https://man7.org/linux/man-pages/man2/listen.2.html) to
-  make the socket passive and readdy for listening to incoming connections.
+  make the socket passive and ready for listening to incoming connections.
 4. Create an infinite loop to accept incoming connections, read the data from
   the client and send the data back to the client:
     - Use [`accept(2)`](https://man7.org/linux/man-pages/man2/accept.2.html) to
@@ -1228,5 +1228,3 @@ point).
 
 [^1]: [Design, Modeling, and Implementation of Robust Migration of Stateful Edge Microservices](https://www.researchgate.net/publication/375562820_Design_Modeling_and_Implementation_of_Robust_Migration_of_Stateful_Edge_Microservices)
 [^2]: [Simulation-based comparisons of Tahoe, Reno and SACK TCP](https://dl.acm.org/doi/10.1145/235160.235162)
-
-

@@ -64,9 +64,9 @@ be performed on the resource. For example, a endpoint `/users/[id]` can have:
 ## Communication
 
 As mentioned above, REST is built on top of the HTTP protocol. All the data is
-transfered by plain text and does not have any standard schema. The requirements
-and the structure of the data should be agreed upon by the client and the
-server.
+transferred by plain text and does not have any standard schema. The
+requirements and the structure of the data should be agreed upon by the client
+and the server.
 
 With that said, REST commonly uses structured-data formats like JSON or XML to
 transfer data. JSON is the most popular format due to its simplicity and
@@ -108,7 +108,7 @@ data. Over-fetching is when the client receives more data than it needs, which c
 
 Another major issue with REST is the number of endpoints. As the application grows, the number of endpoints can grow exponentially, making it harder to maintain and understand the API. The number of endpoints can also lead to versioning issues, where the client needs to know which version of the API to use.
 
-With developement perspective, REST also doesn't have a type-checking mechanism
+With development perspective, REST also doesn't have a type-checking mechanism
 to validate the types of the data being sent or received. Developers have no
 guarantee that the data being sent or received is correct. Checking and
 validating requires manual work, either writing tests or using external tools
@@ -127,7 +127,7 @@ specify exactly what data it needs in a single request.
 GraphQL is a query language for APIs. It allows clients to specify exactly what
 data they need.
 
-Let's take a look at a simple exaple of fetching authors and their songs in a
+Let's take a look at a simple example of fetching authors and their songs in a
 mobile application. The client needs to fetch the data for an author given an
 author ID and all the songs that the author has featured.
 
@@ -321,8 +321,8 @@ However, GraphQL also has some drawbacks. One of the main drawbacks is that it
 can be more complex to set up and maintain than REST. This is because GraphQL
 requires the server to define a schema that describes the entities and the
 resolvers to support queries and mutations. Alongside with HTTP, backend
-developers also need to get familiar with GraphQL termilogies, and the framework
-they are using.
+developers also need to get familiar with GraphQL terminologies, and the
+framework they are using.
 
 From a development perspective, GraphQL does not support other programming
 languages very well, except JavaScript. So when using GraphQL, you will likely
@@ -462,7 +462,7 @@ Here is a summary of the differences between REST, GraphQL, and gRPC:
 | Fetching problems      | Over-fetching and under-fetching                                   | No or limited over-fetching or under-fetching                        | Not relevant |
 | Ease of Use            | Simple to set up and maintain                                      | Require knowledge of query langue                                    | Steeper learning curve of gRPC tools and protocol buffers |
 | Type checking          | No type checking                                                   | Decent type checking with query language                             | Strong type checking with protocol buffers |
-| Intergration           | Easy to integrate with external services                           | Limited support from external service unless `/graphql` is supported | Not easy to integrate with external services |
+| Integration           | Easy to integrate with external services                           | Limited support from external service unless `/graphql` is supported | Not easy to integrate with external services |
 | Ecosystem              | Mature ecosystem with many libraries and tools                     | Growing ecosystem with limited libraries and tools                   | Limited ecosystem with few libraries and tools |
 | Use cases              | General-purpose APIs, communications between two external services | Mobile, client-driven applications                                   | Internal services in microservices architecture |
 | Caching                | Easy to cache with HTTP caching                                    | More difficult, complex. Require custom mechanism                    | Limited support for caching |

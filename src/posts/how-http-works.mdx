@@ -56,8 +56,8 @@ sequenceDiagram
 As mentioned above, HTTP messages are used to communicate between clients and
 servers in the HTTP protocol. There are two types of messages: request and
 response. A request message is sent by the client to a target server to request
-certain resouces. A response message is sent by the server to the client to tell
-the client the result of the request.
+certain resources. A response message is sent by the server to the client to
+tell the client the result of the request.
 
 HTTP messages are not some special data structure or complex format. They are
 basically text messages or strings that have certain structure and format. It
@@ -471,7 +471,7 @@ resource has already been created.
 > -- <cite>RFC 2616 Section 9.5[^1]</cite>
 
 To illustrate this difference, `POST` requests means that you let server decide
-which resouce to be handled with the enclosed entity. On the other hand, `PUT`
+which resource to be handled with the enclosed entity. On the other hand, `PUT`
 requests means that you tell the server which resource specifically to be
 handled with the enclosed entity.
 
@@ -525,7 +525,7 @@ implemented.
 
 ## `DELETE` method
 
-The `DELETE` method is used to remove a resouce identified by the Request URI
+The `DELETE` method is used to remove a resource identified by the Request URI
 from the server. Same as `PUT` requests, `DELETE` requests tell the server
 which resource specifically to be removed. For example,
 
@@ -540,7 +540,7 @@ The `HEAD` method is pretty much identical to the `GET` method, but instead of
 returning the complete response with status line, headers and body, the server
 only returns the status line and headers, and omits the body in the response.
 
-`HEAD` requests are often used to chec the status of the resource without
+`HEAD` requests are often used to check the status of the resource without
 transferring the entire  body. It's useful in testing, validity, accessibility,
 and recent modification of the resource.
 
@@ -735,7 +735,7 @@ Some common `4xx` status codes are:
   resource.
 - `408 Request Timeout`: The server timed out while waiting for the request.
 
-`4xx` status codes are sometimes implmenented in detail by the server to
+`4xx` status codes are sometimes implemented in detail by the server to
 indicate the exact error. However, if the error is not specific, the server
 can return a `400 Bad Request` status code for general client errors.
 
@@ -853,7 +853,7 @@ sequenceDiagram
 
 In the example above, for every request, the client has to establish a new TCP
 connection to the server. After successfully receiving a response, both client
-and server close thhe connection. The process repeats for every request.
+and server close the connection. The process repeats for every request.
 
 ```mermaid
 sequenceDiagram
@@ -948,7 +948,7 @@ sequenceDiagram
     client->>server: GET /protected HTTP/1.1<br />Cookie: token=abcxx
 
     activate server
-    critical verifiy token:
+    critical verify token:
         server->>server: Extract cookie
         server->>+database: Verify cookie
         database-->>-server: Cookie verified. User ID returned
@@ -977,7 +977,7 @@ on client apps need to manually include the token in the `Authorization` header.
 # HTTP over TLS
 
 Transport Layer Security (TLS) is a cryptographic protocol that provides a
-secure communication channel betweem two parties over the Internet. It is
+secure communication channel between two parties over the Internet. It is
 primarily used to encrypt the data exchange in HTTP messages between web
 applications and servers. A HTTP message over TLS is called HTTPS. HTTPS is
 set up on top of TCP and below the application layer.

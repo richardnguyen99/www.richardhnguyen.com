@@ -166,8 +166,6 @@ const generateTcpData = () => {
     }
   }
 
-  console.log("phaseRounds = ", phaseRounds);
-
   return [data, phaseRounds, maxCwnd] as const;
 };
 

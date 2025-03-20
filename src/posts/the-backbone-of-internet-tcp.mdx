@@ -776,11 +776,11 @@ half of the congestion window size before the congestion occurs.
 
 <TCPFastRecoveryCongestionControlChart />
 
-> The fast recovery phase is designed to optimize the sending rate without
-> radically dropping the congestion window size. However, fast recovery is not
-> required. In fact, TCP Tahoe, a congestion control algorithm, does not have
-> a fast recovery phase whereas TCP Reno, another congestion control algorithm,
-> implements the fast recovery phase.
+The fast recovery phase is designed to optimize the sending rate without
+radically dropping the congestion window size. However, fast recovery is not
+required. In fact, TCP Tahoe, a congestion control algorithm, does not have a
+fast recovery phase whereas TCP Reno, another congestion control algorithm,
+implements the fast recovery phase[^2].
 
 Here is the table that summarizes the congestion control:
 
@@ -801,10 +801,432 @@ Here is the table that summarizes the congestion control:
 
 # Implement a TCP client and server
 
+Many major programming languages supports TCP socket programming. To demonstrate
+the raw concept of TCP, I will use C as the programming language to implement
+a simple TCP client and server on Linux.
+
+## TCP server
+
+The TCP server is a passive socket that binds to a port and listens for incoming
+connections. When a client connects to the server, the server accepts it as a
+new socket and communicates with the client. The server will continually listen
+for incoming connections until it is terminated. However, the server can only
+serve one client at a time.
+
+1. Use [`getaddrinfo(3)`](
+  https://man7.org/linux/man-pages/man3/getaddrinfo.3.html) to get the address
+  information of available hosts and ports to create a binding socket.
+2. Loop through the address information results to create a socket:
+    - Use [`socket(2)`](https://man7.org/linux/man-pages/man2/socket.2.html) to
+      create a socket.
+    - Use [`setsockopt(2)`](https://man7.org/linux/man-pages/man2/socket.2.html)
+      to set the socket options such as `SO_REUSEADDR` and `SO_REUSEPORT` to reuse
+      the address and port respectively on teardown.
+    - Use [`bind(2)`](https://man7.org/linux/man-pages/man2/bind.2.html) to bind
+      the socket to the address and port.
+3. Use [`listen(2)`](https://man7.org/linux/man-pages/man2/listen.2.html) to
+  make the socket passive and readdy for listening to incoming connections.
+4. Create an infinite loop to accept incoming connections, read the data from
+  the client and send the data back to the client:
+    - Use [`accept(2)`](https://man7.org/linux/man-pages/man2/accept.2.html) to
+      accept a new incoming connection. You can also use [`getnameinfo(3)`](
+      https://man7.org/linux/man-pages/man3/getnameinfo.3.html) and
+      [`ntohs(3)`](https://man7.org/linux/man-pages/man3/htons.3p.html) to get
+      the client's address and port.
+    - Use [`recv(2)`](https://man7.org/linux/man-pages/man2/recv.2.html) to read
+      the data from the client. Since the data is sent in a stream, you need to
+      read the data in a loop until the client closes the connection.
+    - Use [`send(2)`](https://man7.org/linux/man-pages/man2/send.2.html) to
+      send the data back to the client. Same as `send(2)`, you need to send the
+      data in a loop because the data is sent in a stream.
+    - Use [`close(2)`](https://man7.org/linux/man-pages/man2/close.2.html) to
+      close the connection and yield the socket resources back to the system.
+
+```c title="common.h" showLineNumbers
+#ifndef __TCP_COMMON_H__
+#define __TCP_COMMON_H__ 1
+
+// See
+// https://www.gnu.org/software/libc/manual/html_node/Feature-Test-Macros.html
+#define _GNU_SOURCE 1
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// POSIX headers
+#include <sys/types.h>
+#include <unistd.h>
+
+// Network headers
+#include <arpa/inet.h>
+#include <netdb.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
+
+// Constants
+
+#define BUFSIZ 8192 // Max buffer size
+#define PORT "8080" // Port number
+#define BACKLOG 10  // Number of pending connections
+
+/**
+ * @brief Read a TCP stream from a loop until a terminating newline character
+ * is found, or the buffer is full.
+ *
+ * @param fd Client file descriptor
+ * @param buf Allocated buffer
+ * @param count Max buffer size
+ * @return size_t
+ */
+size_t readfromstream(int fd, char *buf, size_t count)
+{
+    size_t total = 0;
+    ssize_t n;
+
+    while (total < count)
+    {
+        n = recv(fd, buf + total, count - total, 0);
+        if (n == -1)
+        {
+            perror("read");
+            break;
+        }
+        if (n == 0)
+        {
+            break;
+        }
+
+        total += (size_t)n;
+
+        if (buf[total - 1] == '\n')
+        {
+            break;
+        }
+    }
+
+    return total;
+}
+
+/**
+ * @brief Write a buffer to a TCP stream from a loop until the buffer is empty.
+ *
+ * @param fd Client file descriptor
+ * @param buf Allocated buffer
+ * @param count Max buffer size
+ * @return size_t
+ */
+size_t writetostream(int fd, const char *buf, size_t count)
+{
+    size_t total = 0;
+    ssize_t n;
+
+    while (total < count)
+    {
+        n = send(fd, buf + total, count - total, 0);
+        if (n == -1)
+        {
+            perror("write");
+            break;
+        }
+
+        total += (size_t)n;
+    }
+
+    return total;
+}
+
+#endif // __TCP_COMMON_H__
+```
+
+```c title="server.c" showLineNumbers
+#include "common.h"
+
+int main()
+{
+    int sfd = -1;
+    struct sockaddr_in client_addr;
+    socklen_t client_len = sizeof(client_addr);
+    struct addrinfo hints, *res, *p;
+
+    const char *msgfromserver = "Hello from server!\n";
+
+    memset(&hints, 0, sizeof(hints));
+    hints.ai_family = AF_UNSPEC;     // Allow IPv4 or IPv6
+    hints.ai_socktype = SOCK_STREAM; // TCP stream sockets
+    hints.ai_flags = AI_PASSIVE;     // For wildcard IP address
+    hints.ai_protocol = 0;           // Any protocol
+
+    // Get address information
+    if (getaddrinfo(NULL, PORT, &hints, &res) != 0)
+    {
+        perror("getaddrinfo");
+        exit(EXIT_FAILURE);
+    }
+
+    // Loop through all the results and bind to the first we can
+    for (p = res; p != NULL; p = p->ai_next)
+    {
+        // Create socket
+        sfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol);
+        if (sfd == -1)
+        {
+            perror("socket");
+            continue;
+        }
+
+        int opt = 1;
+        if (setsockopt(sfd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt)))
+        {
+            perror("setsockopt");
+            exit(EXIT_FAILURE);
+        }
+
+        // Bind socket to address and port
+        if (bind(sfd, p->ai_addr, p->ai_addrlen) == -1)
+        {
+            close(sfd);
+            perror("bind");
+            continue;
+        }
+
+        break;
+    }
+
+    // Listen for connections
+    if (listen(sfd, SOMAXCONN) == -1)
+    {
+        perror("listen");
+        exit(EXIT_FAILURE);
+    }
+
+    printf("Server listening on port %s...\n", PORT);
+
+    // Keep the server running indefinitely
+    for (;;)
+    {
+        // Accept connection
+        int cfd, cport;
+        char cname[NI_MAXHOST], buf[BUFSIZ];
+        size_t totalread, totalsent;
+
+        cfd = accept(sfd, (struct sockaddr *)&client_addr, &client_len);
+        if (cfd == -1)
+        {
+            perror("accept");
+            exit(EXIT_FAILURE);
+        }
+
+        // Get client name (hostname)
+        if (getnameinfo((struct sockaddr *)&client_addr, client_len, cname, sizeof(cname), NULL, 0, 0) != 0)
+        {
+            strcpy(cname, "Unknown");
+        }
+
+        // Get client port
+        cport = ntohs(client_addr.sin_port);
+
+        // Print client information
+        printf("Client connected from: %s:%d\n", cname, cport);
+
+        // Read from client
+        totalread = readfromstream(cfd, buf, BUFSIZ);
+
+        // Write to client
+        totalsent = writetostream(cfd, msgfromserver, strlen(msgfromserver));
+
+        // Print received data
+        // Note: totalread - 2 to remove the newline character
+        fprintf(stdout, "[%s:%d]: %.*s (read = %zu bytes, sent = %zu bytes)\n", cname, cport, (int)totalread - 2, buf, totalread, totalsent);
+
+        // Close sockets
+        if (close(cfd) == -1)
+        {
+            perror("close");
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    close(sfd);
+
+    return 0;
+}
+```
+
+## TCP client
+
+Opposite to the server, the TCP client is an active socket that connects to the
+server and sends data to the server. For simplicity, the client is designed to
+send the data to the server and wait for the response once after the connection.
+
+1. Use [`getaddrinfo(3)`](
+  https://man7.org/linux/man-pages/man3/getaddrinfo.3.html) to get the address
+  information of available hosts and ports to create an active socket.
+2. Loop through the address information results to create a socket:
+    - Use [`socket(2)`](https://man7.org/linux/man-pages/man2/socket.2.html) to
+      create a socket.
+    - Use [`connect(2)`](https://man7.org/linux/man-pages/man2/connect.2.html)
+      to connect to the server.
+    - We don't need to use `setsockopt(2)` to set the socket options because
+      `getaddrinfo(3)` already looks for the available hosts and ports.
+3. Use [`send(2)`](https://man7.org/linux/man-pages/man2/send.2.html) to send
+  the data to the server.
+4. Use [`recv(2)`](https://man7.org/linux/man-pages/man2/recv.2.html) to read
+  the data from the server's response.
+5. Display the data received from as in any format you want.
+6. Use [`close(2)`](https://man7.org/linux/man-pages/man2/close.2.html) to
+  close the socket and yield the socket resources back to the system.
+
+```c title="client.c" showLineNumbers
+#include "common.h"
+
+int main(void)
+{
+    int cfd = -1, s;
+    struct addrinfo hints, *res, *p;
+    size_t totalread, totalsent;
+    char buf[BUFSIZ];
+
+    const char *msgfromclient = "Hello from client!\n";
+
+    // Get address information
+
+    memset(&hints, 0, sizeof hints);
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_flags = 0;
+    hints.ai_protocol = 0;
+
+    s = getaddrinfo("localhost", PORT, &hints, &res);
+    if (s != 0)
+    {
+        perror("getaddrinfo");
+        return 1;
+    }
+
+    // Create socket
+    for (p = res; p != NULL; p = p->ai_next)
+    {
+        cfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol);
+        if (cfd == -1)
+        {
+            perror("socket");
+            continue;
+        }
+
+        // Connect to server
+        if (connect(cfd, p->ai_addr, p->ai_addrlen) == -1)
+        {
+            close(cfd);
+            perror("connect");
+            continue;
+        }
+
+        break;
+    }
+
+    if (p == NULL)
+    {
+        fprintf(stderr, "Failed to connect\n");
+        return 2;
+    }
+
+    // Send message to server
+
+    totalsent = writetostream(cfd, msgfromclient, strlen(msgfromclient));
+
+    totalread = readfromstream(cfd, buf, BUFSIZ);
+    buf[totalread] = '\0';
+
+    fprintf(stdout, "Received: %s (read = %zu, sent = %zu)\n", buf, totalread, totalsent);
+
+    close(cfd);
+    freeaddrinfo(res);
+
+    return 0;
+}
+```
+
+To run the implementation, you need to compile the server and client programs
+with `gcc`. Or you can create a `Makefile` to orchestrate the compilation
+process.
+
+```makefile
+CC := gcc
+CFLAGS := -Wall -Wextra -Werror -pedantic -std=c99 -g -O2
+LDFLAGS := -lm
+RM := rm -f
+
+SRCS := $(wildcard *.c)
+OBJS := $(SRCS:.c=.o)
+HDRS := $(wildcard *.h)
+
+.PHONY: all clean
+
+all: client server
+
+server: server.o
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+client: client.o
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+%.o: %.c $(HDRS)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+clean:
+	$(RM) $(TARGET) $(OBJS)
+```
+
+> If you are interested in `Makefile`, you can follow
+> [my another post "Understand Build Tool for C"](
+> /blogs/understand-build-tool-for-c) for more details.
+
+To compile and the server:
+
+```ansi disableCopyButton
+[0;32m$[0;0m make
+[0;32m$[0;0m ./server
+Server listening on port 8080...
+```
+
+To compile and run the client:
+
+```ansi disableCopyButton
+[0;30m# Open a new terminal[0;0m
+[0;30m# $ make # If you have not compiled Makefile yet[0;0m
+[0;32m$[0;0m ./client
+connect: Connection refused
+Received: Hello from server!
+ (read = 19, sent = 19)
+
+[0;30m# On terminal server[0;0m
+Server listening on port 8080...
+Client connected from: localhost:53062
+[localhost:53062]: Hello from client (read = 19 bytes, sent = 19 bytes)
+```
+
 # Conclusion
+
+Well, this is a long post. However, I hope you have learned something here and
+there about TCP. TCP is a complex protocol that implements many things under the
+hood to ensure that the data is transferred reliably and efficiently. Without
+TCP, we wouldn't have the Internet as we know it today. So it is important and
+showing respect to those who have contributed to the development of TCP to
+understand how it works.
+
+You can take a look at the source code for the implementations [here](
+https://github.com/richardnguyen99/tcp-server-client). I try to add more
+implementations in different languages in the future. I have also implemented a
+simple TCP with error detection, packet loss and minimal flow control (no
+congestion control) [here](https://github.com/richardnguyen99/stcp) (Take a
+careful look at [`transport.c`](
+https://github.com/richardnguyen99/stcp/blob/main/transport.c) as your starting
+point).
 
 # References
 
 [^1]: [Design, Modeling, and Implementation of Robust Migration of Stateful Edge Microservices](https://www.researchgate.net/publication/375562820_Design_Modeling_and_Implementation_of_Robust_Migration_of_Stateful_Edge_Microservices)
+[^2]: [Simulation-based comparisons of Tahoe, Reno and SACK TCP](https://dl.acm.org/doi/10.1145/235160.235162)
 
 

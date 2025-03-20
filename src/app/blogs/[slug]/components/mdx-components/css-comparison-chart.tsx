@@ -95,15 +95,15 @@ export const description = "A multiple line chart";
 const chartConfig = {
   tailwindcss: {
     label: "TailwindCSS",
-    color: "hsl(var(--chart-1))",
+    color: "var(--chart-1)",
   },
   bootstrap: {
     label: "Bootstrap",
-    color: "hsl(var(--chart-2))",
+    color: "var(--chart-2)",
   },
   materialui: {
     label: "Material UI",
-    color: "hsl(var(--chart-3))",
+    color: "var(--chart-3)",
   },
 } satisfies ChartConfig;
 
@@ -237,7 +237,7 @@ export default function CSSComparisonChart(): JSX.Element {
       <CardFooter>
         <div className="flex w-full items-start gap-2 text-sm">
           <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
+            <div className="flex items-center gap-2 leading-none font-medium">
               Trending up by{" "}
               {(
                 ((mergedChartData.slice(-1)[0].tailwindcss -
@@ -247,7 +247,7 @@ export default function CSSComparisonChart(): JSX.Element {
               ).toFixed(1)}{" "}
               % <TrendingUp className="h-4 w-4" />
             </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
+            <div className="text-muted-foreground flex items-center gap-2 leading-none">
               Showing total downloads for the last 2 years
             </div>
           </div>

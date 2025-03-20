@@ -18,7 +18,10 @@ import Callout from "@/components/callout";
 import BlogCode from "./code";
 import CSSComparisonChart from "./css-comparison-chart";
 import CodeSandbox from "./codesandbox";
+import TCPCongestionControlChart from "./tcp-congestion-chart";
+import TCPFastRecoveryCongestionControlChart from "./tcp-fast-recovery-congestion-chart";
 import Mermaid from "./mermaid";
+import { ClientOnly } from "@/components/client-only";
 
 mermaid.initialize({
   startOnLoad: true,
@@ -29,10 +32,12 @@ const components: NonNullable<
 > = {
   Callout,
   CSSComparisonChart,
+  TCPCongestionControlChart,
+  TCPFastRecoveryCongestionControlChart,
   CodeSandbox,
 
   table: ({ className, ...rest }) => (
-    <Table {...rest} className={cn(className)} />
+    <Table {...rest} className={cn("lg:content-container", className)} />
   ),
 
   thead: ({ className, ...rest }) => (
@@ -146,7 +151,12 @@ const components: NonNullable<
     if (rest["data-language"] === "mermaid") {
       if (React.isValidElement(props.children)) {
         const content = props.children.props.children as string;
-        return <Mermaid>{content}</Mermaid>;
+
+        return (
+          <ClientOnly>
+            <Mermaid>{content}</Mermaid>
+          </ClientOnly>
+        );
       }
     }
 

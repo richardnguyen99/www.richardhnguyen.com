@@ -3,6 +3,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { fromHtmlIsomorphic } from "hast-util-from-html-isomorphic";
 import rehypeSlug from "rehype-slug";
 import rehypePrettyCode from "rehype-pretty-code";
+import rehypeKatex, { type Options as RehypeKatexOptions } from "rehype-katex";
 import { getSingletonHighlighter } from "shiki";
 
 import shikiRehypeOptions from "./shiki-options";
@@ -27,6 +28,14 @@ const rehypePlugins = [
       },
     } as Parameters<typeof rehypePrettyCode>[0],
   ],
+
+  [
+    rehypeKatex,
+    {
+      strict: true,
+    } satisfies RehypeKatexOptions,
+  ],
+
   rehypeSlug,
   [
     rehypeAutolinkHeadings,

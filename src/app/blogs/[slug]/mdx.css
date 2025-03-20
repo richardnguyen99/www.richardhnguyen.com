@@ -50,7 +50,7 @@
   .content p {
     @apply content-container;
     @apply mb-12;
-    @apply text-sm leading-6 sm:text-base sm:leading-8;
+    @apply text-sm leading-6 sm:text-base sm:leading-9;
   }
 
   .content blockquote {
@@ -63,6 +63,8 @@
   .content blockquote p {
     @apply w-auto;
     @apply mb-4 lg:mb-6;
+    @apply text-sm leading-6 sm:text-base sm:leading-9;
+    @apply mr-0 ml-0;
   }
 
   .content blockquote p:last-child {
@@ -74,15 +76,28 @@
     @apply text-black dark:text-white;
   }
 
-  .content ul,
-  .content ol {
+  .content > section.footnotes > ol,
+  .content > section.footnotes > ul,
+  .content > ul,
+  .content > ol {
     @apply content-container md:ml-[var(--article-gutter-size)];
     @apply mb-12 pl-4;
   }
 
+  .content > ul li > ul,
+  .content > ul li > ol,
+  .content > ol li > ul,
+  .content > ol li > ol {
+    @apply mb-4 pl-4;
+  }
+
+  .content > ul li > ul li {
+    @apply list-[square];
+  }
+
   .content li {
     @apply ml-4 pl-2 lg:ml-7 lg:pl-4;
-    @apply text-sm leading-6 sm:text-base sm:leading-8;
+    @apply text-sm leading-6 sm:text-base sm:leading-9;
     @apply break-words;
   }
 
@@ -93,6 +108,10 @@
   }
 
   .content ul li {
+    @apply list-disc;
+  }
+
+  .content ol li > ul li {
     @apply list-disc;
   }
 
@@ -421,5 +440,25 @@
 
   .mermaid .labelText {
     @apply !fill-neutral-800 dark:!fill-neutral-200;
+  }
+
+  .mermaid .packetBlock {
+    @apply !fill-neutral-200 dark:!fill-neutral-800;
+    @apply !stroke-neutral-300 dark:!stroke-neutral-200;
+  }
+
+  .mermaid .packetLabel {
+    @apply !fill-neutral-800 dark:!fill-neutral-200;
+  }
+
+  .mermaid .packetByte {
+    @apply !fill-neutral-800 dark:!fill-neutral-200;
+  }
+
+  .katex-display {
+    @apply !content-container;
+    @apply !mb-8 !pt-2 !pb-2;
+    @apply text-sm leading-6 sm:text-base sm:leading-9;
+    @apply overflow-x-auto;
   }
 }

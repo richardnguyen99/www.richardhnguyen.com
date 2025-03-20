@@ -9,6 +9,9 @@
     "lint": "next lint",
     "prepare": "husky"
   },
+  "overrides": {
+    "react-is": "^19.0.0-rc-69d4b800-20241021"
+  },
   "dependencies": {
     "@algolia/autocomplete-core": "^1.18.1",
     "@algolia/autocomplete-preset-algolia": "^1.18.1",
@@ -29,6 +32,7 @@
     "@radix-ui/react-radio-group": "^1.2.0",
     "@radix-ui/react-scroll-area": "^1.1.0",
     "@radix-ui/react-separator": "^1.1.0",
+    "@radix-ui/react-slider": "^1.2.3",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.1",
@@ -61,9 +65,10 @@
     "react-remark": "^2.1.0",
     "react-snap-carousel": "^0.4.1",
     "reading-time": "^1.5.0",
-    "recharts": "^2.13.0",
+    "recharts": "^2.15.1",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-format": "^5.0.1",
+    "rehype-katex": "^7.0.1",
     "rehype-parse": "^9.0.1",
     "rehype-pretty-code": "^0.14.0",
     "rehype-raw": "^7.0.0",
@@ -74,6 +79,7 @@
     "remark-gfm": "^4.0.0",
     "remark-html": "^16.0.1",
     "remark-inline-links": "^7.0.0",
+    "remark-math": "^6.0.0",
     "remark-parse": "^11.0.0",
     "remark-reference-links": "^7.0.0",
     "remark-rehype": "^11.1.1",

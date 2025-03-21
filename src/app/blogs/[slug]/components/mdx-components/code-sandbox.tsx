@@ -23,7 +23,7 @@ export default function CodeSandbox({ src, title }: Props): JSX.Element {
   }, []);
 
   return (
-    <div className="h-[480px] overflow-auto content-container lg:mx-[var(--gutter-size)] lg:h-[678px] lg:w-[var(--container-size)]">
+    <div className="content-container h-[480px] overflow-auto lg:mx-[var(--gutter-size)] lg:h-[678px] lg:w-[var(--container-size)]">
       <iframe
         ref={ref}
         src={src}

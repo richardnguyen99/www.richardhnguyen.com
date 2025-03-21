@@ -18,7 +18,10 @@ const ExternalLink: React.FC<React.ComponentPropsWithoutRef<"a">> = ({
 
   return (
     <a
-      className={cn("group [&.data-footnote-backref_svg]:hidden", className)}
+      className={cn(
+        "group whitespace-nowrap [&.data-footnote-backref_svg]:hidden",
+        className,
+      )}
       target="_blank"
       rel="noopener noreferrer"
       {...props}

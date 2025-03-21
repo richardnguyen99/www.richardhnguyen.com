@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes";
 
 import NavbarProvider from "@/components/navbar/context";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import GlossaryProvider from "@/components/glossary/provider";
 
 export default function GlobalProvider({
   children,
@@ -18,9 +19,11 @@ export default function GlobalProvider({
       enableSystem
       attribute="class"
     >
-      <TooltipProvider delayDuration={0}>
-        <NavbarProvider>{children}</NavbarProvider>
-      </TooltipProvider>
+      <GlossaryProvider>
+        <TooltipProvider delayDuration={0}>
+          <NavbarProvider>{children}</NavbarProvider>
+        </TooltipProvider>
+      </GlossaryProvider>
     </ThemeProvider>
   );
 }

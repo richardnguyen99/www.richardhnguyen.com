@@ -30,33 +30,46 @@ and is used by many applications like web browsing, email, and file transfer.
 
 # Introduction
 
-TCP is one of the standard network protocols that define our modern Internet.
-85% of total Internet traffic is TCP traffic[^1], while the rest is UDP traffic.
-It was developed in the 1970s by
-[Vint Cerf](https://www.internethalloffame.org/vint-cerf/) and
-[Robert Kahn](https://www.internethalloffame.org/inductee/robert-kahn/)
-to build a reliable client-server communication using
-[packet-switching](https://ethw.org/Packet_Switching).
+<GlossaryItem term="tcp">TCP</GlossaryItem> is one of the standard network
+protocols that define our modern Internet. 85% of total Internet traffic is
+<GlossaryItem term="tcp">TCP</GlossaryItem> traffic[^1], while the rest is
+<GlossaryItem term="udp">UDP</GlossaryItem> traffic. It was developed in the
+1970s by [Vint Cerf](https://www.internethalloffame.org/vint-cerf/) and [Robert
+Kahn](https://www.internethalloffame.org/inductee/robert-kahn/) to build a
+reliable client-server communication using [packet-switching](
+https://ethw.org/Packet_Switching).
 
 > Packet switching is a method of data transmission in which data is broken into
 > small packets and sent over a network. Instead of establishing a dedicated
 > connection line between two hosts, packet switching allows smaller packets to
 > be sent independently on multiple routes and reassembled at the destination.
 
-TCP is a connection-oriented, reliable, and stream-oriented protocol. It
-provides many mechanisms to ensure the reliability of data transmission such as
-error detection, retransmission, duplication, flow controls and congestion
-controls.
+<GlossaryItem term="tcp">TCP</GlossaryItem> is a
+<GlossaryItem term="connection-mode">connection-oriented</GlossaryItem>,
+reliable, and <GlossaryItem term="stream-byte">stream-oriented</GlossaryItem>
+protocol. It provides many mechanisms to ensure the reliability of data
+transmission such as error detection, retransmission, duplication, flow
+controls and congestion controls.
 
-Most of TCP applications are web-based applications like HTTP (HTTP/1.1 and
-HTTP/2), HTTPS, FTP and SMTP, which are basically the protocols that run servers
-and applications used by billions of people globally.
+Most of <GlossaryItem term="tcp">TCP</GlossaryItem> applications are web-based
+applications like <GlossaryItem term="http">HTTP</GlossaryItem> (
+<GlossaryItem term="http/1.1">HTTP/1.1</GlossaryItem> and
+<GlossaryItem term="http/2">HTTP/2</GlossaryItem>),
+<GlossaryItem term="https">HTTPS</GlossaryItem>,
+<GlossaryItem term="ftp">FTP</GlossaryItem> and
+<GlossaryItem term="smtp">SMTP</GlossaryItem>, which are basically the
+protocols that run servers and applications used by billions of people globally.
 
 # What is TCP?
 
 TCP is a protocol in the Transport Layer of the Internet Protocol Suite. The job
-of the Transport Layer is to provide a logical communication between _application processes_. Transport Layer is implemented on top of the Network
-Layer and below the Application Layer.
+of the Transport Layer is to provide a
+<GlossaryItem term="logical-communication">logical communication</GlossaryItem>
+between _application processes_.
+<GlossaryItem term="transport-layer">Transport Layer</GlossaryItem> is
+implemented on top of the
+<GlossaryItem term="network-layer">Network Layer</GlossaryItem> and below the
+Application Layer.
 
 TCP and UDP are the two most common transport protocols. They are both
 implemented by the operating systems in the endpoint devices such as computers,
@@ -132,10 +145,12 @@ sent.
 
 ## Stream-oriented protocol
 
-TCP is a stream-oriented protocol. It means that it provides a continuous
-stream of data between two endpoints. The data is divided into smaller chunks
-called _segments_ and each segment is assigned a sequence number. The receiver
-reassembles the segments in the correct order based on the sequence numbers.
+TCP is a <GlossaryItem term="stream-byte">stream-oriented</GlossaryItem>
+protocol. It means that it provides a continuous stream of data between two
+endpoints. The data is divided into smaller chunks called
+<GlossaryItem term="segment">_segment_</GlossaryItem> and each segment is
+assigned a sequence number. The receiver reassembles the segments in the
+correct order based on the sequence numbers.
 
 For example, if the sender sends three segments with sequence numbers 1, 2 and
 3, the receiver will receive them in the same order and reassemble them into
@@ -171,12 +186,13 @@ the data is delivered in the right order.
 
 ## Reliable data transfer
 
-TCP is built on top of the unreliable IP protocol. IP does not guarantee that
-the data is delivered. It follows the principle of "Best Effort", i.e _"I try my
-best but I don't promise anything"_. Due to physical factors, data can be
-corrupted with bit flipping. And when you move higher to the architecture of the
-Internet, data can be lost due to many reasons such as delay, network congestion
-or simply the destination is unreachable.
+TCP is built on top of the unreliable
+<GlossaryItem term="ip-protocol">IP protocol</GlossaryItem>. IP does not
+guarantee that the data is delivered. It follows the principle of "Best
+Effort", i.e _"I try my best but I don't promise anything"_. Due to physical
+factors, data can be corrupted with bit flipping. And when you move higher to
+the architecture of the Internet, data can be lost due to many reasons such as
+delay, network congestion or simply the destination is unreachable.
 
 For example, in a busy network, packets can be dropped due to congestion. In the
 following figure, packet 1 and packet 3 got transferred successfully but packet
@@ -186,7 +202,9 @@ following figure, packet 1 and packet 3 got transferred successfully but packet
 
 TCP provides many mechanisms to ensure that the data is transferred in whole and
 in the right order. Not only that, TCP can detect and control the congestion
-in the host and in the network with *flow control* and *congestion control*
+in the host and in the network with
+<GlossaryItem term="flow-control">flow control</GlossaryItem> and
+<GlossaryItem term="congestion-control">congestion control</GlossaryItem>
 mechanisms respectively.
 
 # How TCP works
@@ -203,12 +221,13 @@ IP protocol is an unreliable protocol. It follows a simple principle _"Best
 Effort"_. It sends the data to the destination without any guarantee that the
 data is delivered. TCP is designed to provide a reliable data transfer.
 
-As discussed above, TCP is a transport-layer protocol between application layer
-and the network layer. TCP works by wrapping the data sent by the application
-into a packet with TCP fields. A complete TCP packet with application data
-and TCP fields is called a **TCP segment**. The TCP segment is then passed to
-the network layer to be encapsulated into an IP packet and IP protocol will
-deliver this packet to lower layers of the network stack.
+As discussed above, TCP is a transport-layer protocol between
+<GlossaryItem term="application-layer">application layer</GlossaryItem> and the
+network layer. TCP works by wrapping the data sent by the application into a
+packet with TCP fields. A complete TCP packet with application data and TCP
+fields is called a **TCP segment**. The TCP segment is then passed to the
+network layer to be encapsulated into an IP packet and IP protocol will deliver
+this packet to lower layers of the network stack.
 
 TCP packet typically looks like this:
 
@@ -296,13 +315,16 @@ will break the file into smaller chunks of data, called _segments_.
 
 ![TCP Stream Orientation](/tcp-stream-orientation.png "TCP Stream Orientation")
 
-Each segment is assigned a sequence number. The sequence number for a segment
-is the byte-stream number of the first byte in the segment. For example, if Host
-A sends a file, whose size is 9216 bytes, to Host B. The **maximum segment size
-(MSS)** is 3072 bytes. The file will be divided into 3 segments, each of which
-has 3072 bytes. The first segment will have a sequence number of 0, the second
-segment will have a sequence number of 3072 and the third segment will have a
-sequence number of 6144.
+Each segment is assigned a
+<GlossaryItem term="sequence-number">sequence number</GlossaryItem>. The
+sequence number for a segment is the byte-stream number of the first byte in
+the segment. For example, if Host A sends a file, whose size is 9216 bytes, to
+Host B. The
+<GlossaryItem term="mss">**maximum segment size (MSS)**</GlossaryItem> is 3072
+bytes. The file will be divided into 3 segments, each of which has 3072 bytes.
+The first segment will have a sequence number of 0, the second segment will
+have a sequence number of 3072 and the third segment will have a sequence
+number of 6144.
 
 The acknowledgement (ACK) number is the sequence number of the next byte that
 the receiver expects to receive. For example, if Host A sends a file to Host B

@@ -201,7 +201,7 @@ export default function TCPFastRecoveryCongestionControlChart(): JSX.Element {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer>
+        <ResponsiveContainer className="overflow-x-auto">
           <ChartContainer
             config={{
               cwnd: {

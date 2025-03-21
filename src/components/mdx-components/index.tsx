@@ -17,11 +17,12 @@ import ExternalLink from "@/components/external-link";
 import Callout from "@/components/callout";
 import BlogCode from "./code";
 import CSSComparisonChart from "./css-comparison-chart";
-import CodeSandbox from "./codesandbox";
+import CodeSandbox from "./code-sandbox";
 import TCPCongestionControlChart from "./tcp-congestion-chart";
 import TCPFastRecoveryCongestionControlChart from "./tcp-fast-recovery-congestion-chart";
 import Mermaid from "./mermaid";
 import { ClientOnly } from "@/components/client-only";
+import GlossaryItem from "@/components/glossary/glossary-item";
 
 mermaid.initialize({
   startOnLoad: true,
@@ -31,6 +32,7 @@ const components: NonNullable<
   React.ComponentProps<typeof MDXProvider>["components"]
 > = {
   Callout,
+  GlossaryItem,
   CSSComparisonChart,
   TCPCongestionControlChart,
   TCPFastRecoveryCongestionControlChart,

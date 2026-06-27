@@ -124,7 +124,6 @@ export default function NavigationMenu({
           },
         )}
       ></div>
-
       <div
         ref={containerRef}
         className={cn(
@@ -135,7 +134,6 @@ export default function NavigationMenu({
           "",
         )}
       ></div>
-
       <div
         className={cn(
           "ease-out-cubic relative z-50 mx-auto h-full min-h-[3.125rem] w-full bg-white/80 backdrop-blur md:h-[3.125rem] dark:bg-black/80",
@@ -149,8 +147,8 @@ export default function NavigationMenu({
             "relative mx-[var(--gutter-size)] flex min-h-[3.125rem] w-[var(--container-size)] items-center justify-between [&>div]:h-full",
           )}
         >
-          <Link href="/" passHref legacyBehavior>
             <UINavigationMenuLink
+              href="/"
               className={cn(
                 "flex items-center justify-center",
                 "h-10 w-10 rounded-full p-2",
@@ -159,7 +157,6 @@ export default function NavigationMenu({
             >
               <div className="h-full w-full bg-black dark:bg-white"></div>
             </UINavigationMenuLink>
-          </Link>
 
           <div className="[&>div]:!static [&>div]:h-full">
             <UINavigationList
@@ -248,8 +245,8 @@ export default function NavigationMenu({
                       }))}
                       isListReady={isListReady}
                     />
-                    <Link href="/projects" legacyBehavior passHref>
                       <UINavigationMenuLink
+                        href="/projects"
                         className={cn(
                           "mt-4 transform-gpu pb-8 text-lg font-medium transition-opacity duration-300",
                           {
@@ -269,7 +266,6 @@ export default function NavigationMenu({
                       >
                         More at <code>/projects</code>
                       </UINavigationMenuLink>
-                    </Link>
                   </div>
                 </UNavigationMenuContent>
               </UINavigationMenuItem>

@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   ...sharedMetadata,
 };
 
-export function generateViewport(): Viewport {
+export async function generateViewport(): Promise<Viewport> {
   return {
     themeColor: [
       { media: "(prefers-color-scheme: light)", color: "white" },
@@ -40,7 +40,7 @@ export default function RootLayout({ children }: Props): JSX.Element {
   return (
     <html
       lang="en"
-      className="js-focus-visible [--scroll-mt:9.875rem] [scrollbar-gutter:stable] lg:[--scroll-mt:6.3125rem]"
+      className="js-focus-visible [scrollbar-gutter:stable] [--scroll-mt:9.875rem] lg:[--scroll-mt:6.3125rem]"
       suppressHydrationWarning
     >
       <head>

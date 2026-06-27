@@ -34,13 +34,7 @@ export default function NavigationMenuLatestPost({
       onClickCapture={handleClickCapture}
       className={cn("relative mt-8 w-full", className)}
     >
-      <Link
-        href={`/blogs/${latestPost.slug}`}
-        className="group"
-        passHref
-        legacyBehavior
-      >
-        <UINavigationMenuLink className="group">
+        <UINavigationMenuLink href={`/blogs/${latestPost.slug}`} className="group">
           <div
             className={cn(
               "aspect-[16/9] w-full overflow-hidden rounded-lg",
@@ -89,7 +83,6 @@ export default function NavigationMenuLatestPost({
             {latestPost.title}
           </h3>
         </UINavigationMenuLink>
-      </Link>
     </div>
   );
 }

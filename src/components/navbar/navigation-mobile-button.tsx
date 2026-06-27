@@ -98,7 +98,9 @@ export default function NavigationMobileButton({
               <ul>
                 {mostViewedCategories.map((category, i) => (
                   <li key={i}>
-                    <Link href={category.url} passHref legacyBehavior>
+                    <Link href={category.url}>
+                      {/* @next-codemod-error This Link previously used the now removed `legacyBehavior` prop, and has a child that might not be an anchor. The codemod bailed out of lifting the child props to the Link. Check that the child component does not render an anchor, and potentially move the props manually to Link. */
+                      }
                       <UINavigationMenuLink className="text-muted-foreground hover:text-accent-foreground text-lg">
                         {category.category}
                       </UINavigationMenuLink>
@@ -115,7 +117,9 @@ export default function NavigationMobileButton({
               <ul>
                 {mostViewedTags.map((tag, i) => (
                   <li key={i}>
-                    <Link href={tag.url} passHref legacyBehavior>
+                    <Link href={tag.url}>
+                      {/* @next-codemod-error This Link previously used the now removed `legacyBehavior` prop, and has a child that might not be an anchor. The codemod bailed out of lifting the child props to the Link. Check that the child component does not render an anchor, and potentially move the props manually to Link. */
+                      }
                       <UINavigationMenuLink className="text-muted-foreground hover:text-accent-foreground text-lg">
                         {tag.tag}
                       </UINavigationMenuLink>

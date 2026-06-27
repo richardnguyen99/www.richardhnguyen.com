@@ -48,7 +48,7 @@ export default function Frontmatter({
           height={980}
           quality={100}
           className="object-cover object-center"
-          loading="lazy"
+          loading="eager"
         />
       </div>
     </>

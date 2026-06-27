@@ -24,14 +24,14 @@ interface BlogPostProps {
 export const dynamicParams = false;
 
 // NextJS options to enable to generate static paths at build time.
-export const generateStaticParams = async () => {
+export async function generateStaticParams() {
   return await generateMdxSlugs();
-};
+}
 
 // NextJS options to generate metadata for page dynamically
-export const generateMetadata = async ({
+export async function generateMetadata({
   params,
-}: BlogPostProps): Promise<Metadata> => {
+}: BlogPostProps): Promise<Metadata> {
   const { slug } = await params;
   const { frontMatter, excerpt } = await getMdxContentFromSlug(slug);
 
@@ -71,7 +71,7 @@ export const generateMetadata = async ({
       ],
     },
   };
-};
+}
 
 export default async function BlogPost({
   params,

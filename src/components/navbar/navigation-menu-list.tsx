@@ -28,11 +28,9 @@ export function NavigationMenuLink({
   url,
 }: Props["items"][0]): JSX.Element {
   return (
-    <Link href={url} legacyBehavior passHref>
       <UINavigationMenuLink className={cn(linkClassName)}>
         {text}
       </UINavigationMenuLink>
-    </Link>
   );
 }
 

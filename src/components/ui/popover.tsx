@@ -12,9 +12,8 @@ const PopoverTrigger = PopoverPrimitive.Trigger;
 const PopoverAnchor = PopoverPrimitive.Anchor;
 
 const PopoverContent = React.forwardRef<
-  // @ts-ignore
   React.ElementRef<typeof PopoverPrimitive.Content> &
-    // @ts-ignore
+    // @ts-expect-error: TODO: $$typeof is declared here
     React.ElementRef<typeof PopoverPrimitive.Portal>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content> &
     React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Portal>

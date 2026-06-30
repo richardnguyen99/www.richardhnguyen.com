@@ -24,7 +24,6 @@ import {
 export default function ThemeSwitcher(): JSX.Element {
   const { theme, setTheme } = useTheme();
   const isSmallScreen = useMediaQuery("(max-width: 768px)");
-  const [mounted, setMounted] = React.useState(false);
   const [isDropped, setIsDropped] = React.useState(false);
   const [showTooltip, setShowTooltip] = React.useState(false);
 
@@ -35,8 +34,6 @@ export default function ThemeSwitcher(): JSX.Element {
 
     return theme === "dark" ? "Dark Mode" : "Light Mode";
   }, [theme]);
-
-  React.useEffect(() => setMounted(true), []);
 
   return (
     <DropdownMenu onOpenChange={(value) => setIsDropped(value)}>
@@ -54,17 +51,15 @@ export default function ThemeSwitcher(): JSX.Element {
             onMouseEnter={() => setShowTooltip(true)}
             onMouseLeave={() => setShowTooltip(false)}
           >
-            {mounted && (
-              <span>
-                {theme === "system" ? (
-                  <DesktopIcon className="h-full w-full" />
-                ) : theme === "dark" ? (
-                  <MoonIcon className="h-full w-full" />
-                ) : (
-                  <SunIcon className="h-full w-full" />
-                )}
-              </span>
-            )}
+            <span>
+              {theme === "system" ? (
+                <DesktopIcon className="h-full w-full" />
+              ) : theme === "dark" ? (
+                <MoonIcon className="h-full w-full" />
+              ) : (
+                <SunIcon className="h-full w-full" />
+              )}
+            </span>
           </DropdownMenuTrigger>
         </TooltipTrigger>
         <TooltipContent
@@ -93,22 +88,18 @@ export default function ThemeSwitcher(): JSX.Element {
           >
             System
           </DropdownMenuRadioItem>
-          {mounted && (
-            <>
-              <DropdownMenuRadioItem
-                value="light"
-                className="bg-neutral-200/0 hover:bg-neutral-200/30 dark:bg-black dark:hover:bg-neutral-500/30"
-              >
-                Light
-              </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem
-                value="dark"
-                className="bg-neutral-200/0 hover:bg-neutral-200/30 dark:bg-black dark:hover:bg-neutral-500/30"
-              >
-                Dark
-              </DropdownMenuRadioItem>
-            </>
-          )}
+          <DropdownMenuRadioItem
+            value="light"
+            className="bg-neutral-200/0 hover:bg-neutral-200/30 dark:bg-black dark:hover:bg-neutral-500/30"
+          >
+            Light
+          </DropdownMenuRadioItem>
+          <DropdownMenuRadioItem
+            value="dark"
+            className="bg-neutral-200/0 hover:bg-neutral-200/30 dark:bg-black dark:hover:bg-neutral-500/30"
+          >
+            Dark
+          </DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>

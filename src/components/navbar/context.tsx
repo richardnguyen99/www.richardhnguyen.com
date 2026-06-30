@@ -13,15 +13,14 @@ export interface NavbarContextValue {
   setActiveCollapsibleTab: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export interface NavbarProviderProps {}
-
 const NavbarContext = React.createContext<NavbarContextValue | undefined>(
   undefined,
 );
 
-const NavbarProvider: React.FC<
-  React.PropsWithChildren<NavbarProviderProps>
-> = ({ children, ...props }) => {
+const NavbarProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+  ...props
+}) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isMobileMenuOpen] = React.useState(false);
   const [activeCollapsiblleTab, setActiveCollapsibleTab] = React.useState("");

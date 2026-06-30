@@ -1,7 +1,6 @@
 "use client";
 
 import React, { type JSX } from "react";
-import Link from "next/link";
 import { MoveUpRight } from "lucide-react";
 
 import { NavigationMenuLink as UINavigationMenuLink } from "@/components/ui/navigation-menu";
@@ -23,14 +22,11 @@ type Props = React.PropsWithChildren<
 const linkClassName =
   "ease-curve-d line-clamp-1 w-max transform-gpu border-b-2 border-transparent transition-[border-color] duration-200 hover:border-gray-800 dark:hover:border-gray-200";
 
-export function NavigationMenuLink({
-  text,
-  url,
-}: Props["items"][0]): JSX.Element {
+export function NavigationMenuLink({ text }: Props["items"][0]): JSX.Element {
   return (
-      <UINavigationMenuLink className={cn(linkClassName)}>
-        {text}
-      </UINavigationMenuLink>
+    <UINavigationMenuLink className={cn(linkClassName)}>
+      {text}
+    </UINavigationMenuLink>
   );
 }
 

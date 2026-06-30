@@ -1,6 +1,6 @@
 import React, { type JSX } from "react";
 import Image from "next/image";
-import { useRemarkSync } from "react-remark";
+import { useRemarkSync, UseRemarkSyncOptions } from "react-remark";
 
 import type { FrontMatter as FrontmatterType } from "@/types/mdx";
 import mdxComponents from "./mdx-components";
@@ -16,8 +16,9 @@ export default function Frontmatter({
 }: FrontmatterProps): JSX.Element {
   const mdxContent = useRemarkSync(excerpt, {
     rehypeReactOptions: {
-      // @ts-ignore
-      components: mdxComponents,
+      components: mdxComponents as NonNullable<
+        UseRemarkSyncOptions["rehypeReactOptions"]
+      >["components"],
     },
   });
 
@@ -40,7 +41,7 @@ export default function Frontmatter({
           </div>
         )}
       </div>
-      <div className="mx-[var(--gutter-size)] mt-16 w-[var(--container-size)] bg-accent [&_img]:rounded-lg">
+      <div className="bg-accent mx-[var(--gutter-size)] mt-16 w-[var(--container-size)] [&_img]:rounded-lg">
         <Image
           src={data.thumbnail}
           alt={data.title}

@@ -60,7 +60,7 @@ export type Repository = {
 export type PinnableItem = Gist & Repository;
 
 export type PinnableItemEdge = {
-  cusor: string;
+  cursor: string;
   node: PinnableItem;
 };
 
@@ -70,13 +70,11 @@ export type PinnableItemConnection = {
   totalCount: number;
 };
 
-export type Organization = {};
-
 export type User = {
   pinnedItems: PinnableItemConnection;
 };
 
-export type RepositoryOwner = Organization & User;
+export type RepositoryOwner = User;
 
 export type Queries = {
   repositoryOwner: RepositoryOwner;

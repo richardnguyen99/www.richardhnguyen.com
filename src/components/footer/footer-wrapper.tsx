@@ -5,14 +5,11 @@ import React, { type JSX } from "react";
 import { cn } from "@/lib/utils";
 import { useNavbarContext } from "@/components/navbar/context";
 
-interface FooterProps
-  extends React.PropsWithChildren<React.HTMLAttributes<HTMLDivElement>> {}
-
 export default function FooterWrapper({
   children,
   className,
   ...rest
-}: FooterProps): JSX.Element {
+}: React.PropsWithChildren<React.HTMLAttributes<HTMLDivElement>>): JSX.Element {
   const navbarContext = useNavbarContext();
 
   return (

@@ -11,6 +11,19 @@ interface BlogGridProps {
   currentPage: number;
 }
 
+// Deterministic pseudo-random generator: same seed always returns the same
+// value, so it's safe to call during render (unlike Math.random()).
+function seededRandom(seed: number): number {
+  const x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+}
+
+// Precomputed once at module load since it doesn't depend on props.
+const STAR_POSITIONS = Array.from({ length: 100 }, (_, i) => ({
+  top: seededRandom(i * 12.9898 + 1) * 100,
+  left: seededRandom(i * 78.233 + 1) * 100,
+}));
+
 export default function BlogGrid({
   posts,
   currentPage,
@@ -84,13 +97,13 @@ export default function BlogGrid({
           <div className="to-violet-500-500 absolute -top-[10%] right-0 bottom-0 -left-[15%] z-10 h-[320px] w-[320px] rounded-full bg-gradient-to-tr from-indigo-400 opacity-100" />
           <div className="absolute -top-[calc(8%)] right-0 bottom-0 -left-[calc(13%)] z-[9] h-[320px] w-[320px] rounded-full border-[5px] border-indigo-400 bg-transparent opacity-100" />
           <div className="absolute -right-[5%] -bottom-[5%] z-[8] h-[480px] w-[480px] rounded-full bg-gradient-to-tr from-indigo-400 to-purple-800 opacity-100" />
-          {Array.from({ length: 100 }).map((_, i) => (
+          {STAR_POSITIONS.map((pos, i) => (
             <div
               key={i}
               className="absolute z-[9] h-[4px] w-[4px] rounded-full bg-indigo-200"
               style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
+                top: `${pos.top}%`,
+                left: `${pos.left}%`,
               }}
             />
           ))}

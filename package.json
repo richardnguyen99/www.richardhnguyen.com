@@ -67,7 +67,7 @@
     "react-remark": "^2.1.0",
     "react-snap-carousel": "^0.4.1",
     "reading-time": "^1.5.0",
-    "recharts": "^2.15.4",
+    "recharts": "^3.9.1",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-format": "^5.0.1",
     "rehype-katex": "^7.0.1",

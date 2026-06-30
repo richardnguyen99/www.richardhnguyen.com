@@ -42,7 +42,7 @@
     ".next/types/**/*.ts",
     "tailwind.config.js",
     ".next/dev/types/**/*.ts",
-    "scripts/algolia.mts"
+    "scripts/algolia.ts"
   ],
   "exclude": [
     "node_modules"

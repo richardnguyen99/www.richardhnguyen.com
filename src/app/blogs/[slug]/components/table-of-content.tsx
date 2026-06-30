@@ -20,92 +20,137 @@ export default function TableOfContent(): JSX.Element {
   React.useEffect(() => {
     if (!ref.current) return;
 
-    const parentElement = ref.current.parentElement as HTMLElement;
+    const parentElement = ref.current.parentElement;
+    if (!parentElement) return;
 
-    if (!parent) return;
+    let headingObserver: IntersectionObserver | null = null;
+    let contentObserver: IntersectionObserver | null = null;
+    let contentMutationObserver: MutationObserver | null = null;
+    let parentMutationObserver: MutationObserver | null = null;
+    let rafId: number | null = null;
 
-    const content = parentElement.querySelector(".content");
+    // (Re)attach the heading intersection observer to whatever headings
+    // currently exist. Called every time the content subtree mutates.
+    const observeHeadings = (headingEls: HTMLElement[]) => {
+      headingObserver?.disconnect();
 
-    if (!content) return;
+      headingObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            const id = entry.target.id;
 
-    // Query all heading 1 and 2
-    setHeadings(Array.from(content.querySelectorAll("h1, h2")));
+            const tocItem = Array.from(
+              document.querySelectorAll(`#toc-${id}`),
+            ).at(-1);
 
-    // Check if content is in viewport
-    const contentObserver = new IntersectionObserver(
-      ([entry]) => {
-        setInViewport(entry.isIntersecting);
-        if (entry.isIntersecting) {
-          setCollapsing(extraLarge);
-        }
-      },
-      {
-        // This will make sure the intersectioning is triggered if and only if
-        // the header appears 66% on viewport, i.e. the content is 66% visible.
-        // 96px is for auto scroll margin.
-        rootMargin: "-96px 0px -66% 0px",
-      },
-    );
+            if (!tocItem) return;
 
-    contentObserver.observe(content);
+            if (entry.isIntersecting) {
+              const currentActiveElements = Array.from(
+                document.querySelectorAll(
+                  `[data-current-active-tab-content-item="true"]`,
+                ),
+              );
 
-    const headingObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const id = entry.target.id;
-
-          // Get the corresponding toc item from the heading id
-          const tocItem = Array.from(
-            document.querySelectorAll(`#toc-${id}`),
-          ).at(-1);
-
-          if (!tocItem) return;
-
-          if (entry.isIntersecting) {
-            // Find all the current active elements.
-            const currentActiveElements = Array.from(
-              document.querySelectorAll(
-                `[data-current-active-tab-content-item="true"]`,
-              ),
-            );
-
-            // remove the active class and attributes
-            if (currentActiveElements.length) {
-              // loop through all elements and remove class and attr
               for (const el of currentActiveElements) {
                 el.classList.remove("active");
                 el.removeAttribute("data-current-active-tab-content-item");
               }
+
+              tocItem.setAttribute(
+                "data-current-active-tab-content-item",
+                "true",
+              );
+
+              setActiveHeading(entry.target as HTMLElement);
             }
+          });
+        },
+        {
+          // This will make sure the intersecting is triggered if and only if
+          // the header appears 66% on viewport, i.e. the content is 66% visible.
+          // 96px is for auto scroll margin.
+          rootMargin: "-96px 0px -66% 0px",
+          threshold: 1,
+        },
+      );
 
-            // Add active class and attributes
-            tocItem.setAttribute(
-              "data-current-active-tab-content-item",
-              "true",
-            );
+      headingEls.forEach((heading) => headingObserver!.observe(heading));
+    };
 
-            // Reusable active class
-            setActiveHeading(entry.target as HTMLElement);
+    const scanHeadings = (content: Element) => {
+      const headingEls = Array.from(
+        content.querySelectorAll<HTMLElement>("h1, h2"),
+      );
+      setHeadings(headingEls);
+      observeHeadings(headingEls);
+    };
+
+    const setupContentViewportObserver = (content: Element) => {
+      contentObserver = new IntersectionObserver(
+        ([entry]) => {
+          setInViewport(entry.isIntersecting);
+          if (entry.isIntersecting) {
+            setCollapsing(extraLarge);
           }
-        });
-      },
-      {
-        // See above for explanation
-        rootMargin: "-96px 0px -66% 0px",
-        threshold: 1,
-      },
-    );
+        },
+        {
+          // Same rationale as above.
+          rootMargin: "-96px 0px -66% 0px",
+        },
+      );
 
-    content.querySelectorAll("h1, h2").forEach((heading) => {
-      headingObserver.observe(heading);
-    });
+      contentObserver.observe(content);
+    };
+
+    const attachToContent = (content: Element) => {
+      // Initial scan, in case headings already exist.
+      scanHeadings(content);
+      setupContentViewportObserver(content);
+
+      // Content (e.g. streamed/Suspense-resolved blog body, async MDX,
+      // client-rendered markdown) can mount its headings *after* this
+      // effect has already run. Keep watching and re-scan whenever the
+      // subtree changes, debounced to one scan per frame.
+      contentMutationObserver = new MutationObserver(() => {
+        if (rafId !== null) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(() => scanHeadings(content));
+      });
+
+      contentMutationObserver.observe(content, {
+        childList: true,
+        subtree: true,
+      });
+    };
+
+    const existingContent = parentElement.querySelector(".content");
+
+    if (existingContent) {
+      attachToContent(existingContent);
+    } else {
+      // `.content` itself hasn't mounted yet — wait for it to appear,
+      // then start watching it as above.
+      parentMutationObserver = new MutationObserver(() => {
+        const content = parentElement.querySelector(".content");
+        if (content) {
+          parentMutationObserver?.disconnect();
+          parentMutationObserver = null;
+          attachToContent(content);
+        }
+      });
+
+      parentMutationObserver.observe(parentElement, {
+        childList: true,
+        subtree: true,
+      });
+    }
 
     return () => {
-      contentObserver.unobserve(content);
-
-      content.querySelectorAll("h1, h2").forEach((heading) => {
-        headingObserver.unobserve(heading);
-      });
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      headingObserver?.disconnect();
+      contentObserver?.disconnect();
+      contentMutationObserver?.disconnect();
+      parentMutationObserver?.disconnect();
     };
   }, [extraLarge]);
 

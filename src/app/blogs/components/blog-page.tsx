@@ -1,18 +1,10 @@
 import React, { type JSX } from "react";
-import dynamic from "next/dynamic";
 
 import { getAllCategories, getAllTags, getMdxContents } from "@/lib/mdx";
-import BlogGrid from ".//blog-grid";
+import BlogGrid from "./blog-grid";
 import BlogPagination from "./pagination";
-
-const ButtonGroup = dynamic(() => import("./button-group"), {
-  loading: () => (
-    <div className="flex items-center gap-4">
-      <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 md:w-[100px] dark:bg-neutral-700" />
-      <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 md:w-[100px] dark:bg-neutral-700" />
-    </div>
-  ),
-});
+import { ClientOnly } from "@/components/client-only";
+import ButtonGroup from "./button-group";
 
 interface BlogProps {
   searchParams: {
@@ -80,18 +72,27 @@ export default async function BlogPage(props: BlogProps): Promise<JSX.Element> {
               Latest Blog
             </h3>
 
-            <ButtonGroup
-              sortOrder={selectedSortOrder}
-              sortType={selectedSortType}
-              tags={{
-                values: tags,
-                selectedIndices: selectedTagIndices,
-              }}
-              categories={{
-                values: categories,
-                selectedIndices: selectedCategoryIndices,
-              }}
-            />
+            <ClientOnly
+              fallback={
+                <div className="flex items-center gap-4">
+                  <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 md:w-[100px] dark:bg-neutral-700" />
+                  <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 md:w-[100px] dark:bg-neutral-700" />
+                </div>
+              }
+            >
+              <ButtonGroup
+                sortOrder={selectedSortOrder}
+                sortType={selectedSortType}
+                tags={{
+                  values: tags,
+                  selectedIndices: selectedTagIndices,
+                }}
+                categories={{
+                  values: categories,
+                  selectedIndices: selectedCategoryIndices,
+                }}
+              />
+            </ClientOnly>
           </div>
         </div>
       </div>

@@ -87,7 +87,7 @@ const components: NonNullable<
         height={980}
         quality={100}
         className="rounded-lg object-cover object-center"
-        loading="lazy"
+        loading="eager"
       />
     );
   },

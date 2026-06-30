@@ -37,6 +37,7 @@ export default function LatestArticleContainer(): JSX.Element {
         >
           <LatestArticleSection />
         </React.Suspense>
+        {/* <LatestArticleSection /> */}
       </div>
     </section>
   );

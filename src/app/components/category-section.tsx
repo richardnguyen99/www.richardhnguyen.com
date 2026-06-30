@@ -44,7 +44,7 @@ export default async function CategorySection({
         </div>
       </div>
 
-      <ul className="mx-auto mt-16 flex snap-x snap-mandatory gap-10 overflow-x-auto overscroll-x-contain scroll-smooth px-[var(--gutter-size)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <ul className="mx-auto mt-16 flex snap-x snap-mandatory [scrollbar-width:none] gap-10 overflow-x-auto overscroll-x-contain scroll-smooth px-[var(--gutter-size)] [&::-webkit-scrollbar]:hidden">
         {data.map((post, i) => (
           <li
             key={`${i}`}
@@ -91,7 +91,7 @@ export default async function CategorySection({
                       alt="Thumbnails"
                       sizes="(min-width: 68rem) 1470px, 768px"
                       fill={true}
-                      loading="lazy"
+                      loading="eager"
                     />
                   </div>
                 </div>

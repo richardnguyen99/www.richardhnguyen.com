@@ -71,7 +71,7 @@ export default function BlogGrid({
                       alt="Thumbnails"
                       sizes="(min-width: 68rem) 1470px, 768px"
                       fill={true}
-                      loading="lazy"
+                      loading="eager"
                     />
                   </div>
                 </div>

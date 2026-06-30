@@ -6,8 +6,9 @@ import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkMdx from "remark-mdx";
 import { visit } from "unist-util-visit";
-import { InternalSearchAlgoliaAttributes } from "@/types/algolia";
-import { getMdxContentFromPath } from "@/lib/mdx";
+
+import { InternalSearchAlgoliaAttributes } from "../src/types/algolia";
+import { getMdxContentFromPath } from "../src/lib/mdx";
 
 function extractHeadings(content: string) {
   const headings: {

@@ -304,23 +304,6 @@ export default function TCPCongestionControlChart(): JSX.Element {
               dataKey="cwnd"
               stroke="var(--color-cwnd)"
               strokeWidth={2}
-              dot={{
-                // @ts-ignore
-                fill: (entry) =>
-                  entry.event === "Congestion Collapse"
-                    ? "red"
-                    : "var(--color-cwnd)",
-
-                // @ts-ignore
-                r: (entry) => (entry.event ? 6 : 4),
-                // @ts-ignore
-                stroke: (entry) =>
-                  entry.event === "Congestion Collapse" ? "red" : undefined,
-
-                // @ts-ignore
-                strokeWidth: (entry) =>
-                  entry.event === "Congestion Collapse" ? 2 : 0,
-              }}
               activeDot={{ r: 6 }}
             />
           </LineChart>

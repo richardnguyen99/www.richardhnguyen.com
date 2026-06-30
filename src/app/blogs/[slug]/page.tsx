@@ -1,18 +1,13 @@
 import React, { type JSX } from "react";
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 
 import { generateMdxSlugs, getMdxContentFromSlug } from "@/lib/mdx";
 import { ClientOnly } from "@/components/client-only";
 import { sharedMetadata } from "@/lib/metadata";
+import TableOfContent from "./components/table-of-content";
 import MdxRemote from "./components/mdx-remote";
 
 import "./mdx.css";
-
-const TableOfContent = dynamic(
-  () => import("./components/table-of-content"),
-  {},
-);
 
 interface BlogPostProps {
   params: Promise<{
@@ -25,7 +20,9 @@ export const dynamicParams = false;
 
 // NextJS options to enable to generate static paths at build time.
 export async function generateStaticParams() {
-  return await generateMdxSlugs();
+  const slugs = await generateMdxSlugs();
+
+  return slugs;
 }
 
 // NextJS options to generate metadata for page dynamically

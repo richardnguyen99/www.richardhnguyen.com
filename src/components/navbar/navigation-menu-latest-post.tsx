@@ -34,55 +34,58 @@ export default function NavigationMenuLatestPost({
       onClickCapture={handleClickCapture}
       className={cn("relative mt-8 w-full", className)}
     >
-        <UINavigationMenuLink href={`/blogs/${latestPost.slug}`} className="group">
-          <div
-            className={cn(
-              "aspect-[16/9] w-full overflow-hidden rounded-lg",
-              "w-full -translate-y-4 rounded-lg opacity-0 transition-[opacity,transform] duration-300 ease-in-out",
-              {
-                "translate-y-0 opacity-100": isListReady,
-                "-translate-y-4 opacity-0": !isListReady,
-              },
-            )}
-            style={
-              isListReady
-                ? {
-                    transitionDelay: `${initialDelay}ms`,
-                  }
-                : {}
-            }
-          >
-            <Image
-              src={latestPost.thumbnail}
-              alt={latestPost.title}
-              className={cn("object-cover object-center")}
-              loading="lazy"
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              fill={true}
-            />
-          </div>
+      <UINavigationMenuLink
+        href={`/blogs/${latestPost.slug}`}
+        className="group"
+      >
+        <div
+          className={cn(
+            "aspect-[16/9] w-full overflow-hidden rounded-lg",
+            "w-full -translate-y-4 rounded-lg opacity-0 transition-[opacity,transform] duration-300 ease-in-out",
+            {
+              "translate-y-0 opacity-100": isListReady,
+              "-translate-y-4 opacity-0": !isListReady,
+            },
+          )}
+          style={
+            isListReady
+              ? {
+                  transitionDelay: `${initialDelay}ms`,
+                }
+              : {}
+          }
+        >
+          <Image
+            src={latestPost.thumbnail}
+            alt={latestPost.title}
+            className={cn("object-cover object-center")}
+            loading="eager"
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            fill={true}
+          />
+        </div>
 
-          <h3
-            className={cn(
-              "text-xl leading-6 font-extrabold tracking-tight",
-              "mt-4",
-              "w-full -translate-y-10 rounded-lg opacity-0 transition-[opacity,transform] duration-300 ease-in-out",
-              {
-                "translate-y-0 opacity-100": isListReady,
-                "-translate-y-10 opacity-0": !isListReady,
-              },
-            )}
-            style={
-              isListReady
-                ? {
-                    transitionDelay: `${initialDelay + 50}ms`,
-                  }
-                : {}
-            }
-          >
-            {latestPost.title}
-          </h3>
-        </UINavigationMenuLink>
+        <h3
+          className={cn(
+            "text-xl leading-6 font-extrabold tracking-tight",
+            "mt-4",
+            "w-full -translate-y-10 rounded-lg opacity-0 transition-[opacity,transform] duration-300 ease-in-out",
+            {
+              "translate-y-0 opacity-100": isListReady,
+              "-translate-y-10 opacity-0": !isListReady,
+            },
+          )}
+          style={
+            isListReady
+              ? {
+                  transitionDelay: `${initialDelay + 50}ms`,
+                }
+              : {}
+          }
+        >
+          {latestPost.title}
+        </h3>
+      </UINavigationMenuLink>
     </div>
   );
 }

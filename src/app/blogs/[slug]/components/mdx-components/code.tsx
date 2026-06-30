@@ -13,7 +13,6 @@ type BlogCodeProps = React.PropsWithChildren<
 >;
 
 const getCacheFileExt = React.cache(async (lang: string | undefined) => {
-  "use cache";
   const ext = extMap.get(lang || "default");
 
   if (!ext) {

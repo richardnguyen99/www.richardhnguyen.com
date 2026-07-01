@@ -62,7 +62,7 @@ export default async function BlogPage(props: BlogProps): Promise<JSX.Element> {
 
   return (
     <React.Fragment>
-      <div className="mx-[var(--gutter-size)] flex justify-between gap-4 sm:w-[var(--container-size)]">
+      <div className="mx-(--gutter-size) flex justify-between gap-4 sm:w-(--container-size)">
         <div className="flex w-full flex-col">
           <h2 className="font-mono text-xs/5 font-semibold tracking-widest text-neutral-500 uppercase dark:text-neutral-400">
             {posts.length} articles
@@ -75,8 +75,8 @@ export default async function BlogPage(props: BlogProps): Promise<JSX.Element> {
             <ClientOnly
               fallback={
                 <div className="flex items-center gap-4">
-                  <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 md:w-[100px] dark:bg-neutral-700" />
-                  <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 md:w-[100px] dark:bg-neutral-700" />
+                  <div className="h-10 w-1/2 animate-pulse rounded-full bg-neutral-100 md:w-25 dark:bg-neutral-700" />
+                  <div className="h-10 w-1/2 animate-pulse rounded-full bg-neutral-100 md:w-25 dark:bg-neutral-700" />
                 </div>
               }
             >
@@ -97,7 +97,7 @@ export default async function BlogPage(props: BlogProps): Promise<JSX.Element> {
         </div>
       </div>
 
-      <div className="mx-[var(--gutter-size)] w-[var(--container-size)]">
+      <div className="mx-(--gutter-size) w-(--container-size)">
         <React.Suspense fallback={<div>Loading...</div>}>
           <BlogGrid posts={posts} currentPage={currentPage} />
         </React.Suspense>

@@ -201,7 +201,7 @@ export default function TCPCongestionControlChart(): JSX.Element {
               color: "var(--chart-1)",
             },
           }}
-          className="min-h-[350px] w-full"
+          className="min-h-87.5 w-full"
         >
           <LineChart
             data={data}

@@ -159,7 +159,7 @@ export default function TableOfContent(): JSX.Element {
       <nav
         ref={ref}
         className={cn(
-          "ease-curve-d duration-normal transition-toc sticky top-0 z-50 h-0 w-full translate-y-[50px] overflow-visible opacity-100 xl:ml-8 xl:w-[calc((100%-var(--article-container-size))/2-4rem)] xl:translate-y-[66px] xl:cursor-default xl:overflow-visible xl:border-none xl:bg-transparent",
+          "ease-curve-d duration-normal transition-toc sticky top-0 z-50 h-0 w-full translate-y-12.5 overflow-visible opacity-100 xl:ml-8 xl:w-[calc((100%-var(--article-container-size))/2-4rem)] xl:translate-y-16.5 xl:cursor-default xl:overflow-visible xl:border-none xl:bg-transparent",
           {
             "pointer-events-none opacity-0 xl:h-0": !inViewport,
             "pointer-events-auto opacity-100 xl:h-fit": inViewport,
@@ -167,7 +167,7 @@ export default function TableOfContent(): JSX.Element {
         )}
       >
         <div className="bg-white/80 backdrop-blur xl:rounded-md xl:border-transparent xl:bg-transparent xl:px-6 dark:bg-black/80">
-          <div className="relative mx-[var(--article-gutter-size)] flex w-[var(--article-container-size)] items-start justify-between overflow-hidden rounded-md xl:mx-[unset] xl:[display:unset] xl:w-[unset]">
+          <div className="relative mx-(--article-gutter-size) flex w-(--article-container-size) items-start justify-between overflow-hidden rounded-md xl:mx-[unset] xl:[display:unset] xl:w-[unset]">
             <div className="w-full">
               <button
                 type="button"
@@ -220,7 +220,7 @@ export default function TableOfContent(): JSX.Element {
                           }
                         }}
                         className={cn(
-                          "line-height mb-2 line-clamp-1 cursor-pointer gap-2 text-sm text-slate-400 hover:text-slate-600 data-[current-active-tab-content-item]:text-black dark:text-neutral-700 dark:hover:text-neutral-500 dark:data-[current-active-tab-content-item]:text-white",
+                          "line-height mb-2 line-clamp-1 cursor-pointer gap-2 text-sm text-slate-400 hover:text-slate-600 data-current-active-tab-content-item:text-black dark:text-neutral-700 dark:hover:text-neutral-500 dark:data-current-active-tab-content-item:text-white",
                           {
                             "pl-4": heading.tagName === "H2",
                           },
@@ -239,7 +239,7 @@ export default function TableOfContent(): JSX.Element {
       <div
         onClick={() => setCollapsing(false)}
         className={cn(
-          "ease-curve-d fixed top-0 left-0 z-[49] h-full w-full bg-white/80 transition-opacity duration-300 xl:hidden dark:bg-black/80",
+          "ease-curve-d fixed top-0 left-0 z-49 h-full w-full bg-white/80 transition-opacity duration-300 xl:hidden dark:bg-black/80",
           {
             "pointer-events-auto opacity-100": collapsing,
             "pointer-events-none opacity-0": !collapsing,

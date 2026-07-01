@@ -1,4 +1,4 @@
-import React, { type JSX } from "react";
+import { type JSX } from "react";
 
 import {
   Card,
@@ -15,17 +15,17 @@ type Props = {
 
 export default function ChartSkeleton({ type }: Props): JSX.Element {
   return (
-    <Card className="mx-[var(--article-gutter-size)] w-[var(--article-container-size)]">
+    <Card className="mx-(--article-gutter-size) w-(--article-container-size)">
       <CardHeader>
-        <CardTitle className="!mx-0 !w-full">Download Comparison</CardTitle>
+        <CardTitle className="mx-0! w-full!">Download Comparison</CardTitle>
         {type === "loading" ? (
-          <Skeleton className="h-[32px] w-full rounded-xl" />
+          <Skeleton className="h-8 w-full rounded-xl" />
         ) : null}
       </CardHeader>
 
       <CardContent>
         {type === "loading" ? (
-          <Skeleton className="min-h-[378px] w-full" />
+          <Skeleton className="min-h-94.5 w-full" />
         ) : (
           <div>No data available</div>
         )}
@@ -34,10 +34,10 @@ export default function ChartSkeleton({ type }: Props): JSX.Element {
       <CardFooter>
         <div className="flex w-full items-start gap-2 text-sm">
           <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none"></div>
+            <div className="flex items-center gap-2 leading-none font-medium"></div>
 
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              <Skeleton className="h-[14px] w-[250px] rounded-xl" />
+            <div className="text-muted-foreground flex items-center gap-2 leading-none">
+              <Skeleton className="h-3.5 w-62.5 rounded-xl" />
             </div>
           </div>
         </div>

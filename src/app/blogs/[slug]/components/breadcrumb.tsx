@@ -23,7 +23,7 @@ export default function BlogBreadcrumb({
   ...rest
 }: BlogBreadcrumbProps): JSX.Element {
   return (
-    <div className="mx-auto mb-24 mt-12 flex w-[var(--article-container-size)] items-center justify-center px-[var(--article-gutter-size)]">
+    <div className="mx-auto mt-12 mb-24 flex w-(--article-container-size) items-center justify-center px-(--article-gutter-size)">
       <Breadcrumb className={cn(className)} {...rest}>
         <BreadcrumbList>
           <BreadcrumbItem>

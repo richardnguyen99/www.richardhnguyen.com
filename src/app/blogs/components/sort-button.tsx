@@ -130,7 +130,7 @@ export default function SortButton({
       <PopoverTrigger onClick={() => onOpenChange?.(!open)} asChild>
         <Button
           {...rest}
-          className="ease-curve-d group flex w-1/2 transform-gpu items-center gap-3 rounded-full border border-neutral-200 bg-neutral-100/0 text-neutral-950 shadow-none duration-200 hover:bg-neutral-100 dark:border-neutral-700 dark:text-white dark:hover:border-neutral-600 dark:hover:bg-neutral-800 md:w-[unset]"
+          className="ease-curve-d group flex w-1/2 transform-gpu items-center gap-3 rounded-full border border-neutral-200 bg-neutral-100/0 text-neutral-950 shadow-none duration-200 hover:bg-neutral-100 md:w-[unset] dark:border-neutral-700 dark:text-white dark:hover:border-neutral-600 dark:hover:bg-neutral-800"
         >
           <span className="line-clamp-1 max-w-full">Sort</span>
           <div className="relative inline-flex h-5 w-5 items-center justify-center">
@@ -170,7 +170,7 @@ export default function SortButton({
                           defaultValue={field.value}
                           className="flex flex-col space-y-1"
                         >
-                          <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormItem className="flex items-center space-y-0 space-x-3">
                             <FormControl>
                               <RadioGroupItem
                                 value="asc"
@@ -183,7 +183,7 @@ export default function SortButton({
                               <span>Ascending</span>
                             </FormLabel>
                           </FormItem>
-                          <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormItem className="flex items-center space-y-0 space-x-3">
                             <FormControl>
                               <RadioGroupItem
                                 value="desc"
@@ -215,7 +215,7 @@ export default function SortButton({
                           defaultValue={field.value}
                           className="flex flex-col space-y-1"
                         >
-                          <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormItem className="flex items-center space-y-0 space-x-3">
                             <FormControl>
                               <RadioGroupItem
                                 value="alphabet"
@@ -228,7 +228,7 @@ export default function SortButton({
                               <span>By alphabetical</span>
                             </FormLabel>
                           </FormItem>
-                          <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormItem className="flex items-center space-y-0 space-x-3">
                             <FormControl>
                               <RadioGroupItem
                                 value="latest"
@@ -248,7 +248,7 @@ export default function SortButton({
                 )}
               />
             </ScrollArea>
-            <div className="before:content relative from-white/0 to-white/100 to-40% before:absolute before:-top-8 before:block before:h-8 before:w-full before:bg-gradient-to-b dark:from-black/0 dark:to-black/100">
+            <div className="before:content relative from-white/0 to-white to-40% before:absolute before:-top-8 before:block before:h-8 before:w-full before:bg-linear-to-b dark:from-black/0 dark:to-black">
               <div className="flex items-center">
                 <Button
                   type="submit"

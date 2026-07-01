@@ -32,8 +32,8 @@ export default function ButtonGroup({
       <ClientOnly
         fallback={
           <>
-            <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 md:w-[100px] dark:bg-neutral-700" />
-            <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 md:w-[100px] dark:bg-neutral-700" />
+            <div className="h-10 w-1/2 animate-pulse rounded-full bg-neutral-100 md:w-25 dark:bg-neutral-700" />
+            <div className="h-10 w-1/2 animate-pulse rounded-full bg-neutral-100 md:w-25 dark:bg-neutral-700" />
           </>
         }
       >

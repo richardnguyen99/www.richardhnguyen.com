@@ -7,7 +7,7 @@ import BlogBreadcrumb from "./breadcrumb";
 import Frontmatter from "./frontmatter";
 import Tags from "./tags";
 import rehypePlugins from "../lib/shiki-rehype-plugins";
-import remarkPlugins from "../lib/shiki-remark-pluugins";
+import remarkPlugins from "../lib/shiki-remark-plugins";
 import { FrontMatter } from "@/types/mdx";
 
 type Props = {
@@ -32,7 +32,7 @@ export default async function MdxRemote({
 
       <Frontmatter data={frontMatter} excerpt={excerpt} />
 
-      <Separator className="mx-auto my-12 w-[var(--article-container-size)] bg-neutral-300 px-[var(--article-gutter-size)] dark:bg-neutral-700" />
+      <Separator className="mx-auto my-12 w-(--article-container-size) bg-neutral-300 px-(--article-gutter-size) dark:bg-neutral-700" />
 
       <div className="content">
         <React.Suspense fallback={<div>Loading...</div>}>

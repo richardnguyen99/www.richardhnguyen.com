@@ -219,7 +219,7 @@ export default function FilterButton({
       </PopoverTrigger>
 
       {/* Popover content */}
-      <PopoverContent className="ml-[var(--gutter-size)] rounded-md p-0 shadow-xl shadow-neutral-800/20 md:ml-0">
+      <PopoverContent className="ml-(--gutter-size) rounded-md p-0 shadow-xl shadow-neutral-800/20 md:ml-0">
         {/* UI Form */}
         <Form {...form}>
           {/* Form tag */}
@@ -362,7 +362,7 @@ export default function FilterButton({
                 />
               </TabsContent>
             </Tabs>
-            <div className="before:content relative from-white/0 to-white/100 to-40% before:absolute before:-top-8 before:block before:h-8 before:w-full before:bg-gradient-to-b dark:from-black/0 dark:to-black/100">
+            <div className="before:content relative from-white/0 to-white to-40% before:absolute before:-top-8 before:block before:h-8 before:w-full before:bg-linear-to-b dark:from-black/0 dark:to-black">
               <div className="flex items-center">
                 <Button
                   type="submit"

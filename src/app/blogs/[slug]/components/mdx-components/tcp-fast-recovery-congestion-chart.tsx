@@ -209,7 +209,7 @@ export default function TCPFastRecoveryCongestionControlChart(): JSX.Element {
                 color: "var(--chart-1)",
               },
             }}
-            className="min-h-[350px] [&_tspan]:whitespace-pre-wrap"
+            className="min-h-87.5 [&_tspan]:whitespace-pre-wrap"
           >
             <LineChart
               data={data[0]}

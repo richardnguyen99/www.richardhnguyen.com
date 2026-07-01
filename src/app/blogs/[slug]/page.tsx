@@ -84,7 +84,7 @@ export default async function BlogPost({
   }
 
   return (
-    <div className="w-full text-left [--article-container-size:var(--container-size)] [--article-gutter-size:var(--gutter-size,_100%)] md:[--article-container-size:calc(theme(maxWidth.3xl)-theme(spacing.6))] md:[--article-gutter-size:auto]">
+    <div className="w-full text-left [--article-container-size:var(--container-size)] [--article-gutter-size:var(--gutter-size,100%)] md:[--article-container-size:calc(var(--container-3xl)-(--spacing(6)))] md:[--article-gutter-size:auto]">
       <ClientOnly>
         <TableOfContent />
       </ClientOnly>

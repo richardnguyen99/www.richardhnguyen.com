@@ -1,4 +1,4 @@
-import React, { type JSX } from "react";
+import { type JSX } from "react";
 import Image from "next/image";
 import { useRemarkSync, UseRemarkSyncOptions } from "react-remark";
 
@@ -24,7 +24,7 @@ export default function Frontmatter({
 
   return (
     <>
-      <div className="frontmatter mx-auto flex w-[var(--article-container-size)] flex-col items-center justify-center gap-8 px-[var(--article-gutter-size)]">
+      <div className="frontmatter mx-auto flex w-(--article-container-size) flex-col items-center justify-center gap-8 px-(--article-gutter-size)">
         <div className="text-sm sm:text-base lg:text-lg">
           {data.publishedAt.toLocaleDateString("en-US", {
             year: "numeric",
@@ -41,7 +41,7 @@ export default function Frontmatter({
           </div>
         )}
       </div>
-      <div className="bg-accent mx-[var(--gutter-size)] mt-16 w-[var(--container-size)] [&_img]:rounded-lg">
+      <div className="bg-accent mx-(--gutter-size) mt-16 w-(--container-size) [&_img]:rounded-lg">
         <Image
           src={data.thumbnail}
           alt={data.title}

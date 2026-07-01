@@ -80,7 +80,7 @@
   .content > section.footnotes > ul,
   .content > ul,
   .content > ol {
-    @apply content-container md:ml-[var(--article-gutter-size)];
+    @apply content-container md:ml-(--article-gutter-size);
     @apply mb-12 pl-4;
   }
 
@@ -98,7 +98,7 @@
   .content li {
     @apply ml-4 pl-2 lg:ml-7 lg:pl-4;
     @apply text-sm leading-6 sm:text-base sm:leading-9;
-    @apply break-words;
+    @apply wrap-break-word;
   }
 
   .content li p {
@@ -121,7 +121,7 @@
 
   .content section.footnotes li p {
     @apply w-full;
-    @apply break-words whitespace-break-spaces;
+    @apply wrap-break-word whitespace-break-spaces;
     @apply leading-6;
   }
 
@@ -130,7 +130,7 @@
     @apply mb-12;
     @apply text-sm sm:text-base;
     @apply rounded-lg border border-neutral-300 dark:border-neutral-600;
-    @apply [counter-reset:_line];
+    @apply [counter-reset:line];
     @apply relative overflow-x-hidden;
   }
 
@@ -171,17 +171,17 @@
 
   .content pre code {
     @apply relative grid p-4 text-left break-normal whitespace-pre;
-    @apply text-sm !leading-5 sm:text-base;
+    @apply text-sm leading-5! sm:text-base;
     @apply overflow-x-auto;
-    @apply break-words;
+    @apply wrap-break-word;
   }
 
   .content pre code[data-line-numbers] {
-    @apply [counter-reset:_line];
+    @apply [counter-reset:line];
   }
 
   .content pre code[data-line-numbers] > [data-line]::before {
-    @apply content-[counter(line)] [counter-increment:_line];
+    @apply content-[counter(line)] [counter-increment:line];
     @apply mr-8 inline-block w-4 text-right;
     @apply text-neutral-400 dark:text-neutral-500;
   }
@@ -206,7 +206,7 @@
 
   .content [data-line].diff,
   .content [data-highlighted-line] {
-    @apply bg-slate-400/20 dark:!bg-slate-500/30;
+    @apply bg-slate-400/20 dark:bg-slate-500/30!;
     @apply border-l-2 border-slate-700 dark:border-slate-200;
   }
 
@@ -219,7 +219,7 @@
     pre
     code[data-line-numbers-max-digits="2"]
     > [data-line].diff::after {
-    @apply left-[2.5rem];
+    @apply left-10;
   }
 
   .content
@@ -233,7 +233,7 @@
     pre
     code[data-line-numbers-max-digits="4"]
     > [data-line].diff::before {
-    @apply left-[3rem];
+    @apply left-12;
   }
 
   .content [data-line].diff::after {
@@ -251,13 +251,13 @@
   }
 
   .content [data-line].diff.add {
-    @apply !bg-green-500/20 dark:!bg-green-600/20;
-    @apply !border-green-500 dark:border-green-400;
+    @apply bg-green-500/20! dark:bg-green-600/20!;
+    @apply border-green-500! dark:border-green-400;
   }
 
   .content [data-line].diff.remove {
-    @apply !bg-red-500/20 dark:!bg-red-700/20;
-    @apply !border-red-500 dark:border-red-400;
+    @apply bg-red-500/20! dark:bg-red-700/20!;
+    @apply border-red-500! dark:border-red-400;
   }
 
   .content table {
@@ -334,7 +334,7 @@
   }
 
   .title {
-    @apply mx-0 px-[var(--gutter-size)] sm:mx-auto sm:px-0;
+    @apply mx-0 px-(--gutter-size) sm:mx-auto sm:px-0;
     @apply w-full max-w-2xl;
     @apply text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl;
     @apply font-bold lg:font-black;
@@ -378,86 +378,86 @@
   }
 
   .mermaid rect.actor {
-    @apply !fill-neutral-200 dark:!fill-neutral-800;
-    @apply !stroke-neutral-500 dark:!stroke-neutral-200;
+    @apply fill-neutral-200! dark:fill-neutral-800!;
+    @apply stroke-neutral-500! dark:stroke-neutral-200!;
   }
 
   .mermaid text.actor > tspan {
-    @apply !text-neutral-800 dark:!text-neutral-100;
-    @apply !fill-neutral-800 dark:!fill-neutral-100;
+    @apply text-neutral-800! dark:text-neutral-100!;
+    @apply fill-neutral-800! dark:fill-neutral-100!;
   }
 
   .mermaid line {
-    @apply !stroke-neutral-400 dark:!stroke-neutral-200;
-    @apply !fill-neutral-400 dark:!fill-neutral-200;
+    @apply stroke-neutral-400! dark:stroke-neutral-200!;
+    @apply fill-neutral-400! dark:fill-neutral-200!;
   }
 
   .mermaid .messageLine0[marker-end="url(#crosshead)"] {
-    @apply !stroke-red-400 dark:!stroke-red-600;
+    @apply stroke-red-400! dark:stroke-red-600!;
   }
 
   .mermaid .messageLine1 {
-    @apply !stroke-neutral-400 dark:!stroke-neutral-200;
+    @apply stroke-neutral-400! dark:stroke-neutral-200!;
   }
 
   .mermaid .messageText {
     @apply stroke-none;
-    @apply !fill-neutral-800 dark:!fill-neutral-200;
+    @apply fill-neutral-800! dark:fill-neutral-200!;
   }
 
   .mermaid .loopText > tspan {
     @apply stroke-none;
-    @apply !fill-neutral-800 dark:!fill-neutral-200;
+    @apply fill-neutral-800! dark:fill-neutral-200!;
   }
 
   .mermaid #arrowhead path {
-    @apply !stroke-neutral-400 dark:!stroke-neutral-200;
-    @apply !fill-neutral-400 dark:!fill-neutral-200;
+    @apply stroke-neutral-400! dark:stroke-neutral-200!;
+    @apply fill-neutral-400! dark:fill-neutral-200!;
   }
 
   .mermaid #crosshead path {
-    @apply !stroke-red-400 dark:!stroke-red-600;
-    @apply !fill-red-400 dark:!fill-red-600;
+    @apply stroke-red-400! dark:stroke-red-600!;
+    @apply fill-red-400! dark:fill-red-600!;
   }
 
   .mermaid #sequencenumber {
-    @apply !fill-neutral-500 dark:!fill-neutral-200;
+    @apply fill-neutral-500! dark:fill-neutral-200!;
   }
 
   .mermaid text.sequenceNumber {
-    @apply !fill-neutral-200 dark:!fill-neutral-800;
+    @apply fill-neutral-200! dark:fill-neutral-800!;
   }
 
   .mermaid rect.activation0 {
-    @apply !fill-neutral-200 dark:!fill-neutral-700;
-    @apply !stroke-neutral-500 dark:!stroke-neutral-200;
+    @apply fill-neutral-200! dark:fill-neutral-700!;
+    @apply stroke-neutral-500! dark:stroke-neutral-200!;
   }
 
   .mermaid .labelBox {
-    @apply !fill-neutral-200 dark:!fill-neutral-800;
-    @apply !stroke-neutral-300 dark:!stroke-neutral-200;
+    @apply fill-neutral-200! dark:fill-neutral-800!;
+    @apply stroke-neutral-300! dark:stroke-neutral-200!;
   }
 
   .mermaid .labelText {
-    @apply !fill-neutral-800 dark:!fill-neutral-200;
+    @apply fill-neutral-800! dark:fill-neutral-200!;
   }
 
   .mermaid .packetBlock {
-    @apply !fill-neutral-200 dark:!fill-neutral-800;
-    @apply !stroke-neutral-300 dark:!stroke-neutral-200;
+    @apply fill-neutral-200! dark:fill-neutral-800!;
+    @apply stroke-neutral-300! dark:stroke-neutral-200!;
   }
 
   .mermaid .packetLabel {
-    @apply !fill-neutral-800 dark:!fill-neutral-200;
+    @apply fill-neutral-800! dark:fill-neutral-200!;
   }
 
   .mermaid .packetByte {
-    @apply !fill-neutral-800 dark:!fill-neutral-200;
+    @apply fill-neutral-800! dark:fill-neutral-200!;
   }
 
   .katex-display {
-    @apply !content-container;
-    @apply !mb-8 !pt-2 !pb-2;
+    @apply content-container!;
+    @apply mb-8! pt-2! pb-2!;
     @apply text-sm leading-6 sm:text-base sm:leading-9;
     @apply overflow-x-auto;
   }

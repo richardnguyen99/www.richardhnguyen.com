@@ -26,7 +26,7 @@ const CardWithForm: React.FC<Props> = ({
   return (
     <div
       key={url}
-      className="rounded-lg border border-neutral-200 bg-accent/50 dark:border-neutral-700"
+      className="bg-accent/50 rounded-lg border border-neutral-200 dark:border-neutral-700"
     >
       <div className="flex h-full flex-col justify-between gap-6 p-4">
         <div>
@@ -41,7 +41,7 @@ const CardWithForm: React.FC<Props> = ({
                     variant: "link",
                     size: "lg",
                     className:
-                      "block overflow-hidden text-ellipsis whitespace-nowrap px-0 text-left text-xl font-semibold",
+                      "block overflow-hidden px-0 text-left text-xl font-semibold text-ellipsis whitespace-nowrap",
                   }),
                 )}
               >
@@ -50,12 +50,12 @@ const CardWithForm: React.FC<Props> = ({
             </div>
 
             {pinned && (
-              <span className="flex-shrink-0 rounded-full border px-2 py-1 text-xs dark:border-fuchsia-500 dark:text-fuchsia-500">
+              <span className="shrink-0 rounded-full border px-2 py-1 text-xs dark:border-fuchsia-500 dark:text-fuchsia-500">
                 Pinned
               </span>
             )}
           </div>
-          <p className="line-clamp-2 h-[40px] text-sm text-muted-foreground">
+          <p className="text-muted-foreground line-clamp-2 h-10 text-sm">
             {description}
           </p>
         </div>
@@ -81,7 +81,7 @@ const CardWithForm: React.FC<Props> = ({
                   variant: "outline",
                   size: "sm",
                   className:
-                    "w-full rounded-full border-neutral-200 bg-neutral-200/0 hover:bg-neutral-200/70 dark:border-neutral-700 dark:bg-neutral-700/0 dark:hover:bg-neutral-700/70 sm:w-auto",
+                    "w-full rounded-full border-neutral-200 bg-neutral-200/0 hover:bg-neutral-200/70 sm:w-auto dark:border-neutral-700 dark:bg-neutral-700/0 dark:hover:bg-neutral-700/70",
                 }),
               )}
             >

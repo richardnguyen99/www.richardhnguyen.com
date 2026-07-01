@@ -70,12 +70,14 @@ export default function ProjectList({
   const [hasMore, setHasMore] = React.useState(true);
 
   const joinProjectsWithoutDuplicates = React.useCallback(
-    (prevProjs: Project[], newProjs: Project[]) => {
-      const newProjects = newProjs.filter(
+    (prevProjects: Project[], newProjects: Project[]) => {
+      const uniqueNewProjects = newProjects.filter(
         (newProject) =>
-          !prevProjs.some((prevProject) => prevProject.url === newProject.url),
+          !prevProjects.some(
+            (prevProject) => prevProject.url === newProject.url,
+          ),
       );
-      return [...prevProjs, ...newProjects];
+      return [...prevProjects, ...uniqueNewProjects];
     },
     [],
   );
@@ -122,7 +124,7 @@ export default function ProjectList({
           Array.from({ length: SKELETON_COUNT }).map((_, index) => (
             <div
               key={index}
-              className="bg-accent h-[168px] animate-pulse rounded-lg"
+              className="bg-accent h-42 animate-pulse rounded-lg"
             />
           ))}
       </div>

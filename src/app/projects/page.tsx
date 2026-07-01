@@ -47,14 +47,14 @@ export default async function Projects() {
   return (
     <div className="mt-28 w-full">
       <section className="max-w-full">
-        <div className="mx-[var(--gutter-size)] flex w-[var(--container-size)] flex-col items-center pb-16">
+        <div className="mx-(--gutter-size) flex w-(--container-size) flex-col items-center pb-16">
           <span className="font-mono">Richard H. Nguyen</span>
           <h1 className="text-5xl leading-[110%] font-semibold tracking-tight">
             My projects
           </h1>
         </div>
 
-        <div className="mx-[var(--gutter-size)] w-[var(--container-size)]">
+        <div className="mx-(--gutter-size) w-(--container-size)">
           <React.Suspense
             fallback={<ProjectSelectionSkeleton title="Repositories" />}
           >

@@ -85,7 +85,7 @@ export default function NavigationSearchButton({
         </Tooltip>
       </PopoverTrigger>
       <PopoverContent
-        container={containerRef.current}
+        container={containerRef}
         className="mt-4 w-full border-none bg-transparent p-0"
         side="top"
         align="start"

@@ -209,7 +209,7 @@ export default function FilterButton({
       <PopoverTrigger onClick={() => onOpenChange?.(!opening)} asChild>
         <Button
           {...rest}
-          className="ease-curve-d group flex w-1/2 transform-gpu items-center gap-3 rounded-full border border-neutral-200 bg-neutral-100/0 text-neutral-950 shadow-none duration-200 hover:bg-neutral-100 dark:border-neutral-700 dark:text-white dark:hover:border-neutral-600 dark:hover:bg-neutral-800 md:w-[unset]"
+          className="ease-curve-d group flex w-1/2 transform-gpu items-center gap-3 rounded-full border border-neutral-200 bg-neutral-100/0 text-neutral-950 shadow-none duration-200 hover:bg-neutral-100 md:w-[unset] dark:border-neutral-700 dark:text-white dark:hover:border-neutral-600 dark:hover:bg-neutral-800"
         >
           <span className="line-clamp-1 max-w-full">{filtersDisplay()}</span>
           <div className="relative inline-flex h-5 w-5 items-center justify-center">
@@ -263,7 +263,7 @@ export default function FilterButton({
                                 return (
                                   <FormItem
                                     key={tag.id}
-                                    className="flex flex-row items-start space-x-3 space-y-0"
+                                    className="flex flex-row items-start space-y-0 space-x-3"
                                   >
                                     <FormControl>
                                       <Checkbox
@@ -324,7 +324,7 @@ export default function FilterButton({
                                 return (
                                   <FormItem
                                     key={category.id}
-                                    className="flex flex-row items-start space-x-3 space-y-0"
+                                    className="flex flex-row items-start space-y-0 space-x-3"
                                   >
                                     <FormControl>
                                       <Checkbox

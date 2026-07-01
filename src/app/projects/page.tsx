@@ -6,8 +6,6 @@ import ProjectSelectionSkeleton from "./project-section-skeleton";
 import ProjectGistList from "./project-gist-list";
 import { sharedMetadata } from "@/lib/metadata";
 
-export const dynamic = "force-dynamic";
-
 export const metadata: Metadata = {
   ...sharedMetadata,
   title: "Projects",
@@ -51,7 +49,7 @@ export default async function Projects() {
       <section className="max-w-full">
         <div className="mx-[var(--gutter-size)] flex w-[var(--container-size)] flex-col items-center pb-16">
           <span className="font-mono">Richard H. Nguyen</span>
-          <h1 className="text-5xl font-semibold leading-[110%] tracking-tight">
+          <h1 className="text-5xl leading-[110%] font-semibold tracking-tight">
             My projects
           </h1>
         </div>

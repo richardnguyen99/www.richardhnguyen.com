@@ -3,7 +3,7 @@ const nextConfig = {
   images: {
     qualities: [25, 50, 75, 100],
   },
-  // cacheComponents: true,
+  cacheComponents: true,
   transpilePackages: ["next-mdx-remote"],
   async redirects() {
     return [

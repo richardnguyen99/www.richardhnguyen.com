@@ -42,7 +42,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPolicy(): JSX.Element {
   return (
-    <div className="prose max-w-full dark:prose-invert xl:prose-lg">
+    <div className="prose dark:prose-invert xl:prose-lg max-w-full">
       <h1>Privacy Policy</h1>
       <span>Updated: March 6, 2025</span>
 

@@ -1,5 +1,6 @@
 import React, { type JSX } from "react";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 import { generateMdxSlugs, getMdxContentFromSlug } from "@/lib/mdx";
 import { ClientOnly } from "@/components/client-only";
@@ -14,9 +15,6 @@ interface BlogPostProps {
     slug: string;
   }>;
 }
-
-// NextJS options to disable dynamic routing at runtime
-export const dynamicParams = false;
 
 // NextJS options to enable to generate static paths at build time.
 export async function generateStaticParams() {
@@ -73,7 +71,17 @@ export async function generateMetadata({
 export default async function BlogPost({
   params,
 }: BlogPostProps): Promise<JSX.Element> {
+  let frontMatter, body, excerpt;
   const { slug } = await params;
+  try {
+    const mdxData = await getMdxContentFromSlug(slug);
+
+    frontMatter = mdxData.frontMatter;
+    body = mdxData.body;
+    excerpt = mdxData.excerpt;
+  } catch {
+    notFound();
+  }
 
   return (
     <div className="w-full text-left [--article-container-size:var(--container-size)] [--article-gutter-size:var(--gutter-size,_100%)] md:[--article-container-size:calc(theme(maxWidth.3xl)-theme(spacing.6))] md:[--article-gutter-size:auto]">
@@ -81,7 +89,12 @@ export default async function BlogPost({
         <TableOfContent />
       </ClientOnly>
 
-      <MdxRemote slug={slug} />
+      <MdxRemote
+        slug={slug}
+        frontMatter={frontMatter}
+        body={body}
+        excerpt={excerpt}
+      />
     </div>
   );
 }

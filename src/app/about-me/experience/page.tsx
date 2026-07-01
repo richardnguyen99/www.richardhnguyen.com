@@ -49,7 +49,7 @@ export const metadata: Metadata = {
 export default function Experience(): JSX.Element {
   return (
     <div className="mx-[var(--gutter-size)] w-[var(--container-size)]">
-      <h1 className="text-center text-5xl font-semibold leading-[110%] tracking-tight">
+      <h1 className="text-center text-5xl leading-[110%] font-semibold tracking-tight">
         Work Experience
       </h1>
 

@@ -1,7 +1,6 @@
 import React, { type JSX } from "react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 
-import { getMdxContentFromSlug } from "@/lib/mdx";
 import { Separator } from "@/components/ui/separator";
 import mdxComponents from "./mdx-components";
 import BlogBreadcrumb from "./breadcrumb";
@@ -9,14 +8,21 @@ import Frontmatter from "./frontmatter";
 import Tags from "./tags";
 import rehypePlugins from "../lib/shiki-rehype-plugins";
 import remarkPlugins from "../lib/shiki-remark-pluugins";
+import { FrontMatter } from "@/types/mdx";
 
 type Props = {
   slug: string;
+  frontMatter: FrontMatter;
+  body: string;
+  excerpt: string | undefined;
 };
 
-export default async function MdxRemote({ slug }: Props): Promise<JSX.Element> {
-  const { frontMatter, body, excerpt } = await getMdxContentFromSlug(slug);
-
+export default async function MdxRemote({
+  slug,
+  frontMatter,
+  body,
+  excerpt,
+}: Props): Promise<JSX.Element> {
   return (
     <React.Fragment>
       <BlogBreadcrumb

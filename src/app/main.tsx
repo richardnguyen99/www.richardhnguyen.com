@@ -20,13 +20,13 @@ export default function LayoutMain({
         className={cn(
           "flex flex-col items-center justify-between",
           "relative min-h-screen pb-32 outline-none",
-          "origin-[50%_0px] transition-[translate,_opacity,_filter,_scale]",
+          "origin-[50%_0px] transition-[translate,opacity,filter,scale]",
           "ease-out-cubic translate-y-0 scale-[1] duration-300",
           {
             "delay-75 duration-700": !navbarContext.isOpen,
             "duration-300": navbarContext.isOpen,
             "blur-[20px] saturate-[2]": navbarContext.isOpen,
-            "translate-y-[5rem] scale-[0.96]": navbarContext.isOpen,
+            "translate-y-20 scale-[0.96]": navbarContext.isOpen,
             "overflow-hidden": navbarContext.isOpen,
           },
         )}

@@ -1,4 +1,4 @@
-import React, { type JSX } from "react";
+import { type JSX } from "react";
 import { type Metadata } from "next";
 
 import {
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
 
 export default function Faq(): JSX.Element {
   return (
-    <div className="mx-[var(--gutter-size)] w-[var(--container-size)]">
+    <div className="mx-(--gutter-size) w-(--container-size)">
       <h1 className="text-center text-lg leading-[110%] font-semibold tracking-tight md:text-xl lg:text-3xl xl:text-5xl">
         Frequently Asked Questions
       </h1>
@@ -67,7 +67,7 @@ export default function Faq(): JSX.Element {
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem
             value="item-1"
-            className="[&_button]:[font-size:_inherit] [&_button]:[line-height:_inherit] [&>div]:[font-size:_inherit] [&>div]:[line-height:_inherit]"
+            className="[&_button]:[font-size:inherit] [&_button]:leading-[inherit] [&>div]:[font-size:inherit] [&>div]:leading-[inherit]"
           >
             <AccordionTrigger>
               <span className="line-clamp-1 text-left">Where do I live?</span>
@@ -76,7 +76,7 @@ export default function Faq(): JSX.Element {
           </AccordionItem>
           <AccordionItem
             value="item-2"
-            className="[&_button]:[font-size:_inherit] [&_button]:[line-height:_inherit] [&>div]:[font-size:_inherit] [&>div]:[line-height:_inherit]"
+            className="[&_button]:[font-size:inherit] [&_button]:leading-[inherit] [&>div]:[font-size:inherit] [&>div]:leading-[inherit]"
           >
             <AccordionTrigger>
               <span className="line-clamp-1 text-left">
@@ -85,7 +85,7 @@ export default function Faq(): JSX.Element {
             </AccordionTrigger>
             <AccordionContent>
               Here is the tech stack:
-              <Table className="[&_tr]:!border-border mt-8 px-8">
+              <Table className="[&_tr]:border-border! mt-8 px-8">
                 <TableHeader className="font-bold">
                   <TableRow>
                     <TableHead className="w-fit">Techstack</TableHead>
@@ -165,7 +165,7 @@ export default function Faq(): JSX.Element {
           </AccordionItem>
           <AccordionItem
             value="item-3"
-            className="[&_button]:[font-size:_inherit] [&_button]:[line-height:_inherit] [&>div]:[font-size:_inherit] [&>div]:[line-height:_inherit]"
+            className="[&_button]:[font-size:inherit] [&_button]:leading-[inherit] [&>div]:[font-size:inherit] [&>div]:leading-[inherit]"
           >
             <AccordionTrigger>
               <span className="line-clamp-1 text-left">
@@ -280,7 +280,7 @@ export default function Faq(): JSX.Element {
 
           <AccordionItem
             value="item-4"
-            className="[&_button]:[font-size:_inherit] [&_button]:[line-height:_inherit] [&>div]:[font-size:_inherit] [&>div]:[line-height:_inherit]"
+            className="[&_button]:[font-size:inherit] [&_button]:leading-[inherit] [&>div]:[font-size:inherit] [&>div]:leading-[inherit]"
           >
             <AccordionTrigger>
               <span className="line-clamp-1 text-left">How to reach me?</span>
@@ -318,7 +318,7 @@ export default function Faq(): JSX.Element {
           </AccordionItem>
         </Accordion>
 
-        <p className="tetx-sm text-muted-foreground">(updated Mar 6, 2025)</p>
+        <p className="text-muted-foreground text-sm">(updated Mar 6, 2025)</p>
       </Tabs>
     </div>
   );

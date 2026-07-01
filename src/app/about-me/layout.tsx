@@ -8,7 +8,7 @@ export default function Projects({ children }: Props): JSX.Element {
   return (
     <div className="mt-28 w-full">
       <section className="max-w-full">
-        <div className="mx-[var(--gutter-size)] flex w-[var(--container-size)] flex-col items-center pb-4">
+        <div className="mx-(--gutter-size) flex w-(--container-size) flex-col items-center pb-4">
           <span className="font-mono">About Richard H. Nguyen</span>
         </div>
 

@@ -22,7 +22,12 @@ type Props = {
   }[];
 };
 
-export default function Footer({ categories, tags }: Props): JSX.Element {
+export default async function Footer({
+  categories,
+  tags,
+}: Props): Promise<JSX.Element> {
+  "use cache";
+
   return (
     <FooterWrapper>
       <div className="mx-[var(--gutter-size)] w-[var(--container-size)]">

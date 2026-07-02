@@ -1,12 +1,27 @@
-import { type MDXRemoteProps } from "next-mdx-remote/rsc";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import { fromHtmlIsomorphic } from "hast-util-from-html-isomorphic";
 import rehypeSlug from "rehype-slug";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeKatex, { type Options as RehypeKatexOptions } from "rehype-katex";
 import { getSingletonHighlighter } from "shiki";
+import type { CompileOptions } from "@mdx-js/mdx";
+import type { Element } from "hast";
+import type { Options as RehypePrettyCodeOptions } from "rehype-pretty-code";
 
 import shikiRehypeOptions from "./shiki-options";
+
+// Plain HAST literal instead of fromHtmlIsomorphic().children.
+// fromHtmlIsomorphic() returns objects whose internal shape webpack's
+// persistent cache serializer cannot round-trip. Writing the node
+// directly as a literal produces an identical value that is provably
+// a plain object.
+const anchorLinkContent: Element[] = [
+  {
+    type: "element",
+    tagName: "span",
+    properties: { className: ["icon", "icon-link"] },
+    children: [{ type: "text", value: "#" }],
+  },
+];
 
 const rehypePlugins = [
   [
@@ -17,7 +32,7 @@ const rehypePlugins = [
         dark: "github-dark-high-contrast",
         light: "github-light",
       },
-      filterMetaString: (string) =>
+      filterMetaString: (string: string) =>
         string.replace(/disableCopyButton="[^"]*"/, ""),
       transformers: shikiRehypeOptions.transformers,
       getHighlighter: async (options) => {
@@ -26,31 +41,25 @@ const rehypePlugins = [
           langs: [...options.langs, "makefile", "cmake"],
         });
       },
-    } as Parameters<typeof rehypePrettyCode>[0],
+    } satisfies RehypePrettyCodeOptions,
   ],
-
   [
     rehypeKatex,
     {
       strict: true,
     } satisfies RehypeKatexOptions,
   ],
-
   rehypeSlug,
   [
     rehypeAutolinkHeadings,
     {
       behavior: "append",
-      content: fromHtmlIsomorphic('<span className="icon icon-link">#</span>', {
-        fragment: true,
-      }).children,
+      content: anchorLinkContent,
       properties: {
         className: "anchor",
       },
-    } as unknown as Parameters<typeof rehypeAutolinkHeadings>[0],
+    },
   ],
-] satisfies NonNullable<
-  NonNullable<MDXRemoteProps["options"]>["mdxOptions"]
->["rehypePlugins"];
+] satisfies CompileOptions["rehypePlugins"];
 
 export default rehypePlugins;

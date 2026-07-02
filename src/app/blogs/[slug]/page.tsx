@@ -1,12 +1,12 @@
 import React, { type JSX } from "react";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+// import { notFound } from "next/navigation";
 
 import { generateMdxSlugs, getMdxContentFromSlug } from "@/lib/mdx";
-import { ClientOnly } from "@/components/client-only";
 import { sharedMetadata } from "@/lib/metadata";
-import TableOfContent from "./components/table-of-content";
-import MdxRemote from "./components/mdx-remote";
+// import { ClientOnly } from "@/components/client-only";
+// import TableOfContent from "./components/table-of-content";
+// import MdxRemote from "./components/mdx-remote";
 
 import "./mdx.css";
 
@@ -71,21 +71,25 @@ export async function generateMetadata({
 export default async function BlogPost({
   params,
 }: BlogPostProps): Promise<JSX.Element> {
-  let frontMatter, body, excerpt;
   const { slug } = await params;
-  try {
-    const mdxData = await getMdxContentFromSlug(slug);
+  // let frontMatter, body, excerpt;
+  // try {
+  //   const mdxData = await getMdxContentFromSlug(slug);
 
-    frontMatter = mdxData.frontMatter;
-    body = mdxData.body;
-    excerpt = mdxData.excerpt;
-  } catch {
-    notFound();
-  }
+  //   frontMatter = mdxData.frontMatter;
+  //   body = mdxData.body;
+  //   excerpt = mdxData.excerpt;
+  // } catch {
+  //   notFound();
+  // }
+
+  const { default: Post } = await import(`@/posts/${slug}.mdx`);
+  const mdxData = await getMdxContentFromSlug(slug);
+  console.log("Post:", mdxData.frontMatter);
 
   return (
     <div className="w-full text-left [--article-container-size:var(--container-size)] [--article-gutter-size:var(--gutter-size,100%)] md:[--article-container-size:calc(var(--container-3xl)-(--spacing(6)))] md:[--article-gutter-size:auto]">
-      <ClientOnly>
+      {/* <ClientOnly>
         <TableOfContent />
       </ClientOnly>
 
@@ -94,7 +98,8 @@ export default async function BlogPost({
         frontMatter={frontMatter}
         body={body}
         excerpt={excerpt}
-      />
+      /> */}
+      <Post />
     </div>
   );
 }

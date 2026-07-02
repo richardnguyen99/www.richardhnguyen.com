@@ -42,7 +42,10 @@
     ".next/types/**/*.ts",
     "tailwind.config.js",
     ".next/dev/types/**/*.ts",
-    "scripts/algolia.ts"
+    "scripts/algolia.ts",
+    "src/app/blogs/[slug]/lib/shiki-rehype-plugins.ts",
+    "next.config.ts",
+    "src/app/blogs/[slug]/lib/shiki-remark-plugins.ts"
   ],
   "exclude": [
     "node_modules"

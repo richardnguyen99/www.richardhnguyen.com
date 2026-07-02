@@ -115,6 +115,8 @@ export const getMdxDirectoryPath = () => {
 };
 
 export const getMdxFiles = async () => {
+  "use cache";
+
   const mdxDirectoryPath = getMdxDirectoryPath();
   const entries = await fs.readdir(mdxDirectoryPath, {
     withFileTypes: true,
@@ -124,7 +126,11 @@ export const getMdxFiles = async () => {
     (entry) => entry.isFile() && entry.name.endsWith(".mdx"),
   );
 
-  return mdxFiles;
+  const mdxFilePaths = mdxFiles.map((entry) => ({
+    name: entry.name,
+  }));
+
+  return mdxFilePaths;
 };
 
 export const generateMdxSlugs = async () => {
@@ -151,6 +157,8 @@ export const getMdxPathFromSlug = async (slug: string) => {
 };
 
 export const getMdxContentFromPath = async (mdxPath: string) => {
+  "use cache";
+
   const mdxContent = await fs.readFile(mdxPath, "utf-8");
   const {
     content: rawContent,

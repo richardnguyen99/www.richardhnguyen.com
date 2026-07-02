@@ -6,8 +6,8 @@ import mdxComponents from "./mdx-components";
 import BlogBreadcrumb from "./breadcrumb";
 import Frontmatter from "./frontmatter";
 import Tags from "./tags";
-import rehypePlugins from "../lib/shiki-rehype-plugins";
-import remarkPlugins from "../lib/shiki-remark-plugins";
+import rehypePlugins from "../lib/shiki-rehype-plugins.js";
+import remarkPlugins from "../lib/shiki-remark-plugins.js";
 import { FrontMatter } from "@/types/mdx";
 
 type Props = {

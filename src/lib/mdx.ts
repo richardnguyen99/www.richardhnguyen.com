@@ -150,7 +150,7 @@ export const getMdxPathFromSlug = async (slug: string) => {
   const mdxFile = mdxFiles.find((entry) => entry.name === `${slug}.mdx`);
 
   if (!mdxFile) {
-    throw new Error(`No MDX file found for slug: ${slug}`);
+    return undefined;
   }
 
   return path.join(getMdxDirectoryPath(), mdxFile.name);
@@ -194,6 +194,9 @@ export const getMdxContentFromPath = async (mdxPath: string) => {
 
 export const getMdxContentFromSlug = async (mdxSlug: string) => {
   const mdxPath = await getMdxPathFromSlug(mdxSlug);
+  if (!mdxPath) {
+    return null;
+  }
   return await getMdxContentFromPath(mdxPath);
 };
 

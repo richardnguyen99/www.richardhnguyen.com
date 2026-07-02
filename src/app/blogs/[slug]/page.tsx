@@ -1,12 +1,12 @@
 import React, { type JSX } from "react";
 import type { Metadata } from "next";
-// import { notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { generateMdxSlugs, getMdxContentFromSlug } from "@/lib/mdx";
 import { sharedMetadata } from "@/lib/metadata";
-// import { ClientOnly } from "@/components/client-only";
-// import TableOfContent from "./components/table-of-content";
-// import MdxRemote from "./components/mdx-remote";
+import { ClientOnly } from "@/components/client-only";
+import TableOfContent from "./components/table-of-content";
+import MdxRemote from "./components/mdx-remote";
 
 import "./mdx.css";
 
@@ -28,7 +28,17 @@ export async function generateMetadata({
   params,
 }: BlogPostProps): Promise<Metadata> {
   const { slug } = await params;
-  const { frontMatter, excerpt } = await getMdxContentFromSlug(slug);
+  const mdxData = await getMdxContentFromSlug(slug);
+
+  if (!mdxData) {
+    return {
+      ...sharedMetadata,
+      title: "Blog Post Not Found",
+      description: "The requested blog post could not be found.",
+    };
+  }
+
+  const { frontMatter, excerpt } = mdxData;
 
   return {
     ...sharedMetadata,
@@ -83,23 +93,38 @@ export default async function BlogPost({
   //   notFound();
   // }
 
-  const { default: Post } = await import(`@/posts/${slug}.mdx`);
-  const mdxData = await getMdxContentFromSlug(slug);
-  console.log("Post:", mdxData.frontMatter);
+  let Post, frontmatter, excerpt;
+
+  // Because cache components are opted in, calling notFound() explicitly will
+  // trigger 404 when the MDX file is not found, i.e when the slug is invalid.
+  // This used to be done with `dynamicParams = false` but `dynamicParams` does
+  // not work with cache components.
+
+  try {
+    const post = await import(`@/posts/${slug}.mdx`);
+    const mdxData = await getMdxContentFromSlug(slug);
+
+    if (!mdxData) {
+      notFound();
+    }
+
+    Post = post.default;
+    frontmatter = mdxData.frontMatter;
+    excerpt = mdxData.excerpt;
+  } catch (error) {
+    console.error(error);
+    notFound();
+  }
 
   return (
     <div className="w-full text-left [--article-container-size:var(--container-size)] [--article-gutter-size:var(--gutter-size,100%)] md:[--article-container-size:calc(var(--container-3xl)-(--spacing(6)))] md:[--article-gutter-size:auto]">
-      {/* <ClientOnly>
+      <ClientOnly>
         <TableOfContent />
       </ClientOnly>
 
-      <MdxRemote
-        slug={slug}
-        frontMatter={frontMatter}
-        body={body}
-        excerpt={excerpt}
-      /> */}
-      <Post />
+      <MdxRemote slug={slug} frontMatter={frontmatter} excerpt={excerpt}>
+        <Post />
+      </MdxRemote>
     </div>
   );
 }

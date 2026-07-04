@@ -81,24 +81,11 @@ export async function generateMetadata({
 export default async function BlogPost({
   params,
 }: BlogPostProps): Promise<JSX.Element> {
+  // use cache directive to fix MDXRemote using `Date.now()` during loading page
+  "use cache";
+
   const { slug } = await params;
-  // let frontMatter, body, excerpt;
-  // try {
-  //   const mdxData = await getMdxContentFromSlug(slug);
-
-  //   frontMatter = mdxData.frontMatter;
-  //   body = mdxData.body;
-  //   excerpt = mdxData.excerpt;
-  // } catch {
-  //   notFound();
-  // }
-
   let frontmatter, excerpt, body;
-
-  // Because cache components are opted in, calling notFound() explicitly will
-  // trigger 404 when the MDX file is not found, i.e when the slug is invalid.
-  // This used to be done with `dynamicParams = false` but `dynamicParams` does
-  // not work with cache components.
 
   try {
     const mdxData = await getMdxContentFromSlug(slug);

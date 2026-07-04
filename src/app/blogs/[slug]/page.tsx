@@ -93,7 +93,7 @@ export default async function BlogPost({
   //   notFound();
   // }
 
-  let Post, frontmatter, excerpt;
+  let frontmatter, excerpt, body;
 
   // Because cache components are opted in, calling notFound() explicitly will
   // trigger 404 when the MDX file is not found, i.e when the slug is invalid.
@@ -101,16 +101,15 @@ export default async function BlogPost({
   // not work with cache components.
 
   try {
-    const post = await import(`@/posts/${slug}.mdx`);
     const mdxData = await getMdxContentFromSlug(slug);
 
     if (!mdxData) {
       notFound();
     }
 
-    Post = post.default;
     frontmatter = mdxData.frontMatter;
     excerpt = mdxData.excerpt;
+    body = mdxData.body;
   } catch (error) {
     console.error(error);
     notFound();
@@ -122,9 +121,12 @@ export default async function BlogPost({
         <TableOfContent />
       </ClientOnly>
 
-      <MdxRemote slug={slug} frontMatter={frontmatter} excerpt={excerpt}>
-        <Post />
-      </MdxRemote>
+      <MdxRemote
+        slug={slug}
+        frontMatter={frontmatter}
+        excerpt={excerpt}
+        body={body}
+      ></MdxRemote>
     </div>
   );
 }

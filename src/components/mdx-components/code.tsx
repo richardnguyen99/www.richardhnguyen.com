@@ -1,8 +1,8 @@
 import React, { type JSX } from "react";
 
-import BlogCodeCopyButton from "../copy-button";
-import { type MetaMap } from "../../lib/shiki-options";
-import extMap from "../extmap";
+import BlogCodeCopyButton from "./copy-button";
+import extMap from "./extmap";
+import type { MetaMap } from "@/lib/rehype";
 
 type BlogCodeProps = React.PropsWithChildren<
   React.DetailedHTMLProps<

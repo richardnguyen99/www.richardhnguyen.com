@@ -1,14 +1,14 @@
-import createMDX from "@next/mdx";
+import { type NextConfig } from "next";
 
-import rehypePlugins from "./src/lib/rehype";
-import remarkPlugins from "./src/lib/remark";
-
-const nextConfig = {
+const nextConfig: NextConfig = {
   images: {
     qualities: [25, 50, 75, 100],
   },
   cacheComponents: true,
-  pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
+  transpilePackages: ["next-mdx-remote"],
+  experimental: {
+    webpackMemoryOptimizations: true,
+  },
   async redirects() {
     return [
       {
@@ -25,14 +25,15 @@ const nextConfig = {
   },
 };
 
-const withMDX = createMDX({
-  extension: /\.(md|mdx)$/,
-  options: {
-    rehypePlugins,
-    remarkPlugins,
-    format: "mdx",
-  },
-});
+// const withMDX = createMDX({
+//   extension: /\.(md|mdx)$/,
+//   options: {
+//     rehypePlugins,
+//     remarkPlugins,
+//     format: "mdx",
+//   },
+// });
 
 // Merge MDX config with Next.js config
-export default withMDX(nextConfig);
+// export default withMDX(nextConfig);
+export default nextConfig;

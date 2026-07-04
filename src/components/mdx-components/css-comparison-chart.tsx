@@ -19,7 +19,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import ChartSkeleton from "../chart-skeleton";
+import ChartSkeleton from "./chart-skeleton";
 
 interface NpmDownloadResponse {
   package: string;

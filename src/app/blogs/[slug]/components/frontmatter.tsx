@@ -3,8 +3,7 @@ import Image from "next/image";
 import { useRemarkSync, UseRemarkSyncOptions } from "react-remark";
 
 import type { FrontMatter as FrontmatterType } from "@/types/mdx";
-import mdxComponents from "./mdx-components";
-
+import mdxComponents from "@/components/mdx-components";
 interface FrontmatterProps {
   data: FrontmatterType;
   excerpt?: string;

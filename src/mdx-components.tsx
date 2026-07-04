@@ -15,12 +15,12 @@ import {
 } from "@/components/ui/table";
 import ExternalLink from "@/components/external-link";
 import Callout from "@/components/callout";
-import BlogCode from "@/app/blogs/[slug]/components/mdx-components/code";
-import CSSComparisonChart from "@/app/blogs/[slug]/components/mdx-components/css-comparison-chart";
-import CodeSandbox from "@/app/blogs/[slug]/components/mdx-components/codesandbox";
-import TCPCongestionControlChart from "@/app/blogs/[slug]/components/mdx-components/tcp-congestion-chart";
-import TCPFastRecoveryCongestionControlChart from "@/app/blogs/[slug]/components/mdx-components/tcp-fast-recovery-congestion-chart";
-import Mermaid from "@/app/blogs/[slug]/components/mdx-components/mermaid";
+import BlogCode from "@/components/mdx-components/code";
+import CSSComparisonChart from "@/components/mdx-components/css-comparison-chart";
+import CodeSandbox from "@/components/mdx-components/codesandbox";
+import TCPCongestionControlChart from "@/components/mdx-components/tcp-congestion-chart";
+import TCPFastRecoveryCongestionControlChart from "@/components/mdx-components/tcp-fast-recovery-congestion-chart";
+import Mermaid from "@/components/mdx-components/mermaid";
 import { ClientOnly } from "@/components/client-only";
 
 mermaid.initialize({

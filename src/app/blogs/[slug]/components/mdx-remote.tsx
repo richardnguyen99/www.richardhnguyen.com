@@ -5,18 +5,19 @@ import BlogBreadcrumb from "./breadcrumb";
 import Frontmatter from "./frontmatter";
 import Tags from "./tags";
 import { FrontMatter } from "@/types/mdx";
+import MdxRemoteClient from "./mdx-remote-client";
 
 type Props = {
   slug: string;
   frontMatter: FrontMatter;
   excerpt: string | undefined;
-  children: React.ReactNode;
+  body: string;
 };
 
 export default async function MdxRemote({
   slug,
   frontMatter,
-  children,
+  body,
   excerpt,
 }: Props): Promise<JSX.Element> {
   return (
@@ -30,7 +31,9 @@ export default async function MdxRemote({
 
       <Separator className="mx-auto my-12 w-(--article-container-size) bg-neutral-300 px-(--article-gutter-size) dark:bg-neutral-700" />
 
-      <div className="content">{children}</div>
+      <div className="content">
+        <MdxRemoteClient body={body} />
+      </div>
 
       <Tags tags={frontMatter.tags} />
     </React.Fragment>

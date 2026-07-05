@@ -55,7 +55,7 @@
     "embla-carousel-wheel-gestures": "^8.0.1",
     "gray-matter": "^4.0.3",
     "hast-util-from-html-isomorphic": "^2.0.0",
-    "js-yaml": "^4.1.0",
+    "js-yaml": "^5.2.1",
     "lucide-react": "^0.454.0",
     "mermaid": "^11.4.1",
     "next": "^16.2.10",
@@ -108,16 +108,16 @@
     "eslint": "^10.6.0",
     "eslint-config-next": "16.2.9",
     "eslint-config-prettier": "^10.1.8",
-    "husky": "^9.1.5",
-    "lint-staged": "^15.2.9",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.8",
     "postcss-import": "^16.1.1",
-    "prettier": "^3.3.3",
-    "prettier-plugin-tailwindcss": "^0.6.6",
+    "prettier": "^3.9.4",
+    "prettier-plugin-tailwindcss": "^0.8.0",
     "shiki": "^4.3.1",
     "tailwindcss-animate": "^1.0.7",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.5.4",
-    "typescript-eslint": "^8.2.0"
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.62.1"
   }
 }

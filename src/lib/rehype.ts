@@ -20,7 +20,6 @@ export interface MetaMap {
   lang: string | undefined;
 }
 
-/** @type {import('@shikijs/rehype/core').RehypeShikiCoreOptions} */
 const shikiRehypeOptions = {
   themes: {
     dark: "github-dark",

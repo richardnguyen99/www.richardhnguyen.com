@@ -24,7 +24,7 @@ const ExternalLink: React.FC<React.ComponentPropsWithoutRef<"a">> = ({
       {...props}
     >
       {isCodeTag ? (
-        <code className="transition-gpu ease-curve-d duiration-300 group transition-colors">
+        <code className="transition-gpu ease-curve-d group transition-colors duration-300">
           <span>
             {
               (

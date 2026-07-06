@@ -10,7 +10,7 @@ export default function NavbarOverlay(): JSX.Element {
 
   return (
     <div
-      className={cn("fixed top-0 left-0 z-[51] h-full w-full", {
+      className={cn("fixed top-0 left-0 z-51 h-full w-full", {
         "pointer-events-none": !navbarContext.isOpen,
         "opacity-0": !navbarContext.isOpen,
         "opacity-100": navbarContext.isOpen,

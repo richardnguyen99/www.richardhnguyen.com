@@ -41,7 +41,7 @@ export const metadata: Metadata = {
 export default function Terms(): JSX.Element {
   return (
     <div className="prose dark:prose-invert xl:prose-lg max-w-full">
-      <h1>Terms of Spervice</h1>
+      <h1>Terms of Service</h1>
       <span>Updated: March 6, 2025</span>
 
       <hr />

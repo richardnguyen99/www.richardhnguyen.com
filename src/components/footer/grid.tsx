@@ -6,8 +6,9 @@ import { useMediaQuery } from "@uidotdev/usehooks";
 
 import { cn } from "@/lib/utils";
 
-interface FooterGridProps
-  extends React.PropsWithChildren<React.HTMLAttributes<HTMLDivElement>> {
+interface FooterGridProps extends React.PropsWithChildren<
+  React.HTMLAttributes<HTMLDivElement>
+> {
   title: string;
 }
 
@@ -29,7 +30,7 @@ export default function FooterGrid({
       className={cn("", className)}
     >
       <div className="relative flex items-center lg:mx-0">
-        <div className="flex-grow border-t border-gray-700 lg:hidden"></div>
+        <div className="grow border-t border-gray-700 lg:hidden"></div>
         <button
           aria-expanded={isOpen}
           aria-controls={`${snakeCaseTitle}-footer-grid`}
@@ -37,7 +38,7 @@ export default function FooterGrid({
           disabled={isLargeScreen}
           aria-disabled={isLargeScreen}
           onClick={() => setIsOpen((prev) => !prev)}
-          className="mx-2 flex flex-shrink items-center gap-2 overflow-hidden lg:pointer-events-none lg:mx-0 lg:block lg:flex-shrink-0 lg:select-none lg:gap-0"
+          className="mx-2 flex shrink items-center gap-2 overflow-hidden lg:pointer-events-none lg:mx-0 lg:block lg:shrink-0 lg:gap-0 lg:select-none"
         >
           <h3 className="text-lg text-gray-400">{title}</h3>
           <ChevronDownIcon
@@ -49,7 +50,7 @@ export default function FooterGrid({
             )}
           />
         </button>
-        <div className="flex-grow border-t border-gray-700 lg:hidden"></div>
+        <div className="grow border-t border-gray-700 lg:hidden"></div>
       </div>
 
       <ul
@@ -57,7 +58,7 @@ export default function FooterGrid({
           "ease-curve-d mt-6 flex transform-gpu flex-col gap-4 overflow-hidden transition-all duration-300",
           {
             "max-h-0 opacity-0": !isOpen,
-            "max-h-[50rem] opacity-100": isOpen || isLargeScreen,
+            "max-h-200 opacity-100": isOpen || isLargeScreen,
           },
         )}
       >

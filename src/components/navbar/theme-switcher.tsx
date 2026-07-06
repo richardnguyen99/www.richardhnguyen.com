@@ -72,7 +72,7 @@ export default function ThemeSwitcher(): JSX.Element {
 
       <DropdownMenuContent
         align={isSmallScreen ? "center" : "end"}
-        className="z-[100] w-48 border border-neutral-200 dark:border-neutral-700 dark:bg-black"
+        className="z-100 w-48 border border-neutral-200 dark:border-neutral-700 dark:bg-black"
         onCloseAutoFocus={(e) => e.preventDefault()}
       >
         <DropdownMenuLabel>Appearance</DropdownMenuLabel>

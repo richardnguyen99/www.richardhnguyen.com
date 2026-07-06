@@ -4,8 +4,9 @@ import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 
-interface FooterGridProps
-  extends React.PropsWithChildren<React.HTMLAttributes<HTMLDivElement>> {
+interface FooterGridProps extends React.PropsWithChildren<
+  React.HTMLAttributes<HTMLDivElement>
+> {
   title: string;
 }
 
@@ -15,10 +16,10 @@ export default function FooterGridSkeleton({
   return (
     <div className="w-full lg:w-4/12">
       <div className="relative flex items-center lg:mx-0">
-        <div className="flex-grow border-t border-gray-700 lg:hidden"></div>
+        <div className="grow border-t border-gray-700 lg:hidden"></div>
         <button
           type="button"
-          className="mx-2 flex flex-shrink items-center gap-2 overflow-hidden lg:pointer-events-none lg:mx-0 lg:block lg:flex-shrink-0 lg:select-none lg:gap-0"
+          className="mx-2 flex shrink items-center gap-2 overflow-hidden lg:pointer-events-none lg:mx-0 lg:block lg:shrink-0 lg:gap-0 lg:select-none"
         >
           <h3 className="text-lg text-gray-400">{title}</h3>
           <ChevronDownIcon
@@ -27,7 +28,7 @@ export default function FooterGridSkeleton({
             )}
           />
         </button>
-        <div className="flex-grow border-t border-gray-700 lg:hidden"></div>
+        <div className="grow border-t border-gray-700 lg:hidden"></div>
       </div>
 
       <ul
@@ -35,11 +36,11 @@ export default function FooterGridSkeleton({
           "ease-curve-d mt-6 flex transform-gpu flex-col gap-4 overflow-hidden transition-all duration-300",
         )}
       >
-        <Skeleton className="hidden h-[26px] w-full lg:block" />
-        <Skeleton className="hidden h-[26px] w-full lg:block" />
-        <Skeleton className="hidden h-[26px] w-full lg:block" />
-        <Skeleton className="hidden h-[26px] w-full lg:block" />
-        <Skeleton className="hidden h-[26px] w-full lg:block" />
+        <Skeleton className="hidden h-6.5 w-full lg:block" />
+        <Skeleton className="hidden h-6.5 w-full lg:block" />
+        <Skeleton className="hidden h-6.5 w-full lg:block" />
+        <Skeleton className="hidden h-6.5 w-full lg:block" />
+        <Skeleton className="hidden h-6.5 w-full lg:block" />
       </ul>
     </div>
   );

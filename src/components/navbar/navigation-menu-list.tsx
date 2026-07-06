@@ -22,9 +22,12 @@ type Props = React.PropsWithChildren<
 const linkClassName =
   "ease-curve-d line-clamp-1 w-max transform-gpu border-b-2 border-transparent transition-[border-color] duration-200 hover:border-gray-800 dark:hover:border-gray-200";
 
-export function NavigationMenuLink({ text }: Props["items"][0]): JSX.Element {
+export function NavigationMenuLink({
+  text,
+  url,
+}: Props["items"][0]): JSX.Element {
   return (
-    <UINavigationMenuLink className={cn(linkClassName)}>
+    <UINavigationMenuLink className={cn(linkClassName)} href={url}>
       {text}
     </UINavigationMenuLink>
   );
@@ -46,7 +49,7 @@ export function NavigationMenuExternal({
         )}
       >
         <p className="line-clamp-1">{text}</p>
-        <MoveUpRight size={16} className="h-4 w-4 flex-shrink-0 basis-[16px]" />
+        <MoveUpRight size={16} className="h-4 w-4 shrink-0 basis-4" />
       </a>
     </UINavigationMenuLink>
   );

@@ -59,8 +59,8 @@ export default function PrivacyPolicy(): JSX.Element {
       <p>
         Under this section, I collect personally identifiable information, in
         the form of Persistent Identifiers, including IP Address. This personal
-        information is colleced and storedd solely for the purpose of supporting
-        to internal operations and services of this site.
+        information is collected and stored solely for the purpose of supporting
+        internal operations and services of this site.
       </p>
 
       <h2>II. INFORMATION SHARING AND DISCLOSURE</h2>

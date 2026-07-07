@@ -209,7 +209,7 @@ export default function FilterButton({
       <PopoverTrigger onClick={() => onOpenChange?.(!opening)} asChild>
         <Button
           {...rest}
-          className="ease-curve-d group flex w-1/2 transform-gpu items-center gap-3 rounded-full border border-neutral-200 bg-neutral-100/0 text-neutral-950 shadow-none duration-200 hover:bg-neutral-100 dark:border-neutral-700 dark:text-white dark:hover:border-neutral-600 dark:hover:bg-neutral-800 md:w-[unset]"
+          className="ease-curve-d group flex w-1/2 transform-gpu items-center gap-3 rounded-full border border-neutral-200 bg-neutral-100/0 text-neutral-950 shadow-none duration-200 hover:bg-neutral-100 md:w-[unset] dark:border-neutral-700 dark:text-white dark:hover:border-neutral-600 dark:hover:bg-neutral-800"
         >
           <span className="line-clamp-1 max-w-full">{filtersDisplay()}</span>
           <div className="relative inline-flex h-5 w-5 items-center justify-center">
@@ -219,7 +219,7 @@ export default function FilterButton({
       </PopoverTrigger>
 
       {/* Popover content */}
-      <PopoverContent className="ml-[var(--gutter-size)] rounded-md p-0 shadow-xl shadow-neutral-800/20 md:ml-0">
+      <PopoverContent className="ml-(--gutter-size) rounded-md p-0 shadow-xl shadow-neutral-800/20 md:ml-0">
         {/* UI Form */}
         <Form {...form}>
           {/* Form tag */}
@@ -263,7 +263,7 @@ export default function FilterButton({
                                 return (
                                   <FormItem
                                     key={tag.id}
-                                    className="flex flex-row items-start space-x-3 space-y-0"
+                                    className="flex flex-row items-start space-y-0 space-x-3"
                                   >
                                     <FormControl>
                                       <Checkbox
@@ -324,7 +324,7 @@ export default function FilterButton({
                                 return (
                                   <FormItem
                                     key={category.id}
-                                    className="flex flex-row items-start space-x-3 space-y-0"
+                                    className="flex flex-row items-start space-y-0 space-x-3"
                                   >
                                     <FormControl>
                                       <Checkbox
@@ -362,7 +362,7 @@ export default function FilterButton({
                 />
               </TabsContent>
             </Tabs>
-            <div className="before:content relative from-white/0 to-white/100 to-40% before:absolute before:-top-8 before:block before:h-8 before:w-full before:bg-gradient-to-b dark:from-black/0 dark:to-black/100">
+            <div className="before:content relative from-white/0 to-white to-40% before:absolute before:-top-8 before:block before:h-8 before:w-full before:bg-linear-to-b dark:from-black/0 dark:to-black">
               <div className="flex items-center">
                 <Button
                   type="submit"

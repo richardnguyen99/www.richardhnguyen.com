@@ -52,7 +52,7 @@ const Callout: React.FC<
     >
       <AccordionItem
         className={cn(
-          "rounded-lg border border-b-4 border-l-4 bg-neutral-100 p-4 [--shiki-opacity:_66%] dark:border-neutral-700 dark:bg-neutral-900",
+          "rounded-lg border border-b-4 border-l-4 bg-neutral-100 p-4 [--shiki-opacity:66%] dark:border-neutral-700 dark:bg-neutral-900",
           {
             "border-lime-300 bg-lime-200/30 dark:border-lime-500 dark:bg-lime-900/30":
               type === "info",

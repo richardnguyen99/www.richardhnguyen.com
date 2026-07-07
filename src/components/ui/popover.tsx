@@ -12,24 +12,16 @@ const PopoverTrigger = PopoverPrimitive.Trigger;
 const PopoverAnchor = PopoverPrimitive.Anchor;
 
 const PopoverContent = React.forwardRef<
-  // @ts-ignore
-  React.ElementRef<typeof PopoverPrimitive.Content> &
-    // @ts-ignore
-    React.ElementRef<typeof PopoverPrimitive.Portal>,
-  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content> &
-    React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Portal>
+  React.ElementRef<typeof PopoverPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content> & {
+    container?: React.RefObject<HTMLDivElement | null>;
+  }
 >(
   (
-    {
-      className,
-      align = "center",
-      sideOffset = 4,
-      container = document.body,
-      ...props
-    },
+    { className, align = "center", sideOffset = 4, container, ...props },
     ref,
   ) => (
-    <PopoverPrimitive.Portal container={container}>
+    <PopoverPrimitive.Portal container={container?.current ?? document.body}>
       <PopoverPrimitive.Content
         ref={ref}
         align={align}

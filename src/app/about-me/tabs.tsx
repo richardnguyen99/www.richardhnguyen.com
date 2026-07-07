@@ -74,12 +74,12 @@ export default function Tabs({ children, activeTab }: Props): JSX.Element {
       <nav
         ref={wrapperRef}
         onMouseLeave={resetHighlight}
-        className="relative -mx-4 mb-4 mt-8 overflow-x-auto whitespace-nowrap border-b border-border"
+        className="border-border relative -mx-4 mt-8 mb-4 overflow-x-auto border-b whitespace-nowrap"
       >
         <div
           ref={highlightRef}
           style={highlightStyles}
-          className="absolute left-0 top-[6px] h-10 transform-gpu rounded-md bg-accent transition-[width,transform,opacity] duration-75"
+          className="bg-accent absolute top-1.5 left-0 h-10 transform-gpu rounded-md transition-[width,transform,opacity] duration-75"
         />
         {tabsData.map((tab) => (
           <Link
@@ -89,7 +89,7 @@ export default function Tabs({ children, activeTab }: Props): JSX.Element {
             className={cn(
               "relative mr-4 inline-block transform-gpu cursor-pointer px-4 py-3 text-lg font-semibold transition-colors",
               {
-                "border-b-2 border-primary": tab.key === activeTab,
+                "border-primary border-b-2": tab.key === activeTab,
               },
             )}
           >
@@ -98,7 +98,7 @@ export default function Tabs({ children, activeTab }: Props): JSX.Element {
         ))}
       </nav>
 
-      <div className="prose prose-base max-w-none dark:prose-invert xl:prose-lg">
+      <div className="prose prose-base dark:prose-invert xl:prose-lg max-w-none">
         {children}
       </div>
     </div>

@@ -7,7 +7,7 @@ type Props = {
   unstable_retry: () => void;
 };
 
-export default function Error({
+export default function ErrorPage({
   error,
   unstable_retry,
 }: Props): React.ReactElement {

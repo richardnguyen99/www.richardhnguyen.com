@@ -48,14 +48,14 @@ export const metadata: Metadata = {
 
 export default function Experience(): JSX.Element {
   return (
-    <div className="mx-[var(--gutter-size)] w-[var(--container-size)]">
-      <h1 className="text-center text-5xl font-semibold leading-[110%] tracking-tight">
+    <div className="mx-(--gutter-size) w-(--container-size)">
+      <h1 className="text-center text-5xl leading-[110%] font-semibold tracking-tight">
         Work Experience
       </h1>
 
       <Tabs activeTab="exp">
         <p>
-          I graduatedd from{" "}
+          I graduated from{" "}
           <a
             href="https://www.highline.edu/index.html"
             target="_blank"

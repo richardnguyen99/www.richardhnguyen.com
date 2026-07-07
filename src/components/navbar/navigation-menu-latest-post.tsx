@@ -1,8 +1,8 @@
 "use client";
 
 import React, { type JSX } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 
 import { cn } from "@/lib/utils";
 import { NavigationMenuLink as UINavigationMenuLink } from "@/components/ui/navigation-menu";
@@ -34,10 +34,11 @@ export default function NavigationMenuLatestPost({
       onClickCapture={handleClickCapture}
       className={cn("relative mt-8 w-full", className)}
     >
-        <UINavigationMenuLink href={`/blogs/${latestPost.slug}`} className="group">
+      <UINavigationMenuLink className="group" asChild>
+        <Link href={`/blogs/${latestPost.slug}`}>
           <div
             className={cn(
-              "aspect-[16/9] w-full overflow-hidden rounded-lg",
+              "aspect-video w-full overflow-hidden rounded-lg",
               "w-full -translate-y-4 rounded-lg opacity-0 transition-[opacity,transform] duration-300 ease-in-out",
               {
                 "translate-y-0 opacity-100": isListReady,
@@ -56,9 +57,11 @@ export default function NavigationMenuLatestPost({
               src={latestPost.thumbnail}
               alt={latestPost.title}
               className={cn("object-cover object-center")}
-              loading="lazy"
+              loading="eager"
               sizes="(min-width: 1024px) 50vw, 100vw"
-              fill={true}
+              width={1470}
+              height={980}
+              quality={100}
             />
           </div>
 
@@ -82,7 +85,8 @@ export default function NavigationMenuLatestPost({
           >
             {latestPost.title}
           </h3>
-        </UINavigationMenuLink>
+        </Link>
+      </UINavigationMenuLink>
     </div>
   );
 }

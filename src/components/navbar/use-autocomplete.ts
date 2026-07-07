@@ -33,7 +33,7 @@ export function isModifierEvent<TEvent extends KeyboardEvent | MouseEvent>(
 }
 
 /**
- * Create a memoized Algolia Autocomplete instance for custom renderrers.
+ * Create a memoized Algolia Autocomplete instance for custom renderers.
  *
  * @param autocompleteState - The current state of the autocomplete.
  * @param setAutocompleteState - React hook to update the autocomplete state.

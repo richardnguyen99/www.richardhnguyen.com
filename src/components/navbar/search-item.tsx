@@ -22,7 +22,6 @@ type Props = ReturnType<typeof useMemoizedAutocomplete> & {
     item: InternalSearchHitWithParent;
     index: number;
   }) => JSX.Element;
-
   renderAction: (_props: {
     item: InternalSearchHitWithParent;
     deleteTransitionCallback: (_cb: () => void) => void;
@@ -30,10 +29,48 @@ type Props = ReturnType<typeof useMemoizedAutocomplete> & {
   }) => JSX.Element;
 };
 
+// Isolated component so the render-prop call happens in its own render scope,
+// not inside SearchItem's — the compiler can no longer see `action.current`
+// and the callbacks as being in the same render frame.
+type SearchItemIconProps = {
+  item: InternalSearchHitWithParent;
+  index: number;
+  renderIcon: Props["renderIcon"];
+};
+
+function SearchItemIcon({
+  item,
+  index,
+  renderIcon,
+}: SearchItemIconProps): JSX.Element {
+  return renderIcon({ item, index });
+}
+
+type SearchItemActionProps = {
+  item: InternalSearchHitWithParent;
+  renderAction: Props["renderAction"];
+  deleteTransitionCallback: (_cb: () => void) => void;
+  favoriteTransitionCallback: (_cb: () => void) => void;
+};
+
+function SearchItemAction({
+  item,
+  renderAction,
+  deleteTransitionCallback,
+  favoriteTransitionCallback,
+}: SearchItemActionProps): JSX.Element {
+  return renderAction({
+    item,
+    deleteTransitionCallback,
+    favoriteTransitionCallback,
+  });
+}
+
 export default function SearchItem(props: Props): JSX.Element {
   const [isDeleting, setIsDeleting] = React.useState(false);
   const [isFavoriting, setIsFavoriting] = React.useState(false);
   const action = React.useRef<(() => void) | null>(null);
+
   const itemProps = props.getItemProps({
     item: props.item,
     source: props.source,
@@ -42,41 +79,46 @@ export default function SearchItem(props: Props): JSX.Element {
     },
   });
 
-  const deleteTransitionCallback = (cb: () => void) => {
+  const deleteTransitionCallback = React.useCallback((cb: () => void) => {
     setIsDeleting(true);
     action.current = cb;
-  };
+  }, []);
 
-  const favoriteTransitionCallback = (cb: () => void) => {
+  const favoriteTransitionCallback = React.useCallback((cb: () => void) => {
     setIsFavoriting(true);
     action.current = cb;
-  };
+  }, []);
+
+  const handleTransitionEnd = React.useCallback(() => {
+    if (action.current) {
+      action.current();
+      action.current = null;
+    }
+  }, []);
 
   return (
     <li
-      key={props.item.objectID}
       className={cn("ais-source-item", {
         "ais-source-item--deleting": isDeleting,
         "ais-source-item--favoriting": isFavoriting,
       })}
       {...itemProps}
-      onTransitionEnd={() => {
-        if (action.current) {
-          action.current();
-          action.current = null;
-        }
-      }}
+      onTransitionEnd={handleTransitionEnd}
     >
-      {props.renderIcon({ item: props.item, index: props.index })}
+      <SearchItemIcon
+        item={props.item}
+        index={props.index}
+        renderIcon={props.renderIcon}
+      />
       <div className="grow-[auto]">
         <p>{props.item.title}</p>
       </div>
-
-      {props.renderAction({
-        item: props.item,
-        deleteTransitionCallback,
-        favoriteTransitionCallback,
-      })}
+      <SearchItemAction
+        item={props.item}
+        renderAction={props.renderAction}
+        deleteTransitionCallback={deleteTransitionCallback}
+        favoriteTransitionCallback={favoriteTransitionCallback}
+      />
     </li>
   );
 }

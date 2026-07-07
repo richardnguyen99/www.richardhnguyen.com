@@ -7,70 +7,82 @@ import { MdxContent, FrontMatter, SortOrder } from "@/types/mdx";
 const EXCERPT_SEPARATOR = "{/* EXCERPT */}";
 
 const validateFrontMatter = (
-  frontmatter: Record<string, any>,
+  frontmatter: unknown,
 ): frontmatter is FrontMatter => {
-  if (!frontmatter.title || typeof frontmatter.title !== "string") {
+  if (typeof frontmatter !== "object" || frontmatter === null) {
+    throw new Error(`Frontmatter must be an object (Got ${frontmatter})`);
+  }
+
+  const fm = frontmatter as Record<string, unknown>;
+
+  if (!fm.title || typeof fm.title !== "string") {
+    throw new Error(`Title is required and must be a string (Got ${fm.title})`);
+  }
+
+  if (!fm.date || typeof fm.date !== "string" || !(Date.parse(fm.date) > 0)) {
     throw new Error(
-      `Title is required and must be a string (Got ${frontmatter.title})`,
+      `Date is required and must be a valid date string (Got ${fm.date})`,
     );
   }
 
-  if (!frontmatter.date || !(Date.parse(frontmatter.date) > 0)) {
+  if (typeof fm.published !== "boolean") {
     throw new Error(
-      `Date is required and must be a valid date string (Got ${frontmatter.date})`,
+      `Published is required and must be a boolean (Got ${fm.published})`,
     );
   }
 
-  if (typeof frontmatter.published !== "boolean") {
+  if (
+    !fm.publishedAt ||
+    typeof fm.publishedAt !== "string" ||
+    !(Date.parse(fm.publishedAt) > 0)
+  ) {
     throw new Error(
-      `Published is required and must be a boolean (Got ${frontmatter.published})`,
+      `PublishedAt is required and must be a valid date string (Got ${fm.publishedAt})`,
     );
   }
 
-  if (!frontmatter.publishedAt || !(Date.parse(frontmatter.publishedAt) > 0)) {
+  if (!fm.author || typeof fm.author !== "string") {
     throw new Error(
-      `PublishedAt is required and must be a valid date string (Got ${frontmatter.publishedAt})`,
+      `Author is required and must be a string (Got ${fm.author})`,
     );
   }
 
-  if (!frontmatter.author || typeof frontmatter.author !== "string") {
+  if (!fm.tags || !Array.isArray(fm.tags)) {
+    throw new Error(`Tags is required and must be an array (Got ${fm.tags})`);
+  }
+
+  if (!fm.category || typeof fm.category !== "string") {
     throw new Error(
-      `Author is required and must be a string (Got ${frontmatter.author})`,
+      `Category is required and must be a string (Got ${fm.category})`,
     );
   }
 
-  if (!frontmatter.tags || !Array.isArray(frontmatter.tags)) {
+  if (!fm.changeLog || !Array.isArray(fm.changeLog)) {
     throw new Error(
-      `Tags is required and must be an array (Got ${frontmatter.tags})`,
+      `ChangeLog is required and must be an array (Got ${fm.changeLog})`,
     );
   }
 
-  if (!frontmatter.category || typeof frontmatter.category !== "string") {
-    throw new Error(
-      `Category is required and must be a string (Got ${frontmatter.category})`,
-    );
-  }
+  fm.changeLog.forEach((entry: unknown) => {
+    if (typeof entry !== "object" || entry === null) {
+      throw new Error(`ChangeLog entry must be an object (Got ${entry})`);
+    }
 
-  if (!frontmatter.changeLog || !Array.isArray(frontmatter.changeLog)) {
-    throw new Error(
-      `ChangeLog is required and must be an array (Got ${frontmatter.changeLog})`,
-    );
-  }
+    const { date, changes } = entry as Record<string, unknown>;
 
-  frontmatter.changeLog.forEach((entry: Record<string, string>) => {
-    if (!entry.date || !(Date.parse(entry.date) > 0)) {
+    if (!date || typeof date !== "string" || !(Date.parse(date) > 0)) {
       throw new Error(
-        `ChangeLog date is required and must be a valid date string (Got ${entry.date})`,
+        `ChangeLog date is required and must be a valid date string (Got ${date})`,
       );
     }
 
-    if (!entry.changes || !Array.isArray(entry.changes)) {
+    if (!changes || !Array.isArray(changes)) {
       throw new Error(
-        `ChangeLog change is required and must be a string (Got ${entry.changes})`,
+        `ChangeLog change is required and must be an array (Got ${changes})`,
       );
     }
 
-    entry.changes.forEach((change) => {
+    changes.forEach((change: unknown) => {
       if (typeof change !== "string") {
         throw new Error(
           `ChangeLog change is required and must be a string (Got ${change})`,
@@ -103,6 +115,8 @@ export const getMdxDirectoryPath = () => {
 };
 
 export const getMdxFiles = async () => {
+  "use cache";
+
   const mdxDirectoryPath = getMdxDirectoryPath();
   const entries = await fs.readdir(mdxDirectoryPath, {
     withFileTypes: true,
@@ -112,7 +126,11 @@ export const getMdxFiles = async () => {
     (entry) => entry.isFile() && entry.name.endsWith(".mdx"),
   );
 
-  return mdxFiles;
+  const mdxFilePaths = mdxFiles.map((entry) => ({
+    name: entry.name,
+  }));
+
+  return mdxFilePaths;
 };
 
 export const generateMdxSlugs = async () => {
@@ -132,13 +150,15 @@ export const getMdxPathFromSlug = async (slug: string) => {
   const mdxFile = mdxFiles.find((entry) => entry.name === `${slug}.mdx`);
 
   if (!mdxFile) {
-    throw new Error(`No MDX file found for slug: ${slug}`);
+    return undefined;
   }
 
   return path.join(getMdxDirectoryPath(), mdxFile.name);
 };
 
 export const getMdxContentFromPath = async (mdxPath: string) => {
+  "use cache";
+
   const mdxContent = await fs.readFile(mdxPath, "utf-8");
   const {
     content: rawContent,
@@ -174,6 +194,9 @@ export const getMdxContentFromPath = async (mdxPath: string) => {
 
 export const getMdxContentFromSlug = async (mdxSlug: string) => {
   const mdxPath = await getMdxPathFromSlug(mdxSlug);
+  if (!mdxPath) {
+    return null;
+  }
   return await getMdxContentFromPath(mdxPath);
 };
 

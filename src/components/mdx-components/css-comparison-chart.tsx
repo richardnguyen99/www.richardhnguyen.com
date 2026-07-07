@@ -1,6 +1,6 @@
 "use client";
 
-import React, { type JSX } from "react";
+import { type JSX } from "react";
 import useSWR from "swr";
 import { TrendingUp } from "lucide-react";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
@@ -19,7 +19,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import ChartSkeleton from "../chart-skeleton";
+import ChartSkeleton from "./chart-skeleton";
 
 interface NpmDownloadResponse {
   package: string;
@@ -178,15 +178,15 @@ export default function CSSComparisonChart(): JSX.Element {
     .slice(1);
 
   return (
-    <Card className="mx-[var(--article-gutter-size)] w-[var(--article-container-size)] border-neutral-300 dark:border-neutral-600">
+    <Card className="mx-(--article-gutter-size) w-(--article-container-size) border-neutral-300 dark:border-neutral-600">
       <CardHeader>
-        <CardTitle className="!mx-0 !w-full">Download Comparison</CardTitle>
-        <CardDescription className="!mx-0 !w-full">
+        <CardTitle className="mx-0! w-full!">Download Comparison</CardTitle>
+        <CardDescription className="mx-0! w-full!">
           From {mergedChartData[0].date} to {mergedChartData.slice(-1)[0].date}
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="min-h-[378px] w-full">
+        <ChartContainer config={chartConfig} className="min-h-94.5 w-full">
           <LineChart
             accessibilityLayer
             data={mergedChartData}

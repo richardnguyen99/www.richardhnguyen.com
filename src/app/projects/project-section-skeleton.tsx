@@ -12,12 +12,12 @@ const ProjectSelectionSkeleton: React.FC<Props> = ({ title }) => {
         {[...Array(6)].map((_, index) => (
           <div
             key={index}
-            className="h-[168px] animate-pulse rounded-lg bg-accent"
+            className="bg-accent h-42 animate-pulse rounded-lg"
           ></div>
         ))}
       </div>
 
-      <div className="mx-auto mt-8 h-9 w-9 rounded-full bg-background text-center"></div>
+      <div className="bg-background mx-auto mt-8 h-9 w-9 rounded-full text-center"></div>
     </div>
   );
 };

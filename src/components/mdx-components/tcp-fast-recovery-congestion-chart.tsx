@@ -209,7 +209,7 @@ export default function TCPFastRecoveryCongestionControlChart(): JSX.Element {
                 color: "var(--chart-1)",
               },
             }}
-            className="min-h-[350px] [&_tspan]:whitespace-pre-wrap"
+            className="min-h-87.5 [&_tspan]:whitespace-pre-wrap"
           >
             <LineChart
               data={data[0]}
@@ -332,23 +332,6 @@ export default function TCPFastRecoveryCongestionControlChart(): JSX.Element {
                 dataKey="cwnd"
                 stroke="var(--color-cwnd)"
                 strokeWidth={2}
-                dot={{
-                  // @ts-ignore
-                  fill: (entry) =>
-                    entry.event === "Congestion Collapse"
-                      ? "red"
-                      : "var(--color-cwnd)",
-
-                  // @ts-ignore
-                  r: (entry) => (entry.event ? 6 : 4),
-                  // @ts-ignore
-                  stroke: (entry) =>
-                    entry.event === "Congestion Collapse" ? "red" : undefined,
-
-                  // @ts-ignore
-                  strokeWidth: (entry) =>
-                    entry.event === "Congestion Collapse" ? 2 : 0,
-                }}
                 activeDot={{ r: 6 }}
               />
             </LineChart>

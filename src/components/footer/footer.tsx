@@ -22,10 +22,15 @@ type Props = {
   }[];
 };
 
-export default function Footer({ categories, tags }: Props): JSX.Element {
+export default async function Footer({
+  categories,
+  tags,
+}: Props): Promise<JSX.Element> {
+  "use cache";
+
   return (
     <FooterWrapper>
-      <div className="mx-[var(--gutter-size)] w-[var(--container-size)]">
+      <div className="mx-(--gutter-size) w-(--container-size)">
         <div className="my-36 flex flex-col gap-16 lg:flex-row">
           <div className="w-full lg:w-4/12">
             <Newsletter />
@@ -83,10 +88,10 @@ export default function Footer({ categories, tags }: Props): JSX.Element {
       </div>
 
       <div className="border-t border-neutral-700">
-        <div className="mx-[var(--gutter-size)] w-[var(--container-size)]">
+        <div className="mx-(--gutter-size) w-(--container-size)">
           <div className="flex w-full flex-col items-center justify-center gap-4 py-8 sm:items-start sm:justify-start lg:flex-row lg:items-center lg:gap-0">
             <p className="flex w-full items-center justify-center gap-1 text-center text-sm sm:w-[unset] sm:justify-start">
-              <span className="min-w-[10px] overflow-clip text-ellipsis whitespace-nowrap">
+              <span className="min-w-2.5 overflow-clip text-ellipsis whitespace-nowrap">
                 richardhnguyen.com
               </span>{" "}
               <span className="whitespace-nowrap">
@@ -98,7 +103,7 @@ export default function Footer({ categories, tags }: Props): JSX.Element {
               <ul className="flex w-full items-center justify-center gap-2 text-xs sm:w-[unset]">
                 <li className="line-clamp-1 list-none">
                   <Link
-                    className="border-b border-dotted border-white/0 hover:border-white/100"
+                    className="border-b border-dotted border-white/0 hover:border-white"
                     href="/legal/privacy-policy"
                   >
                     Privacy Policy
@@ -107,7 +112,7 @@ export default function Footer({ categories, tags }: Props): JSX.Element {
                 <li className="hidden sm:block">●</li>
                 <li className="line-clamp-1">
                   <Link
-                    className="border-b border-dotted border-white/0 hover:border-white/100"
+                    className="border-b border-dotted border-white/0 hover:border-white"
                     href="/legal/terms"
                   >
                     Terms of Service

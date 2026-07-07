@@ -40,7 +40,7 @@ export default function RootLayout({ children }: Props): JSX.Element {
   return (
     <html
       lang="en"
-      className="js-focus-visible [scrollbar-gutter:stable] [--scroll-mt:9.875rem] lg:[--scroll-mt:6.3125rem]"
+      className="js-focus-visible scrollbar-gutter-stable [--scroll-mt:9.875rem] lg:[--scroll-mt:6.3125rem]"
       suppressHydrationWarning
     >
       <head>
@@ -53,7 +53,7 @@ export default function RootLayout({ children }: Props): JSX.Element {
         />
       </head>
       <body
-        className={`${inter.className} h-full w-full overflow-y-scroll bg-white [--gutter-size:theme(spacing.5)] sm:[--container-size:calc(theme(maxWidth.xl)-theme(spacing.6))] sm:[--gutter-size:calc((100vw-(theme(maxWidth.xl)-theme(spacing.6)))/2)] md:[--container-size:calc(theme(maxWidth.3xl)-theme(spacing.6))] md:[--gutter-size:calc((100vw-(theme(maxWidth.3xl)-theme(spacing.6)))/2)] lg:[--container-size:calc(theme(maxWidth.5xl)-theme(spacing.8))] lg:[--gutter-size:calc((100vw-(theme(maxWidth.5xl)-theme(spacing.8)))/2)] xl:[--container-size:calc(theme(maxWidth.6xl)-theme(spacing.8))] xl:[--gutter-size:calc((100vw-(theme(maxWidth.6xl)-theme(spacing.8)))/2)] dark:bg-black`}
+        className={`${inter.className} h-full w-full overflow-y-scroll bg-white [--gutter-size:--spacing(5)] sm:[--container-size:calc(var(--container-xl)-(--spacing(6)))] sm:[--gutter-size:calc((100vw-(var(--container-xl)-(--spacing(6))))/2)] md:[--container-size:calc(var(--container-3xl)-(--spacing(6)))] md:[--gutter-size:calc((100vw-(var(--container-3xl)-(--spacing(6))))/2)] lg:[--container-size:calc(var(--container-5xl)-(--spacing(8)))] lg:[--gutter-size:calc((100vw-(var(--container-5xl)-(--spacing(8))))/2)] xl:[--container-size:calc(var(--container-6xl)-(--spacing(8)))] xl:[--gutter-size:calc((100vw-(var(--container-6xl)-(--spacing(8))))/2)] dark:bg-black`}
       >
         <GlobalProvider>
           <React.Suspense fallback={<NavigationMenuSkeleton />}>

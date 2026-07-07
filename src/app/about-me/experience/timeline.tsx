@@ -28,16 +28,16 @@ const TimelineItem = ({
   return (
     <div className="relative flex w-full gap-6">
       {/* Number with square brackets */}
-      <div className="relative z-10 flex-shrink-0">
+      <div className="relative z-10 shrink-0">
         <div className="bg-background relative z-20 flex h-7 w-7 items-center justify-center font-mono">
           {/* Left bracket */}
-          <div className="border-primary absolute top-0 bottom-0 left-0 w-[4px] border-t-2 border-b-2 border-l-2"></div>
+          <div className="border-primary absolute top-0 bottom-0 left-0 w-1 border-t-2 border-b-2 border-l-2"></div>
 
           {/* Number */}
           <span className="font-bold">{number}</span>
 
           {/* Right bracket */}
-          <div className="border-primary absolute top-0 right-0 bottom-0 w-[4px] border-t-2 border-r-2 border-b-2"></div>
+          <div className="border-primary absolute top-0 right-0 bottom-0 w-1 border-t-2 border-r-2 border-b-2"></div>
         </div>
 
         {/* Connecting line */}
@@ -47,7 +47,7 @@ const TimelineItem = ({
       </div>
 
       {/* Content */}
-      <div className="w-full flex-grow pb-10">
+      <div className="w-full grow pb-10">
         <button
           onClick={() => setIsExpanded(!isExpanded)}
           className="hover:text-primary mb-2 flex w-full items-center text-left text-lg font-bold focus:outline-none lg:text-2xl"

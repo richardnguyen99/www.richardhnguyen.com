@@ -11,15 +11,15 @@ import {
 
 export default function NavigationMenuSkeleton(): JSX.Element {
   return (
-    <header className="fixed top-0 z-[100] m-auto w-full max-w-full md:py-0">
+    <header className="fixed top-0 z-100 m-auto w-full max-w-full md:py-0">
       <UINavigationMenu className="bg-transparent">
-        <div className="ease-out-cubic relative z-50 mx-auto h-full min-h-[3.125rem] w-full bg-white/80 backdrop-blur md:h-[3.125rem] dark:bg-black/80">
-          <div className="relative mx-[var(--gutter-size)] flex min-h-[3.125rem] w-[var(--container-size)] items-center justify-between [&>div]:h-full">
+        <div className="ease-out-cubic relative z-50 mx-auto h-full min-h-12.5 w-full bg-white/80 backdrop-blur md:h-12.5 dark:bg-black/80">
+          <div className="relative mx-(--gutter-size) flex min-h-12.5 w-(--container-size) items-center justify-between [&>div]:h-full">
             <a className="flex h-10 w-10 items-center justify-center rounded-full p-2">
               <div className="h-full w-full bg-black dark:bg-white"></div>
             </a>
 
-            <div className="[&>div]:!static [&>div]:h-full">
+            <div className="[&>div]:static! [&>div]:h-full">
               <div className="position">
                 <UINavigationList
                   className={cn(
@@ -31,7 +31,7 @@ export default function NavigationMenuSkeleton(): JSX.Element {
                       Articles
                     </UINavigationMenuTrigger>
 
-                    <UNavigationMenuContent className="md:left-[calc(0.5_*_(100%-var(--container-size)))]">
+                    <UNavigationMenuContent className="md:left-[calc(0.5*(100%-var(--container-size)))]">
                       <div className="data-[]: relative grid w-full grid-cols-[repeat(2,calc(20px+(0.5*(min(100%,68rem)-352px))))_1fr]"></div>
                     </UNavigationMenuContent>
                   </UINavigationMenuItem>
@@ -40,7 +40,7 @@ export default function NavigationMenuSkeleton(): JSX.Element {
                     <UINavigationMenuTrigger className="transition-none duration-0">
                       Projects
                     </UINavigationMenuTrigger>
-                    <UNavigationMenuContent className="md:left-[calc(0.5_*_(100%-var(--container-size)))]">
+                    <UNavigationMenuContent className="md:left-[calc(0.5*(100%-var(--container-size)))]">
                       <div className="data-[]: relative grid grid-cols-3 gap-3"></div>
                     </UNavigationMenuContent>
                   </UINavigationMenuItem>
@@ -49,7 +49,7 @@ export default function NavigationMenuSkeleton(): JSX.Element {
                     <UINavigationMenuTrigger className="transition-none duration-0">
                       About
                     </UINavigationMenuTrigger>
-                    <UNavigationMenuContent className="md:left-[calc(0.5_*_(100%-var(--container-size)))]"></UNavigationMenuContent>
+                    <UNavigationMenuContent className="md:left-[calc(0.5*(100%-var(--container-size)))]"></UNavigationMenuContent>
                   </UINavigationMenuItem>
                 </UINavigationList>
               </div>

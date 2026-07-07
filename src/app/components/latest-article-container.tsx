@@ -10,7 +10,7 @@ function LatestArticleSectionSkeleton({
 }): JSX.Element {
   return (
     <div className={cn("col-span-12 row-span-1", className)}>
-      <div className="ease-curve-a group bg-accent relative z-0 block aspect-[16/9] h-full w-full max-w-[68rem] animate-pulse overflow-hidden rounded-md transition duration-250 [&>div]:h-full"></div>
+      <div className="ease-curve-a group bg-accent relative z-0 block aspect-video h-full w-full max-w-272 animate-pulse overflow-hidden rounded-md transition duration-250 [&>div]:h-full"></div>
     </div>
   );
 }
@@ -18,14 +18,14 @@ function LatestArticleSectionSkeleton({
 export default function LatestArticleContainer(): JSX.Element {
   return (
     <section className="max-w-full">
-      <div className="mx-[var(--gutter-size)] flex w-[var(--container-size)] flex-col items-center pb-16">
+      <div className="mx-(--gutter-size) flex w-(--container-size) flex-col items-center pb-16">
         <span className="font-mono">Richard H. Nguyen</span>
         <h1 className="text-5xl leading-[110%] font-semibold tracking-tight">
           Latest Posts
         </h1>
       </div>
 
-      <div className="mx-[var(--gutter-size)] w-[var(--container-size)]">
+      <div className="mx-(--gutter-size) w-(--container-size)">
         <React.Suspense
           fallback={
             <div className="col-span-12 grid grid-cols-12 gap-3 lg:grid-rows-2">

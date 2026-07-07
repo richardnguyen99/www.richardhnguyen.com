@@ -3,8 +3,6 @@ import { NextRequest } from "next/server";
 import fs from "fs/promises";
 import path from "path";
 
-export const dynamic = "force-static";
-
 export async function GET(_req: NextRequest) {
   const filePath = path.join(
     process.cwd(),

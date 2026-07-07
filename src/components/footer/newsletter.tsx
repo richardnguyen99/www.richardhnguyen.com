@@ -18,7 +18,7 @@ export default function Newsletter(): JSX.Element {
 
         <div className="mt-4 flex w-full max-w-sm items-center space-x-2">
           <Input
-            className="ease-curve-d transform-gpu border border-transparent bg-neutral-900 ring-0 transition-[background,_box_shadow] duration-300 hover:bg-neutral-800 hover:ring-1 hover:ring-neutral-700 focus-visible:bg-neutral-700 focus-visible:ring-2 focus-visible:ring-neutral-500"
+            className="ease-curve-d transform-gpu border border-transparent bg-neutral-900 ring-0 transition-[background,box_shadow] duration-300 hover:bg-neutral-800 hover:ring-1 hover:ring-neutral-700 focus-visible:bg-neutral-700 focus-visible:ring-2 focus-visible:ring-neutral-500"
             type="email"
             placeholder="Email"
           />

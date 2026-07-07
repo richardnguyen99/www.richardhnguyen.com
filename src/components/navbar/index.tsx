@@ -6,6 +6,8 @@ import NavbarNavigationMenu from "./navigation-menu";
 import getPinnedRepos from "@/lib/github";
 
 export default async function Navbar(): Promise<JSX.Element> {
+  "use cache";
+
   const mostViewedCategories = Array.from(
     (await getAllCategories()).entries(),
   ).map(([key, value]) => ({
@@ -55,7 +57,7 @@ export default async function Navbar(): Promise<JSX.Element> {
     <header
       aria-label="Main Navigation"
       className={cn(
-        "fixed top-0 z-[100]",
+        "fixed top-0 z-100",
         "m-auto w-full max-w-full md:py-0",
         "ease-curve-d transition-header transform-gpu",
       )}

@@ -184,6 +184,12 @@
   animation: accordion-up 0.2s ease-out;
 }
 
+@utility text-stroke-* {
+  -webkit-text-stroke-width: calc(--value(integer) * 1px);
+  -webkit-text-stroke-color: --value(--color-*);
+  -webkit-text-stroke-color: --value([*]);
+}
+
 @layer components {
   .ais {
     @apply flex flex-col gap-2 rounded-lg p-4;
@@ -233,7 +239,7 @@
 
   .ais-source-list {
     @apply flex flex-col gap-1;
-    @apply max-h-[240px] overflow-x-hidden overflow-y-auto;
+    @apply max-h-60 overflow-x-hidden overflow-y-auto;
   }
 
   .ais-source-item {
@@ -257,12 +263,12 @@
   .ais-recent .ais-action {
     @apply absolute top-1/2 -translate-y-1/2;
     @apply opacity-0 transition-opacity duration-200 ease-in-out;
-    @apply !border-transparent !bg-transparent !shadow-none !outline-none;
+    @apply border-transparent! bg-transparent! shadow-none! outline-none!;
     @apply cursor-pointer;
   }
 
   .ais-recent .ais-action:hover {
-    @apply !bg-gray-300/75 !text-gray-950 dark:!bg-gray-400/50 dark:!text-gray-50;
+    @apply bg-gray-300/75! text-gray-950! dark:bg-gray-400/50! dark:text-gray-50!;
   }
 
   .ais-recent .ais-favorite {

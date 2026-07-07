@@ -23,20 +23,20 @@ export default function BlogBreadcrumb({
   ...rest
 }: BlogBreadcrumbProps): JSX.Element {
   return (
-    <div className="mx-auto mb-24 mt-12 flex w-[var(--article-container-size)] items-center justify-center px-[var(--article-gutter-size)]">
+    <div className="mx-auto mt-12 mb-24 flex w-(--article-container-size) items-center justify-center px-(--article-gutter-size)">
       <Breadcrumb className={cn(className)} {...rest}>
-        <BreadcrumbList>
-          <BreadcrumbItem>
+        <BreadcrumbList className="flex flex-nowrap items-center gap-2">
+          <BreadcrumbItem className="hidden md:block">
             <BreadcrumbLink href="/">Home</BreadcrumbLink>
           </BreadcrumbItem>
 
-          <BreadcrumbSeparator />
+          <BreadcrumbSeparator className="hidden md:block" />
 
-          <BreadcrumbItem>
+          <BreadcrumbItem className="hidden md:block">
             <BreadcrumbLink href="/blogs">Blogs</BreadcrumbLink>
           </BreadcrumbItem>
 
-          <BreadcrumbSeparator />
+          <BreadcrumbSeparator className="hidden md:block" />
 
           <BreadcrumbItem>
             <BreadcrumbPage>

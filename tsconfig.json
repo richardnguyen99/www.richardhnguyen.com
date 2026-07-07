@@ -16,10 +16,10 @@
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
-    // "module": "esnext",
-    // "moduleResolution": "bundler",
-    "module": "node16",
-    "moduleResolution": "nodenext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    //"module": "node16",
+    //"moduleResolution": "nodenext",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
@@ -41,7 +41,11 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "tailwind.config.js",
-    ".next/dev/types/**/*.ts"
+    ".next/dev/types/**/*.ts",
+    "scripts/algolia.ts",
+    "src/app/blogs/[slug]/lib/shiki-rehype-plugins.ts",
+    "next.config.ts",
+    "src/app/blogs/[slug]/lib/shiki-remark-plugins.ts"
   ],
   "exclude": [
     "node_modules"

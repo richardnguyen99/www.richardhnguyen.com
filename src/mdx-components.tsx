@@ -1,7 +1,7 @@
+import type { MDXComponents } from "mdx/types";
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { MDXProvider } from "@mdx-js/react";
 import mermaid from "mermaid";
 
 import { cn } from "@/lib/utils";
@@ -15,21 +15,19 @@ import {
 } from "@/components/ui/table";
 import ExternalLink from "@/components/external-link";
 import Callout from "@/components/callout";
-import BlogCode from "./code";
-import CSSComparisonChart from "./css-comparison-chart";
-import CodeSandbox from "./codesandbox";
-import TCPCongestionControlChart from "./tcp-congestion-chart";
-import TCPFastRecoveryCongestionControlChart from "./tcp-fast-recovery-congestion-chart";
-import Mermaid from "./mermaid";
+import BlogCode from "@/components/mdx-components/code";
+import CSSComparisonChart from "@/components/mdx-components/css-comparison-chart";
+import CodeSandbox from "@/components/mdx-components/codesandbox";
+import TCPCongestionControlChart from "@/components/mdx-components/tcp-congestion-chart";
+import TCPFastRecoveryCongestionControlChart from "@/components/mdx-components/tcp-fast-recovery-congestion-chart";
+import Mermaid from "@/components/mdx-components/mermaid";
 import { ClientOnly } from "@/components/client-only";
 
 mermaid.initialize({
   startOnLoad: true,
 });
 
-const components: NonNullable<
-  React.ComponentProps<typeof MDXProvider>["components"]
-> = {
+const components = {
   Callout,
   CSSComparisonChart,
   TCPCongestionControlChart,
@@ -87,7 +85,7 @@ const components: NonNullable<
         height={980}
         quality={100}
         className="rounded-lg object-cover object-center"
-        loading="lazy"
+        loading="eager"
       />
     );
   },
@@ -175,6 +173,8 @@ const components: NonNullable<
 
     return <blockquote {...rest}>{children}</blockquote>;
   },
-};
+} satisfies MDXComponents;
 
-export default components;
+export function useMDXComponents(): MDXComponents {
+  return components;
+}

@@ -1,4 +1,4 @@
-import React, { type JSX } from "react";
+import { type JSX } from "react";
 import Image from "next/image";
 import { type Metadata } from "next";
 
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
 
 export default function Bio(): JSX.Element {
   return (
-    <div className="mx-[var(--gutter-size)] w-[var(--container-size)]">
+    <div className="mx-(--gutter-size) w-(--container-size)">
       <h1 className="text-center text-5xl leading-[110%] font-semibold tracking-tight">
         Biography
       </h1>
@@ -93,13 +93,13 @@ export default function Bio(): JSX.Element {
           fell for it and discovered my passion for software engineering.
         </p>
 
-        <figure className="!relative flex w-full flex-col items-center">
+        <figure className="relative! flex w-full flex-col items-center">
           <Image
             src="/vn_university.jpg"
             alt="Vietnam"
             width="600"
             height="600"
-            className="rounded-md !object-cover"
+            className="rounded-md object-cover!"
           />
           <figcaption className="text-sm text-gray-500">
             My volunteer work at Green Summer Campaign in 2018
@@ -129,13 +129,13 @@ export default function Bio(): JSX.Element {
           and finished my bachelor degree in Computer Science in 2023.
         </p>
 
-        <figure className="!relative flex w-full flex-col items-center">
+        <figure className="relative! flex w-full flex-col items-center">
           <Image
             src="/capstone.jpg"
             alt="Capstone Project"
             width="600"
             height="600"
-            className="rounded-md !object-cover"
+            className="rounded-md object-cover!"
           />
           <figcaption className="text-sm text-gray-500">
             My Senior Capstone Project at Seattle University

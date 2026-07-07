@@ -1,21 +1,10 @@
 "use client";
 
 import React, { type JSX } from "react";
-import dynamic from "next/dynamic";
 
-const SortButton = dynamic(() => import("./sort-button"), {
-  ssr: false,
-  loading: () => (
-    <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 md:w-[100px] dark:bg-neutral-700" />
-  ),
-});
-
-const FilterButton = dynamic(() => import("./filter-button"), {
-  ssr: false,
-  loading: () => (
-    <div className="h-[40px] w-1/2 animate-pulse rounded-full bg-neutral-100 md:w-[100px] dark:bg-neutral-700" />
-  ),
-});
+import { ClientOnly } from "@/components/client-only";
+import FilterButton from "./filter-button";
+import SortButton from "./sort-button";
 
 interface ButtonGroupProps {
   sortOrder?: "asc" | "desc";
@@ -40,30 +29,40 @@ export default function ButtonGroup({
 
   return (
     <div className="flex items-center gap-4">
-      <FilterButton
-        opening={openingTag === "tag"}
-        onOpenChange={(open) => {
-          if (open) setOpeningTag("tag");
-          else setOpeningTag("");
-        }}
-        filterTags={{
-          tags: tags.values,
-          indices: tags.selectedIndices,
-        }}
-        filterCategories={{
-          categories: categories.values,
-          indices: categories.selectedIndices,
-        }}
-      />
-      <SortButton
-        open={openingTag === "sort"}
-        onOpenChange={(open) => {
-          if (open) setOpeningTag("sort");
-          else setOpeningTag("");
-        }}
-        initialSortOrder={sortOrder}
-        initialSortType={sortType}
-      />
+      <ClientOnly
+        fallback={
+          <>
+            <div className="h-10 w-1/2 animate-pulse rounded-full bg-neutral-100 md:w-25 dark:bg-neutral-700" />
+            <div className="h-10 w-1/2 animate-pulse rounded-full bg-neutral-100 md:w-25 dark:bg-neutral-700" />
+          </>
+        }
+      >
+        <FilterButton
+          opening={openingTag === "tag"}
+          onOpenChange={(open) => {
+            if (open) setOpeningTag("tag");
+            else setOpeningTag("");
+          }}
+          filterTags={{
+            tags: tags.values,
+            indices: tags.selectedIndices,
+          }}
+          filterCategories={{
+            categories: categories.values,
+            indices: categories.selectedIndices,
+          }}
+        />
+
+        <SortButton
+          open={openingTag === "sort"}
+          onOpenChange={(open) => {
+            if (open) setOpeningTag("sort");
+            else setOpeningTag("");
+          }}
+          initialSortOrder={sortOrder}
+          initialSortType={sortType}
+        />
+      </ClientOnly>
     </div>
   );
 }

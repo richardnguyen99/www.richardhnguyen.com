@@ -22,21 +22,15 @@ type Props = {
   onClose: () => void;
 };
 
-/**
- * The main panel of the search component when users open the search, either
- * by clicking or via keyboard shortcut.
- *
- * This component is responsible for controlling the logics of the search and
- * the rendering of the search UI.
- *
- * @param {Props} props - The properties of the component.
- * @returns {JSX.Element}
- */
 export default function SearchPanel({ onClose }: Props): JSX.Element {
   const indexName = process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME as string;
-
   const { push } = useRouter();
-  const inputRef = React.useRef<HTMLInputElement>(null);
+
+  // Callback ref: stores the DOM node in state instead of a ref, so it can
+  // be safely read during render and passed directly to Algolia's API.
+  const [inputElement, setInputElement] =
+    React.useState<HTMLInputElement | null>(null);
+
   const [autocompleteState, setAutocompleteState] = React.useState<
     InternalSearchState<InternalSearchHitWithParent>
   >({
@@ -49,22 +43,23 @@ export default function SearchPanel({ onClose }: Props): JSX.Element {
     completion: null,
   });
 
-  const favoriteSearches = React.useRef(
-    createStoredSearches<InternalStoredSearchHit>({
+  // Lazy initializer: runs exactly once on mount, never during render.
+  // Both stores are created together so favoriteSearches is available
+  // when computing recentSearches' limit — no ref reads needed.
+  const [{ favoriteSearches, recentSearches }] = React.useState(() => {
+    const favoriteSearches = createStoredSearches<InternalStoredSearchHit>({
       key: `__AUTOCOMPLETE_FAVORITE_SEARCHES__${indexName}`,
       limit: 10,
-    }),
-  ).current;
-
-  const recentSearches = React.useRef(
-    createStoredSearches<InternalStoredSearchHit>({
+    });
+    const recentSearches = createStoredSearches<InternalStoredSearchHit>({
       key: `__AUTOCOMPLETE_RECENT_SEARCHES__${indexName}`,
-      // We display 7 recent searches and there's no favorites, but only
-      // 4 when there are favorites.
       limit: favoriteSearches.getAll().length === 0 ? 7 : 4,
-    }),
-  ).current;
+    });
+    return { favoriteSearches, recentSearches };
+  });
 
+  // Both stores are stable references (from useState), so this callback
+  // is also effectively stable and never needs to be recreated.
   const saveRecentSearch = React.useCallback(
     function saveRecentSearch(item: InternalSearchHit) {
       if (
@@ -102,14 +97,14 @@ export default function SearchPanel({ onClose }: Props): JSX.Element {
       <div className="ais-container">
         <form
           className="ais-form"
-          {...autocomplete.getFormProps({ inputElement: inputRef.current })}
+          {...autocomplete.getFormProps({ inputElement })}
         >
           <Search className="ais-svg" />
           <input
-            ref={inputRef}
+            ref={setInputElement}
             className={cn("ais-search")}
             {...(autocomplete.getInputProps({
-              inputElement: inputRef.current!,
+              inputElement,
               autoFocus: true,
             }) as unknown as React.InputHTMLAttributes<HTMLInputElement>)}
           />

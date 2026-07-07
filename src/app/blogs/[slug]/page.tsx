@@ -1,18 +1,14 @@
 import React, { type JSX } from "react";
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
+import { notFound } from "next/navigation";
 
 import { generateMdxSlugs, getMdxContentFromSlug } from "@/lib/mdx";
-import { ClientOnly } from "@/components/client-only";
 import { sharedMetadata } from "@/lib/metadata";
+import { ClientOnly } from "@/components/client-only";
+import TableOfContent from "./components/table-of-content";
 import MdxRemote from "./components/mdx-remote";
 
 import "./mdx.css";
-
-const TableOfContent = dynamic(
-  () => import("./components/table-of-content"),
-  {},
-);
 
 interface BlogPostProps {
   params: Promise<{
@@ -20,20 +16,33 @@ interface BlogPostProps {
   }>;
 }
 
-// NextJS options to disable dynamic routing at runtime
-export const dynamicParams = false;
-
 // NextJS options to enable to generate static paths at build time.
 export async function generateStaticParams() {
-  return await generateMdxSlugs();
+  "use cache";
+
+  const slugs = await generateMdxSlugs();
+
+  return slugs;
 }
 
 // NextJS options to generate metadata for page dynamically
 export async function generateMetadata({
   params,
 }: BlogPostProps): Promise<Metadata> {
+  "use cache";
+
   const { slug } = await params;
-  const { frontMatter, excerpt } = await getMdxContentFromSlug(slug);
+  const mdxData = await getMdxContentFromSlug(slug);
+
+  if (!mdxData) {
+    return {
+      ...sharedMetadata,
+      title: "Blog Post Not Found",
+      description: "The requested blog post could not be found.",
+    };
+  }
+
+  const { frontMatter, excerpt } = mdxData;
 
   return {
     ...sharedMetadata,
@@ -76,15 +85,39 @@ export async function generateMetadata({
 export default async function BlogPost({
   params,
 }: BlogPostProps): Promise<JSX.Element> {
+  // use cache directive to fix MDXRemote using `Date.now()` during loading page
+  "use cache";
+
   const { slug } = await params;
+  let frontmatter, excerpt, body;
+
+  try {
+    const mdxData = await getMdxContentFromSlug(slug);
+
+    if (!mdxData) {
+      notFound();
+    }
+
+    frontmatter = mdxData.frontMatter;
+    excerpt = mdxData.excerpt;
+    body = mdxData.body;
+  } catch (error) {
+    console.error(error);
+    notFound();
+  }
 
   return (
-    <div className="w-full text-left [--article-container-size:var(--container-size)] [--article-gutter-size:var(--gutter-size,_100%)] md:[--article-container-size:calc(theme(maxWidth.3xl)-theme(spacing.6))] md:[--article-gutter-size:auto]">
+    <div className="w-full text-left [--article-container-size:var(--container-size)] [--article-gutter-size:var(--gutter-size,100%)] md:[--article-container-size:calc(var(--container-3xl)-(--spacing(6)))] md:[--article-gutter-size:auto]">
       <ClientOnly>
         <TableOfContent />
       </ClientOnly>
 
-      <MdxRemote slug={slug} />
+      <MdxRemote
+        slug={slug}
+        frontMatter={frontmatter}
+        excerpt={excerpt}
+        body={body}
+      ></MdxRemote>
     </div>
   );
 }

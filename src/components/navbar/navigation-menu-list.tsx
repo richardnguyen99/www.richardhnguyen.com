@@ -1,7 +1,6 @@
 "use client";
 
 import React, { type JSX } from "react";
-import Link from "next/link";
 import { MoveUpRight } from "lucide-react";
 
 import { NavigationMenuLink as UINavigationMenuLink } from "@/components/ui/navigation-menu";
@@ -28,9 +27,9 @@ export function NavigationMenuLink({
   url,
 }: Props["items"][0]): JSX.Element {
   return (
-      <UINavigationMenuLink className={cn(linkClassName)}>
-        {text}
-      </UINavigationMenuLink>
+    <UINavigationMenuLink className={cn(linkClassName)} href={url}>
+      {text}
+    </UINavigationMenuLink>
   );
 }
 
@@ -50,7 +49,7 @@ export function NavigationMenuExternal({
         )}
       >
         <p className="line-clamp-1">{text}</p>
-        <MoveUpRight size={16} className="h-4 w-4 flex-shrink-0 basis-[16px]" />
+        <MoveUpRight size={16} className="h-4 w-4 shrink-0 basis-4" />
       </a>
     </UINavigationMenuLink>
   );

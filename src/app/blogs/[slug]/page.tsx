@@ -18,6 +18,8 @@ interface BlogPostProps {
 
 // NextJS options to enable to generate static paths at build time.
 export async function generateStaticParams() {
+  "use cache";
+
   const slugs = await generateMdxSlugs();
 
   return slugs;
@@ -27,6 +29,8 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: BlogPostProps): Promise<Metadata> {
+  "use cache";
+
   const { slug } = await params;
   const mdxData = await getMdxContentFromSlug(slug);
 

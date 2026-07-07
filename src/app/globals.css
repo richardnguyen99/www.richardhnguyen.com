@@ -184,6 +184,12 @@
   animation: accordion-up 0.2s ease-out;
 }
 
+@utility text-stroke-* {
+  -webkit-text-stroke-width: calc(--value(integer) * 1px);
+  -webkit-text-stroke-color: --value(--color-*);
+  -webkit-text-stroke-color: --value([*]);
+}
+
 @layer components {
   .ais {
     @apply flex flex-col gap-2 rounded-lg p-4;

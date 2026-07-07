@@ -18,13 +18,16 @@ const ExternalLink: React.FC<React.ComponentPropsWithoutRef<"a">> = ({
 
   return (
     <a
-      className={cn("group [&.data-footnote-backref_svg]:hidden", className)}
+      className={cn(
+        "group flex items-center justify-between [&.data-footnote-backref_svg]:hidden",
+        className,
+      )}
       target="_blank"
       rel="noopener noreferrer"
       {...props}
     >
       {isCodeTag ? (
-        <code className="transition-gpu ease-curve-d group transition-colors duration-300">
+        <code className="transition-gpu ease-curve-d group line-clamp-1 flex-1 transition-colors duration-300">
           <span>
             {
               (
@@ -34,20 +37,19 @@ const ExternalLink: React.FC<React.ComponentPropsWithoutRef<"a">> = ({
               ).props.children
             }
           </span>
-          <ArrowTopRightIcon className="inline-flex h-4 w-4 text-lime-500 dark:text-lime-400" />
+          <ArrowTopRightIcon className="h-4 w-4 shrink-0 text-lime-500 dark:text-lime-400" />
         </code>
       ) : (
         <span
           className={cn(
-            className,
-            "transition-gpu ease-curve-d border-b border-transparent text-lime-500 transition-colors duration-300 hover:border-lime-500 dark:text-lime-400 dark:hover:border-lime-400",
+            "transition-gpu ease-curve-d line-clamp-1 flex-1 border-b border-transparent text-lime-500 transition-colors duration-300 hover:border-lime-500 dark:text-lime-400 dark:hover:border-lime-400",
           )}
         >
           {children}
         </span>
       )}
       {!isCodeTag && (
-        <ArrowTopRightIcon className="inline-flex h-4 w-4 text-lime-500 dark:text-lime-400" />
+        <ArrowTopRightIcon className="h-4 w-4 shrink-0 text-lime-500 dark:text-lime-400" />
       )}
     </a>
   );

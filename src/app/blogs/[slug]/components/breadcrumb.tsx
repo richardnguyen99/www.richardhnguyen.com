@@ -25,18 +25,18 @@ export default function BlogBreadcrumb({
   return (
     <div className="mx-auto mt-12 mb-24 flex w-(--article-container-size) items-center justify-center px-(--article-gutter-size)">
       <Breadcrumb className={cn(className)} {...rest}>
-        <BreadcrumbList>
-          <BreadcrumbItem>
+        <BreadcrumbList className="flex flex-nowrap items-center gap-2">
+          <BreadcrumbItem className="hidden md:block">
             <BreadcrumbLink href="/">Home</BreadcrumbLink>
           </BreadcrumbItem>
 
-          <BreadcrumbSeparator />
+          <BreadcrumbSeparator className="hidden md:block" />
 
-          <BreadcrumbItem>
+          <BreadcrumbItem className="hidden md:block">
             <BreadcrumbLink href="/blogs">Blogs</BreadcrumbLink>
           </BreadcrumbItem>
 
-          <BreadcrumbSeparator />
+          <BreadcrumbSeparator className="hidden md:block" />
 
           <BreadcrumbItem>
             <BreadcrumbPage>

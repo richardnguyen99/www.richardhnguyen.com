@@ -1,16 +1,21 @@
 import React, { type JSX } from "react";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { GoogleTagManager } from "@next/third-parties/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 
 import GlobalProvider from "./provider";
 import LayoutMain from "./main";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/toaster";
-import "./globals.css";
 import NavbarOverlay from "@/components/navbar/overlay";
 import NavigationMenuSkeleton from "@/components/navbar/navbar-menu-skeleton";
 import { sharedMetadata } from "@/lib/metadata";
+import { WebVitals } from "@/components/web-vitals";
+
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -44,6 +49,10 @@ export default function RootLayout({ children }: Props): JSX.Element {
       suppressHydrationWarning
     >
       <head>
+        <GoogleTagManager
+          gtmId={process.env.NEXT_PUBLIC_GTM_ID}
+          gtmScriptUrl="https://www.googletagmanager.com/gtm.js"
+        />
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css"
@@ -55,6 +64,7 @@ export default function RootLayout({ children }: Props): JSX.Element {
       <body
         className={`${inter.className} h-full w-full overflow-y-scroll bg-white [--gutter-size:--spacing(5)] sm:[--container-size:calc(var(--container-xl)-(--spacing(6)))] sm:[--gutter-size:calc((100vw-(var(--container-xl)-(--spacing(6))))/2)] md:[--container-size:calc(var(--container-3xl)-(--spacing(6)))] md:[--gutter-size:calc((100vw-(var(--container-3xl)-(--spacing(6))))/2)] lg:[--container-size:calc(var(--container-5xl)-(--spacing(8)))] lg:[--gutter-size:calc((100vw-(var(--container-5xl)-(--spacing(8))))/2)] xl:[--container-size:calc(var(--container-6xl)-(--spacing(8)))] xl:[--gutter-size:calc((100vw-(var(--container-6xl)-(--spacing(8))))/2)] dark:bg-black`}
       >
+        <WebVitals />
         <GlobalProvider>
           <React.Suspense fallback={<NavigationMenuSkeleton />}>
             <Navbar />
@@ -70,6 +80,8 @@ export default function RootLayout({ children }: Props): JSX.Element {
         </GlobalProvider>
 
         <Toaster />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

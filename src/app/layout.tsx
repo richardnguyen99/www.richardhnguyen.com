@@ -2,17 +2,20 @@ import React, { type JSX } from "react";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { GoogleTagManager } from "@next/third-parties/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 
 import GlobalProvider from "./provider";
 import LayoutMain from "./main";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/toaster";
-import "./globals.css";
 import NavbarOverlay from "@/components/navbar/overlay";
 import NavigationMenuSkeleton from "@/components/navbar/navbar-menu-skeleton";
 import { sharedMetadata } from "@/lib/metadata";
 import { WebVitals } from "@/components/web-vitals";
+
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -77,6 +80,8 @@ export default function RootLayout({ children }: Props): JSX.Element {
         </GlobalProvider>
 
         <Toaster />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

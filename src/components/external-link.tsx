@@ -1,7 +1,9 @@
+"use client";
+
 import React from "react";
+import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
-import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 
 const ExternalLink: React.FC<React.ComponentPropsWithoutRef<"a">> = ({
   className,
@@ -19,7 +21,7 @@ const ExternalLink: React.FC<React.ComponentPropsWithoutRef<"a">> = ({
   return (
     <a
       className={cn(
-        "group flex items-center justify-between [&.data-footnote-backref_svg]:hidden",
+        "group inline-flex items-center justify-between [&.data-footnote-backref_svg]:hidden",
         className,
       )}
       target="_blank"

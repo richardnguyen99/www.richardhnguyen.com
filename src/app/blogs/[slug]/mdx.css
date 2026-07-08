@@ -171,7 +171,7 @@
 
   .content pre code {
     @apply relative grid p-4 text-left break-normal whitespace-pre;
-    @apply text-sm leading-5! sm:text-base;
+    @apply text-xs leading-5! md:text-sm;
     @apply overflow-x-auto;
     @apply wrap-break-word;
   }

@@ -566,7 +566,7 @@ const shortCodes = {};
 
 const PostLayout: React.FC<React.PropsWithChildren<Queries.PostLayoutQuery>> = ({ mdx, children }) => {
   return (
-    <div className="min-h-screen max-w-3xl mx-auto pr-4 pl-8 font-[family-name:var(--font-geist-sans)]">
+    <div className="min-h-screen max-w-3xl mx-auto pr-4 pl-8 font-(family-name:--font-geist-sans)">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <div className="w-full text-center">
           <h1 className="mt-4 text-3xl">{mdx?.frontmatter?.title}</h1>
@@ -1093,7 +1093,7 @@ const PostLayout: React.FC<React.PropsWithChildren<PostLayoutData>> = ({
   children,
 }) => {
   return (
-    <div className="min-h-screen max-w-3xl mx-auto pr-4 pl-8 font-[family-name:var(--font-geist-sans)]">
+    <div className="min-h-screen max-w-3xl mx-auto pr-4 pl-8 font-(family-name:--font-geist-sans)">
     {/* ... */}
     </div>
   );

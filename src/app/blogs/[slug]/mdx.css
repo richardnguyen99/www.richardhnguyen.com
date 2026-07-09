@@ -462,3 +462,7 @@
     @apply overflow-x-auto;
   }
 }
+
+.footnotes ol > li > p {
+  @apply inline-flex items-center;
+}

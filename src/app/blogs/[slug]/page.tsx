@@ -10,6 +10,7 @@ import { ClientOnly } from "@/components/client-only";
 import { getGitHubCommits } from "@/lib/github";
 import TableOfContent from "./components/table-of-content";
 import MdxRemote from "./components/mdx-remote";
+import { Changelog as ChangelogType } from "./type";
 
 import "./mdx.css";
 
@@ -90,6 +91,7 @@ function _formatChangelog(commits: Commit[], fileHash: string) {
     .map((commit) => ({
       url: `${commit.html_url}#diff-${fileHash}`,
       date: commit.commit.author?.date ?? null,
+      author: commit.commit.author?.name ?? null,
       message: commit.commit.message,
     }))
     .sort((a, b) => {
@@ -98,7 +100,7 @@ function _formatChangelog(commits: Commit[], fileHash: string) {
       }
 
       return 0;
-    });
+    }) satisfies ChangelogType;
 }
 
 export default async function BlogPost({
@@ -113,7 +115,7 @@ export default async function BlogPost({
   const commits = await getGitHubCommits(file_path);
   const fileHash = createHash("sha256").update(file_path).digest("hex");
 
-  const _changelog = _formatChangelog(commits, fileHash);
+  const changelog = _formatChangelog(commits, fileHash);
 
   try {
     const mdxData = await getMdxContentFromSlug(slug);
@@ -141,6 +143,7 @@ export default async function BlogPost({
         frontMatter={frontmatter}
         excerpt={excerpt}
         body={body}
+        changelog={changelog}
       ></MdxRemote>
     </div>
   );

@@ -6,12 +6,15 @@ import Frontmatter from "./frontmatter";
 import Tags from "./tags";
 import { FrontMatter } from "@/types/mdx";
 import MdxRemoteClient from "./mdx-remote-client";
+import { Changelog as ChangelogType } from "../type";
+import Changelog from "./changelog";
 
 type Props = {
   slug: string;
   frontMatter: FrontMatter;
   excerpt: string | undefined;
   body: string;
+  changelog: ChangelogType;
 };
 
 export default async function MdxRemote({
@@ -19,6 +22,7 @@ export default async function MdxRemote({
   frontMatter,
   body,
   excerpt,
+  changelog,
 }: Props): Promise<JSX.Element> {
   return (
     <React.Fragment>
@@ -34,6 +38,8 @@ export default async function MdxRemote({
       <div className="content">
         <MdxRemoteClient body={body} />
       </div>
+
+      <Changelog changelog={changelog} />
 
       <Tags tags={frontMatter.tags} />
     </React.Fragment>

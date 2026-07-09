@@ -1,10 +1,13 @@
 import React, { type JSX } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { createHash } from "node:crypto";
 
 import { generateMdxSlugs, getMdxContentFromSlug } from "@/lib/mdx";
+import { Commit } from "@/types/github";
 import { sharedMetadata } from "@/lib/metadata";
 import { ClientOnly } from "@/components/client-only";
+import { getGitHubCommits } from "@/lib/github";
 import TableOfContent from "./components/table-of-content";
 import MdxRemote from "./components/mdx-remote";
 
@@ -82,14 +85,35 @@ export async function generateMetadata({
   };
 }
 
+function _formatChangelog(commits: Commit[], fileHash: string) {
+  return commits
+    .map((commit) => ({
+      url: `${commit.html_url}#diff-${fileHash}`,
+      date: commit.commit.author?.date ?? null,
+      message: commit.commit.message,
+    }))
+    .sort((a, b) => {
+      if (a.date && b.date) {
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      }
+
+      return 0;
+    });
+}
+
 export default async function BlogPost({
   params,
 }: BlogPostProps): Promise<JSX.Element> {
   // use cache directive to fix MDXRemote using `Date.now()` during loading page
   "use cache";
 
-  const { slug } = await params;
   let frontmatter, excerpt, body;
+  const { slug } = await params;
+  const file_path = `src/posts/${slug}.mdx`;
+  const commits = await getGitHubCommits(file_path);
+  const fileHash = createHash("sha256").update(file_path).digest("hex");
+
+  const _changelog = _formatChangelog(commits, fileHash);
 
   try {
     const mdxData = await getMdxContentFromSlug(slug);

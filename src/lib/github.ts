@@ -1,6 +1,6 @@
-import { Queries } from "@/types/github";
+import { Commit, Queries } from "@/types/github";
 
-async function getPinnedRepos() {
+export async function getPinnedRepos() {
   // Uncomment the following line to simulate a slow network
   // const r = Math.floor(Math.random() * (4 - 1 + 1) + 1);
   // await new Promise((resolve) => setTimeout(resolve, r * 1000));
@@ -61,15 +61,6 @@ async function getPinnedRepos() {
     }),
   });
 
-  //const data = (await res.json()) as {
-  //data: {
-  //repositoryOwner: {
-  //repos: Queries["repositoryOwner"]["pinnedItems"];
-  //gists: Queries["repositoryOwner"]["pinnedItems"];
-  //};
-  //};
-  //};
-
   return res.json() as Promise<{
     data: {
       repositoryOwner: {
@@ -80,4 +71,24 @@ async function getPinnedRepos() {
   }>;
 }
 
-export default getPinnedRepos;
+export async function getGitHubCommits(
+  filePath: string | undefined = undefined,
+) {
+  "use cache";
+
+  const url = new URL(
+    `https://api.github.com/repos/${process.env.GITHUB_USER_NAME}/www.richardhnguyen.com/commits`,
+  );
+
+  if (filePath) {
+    url.searchParams.append("path", filePath);
+  }
+
+  const res = await fetch(url.toString(), {
+    headers: {
+      Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+    },
+  });
+
+  return (await res.json()) as Commit[];
+}

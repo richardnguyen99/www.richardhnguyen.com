@@ -22,6 +22,7 @@ const ExternalLink: React.FC<React.ComponentPropsWithoutRef<"a">> = ({
     <a
       className={cn(
         "group inline-flex items-center justify-between [&.data-footnote-backref_svg]:hidden",
+        "in-[.footnotes]:inline",
         className,
       )}
       target="_blank"
@@ -45,13 +46,19 @@ const ExternalLink: React.FC<React.ComponentPropsWithoutRef<"a">> = ({
         <span
           className={cn(
             "transition-gpu ease-curve-d line-clamp-1 flex-1 border-b border-transparent text-lime-500 transition-colors duration-300 hover:border-lime-500 dark:text-lime-400 dark:hover:border-lime-400",
+            "in-[.footnotes]:line-clamp-none in-[.footnotes]:inline in-[.footnotes]:flex-none",
           )}
         >
           {children}
         </span>
       )}
       {!isCodeTag && (
-        <ArrowTopRightIcon className="h-4 w-4 shrink-0 text-lime-500 dark:text-lime-400" />
+        <ArrowTopRightIcon
+          className={cn(
+            "h-4 w-4 shrink-0 text-lime-500 dark:text-lime-400",
+            "in-[.footnotes]:inline-block in-[.footnotes]:align-middle",
+          )}
+        />
       )}
     </a>
   );

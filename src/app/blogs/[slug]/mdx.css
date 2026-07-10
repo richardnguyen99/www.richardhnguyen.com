@@ -464,5 +464,5 @@
 }
 
 .footnotes ol > li > p {
-  @apply inline-flex items-center;
+  @apply block;
 }

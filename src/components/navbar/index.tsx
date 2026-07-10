@@ -3,7 +3,7 @@ import React, { type JSX } from "react";
 import { cn } from "@/lib/utils";
 import { getAllCategories, getAllTags, getLatestMdxContent } from "@/lib/mdx";
 import NavbarNavigationMenu from "./navigation-menu";
-import getPinnedRepos from "@/lib/github";
+import { getPinnedRepos } from "@/lib/github";
 
 export default async function Navbar(): Promise<JSX.Element> {
   "use cache";

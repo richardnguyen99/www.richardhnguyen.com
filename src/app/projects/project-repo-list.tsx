@@ -1,7 +1,7 @@
 import React from "react";
 
 import ProjectList from "./project-list";
-import getPinnedRepos from "@/lib/github";
+import { getPinnedRepos } from "@/lib/github";
 
 export default async function ProjectRepoList() {
   const data = await getPinnedRepos();

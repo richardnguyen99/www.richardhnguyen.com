@@ -17,6 +17,8 @@ interface BlogProps {
 }
 
 export default async function BlogPage(props: BlogProps): Promise<JSX.Element> {
+  "use cache";
+
   const {
     sortOrder: selectedSortOrder,
     sortType: selectedSortType,

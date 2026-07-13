@@ -14,6 +14,7 @@ import NavbarOverlay from "@/components/navbar/overlay";
 import NavigationMenuSkeleton from "@/components/navbar/navbar-menu-skeleton";
 import { sharedMetadata } from "@/lib/metadata";
 import { WebVitals } from "@/components/web-vitals";
+import { readGlossaryDict } from "@/components/glossary/lib";
 
 import "./globals.css";
 
@@ -41,7 +42,11 @@ type Props = {
   children: React.ReactNode;
 };
 
-export default function RootLayout({ children }: Props): JSX.Element {
+export default async function RootLayout({
+  children,
+}: Props): Promise<JSX.Element> {
+  const glossaryDict = await readGlossaryDict();
+
   return (
     <html
       lang="en"
@@ -65,7 +70,7 @@ export default function RootLayout({ children }: Props): JSX.Element {
         className={`${inter.className} h-full w-full overflow-y-scroll bg-white [--gutter-size:--spacing(5)] sm:[--container-size:calc(var(--container-xl)-(--spacing(6)))] sm:[--gutter-size:calc((100vw-(var(--container-xl)-(--spacing(6))))/2)] md:[--container-size:calc(var(--container-3xl)-(--spacing(6)))] md:[--gutter-size:calc((100vw-(var(--container-3xl)-(--spacing(6))))/2)] lg:[--container-size:calc(var(--container-5xl)-(--spacing(8)))] lg:[--gutter-size:calc((100vw-(var(--container-5xl)-(--spacing(8))))/2)] xl:[--container-size:calc(var(--container-6xl)-(--spacing(8)))] xl:[--gutter-size:calc((100vw-(var(--container-6xl)-(--spacing(8))))/2)] dark:bg-black`}
       >
         <WebVitals />
-        <GlobalProvider>
+        <GlobalProvider glossaryDict={glossaryDict}>
           <React.Suspense fallback={<NavigationMenuSkeleton />}>
             <Navbar />
           </React.Suspense>

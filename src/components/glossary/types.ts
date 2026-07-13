@@ -1,5 +1,17 @@
-import { type JSX, type ReactNode } from "react";
-
 export interface GlossaryContextType {
-  terms: Record<string, JSX.Element | ReactNode>;
+  terms: GlossaryDictType;
 }
+
+export interface GlossaryItemType {
+  fullTerm: string;
+  definition: string;
+  definitionHtml: string;
+  refs: string[];
+}
+
+export interface GlossaryDictType {
+  [key: string]: GlossaryItemType;
+}
+
+export type RawGlossaryItem = Omit<GlossaryItemType, "definitionHtml">;
+export type RawGlossaryDict = Record<string, RawGlossaryItem>;

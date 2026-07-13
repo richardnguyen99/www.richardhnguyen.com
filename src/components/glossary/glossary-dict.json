@@ -1,0 +1,88 @@
+{
+  "tcp": {
+    "fullTerm": "Transmission Control Protocol",
+    "definition": "A **stream-oriented**, **connection-oriented** protocol that provides reliable, ordered, and error-checked delivery of data between applications running on hosts communicating via an IP network.",
+    "refs": [
+      "https://en.wikipedia.org/wiki/Transmission_Control_Protocol",
+      "https://www.rfc-editor.org/info/rfc9293/"
+    ]
+  },
+  "stream-oriented": {
+    "fullTerm": "Stream-oriented Protocol",
+    "definition": "A type of network communication that transmits data as a continuous sequence of bytes, rather than discrete packets.",
+    "refs": [
+      "https://book.systemsapproach.org/e2e/tcp.html"
+    ]
+  },
+  "connection-oriented": {
+    "fullTerm": "Connection-oriented Protocol",
+    "definition": "A type of network communication that establishes a connection between two endpoints before transmitting data, ensuring reliable and ordered delivery.",
+    "refs": [
+      "https://book.systemsapproach.org/e2e/tcp.html"
+    ]
+  },
+  "udp": {
+    "fullTerm": "User Datagram Protocol",
+    "definition": "A connectionless protocol that allows applications to send messages (datagrams) without establishing a reliable connection, providing low-latency communication at the cost of potential data loss.",
+    "refs": [
+      "https://en.wikipedia.org/wiki/User_Datagram_Protocol",
+      "https://www.rfc-editor.org/info/rfc768/"
+    ]
+  },
+  "http": {
+    "fullTerm": "Hypertext Transfer Protocol",
+    "definition": "An application-layer protocol for transmitting hypermedia documents, such as HTML, over the internet.",
+    "refs": [
+      "https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol",
+      "https://www.rfc-editor.org/info/rfc9110/"
+    ]
+  },
+  "https": {
+    "fullTerm": "Hypertext Transfer Protocol Secure",
+    "definition": "An extension of HTTP that uses encryption (typically via TLS ) to secure data transmitted over the internet.",
+    "refs": [
+      "https://en.wikipedia.org/wiki/HTTPS",
+      "https://www.rfc-editor.org/info/rfc9110/"
+    ]
+  },
+  "tls": {
+    "fullTerm": "Transport Layer Security",
+    "definition": "A cryptographic protocol designed to provide secure communication over a computer network, commonly used to secure HTTP traffic as HTTPS.",
+    "refs": [
+      "https://en.wikipedia.org/wiki/Transport_Layer_Security",
+      "https://www.rfc-editor.org/info/rfc8446/"
+    ]
+  },
+  "packet-switch": {
+    "fullTerm": "Packet-switching",
+    "definition": "A method of data transmission where data is broken into packets and each packet is routed independently through the network, potentially taking different paths to the destination.",
+    "refs": [
+      "https://ethw.org/Packet_Switching",
+      "https://en.wikipedia.org/wiki/Packet_switching"
+    ]
+  },
+  "segment": {
+    "fullTerm": "Segment",
+    "definition": "A unit of data encapsulated by the transport layer protocol, typically TCP, for transmission over a network.",
+    "refs": [
+      "https://en.wikipedia.org/wiki/Packet_segmentation",
+      "https://www.geeksforgeeks.org/computer-networks/services-and-segment-structure-in-tcp/"
+    ]
+  },
+  "datagram": {
+    "fullTerm": "Datagram",
+    "definition": "A self-contained, independent unit of data that is transmitted over a network without the need for a pre-established connection, typically used in connectionless communication protocols like UDP.",
+    "refs": [
+      "https://en.wikipedia.org/wiki/User_Datagram_Protocol#Datagram",
+      "https://www.rfc-editor.org/info/rfc9868/"
+    ]
+  },
+  "frame": {
+    "fullTerm": "Frame",
+    "definition": "A data link layer protocol data unit that encapsulates network layer packets for transmission over a physical network medium.",
+    "refs": [
+      "https://en.wikipedia.org/wiki/Network_frame",
+      "https://www.geeksforgeeks.org/computer-networks/framing-in-data-link-layer/"
+    ]
+  }
+}

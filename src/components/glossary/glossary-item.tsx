@@ -16,8 +16,16 @@ type Props = {
 };
 
 export default function GlossaryItem({ term, children }: Props): JSX.Element {
-  const glossaryContext = React.use(GlossaryContext);
+  const glossaryContext = React.useContext(GlossaryContext);
   const definition = glossaryContext.terms[term];
+
+  if (!definition) {
+    return (
+      <span className="underline decoration-dotted hover:cursor-help">
+        {children}
+      </span>
+    );
+  }
 
   return (
     <Tooltip>
@@ -28,7 +36,9 @@ export default function GlossaryItem({ term, children }: Props): JSX.Element {
       </TooltipTrigger>
       <TooltipPortal>
         <TooltipContent className="max-w-56">
-          <span>{definition}</span>
+          <div
+            dangerouslySetInnerHTML={{ __html: definition.definitionHtml }}
+          />
           <TooltipArrow className="fill-primary" />
         </TooltipContent>
       </TooltipPortal>

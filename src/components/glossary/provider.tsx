@@ -1,15 +1,19 @@
 import React, { type JSX } from "react";
 
 import GlossaryContext from "./context";
-import { defaultTerms } from "./default-terms";
+import { GlossaryDictType } from "./types";
 
-type Props = {
+interface GlossaryProviderProps {
   children: JSX.Element;
-};
+  glossaryDict: GlossaryDictType;
+}
 
-export default function GlossaryProvider({ children }: Props): JSX.Element {
+export default function GlossaryProvider({
+  children,
+  glossaryDict,
+}: GlossaryProviderProps): JSX.Element {
   return (
-    <GlossaryContext.Provider value={{ terms: defaultTerms }}>
+    <GlossaryContext.Provider value={{ terms: glossaryDict }}>
       {children}
     </GlossaryContext.Provider>
   );

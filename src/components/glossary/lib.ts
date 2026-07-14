@@ -29,7 +29,9 @@ export async function readGlossaryDict(): Promise<GlossaryDictType> {
 
   const processedDict: GlossaryDictType = {};
   for (const [key, value] of Object.entries(rawDict)) {
-    const definitionHtml = String(await mdToHtml.process(value.definition));
+    const raw = String(await mdToHtml.process(value.definition)).trim();
+    const closingCount = (raw.match(/<\/p>/g) ?? []).length;
+    const definitionHtml = closingCount === 1 ? raw.slice(3, -4) : raw;
     processedDict[key] = { ...value, definitionHtml };
   }
 

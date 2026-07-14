@@ -45,6 +45,30 @@
       "https://www.rfc-editor.org/info/rfc9110/"
     ]
   },
+  "http1/1": {
+    "fullTerm": "Hypertext Transfer Protocol 1.1",
+    "definition": "HTTP version that supports persistent connections and chunked transfer encoding.",
+    "refs": [
+      "https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#History",
+      "https://www.rfc-editor.org/info/rfc2616/"
+    ]
+  },
+  "http2": {
+    "fullTerm": "Hypertext Transfer Protocol 2",
+    "definition": "HTTP version that introduces multiplexing, header compression, and improved performance over HTTP/1.1.",
+    "refs": [
+      "https://en.wikipedia.org/wiki/HTTP/2",
+      "https://www.rfc-editor.org/info/rfc9113/"
+    ]
+  },
+  "http3": {
+    "fullTerm": "Hypertext Transfer Protocol 3",
+    "definition": "HTTP version that uses QUIC over UDP that resolves the head-of-line blocking issue present in HTTP/2 and improves performance over unreliable networks.",
+    "refs": [
+      "https://en.wikipedia.org/wiki/HTTP/3",
+      "https://www.rfc-editor.org/info/rfc9114/"
+    ]
+  },
   "tls": {
     "fullTerm": "Transport Layer Security",
     "definition": "A cryptographic protocol designed to provide secure communication over a computer network, commonly used to secure HTTP traffic as HTTPS.",
@@ -55,7 +79,7 @@
   },
   "packet-switch": {
     "fullTerm": "Packet-switching",
-    "definition": "A method of data transmission where data is broken into packets and each packet is routed independently through the network, potentially taking different paths to the destination.",
+    "definition": "A method of data transmission where data is **broken into packets and each packet is routed independently** through the network, potentially taking different paths to the destination.",
     "refs": [
       "https://ethw.org/Packet_Switching",
       "https://en.wikipedia.org/wiki/Packet_switching"
@@ -83,6 +107,94 @@
     "refs": [
       "https://en.wikipedia.org/wiki/Network_frame",
       "https://www.geeksforgeeks.org/computer-networks/framing-in-data-link-layer/"
+    ]
+  },
+  "process": {
+    "fullTerm": "Process",
+    "definition": "An instance of a program **loaded into memory and executed by the operating system**.",
+    "refs": [
+      "https://en.wikipedia.org/wiki/Process_(computing)",
+      "https://www.geeksforgeeks.org/process-in-operating-system/"
+    ]
+  },
+  "ftp": {
+    "fullTerm": "File Transfer Protocol",
+    "definition": "A standard network protocol used for transferring files between a client and a server over a TCP-based network, such as the Internet.",
+    "refs": [
+      "https://en.wikipedia.org/wiki/File_Transfer_Protocol",
+      "https://www.rfc-editor.org/info/rfc959/"
+    ]
+  },
+  "smtp": {
+    "fullTerm": "Simple Mail Transfer Protocol",
+    "definition": "A standard network protocol used for sending and receiving email messages between clients and servers over a TCP-based network.",
+    "refs": [
+      "https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol",
+      "https://www.rfc-editor.org/info/rfc5321/"
+    ]
+  },
+  "transport-layer": {
+    "fullTerm": "Transport Layer",
+    "definition": "The layer in the Internet Protocol Suite responsible for providing logical communication between application processes running on different hosts.",
+    "refs": [
+      "https://en.wikipedia.org/wiki/Transport_layer",
+      "https://osi-model.com/transport-layer/"
+    ]
+  },
+  "application-layer": {
+    "fullTerm": "Application Layer",
+    "definition": "The layer in the Internet Protocol Suite responsible for providing network services directly to end-user applications.",
+    "refs": [
+      "https://en.wikipedia.org/wiki/Application_layer",
+      "https://osi-model.com/application-layer/"
+    ]
+  },
+  "network-layer": {
+    "fullTerm": "Network Layer",
+    "definition": "The layer in the Internet Protocol Suite responsible for routing packets across the network from the source host to the destination host.",
+    "refs": [
+      "https://en.wikipedia.org/wiki/Network_layer",
+      "https://osi-model.com/network-layer/"
+    ]
+  },
+  "link-layer": {
+    "fullTerm": "Link Layer",
+    "definition": "The layer in the Internet Protocol Suite responsible for the physical transmission of data over a network medium and for providing error detection and correction for the transmitted frames.",
+    "refs": [
+      "https://en.wikipedia.org/wiki/Link_layer",
+      "https://osi-model.com/data-link-layer/"
+    ]
+  },
+  "3-way-handshake": {
+    "fullTerm": "Three-Way Handshake",
+    "definition": "A process used in TCP to establish a reliable connection between a client and a server. It involves three steps: SYN, SYN-ACK, and ACK.",
+    "refs": [
+      "https://en.wikipedia.org/wiki/Transmission_Control_Protocol#Connection_establishment",
+      "https://www.geeksforgeeks.org/computer-networks/tcp-3-way-handshake-process/"
+    ]
+  },
+  "sequence-number": {
+    "fullTerm": "Sequence Number",
+    "definition": "A number assigned to each segment in a TCP connection to keep track of the order of the segments and ensure that the data is delivered correctly.",
+    "refs": [
+      "https://en.wikipedia.org/wiki/Transmission_Control_Protocol#Sequence_numbers",
+      "https://www.rfc-editor.org/info/rfc793/#section-3.3"
+    ]
+  },
+  "flow-control": {
+    "fullTerm": "Flow Control",
+    "definition": "A mechanism used in TCP to control the rate at which data is sent between a sender and a receiver to prevent the receiver from being overwhelmed.",
+    "refs": [
+      "https://en.wikipedia.org/wiki/Flow_control_(data)",
+      "https://www.rfc-editor.org/info/rfc793/#section-1.5"
+    ]
+  },
+  "congestion-control": {
+    "fullTerm": "Congestion Control",
+    "definition": "A mechanism used in TCP to control the rate at which data is sent into the network to prevent network congestion and ensure efficient data transfer.",
+    "refs": [
+      "https://en.wikipedia.org/wiki/Congestion_control",
+      "https://www.rfc-editor.org/info/rfc2581/"
     ]
   }
 }

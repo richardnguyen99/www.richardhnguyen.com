@@ -32,43 +32,35 @@ and is used by many applications like web browsing, email, and file transfer.
 
 <GlossaryItem term="tcp">TCP</GlossaryItem> is one of the standard network
 protocols that define our modern Internet. 85% of total Internet traffic is
-TCP traffic[^1], while the rest is UDP traffic. It was developed in the 1970s
-by [Vint Cerf](https://www.internethalloffame.org/vint-cerf/) and [Robert Kahn](
+TCP traffic[^1], while the rest is <GlossaryItem term="udp">UDP</GlossaryItem>
+traffic. It was developed in the 1970s by [Vint Cerf](
+https://www.internethalloffame.org/vint-cerf/) and [Robert Kahn](
 https://www.internethalloffame.org/inductee/robert-kahn/) to build a reliable
-client-server communication using
-<GlossaryItem term="packet-switch">packet switching</GlossaryItem>.
+client-server communication using <GlossaryItem term="packet-switch">packet
+switching</GlossaryItem>.
 
-> Packet switching is a method of data transmission in which data is broken into
-> small packets and sent over a network. Instead of establishing a dedicated
-> connection line between two hosts, packet switching allows smaller packets to
-> be sent independently on multiple routes and reassembled at the destination.
-
-TCP is a connection-oriented
-, reliable, and stream-oriented
-protocol. It provides many mechanisms to ensure the reliability of data
-transmission such as error detection, retransmission, duplication, flow
-controls and congestion controls.
+TCP is a connection-oriented, reliable, and stream-oriented protocol. It
+provides many mechanisms to ensure the reliability of data transmission such as
+error detection, retransmission, duplication, flow controls and congestion
+controls.
 
 Most of TCP applications are web-based applications like
-HTTP (
-HTTP/1.1 and
-HTTP/2),
-FTP and
-SMTP, which are basically the
-protocols that run servers and applications used by billions of people globally.
+<GlossaryItem term="http">HTTP</GlossaryItem> (<GlossaryItem term="http1/1">
+HTTP/1.1</GlossaryItem> and <GlossaryItem term="http2">HTTP/2</GlossaryItem>),
+<GlossaryItem term="ftp">FTP</GlossaryItem> and <GlossaryItem term="smtp">
+SMTP</GlossaryItem>, which are basically the protocols that run servers and applications used by billions of people globally.
 
 # What is TCP?
 
-TCP is a protocol in the Transport Layer of the Internet Protocol Suite. The job
-of the Transport Layer is to provide a
-logical communication
-between _application processes_.
-Transport Layer is
-implemented on top of the
-Network Layer and below the
-Application Layer.
+TCP is a protocol in the <GlossaryItem term="transport-layer">Transport Layer
+</GlossaryItem> of the Internet Protocol Suite. The job of the Transport Layer
+is to provide a logical communication between
+<GlossaryItem term="process">application processes</GlossaryItem>. Transport
+Layer is implemented on top of the <GlossaryItem term="network-layer">
+Network Layer</GlossaryItem> and below the
+<GlossaryItem term="application-layer">Application Layer</GlossaryItem>.
 
-TCP and UDP are the two most common transport protocols. They are both
+TCP and UDP are the two most common transport protocol. They are both
 implemented by the operating systems in the endpoint devices such as computers,
 smartphones, and servers whereas the Network Layer is implemented by the
 routers and switches and the Application Layer is implemented by the
@@ -78,9 +70,9 @@ applications such as web browsers, and web servers.
 > using a postal service analogy. You can read it
 > [here](/blogs/understand-the-network-protocol-stacks-with-analogy).
 
-As mentioned above, TCP is a reliable protocols for transferring data between
+As mentioned above, TCP is a reliable protocol for transferring data between
 two endpoints. But why do we need a reliable protocol? Can we just send the data
-and the other end will receive it? Well, it's not the simple. There are
+and the other end will receive it? Well, it's not that simple. There are
 many situations the can cause the data to be lost or corrupted during the
 transmission. TCP is designed to handle these situations, ensure that the data is transferred correctly and in the right order.
 
@@ -88,8 +80,7 @@ transmission. TCP is designed to handle these situations, ensure that the data i
 
 TCP is a connection-oriented protocol because in order to transfer data, both
 endpoints must establish a dedicated communication path before sending or
-receiving any data. This is done by a process called
-[three-way handshake](https://en.wikipedia.org/wiki/Transmission_Control_Protocol#Connection_establishment).
+receiving any data. This is done by a process called the <GlossaryItem term="3-way-handshake">Three-Way Handshake</GlossaryItem>.
 
 ```mermaid
 sequenceDiagram
@@ -128,12 +119,13 @@ sequenceDiagram
     end
 ```
 
-To understand the connection-mode of TCP, you should consider how connectionless
+To understand the connection mode of TCP, you should consider how connectionless
 protocols like UDP and IP work. UDP wraps the data in a packet, called
-_datagram_, and sends it to the destination without any prior. It follows the
-principle of "Fire and Forget". The sender does not care if the packet is
-delivered or not. If it needs a response, it will either wait, send another
-packet or respond back to the user.
+<GlossaryItem term="datagram">datagram</GlossaryItem>, and sends it to the
+destination without any prior communication. It follows the principle of "Fire
+and Forget". The sender does not care if the packet is delivered or not. If it
+needs a response, it will either wait, send another packet or respond back to
+the user.
 
 TCP establishes a connection between two endpoints before transferring any data.
 This connection will detect data corruption, correct errors and retransmit lost
@@ -142,12 +134,12 @@ sent.
 
 ## Stream-oriented protocol
 
-TCP is a stream-oriented
-protocol. It means that it provides a continuous stream of data between two
-endpoints. The data is divided into smaller chunks called
-_segment_ and each segment is
-assigned a sequence number. The receiver reassembles the segments in the
-correct order based on the sequence numbers.
+TCP is a stream-oriented protocol. It means that it provides a continuous
+stream of data between two endpoints. The data is divided into smaller chunks
+called <GlossaryItem term="segment">segment</GlossaryItem> and each segment is
+assigned a <GlossaryItem term="sequence-number">sequence number</GlossaryItem>.
+The receiver reassembles the segments in the correct order based on the
+sequence numbers.
 
 For example, if the sender sends three segments with sequence numbers 1, 2 and
 3, the receiver will receive them in the same order and reassemble them into
@@ -183,13 +175,12 @@ the data is delivered in the right order.
 
 ## Reliable data transfer
 
-TCP is built on top of the unreliable
-IP protocol. IP does not
-guarantee that the data is delivered. It follows the principle of "Best
-Effort", i.e _"I try my best but I don't promise anything"_. Due to physical
-factors, data can be corrupted with bit flipping. And when you move higher to
-the architecture of the Internet, data can be lost due to many reasons such as
-delay, network congestion or simply the destination is unreachable.
+TCP is built on top of the unreliable IP protocol. IP does not guarantee that
+the data is delivered. It follows the principle of "Best Effort", i.e _"I try
+my best but I don't promise anything"_. Due to physical factors, data can be
+corrupted with bit flipping. And when you move higher to the architecture of
+the Internet, data can be lost due to many reasons such as delay, network
+congestion or simply the destination is unreachable.
 
 For example, in a busy network, packets can be dropped due to congestion. In the
 following figure, packet 1 and packet 3 got transferred successfully but packet
@@ -200,14 +191,13 @@ following figure, packet 1 and packet 3 got transferred successfully but packet
 TCP provides many mechanisms to ensure that the data is transferred in whole and
 in the right order. Not only that, TCP can detect and control the congestion
 in the host and in the network with
-flow control and
-congestion control
-mechanisms respectively.
+<GlossaryItem term="flow-control">flow control</GlossaryItem> and
+<GlossaryItem term="congestion-control">congestion control</GlossaryItem> mechanisms respectively.
 
 # How TCP works
 
 TCP is a complex protocol because it has to handle many different situations
-that can occur during data transmission and cause data loss or corruption. TCP
+that can occur during data transmission and cause data loss or corruption. It
 provides many mechanisms to ensure the reliability of data transmission such as
 error detection, retransmission, duplication, flow controls and congestion
 controls.
@@ -715,7 +705,7 @@ _congested_. So how does TCP handle these terrible situations?
 
 Between two endpoints, TCP senders can easily tell whether the receiver is
 overwhelmed by examining the receive window field in the TCP header. If the
-receiver's window size is 0, the sender will stop sending data andd enter the
+receiver's window size is 0, the sender will stop sending data and enter the
 persist timer state, which periodically sends small probe packets of size 1
 to the receiver to check if the window is open.
 
@@ -790,7 +780,7 @@ The congestion window is set to the `ssthresh` value and the congestion window
 size is increased linearly.
 
 If the sender receives a timeout, the sender will reenter the slow start phase.
-The congestion window size is set to 1 MSS andd the `ssthresh` value is set to
+The congestion window size is set to 1 MSS and the `ssthresh` value is set to
 half of the congestion window size before the congestion occurs.
 
 <TCPFastRecoveryCongestionControlChart />
